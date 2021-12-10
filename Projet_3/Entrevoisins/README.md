@@ -1,4 +1,4 @@
-![OpenClassrooms Logo](https://www.anaf.fr/wp-content/uploads/2020/09/OpenClassroom_LOGO-768x92.png) 
+[![OpenClassrooms Logo](https://www.anaf.fr/wp-content/uploads/2020/09/OpenClassroom_LOGO-768x92.png)](https://openclassrooms.com/fr/)
 
 # PROJET 3 (EntreVoisins) 
 
