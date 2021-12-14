@@ -1,7 +1,9 @@
 package com.openclassrooms.entrevoisins.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
@@ -39,5 +41,35 @@ public class NeighbourServiceTest {
         Neighbour neighbourToDelete = service.getNeighbours().get(0);
         service.deleteNeighbour(neighbourToDelete);
         assertFalse(service.getNeighbours().contains(neighbourToDelete));
+    }
+
+    ////My Unit Tests//////
+
+    @Test
+    public void addNeighbourToFavList() {
+        Neighbour neighbour = service.getNeighbours().get(0);
+        service.addNeighbourToFav(neighbour);
+        assertEquals(service.getNeighboursFav().size(), 1);
+    }
+
+    @Test
+    public void getNeighbourFavorite() {
+        Neighbour neighbour = service.getNeighbours().get(0);
+        service.addNeighbourToFav(neighbour);
+        assertEquals(service.getNeighboursFav().get(0), neighbour);
+
+    }
+
+    @Test
+    public void deleteNeighbourFavList() {
+        assertTrue(service.getNeighboursFav().isEmpty());
+
+        Neighbour neighbour = service.getNeighbours().get(0);
+        service.addNeighbourToFav(neighbour);
+
+        assertEquals(service.getNeighboursFav().size(), 1);
+
+        service.deleteFavNeighbour(neighbour);
+        assertEquals(service.getNeighboursFav().size(), 0);
     }
 }
