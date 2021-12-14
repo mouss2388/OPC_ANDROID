@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Entrevoisins</string>
+    <string name="tab_neighbour_title">My neighbours</string>
+    <string name="tab_favorites_title">Favorites</string>
+    <string name="activity_new_neighbour">New neighbour</string>
+
+    <string name="content_description_img">Image User</string>
+    <string name="content_description_arrow_back">Arrow Back</string>
+    <string name="content_description_favorite_button">Favorite Button</string>
+    <string name="content_description_add_button">Add Button</string>
+    <string name="caroline">Caroline</string>
+    <string name="about_me">A propos de moi</string>
+    <string name="facebook">www.facebook.fr/</string>
+    <string name="icone_position">icone position</string>
+    <string name="icone_phone">icone phone</string>
+    <string name="icone_network">icone network</string>
+</resources>
