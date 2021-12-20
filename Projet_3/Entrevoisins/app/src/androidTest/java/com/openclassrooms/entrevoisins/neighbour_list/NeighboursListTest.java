@@ -12,6 +12,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChild
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsNull.notNullValue;
 
@@ -91,7 +92,7 @@ public class NeighboursListTest {
 
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(ViewMatchers.withId(R.id.detail_user))
-                .check(matches(isDisplayed()));
+                .check(matches((isDisplayed())));
 
         onView(ViewMatchers.withId(R.id.firstname))
                 .check(matches(withText("Caroline")));
@@ -125,13 +126,14 @@ public class NeighboursListTest {
                             }
                         })
                 );
+        //TEST BEFORE DELETE USER YET SO NOW 11 USERS (ITEMS_COUNT - 2)
         onView(allOf(ViewMatchers.withId(R.id.list_neighbours),hasDescendant(withText("Vincent")))).check(withItemCount(ITEMS_COUNT - 2));
     }
 
     @Test
     public void neighbourListFav_shouldShowOnlyFavNeighbour() {
         //LIST FAVORITE NEIGHBOUR EMPTY
-        onView(allOf(ViewMatchers.withId(R.id.list_neighbours),hasChildCount(0)))
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours),(not(isDisplayed()))))
                 .check(matches(hasChildCount(0)));
         //CLICK ON FIRST NEIGHBOUR (CAROLINE)
         onView(allOf(ViewMatchers.withId(R.id.list_neighbours),hasDescendant(withText("Vincent"))))
@@ -143,7 +145,7 @@ public class NeighboursListTest {
         //CHANGE TAB
         onView(ViewMatchers.withId(R.id.container)).perform(swipeLeft());
         //LIST FAVORITE NEIGHBOUR COUNT ONE PERSON
-        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), hasChildCount(1)))
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed()))
                 .check(matches(hasChildCount(1)));
         //CLICK ON ALONE NEIGHBOUR
         onView(allOf(ViewMatchers.withId(R.id.list_neighbours),hasChildCount(1)))

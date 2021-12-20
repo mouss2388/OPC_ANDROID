@@ -23,10 +23,12 @@ import java.util.List;
 public class NeighbourServiceTest {
 
     private NeighbourApiService service;
+    private Neighbour neighbour;
 
     @Before
     public void setup() {
         service = DI.getNewInstanceApiService();
+         neighbour = service.getNeighbours().get(0);
     }
 
     @Test
@@ -38,7 +40,7 @@ public class NeighbourServiceTest {
 
     @Test
     public void deleteNeighbourWithSuccess() {
-        Neighbour neighbourToDelete = service.getNeighbours().get(0);
+        Neighbour neighbourToDelete = neighbour;
         service.deleteNeighbour(neighbourToDelete);
         assertFalse(service.getNeighbours().contains(neighbourToDelete));
     }
@@ -47,14 +49,13 @@ public class NeighbourServiceTest {
 
     @Test
     public void addNeighbourToFavList() {
-        Neighbour neighbour = service.getNeighbours().get(0);
         service.addNeighbourToFav(neighbour);
         assertEquals(service.getNeighboursFav().size(), 1);
     }
 
     @Test
     public void getNeighbourFavorite() {
-        Neighbour neighbour = service.getNeighbours().get(0);
+        assertEquals(neighbour.getName(), "Caroline");
         service.addNeighbourToFav(neighbour);
         assertEquals(service.getNeighboursFav().get(0), neighbour);
 
@@ -64,7 +65,6 @@ public class NeighbourServiceTest {
     public void deleteNeighbourFavList() {
         assertTrue(service.getNeighboursFav().isEmpty());
 
-        Neighbour neighbour = service.getNeighbours().get(0);
         service.addNeighbourToFav(neighbour);
 
         assertEquals(service.getNeighboursFav().size(), 1);
