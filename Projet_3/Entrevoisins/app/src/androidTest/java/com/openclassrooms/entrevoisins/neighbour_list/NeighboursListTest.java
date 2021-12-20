@@ -31,6 +31,7 @@ import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -138,19 +139,21 @@ public class NeighboursListTest {
         //CLICK ON FIRST NEIGHBOUR (CAROLINE)
         onView(allOf(ViewMatchers.withId(R.id.list_neighbours),hasDescendant(withText("Vincent"))))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        //ADD AS FAVORITE
+//        //ADD AS FAVORITE
         onView(ViewMatchers.withId(R.id.add_favorite)).perform(click());
-        //GO BACK
+//        //GO BACK
         onView(ViewMatchers.withId(R.id.backArrow)).perform(click());
-        //CHANGE TAB
+//        //CHANGE TAB
         onView(ViewMatchers.withId(R.id.container)).perform(swipeLeft());
-        //LIST FAVORITE NEIGHBOUR COUNT ONE PERSON
-        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed()))
-                .check(matches(hasChildCount(1)));
-        //CLICK ON ALONE NEIGHBOUR
+//        //LIST FAVORITE NEIGHBOUR COUNT ONE PERSON
+//        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), isDisplayed()))
+//                .check(matches(hasChildCount(1)));
+        onView(allOf(ViewMatchers.withId(R.id.list_neighbours), hasChildCount(1)))
+                .check(matches(hasDescendant(withText("Caroline"))));
+//        //CLICK ON ALONE NEIGHBOUR
         onView(allOf(ViewMatchers.withId(R.id.list_neighbours),hasChildCount(1)))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        //CHECK IF FIRSTNAME IS CAROLINE
+//        //CHECK IF FIRSTNAME IS CAROLINE
         onView(ViewMatchers.withId(R.id.firstname))
                 .check(matches(withText("Caroline")));
     }
