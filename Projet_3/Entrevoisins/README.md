@@ -15,9 +15,9 @@ Ce dépôt contient _L'Application EntreVoisins_ pour le parcours **Développeur
 * Télécharger, installer et ouvrir _[Android Studio](https://developer.android.com/studio "Télécharger Android Studio")_
 * Puis File --> Open --> CheminDuProjet
 * Cliquer sur OK
-* Si Invalid VCS root mapping signale une erreur alors cliquer sur Configure...
-* Selectionner le Chemin du directory en rouge puis l'éffacer avec " - "
-* Cliquer sur Apply puis OK
+* " _Si Invalid VCS root mapping signale une erreur alors cliquer sur Configure..._
+* _Selectionner le Chemin du directory en rouge puis l'éffacer avec " - "_
+* _Cliquer sur Apply puis OK_ "
 * Ouvrir préférences (File --> Settings) et taper gradle
 * Vérifier que Gradle JDK à la version 11.0.10 (Android Studio default JDK) sinon télécharger là
 
