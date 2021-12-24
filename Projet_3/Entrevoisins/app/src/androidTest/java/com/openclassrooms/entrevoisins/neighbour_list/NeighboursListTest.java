@@ -50,6 +50,7 @@ import org.junit.runners.MethodSorters;
 @RunWith(AndroidJUnit4.class)
 public class NeighboursListTest {
 
+
     // This is fixed
     private static int ITEMS_COUNT = 12;
 
