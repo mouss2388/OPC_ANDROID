@@ -23,7 +23,7 @@ public class ListNeighbourActivity extends AppCompatActivity {
     @BindView(R.id.container)
     ViewPager mViewPager;
 
-    public final static Boolean  FLAG_LOG = false;
+    public final static Boolean FLAG_LOG = false;
 
     ListNeighbourPagerAdapter mPagerAdapter;
 

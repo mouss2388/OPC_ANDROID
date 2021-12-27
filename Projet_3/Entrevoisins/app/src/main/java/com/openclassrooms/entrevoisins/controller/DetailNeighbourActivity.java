@@ -2,8 +2,8 @@ package com.openclassrooms.entrevoisins.controller;
 
 import static com.openclassrooms.entrevoisins.controller.ListNeighbourActivity.FLAG_LOG;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;

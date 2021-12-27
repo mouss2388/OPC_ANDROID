@@ -182,6 +182,7 @@ public class NeighboursListTest {
                 description.appendText("Child at position " + position + " in parent ");
                 parentMatcher.describeTo(description);
             }
+
             @Override
             public boolean matchesSafely(View view) {
                 ViewParent parent = view.getParent();

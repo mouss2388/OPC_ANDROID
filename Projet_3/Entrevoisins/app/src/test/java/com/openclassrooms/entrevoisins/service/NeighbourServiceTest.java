@@ -28,7 +28,7 @@ public class NeighbourServiceTest {
     @Before
     public void setup() {
         service = DI.getNewInstanceApiService();
-         neighbour = service.getNeighbours().get(0);
+        neighbour = service.getNeighbours().get(0);
     }
 
     @Test

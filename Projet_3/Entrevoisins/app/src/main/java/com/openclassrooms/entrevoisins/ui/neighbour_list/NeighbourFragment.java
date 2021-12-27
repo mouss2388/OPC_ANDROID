@@ -34,9 +34,9 @@ public class NeighbourFragment extends Fragment {
     private int tabPosition;
 
 
-
     /**
      * Create and return a new instance
+     *
      * @return @{@link NeighbourFragment}
      */
     public static NeighbourFragment newInstance(int position) {
@@ -66,14 +66,15 @@ public class NeighbourFragment extends Fragment {
      * Init the List of neighbours
      */
     private void initList() {
-        if(this.tabPosition == 0) {
+        if (this.tabPosition == 0) {
             mNeighbours = mApiService.getNeighbours();
-        }else {
+        } else {
             mNeighbours = mApiService.getNeighboursFav();
         }
-        if(FLAG_LOG) {
+        if (FLAG_LOG) {
             Log.i(TAG, mNeighbours.toString());
-        }        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
+        }
+        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
     }
 
     @Override
@@ -96,6 +97,7 @@ public class NeighbourFragment extends Fragment {
 
     /**
      * Fired if the user clicks on a delete button
+     *
      * @param event
      */
     @Subscribe
