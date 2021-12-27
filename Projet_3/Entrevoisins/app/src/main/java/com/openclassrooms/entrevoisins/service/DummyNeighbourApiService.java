@@ -9,6 +9,7 @@ import android.util.Log;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Dummy mock for the Api
@@ -16,7 +17,6 @@ import java.util.List;
 public class DummyNeighbourApiService implements NeighbourApiService {
 
     private List<Neighbour> neighbours = DummyNeighbourGenerator.generateNeighbours();
-    private List<Neighbour> neighboursFav = DummyNeighbourGenerator.generateNeighboursFav();
 
 
     /**
@@ -27,9 +27,10 @@ public class DummyNeighbourApiService implements NeighbourApiService {
         return neighbours;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<Neighbour> getNeighboursFav() {
-        return neighboursFav;
+        return getNeighbours().stream().filter(Neighbour::isFavorite).collect(Collectors.toList());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -48,18 +49,9 @@ public class DummyNeighbourApiService implements NeighbourApiService {
             Log.i("deleteNeighbour : ", neighbour.toString());
         }
 
-        deleteFavNeighbour(neighbour);
         neighbours.remove(neighbour);
     }
 
-    @Override
-    public void deleteFavNeighbour(Neighbour neighbour) {
-        if (FLAG_LOG) {
-            Log.i("deleteFavNeighbour : ", neighbour.toString());
-        }
-        ;
-        neighboursFav.remove(neighbour);
-    }
 
     /**
      * {@inheritDoc}
@@ -70,9 +62,4 @@ public class DummyNeighbourApiService implements NeighbourApiService {
     public void createNeighbour(Neighbour neighbour) {
         neighbours.add(neighbour);
     }
-
-    public void addNeighbourToFav(Neighbour neighbour) {
-        neighboursFav.add(neighbour);
-    }
-
 }
