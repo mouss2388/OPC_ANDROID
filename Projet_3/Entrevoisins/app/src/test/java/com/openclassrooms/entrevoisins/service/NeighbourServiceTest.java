@@ -29,6 +29,7 @@ public class NeighbourServiceTest {
     public void setup() {
         service = DI.getNewInstanceApiService();
         neighbour = service.getNeighbours().get(0);
+        neighbour.setFavorite(false);
     }
 
     @Test
@@ -49,14 +50,14 @@ public class NeighbourServiceTest {
 
     @Test
     public void addNeighbourToFavList() {
-        service.addNeighbourToFav(neighbour);
+        neighbour.setFavorite(true);
         assertEquals(service.getNeighboursFav().size(), 1);
     }
 
     @Test
     public void getNeighbourFavorite() {
         assertEquals(neighbour.getName(), "Caroline");
-        service.addNeighbourToFav(neighbour);
+        neighbour.setFavorite(true);
         assertEquals(service.getNeighboursFav().get(0), neighbour);
 
     }
@@ -65,11 +66,10 @@ public class NeighbourServiceTest {
     public void deleteNeighbourFavList() {
         assertTrue(service.getNeighboursFav().isEmpty());
 
-        service.addNeighbourToFav(neighbour);
-
+        neighbour.setFavorite(true);
         assertEquals(service.getNeighboursFav().size(), 1);
 
-        service.deleteFavNeighbour(neighbour);
+        neighbour.setFavorite(false);
         assertEquals(service.getNeighboursFav().size(), 0);
     }
 }

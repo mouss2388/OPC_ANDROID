@@ -35,8 +35,6 @@ public interface NeighbourApiService {
      */
     void deleteNeighbour(Neighbour neighbour);
 
-    void deleteFavNeighbour(Neighbour neighbour);
-
 
     /**
      * Create a neighbour
@@ -44,7 +42,4 @@ public interface NeighbourApiService {
      * @param neighbour
      */
     void createNeighbour(Neighbour neighbour);
-
-    void addNeighbourToFav(Neighbour neighbour);
-
 }

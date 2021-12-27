@@ -54,11 +54,7 @@ public class DetailNeighbourActivity extends AppCompatActivity {
                 //CHANGE FAVORITE STATE
                 neighbour.setFavorite(!neighbour.isFavorite());
                 Log.i(TAG, "NEIGHBOUR DATA: " + neighbour);
-                if (neighbour.isFavorite()) {
-                    mApiService.addNeighbourToFav(neighbour);
-                } else {
-                    mApiService.deleteFavNeighbour(neighbour);
-                }
+
                 //MARK/UNMARK FAVORITE BUTTON
                 updateButtonFav();
             });
