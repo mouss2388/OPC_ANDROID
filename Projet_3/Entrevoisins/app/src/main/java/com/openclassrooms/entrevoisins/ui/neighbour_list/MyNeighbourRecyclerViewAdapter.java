@@ -83,12 +83,17 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 }
                 long id = mNeighbours.get(index).getId();
                 ////START NEW ACTIVITY////
-                Intent intent = new Intent(context, DetailNeighbourActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putLong("id_neighbour", id);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+                goToUserDetail(context, id);
+
             });
+        }
+
+        private void goToUserDetail(Context context,long id){
+            Intent intent = new Intent(context, DetailNeighbourActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putLong("id_neighbour", id);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
         }
     }
 }
