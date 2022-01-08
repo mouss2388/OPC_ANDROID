@@ -12,4 +12,13 @@
         android:layout_height="wrap_content"
         />
 
+<!--    <com.example.colorpicker.FloatingButton-->
+<!--        android:id="@+id/colorPickerButton"-->
+<!--        android:layout_width="70dip"-->
+<!--        android:layout_height="70dip"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/includeToolbar"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/includeToolbar"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/includeToolbar" />-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
