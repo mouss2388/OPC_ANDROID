@@ -1,4 +1,4 @@
-package com.example.mareu.controller;
+package com.example.mareu.controllers.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,7 +21,12 @@ public class MainActivity extends AppCompatActivity {
         View view = mBinding.getRoot();
         setContentView(view);
 
+        this.configureToolbar();
         mBinding.btnAddReu.setOnClickListener(v -> btn_add());
+    }
+
+    private void configureToolbar() {
+        setSupportActionBar(mBinding.includeToolbar.toolbar);
     }
 
 
