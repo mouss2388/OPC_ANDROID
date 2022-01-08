@@ -1,5 +1,6 @@
 package com.example.mareu.controllers.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
 
         this.configureToolbar();
-        mBinding.btnAddReu.setOnClickListener(v -> btn_add());
+        mBinding.btnAddReu.setOnClickListener(v -> launchAddMeetingActivity());
     }
 
     ////////////MENU/////////////
@@ -66,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void btn_add() {
+    public void launchAddMeetingActivity() {
+
         Log.i(TAG, "click on btn_add");
+        startActivity(new Intent(MainActivity.this,AddMeetingActivity.class));
     }
 }
