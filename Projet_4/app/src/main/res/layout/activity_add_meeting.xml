@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frame_layout_add_meeting"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".controllers.activity.AddMeetingActivity">
-
-    <include
-        android:id="@+id/includeToolbar"
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-<!--    <com.example.colorpicker.FloatingButton-->
-<!--        android:id="@+id/colorPickerButton"-->
-<!--        android:layout_width="70dip"-->
-<!--        android:layout_height="70dip"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/includeToolbar"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/includeToolbar"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/includeToolbar" />-->
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:layout_height="match_parent"/>

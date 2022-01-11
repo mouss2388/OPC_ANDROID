@@ -10,24 +10,55 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.mareu.DI.DI;
 import com.example.mareu.R;
 import com.example.mareu.databinding.ActivityMainBinding;
+import com.example.mareu.model.Reunion;
+import com.example.mareu.service.ReunionApiService;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
     private ActivityMainBinding mBinding;
+    private ReunionApiService mReunionApiService = DI.getReunionApiService();
+    private ArrayList<Reunion> mReunions;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initUI();
+        this.configureToolbar();
+
+        mBinding.btnAddReu.setOnClickListener(v -> launchAddMeetingActivity());
+    }
+
+    private void initUI() {
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
+        initData();
 
-        this.configureToolbar();
-        mBinding.btnAddReu.setOnClickListener(v -> launchAddMeetingActivity());
+    }
+
+    private void initData() {
+        mReunions = new ArrayList<>(mReunionApiService.getReunions());
+        Log.i(TAG, mReunions.toString());
+    }
+
+    private void configureToolbar() {
+        setSupportActionBar(mBinding.includeToolbar.toolbar);
+    }
+
+
+    public void launchAddMeetingActivity() {
+
+        Log.i(TAG, "click on btn_add");
+        startActivity(new Intent(MainActivity.this,AddMeetingActivity.class));
     }
 
     ////////////MENU/////////////
@@ -60,16 +91,5 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void configureToolbar() {
-        setSupportActionBar(mBinding.includeToolbar.toolbar);
-    }
-
-
-    public void launchAddMeetingActivity() {
-
-        Log.i(TAG, "click on btn_add");
-        startActivity(new Intent(MainActivity.this,AddMeetingActivity.class));
     }
 }
