@@ -1,6 +1,8 @@
 package com.example.mareu.controllers.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +46,6 @@ public class AddMeetingFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentAddMeetingBinding.inflate(inflater, container, false);
-//        View view = inflater.inflate(R.layout.fragment_add_meeting, container, false);
         return mBinding.getRoot();
     }
 
@@ -67,16 +68,26 @@ public class AddMeetingFragment extends Fragment {
 
 
     private void showTimePicker() {
-
+        int timeMode = getHeightDevice() < 720 ? MaterialTimePicker.INPUT_MODE_KEYBOARD : MaterialTimePicker.INPUT_MODE_CLOCK;
         MaterialTimePicker picker = new
                 MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setInputMode(timeMode)
                 .setTitleText(R.string.hour_meeting)
                 .setHour(12)
-                .setMinute(10)
+                .setMinute(0)
                 .build();
+
+
         picker.show(getParentFragmentManager(), "TAG");
         manageStateTimePicker(picker);
+    }
+
+    private  int getHeightDevice(){
+        //GET DIMENSION DEVICE
+        DisplayMetrics metrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return metrics.heightPixels;
     }
 
     private void manageStateTimePicker(MaterialTimePicker picker) {

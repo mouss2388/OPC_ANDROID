@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Ma réu</string>
+    <string name="content_btn_add_reunion">Bouton permettant l\'ajout d\'une nouvelle réunion</string>
+    <string name="filtre">filtre</string>
+    <string name="filter_by_date">Filtre par Date</string>
+    <string name="filter_by_place">Filtre par Lieu</string>
+    <string name="filter_reset">Filtre Reset</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hour_meeting">Réunion horaire</string>
+    <string name="sujet_de_la_reunion">Sujet de la réunion</string>
+    <string name="mails_des_participants">Mails des participants</string>
+    <string name="add_meeting">Ajouter réunion</string>
+    <string name="set_time">Set Time</string>
+    <string name="icon_room">Icon room</string>
+    <string name="target_device">xxxhdpi</string>
+
+
+
+    <string-array name="room_array">
+        <item>Mario</item>
+        <item>Luigi</item>
+        <item>Peach</item>
+        <item>Daisy</item>
+        <item>Harmonie</item>
+        <item>Toad</item>
+        <item>Toadette</item>
+        <item>Browser</item>
+        <item>Koopa</item>
+        <item>Goomba</item>
+    </string-array>
+</resources>

@@ -18,7 +18,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
-        this.configAndShowAddMeetingFragment();
+        this.configAndShowFragment(R.id.frame_layout_add_meeting);
     }
 
     private void initUI() {
@@ -28,10 +28,10 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
 
-    private void configAndShowAddMeetingFragment() {
-        AddMeetingFragment addMeetingFragment = (AddMeetingFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_add_meeting);
+    private void configAndShowFragment(int layout_fragment) {
+        AddMeetingFragment addMeetingFragment = (AddMeetingFragment) getSupportFragmentManager().findFragmentById(layout_fragment);
 
-        if (addMeetingFragment == null) {
+        if (addMeetingFragment == null && findViewById(layout_fragment)  != null) {
             addMeetingFragment = new AddMeetingFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_add_meeting, addMeetingFragment).commit();
         }

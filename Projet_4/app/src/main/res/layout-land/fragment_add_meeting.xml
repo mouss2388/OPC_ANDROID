@@ -84,7 +84,7 @@
 
             <LinearLayout
                 android:id="@+id/linear_layout_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/height_list_room"
                 android:layout_marginTop="@dimen/margin_top_components"
                 android:gravity="center"
@@ -103,9 +103,9 @@
                     android:id="@+id/spinner_room"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:backgroundTint="@color/cyan_500"
                     android:entries="@array/room_array"
+                    android:gravity="center"
                     android:labelFor="@id/spinner_room"
                     android:spinnerMode="dialog" />
             </LinearLayout>
