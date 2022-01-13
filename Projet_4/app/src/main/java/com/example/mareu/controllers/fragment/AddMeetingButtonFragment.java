@@ -1,6 +1,5 @@
 package com.example.mareu.controllers.fragment;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -14,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.mareu.DI.DI;
 import com.example.mareu.R;
-import com.example.mareu.databinding.FragmentAddMeetingBinding;
+import com.example.mareu.databinding.FragmentAddMeetingButtonBinding;
 import com.example.mareu.model.Reunion;
 import com.example.mareu.service.ReunionApiService;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -22,18 +21,16 @@ import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
-public class AddMeetingFragment extends Fragment {
 
-    private FragmentAddMeetingBinding mBinding;
+public class AddMeetingButtonFragment extends Fragment {
+
+    private FragmentAddMeetingButtonBinding mBinding;
     private MaterialTimePicker mMaterialTimePicker;
     private ReunionApiService mReunionApiService = DI.getReunionApiService();
 
-    private static final String KEY_SUBJECT = "KEY_SUBJECT";
-    private String INFO_SUBJECT;
 
-    public AddMeetingFragment() {
+    public AddMeetingButtonFragment() {
     }
 
     @Override
@@ -42,27 +39,18 @@ public class AddMeetingFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = FragmentAddMeetingBinding.inflate(inflater, container, false);
+        mBinding = FragmentAddMeetingButtonBinding.inflate(inflater, container, false);
         return mBinding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        initColorForPicker();
-        if (!isTablet()) {
-            assert mBinding.btnTimePicker != null;
             mBinding.btnTimePicker.setOnClickListener(v ->
                     showTimePicker());
-            assert mBinding.btnAdd != null;
             mBinding.btnAdd.setOnClickListener(v ->
                     addMeeting());
-        }
-    }
-
-    private void initColorForPicker() {
-        mBinding.colorPickerButton.setBackgroundTintList(ColorStateList.valueOf(-111111));
     }
 
     private void showTimePicker() {
@@ -81,7 +69,7 @@ public class AddMeetingFragment extends Fragment {
         manageStateTimePicker(picker);
     }
 
-    private int getHeightDevice() {
+    private  int getHeightDevice(){
         //GET DIMENSION DEVICE
         DisplayMetrics metrics = new DisplayMetrics();
         requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -107,36 +95,23 @@ public class AddMeetingFragment extends Fragment {
     }
 
     private void addMeeting() {
-        int color = Objects.requireNonNull(mBinding.colorPickerButton.getBackgroundTintList()).getDefaultColor();
 
-        String subject = mBinding.textFieldSubject.getEditText().getText().toString();
         String room = mBinding.spinnerRoom.getSelectedItem().toString();
 
-        Log.d("TAG color", String.valueOf(color));
-        Log.d("TAG subject", subject);
-        Log.d("TAG room", room);
-        Log.d("TAG hour", String.valueOf(mMaterialTimePicker.getHour()));
+        Log.d("TAG", room);
+        Log.d("TAG", String.valueOf(mMaterialTimePicker.getHour()));
         Date date = new Date();
         ArrayList<String> emails = new ArrayList<>();
-        emails.add(mBinding.textFieldListEmails.getEditText().getText().toString());
-        //Log.d("TAG", emails.get(1));
 
-        Reunion reunion = new Reunion(subject, date, room, emails);
+        Reunion reunion = new Reunion("test", date, room, emails);
         Log.d("TAG", reunion.toString());
         mReunionApiService.createReunion(reunion);
-
-
     }
-
-    private boolean isTablet() {
-        return getResources().getBoolean(R.bool.isTablet);
-    }
-
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mBinding = null;
     }
-}
 
+}

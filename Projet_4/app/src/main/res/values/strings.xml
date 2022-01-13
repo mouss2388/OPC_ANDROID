@@ -13,6 +13,7 @@
     <string name="add_meeting">Ajouter réunion</string>
     <string name="set_time">Set Time</string>
     <string name="icon_room">Icon room</string>
+    <string name="str_add_meeting_activity">Add Meeting</string>
 
 
     <string-array name="room_array">

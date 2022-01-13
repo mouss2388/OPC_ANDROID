@@ -13,5 +13,13 @@
     <FrameLayout
         android:id="@+id/frame_layout_add_meeting"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0px"
+        android:layout_weight="65" />
+
+    <FrameLayout
+        android:id="@+id/frame_layout_add_meeting_button"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="35" />
+
 </LinearLayout>
