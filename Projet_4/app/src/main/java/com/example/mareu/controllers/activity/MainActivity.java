@@ -9,12 +9,13 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mareu.DI.DI;
 import com.example.mareu.R;
 import com.example.mareu.databinding.ActivityMainBinding;
-import com.example.mareu.model.Reunion;
-import com.example.mareu.service.ReunionApiService;
+import com.example.mareu.model.Meeting;
+import com.example.mareu.service.MeetingApiService;
 
 import java.util.ArrayList;
 
@@ -23,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = MainActivity.class.getSimpleName();
 
     private ActivityMainBinding mBinding;
-    private ReunionApiService mReunionApiService = DI.getReunionApiService();
-    private ArrayList<Reunion> mReunions;
+    private static final MeetingApiService mMeetingApiService = DI.getReunionApiService();
+    private static ArrayList<Meeting> mMeetings;
+    public static MeetingAdapter meetingAdapter;
 
 
     @Override
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         initUI();
         this.configureToolbar();
+        this.initRecyclerView();
 
         mBinding.btnAddReu.setOnClickListener(v -> launchAddMeetingActivity());
     }
@@ -41,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = mBinding.getRoot();
         setContentView(view);
-        //initData();
+        initData();
 
     }
 
     private void initData() {
-        mReunions = new ArrayList<>(mReunionApiService.getReunions());
-        Log.i(TAG, mReunions.toString());
+        mMeetings = new ArrayList<>(mMeetingApiService.getReunions());
+        Log.i(TAG, mMeetings.toString());
     }
 
     private void configureToolbar() {
@@ -58,14 +61,14 @@ public class MainActivity extends AppCompatActivity {
     public void launchAddMeetingActivity() {
 
         Log.i(TAG, "click on btn_add");
-        startActivity(new Intent(MainActivity.this,AddMeetingActivity.class));
+        startActivity(new Intent(MainActivity.this, AddMeetingActivity.class));
     }
 
     ////////////MENU/////////////
 
     /**
      * @param menu which replace by menu_activity_main
-     * @return
+     * @return true
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -92,4 +95,23 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void initRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        mBinding.recyclerView.setLayoutManager(layoutManager);
+        meetingAdapter = new MeetingAdapter(mMeetings);
+
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mBinding.recyclerView.getContext(),
+//                layoutManager.getOrientation());
+//        mBinding.recyclerView.addItemDecoration(dividerItemDecoration);
+
+        mBinding.recyclerView.setAdapter(meetingAdapter);
+    }
+
+    public static void updateRecyclerView(){
+        mMeetings.clear();
+        mMeetings.addAll(mMeetingApiService.getReunions());
+        meetingAdapter.notifyDataSetChanged();
+    }
+
 }

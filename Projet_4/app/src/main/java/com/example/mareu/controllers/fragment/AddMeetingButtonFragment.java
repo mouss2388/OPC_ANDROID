@@ -1,6 +1,11 @@
 package com.example.mareu.controllers.fragment;
 
+import static com.example.mareu.controllers.fragment.AddMeetingFragment.isEmailsValid;
+import static com.example.mareu.controllers.fragment.AddMeetingFragment.isSubjectValid;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,35 +16,56 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mareu.DI.DI;
 import com.example.mareu.R;
 import com.example.mareu.databinding.FragmentAddMeetingButtonBinding;
-import com.example.mareu.model.Reunion;
-import com.example.mareu.service.ReunionApiService;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 
 public class AddMeetingButtonFragment extends Fragment {
 
-    private FragmentAddMeetingButtonBinding mBinding;
-    private MaterialTimePicker mMaterialTimePicker;
-    private ReunionApiService mReunionApiService = DI.getReunionApiService();
+    public FragmentAddMeetingButtonBinding mBinding;
+    public MaterialTimePicker mMaterialTimePicker;
+    public Runnable runnableFragBtn;
+    private Handler handler;
 
 
     public AddMeetingButtonFragment() {
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initUI();
+
     }
 
+    private void initUI() {
+        handler = new Handler(Looper.getMainLooper());
+        handler.post(checkInputText);
+        mMaterialTimePicker = null;
+    }
+
+    private void checkFormIsValid() {
+        Log.i("Rooms", mBinding.spinnerRoom.getSelectedItem().toString());
+        mBinding.btnAdd.setEnabled(mMaterialTimePicker != null && isSubjectValid && isEmailsValid);
+    }
+
+    private final Runnable checkInputText = new Runnable() {
+        public void run() {
+            try {
+                checkFormIsValid();
+                handler.postDelayed(this, 1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = FragmentAddMeetingButtonBinding.inflate(inflater, container, false);
         return mBinding.getRoot();
@@ -47,15 +73,28 @@ public class AddMeetingButtonFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-            mBinding.btnTimePicker.setOnClickListener(v ->
-                    showTimePicker());
-            mBinding.btnAdd.setOnClickListener(v ->
-                    addMeeting());
+        initOnClickListener();
+    }
+
+
+    private void initOnClickListener() {
+        mBinding.btnTimePicker.setOnClickListener(v ->
+                showTimePicker());
+        mBinding.btnAdd.setOnClickListener(v ->
+                onSubmit());
+    }
+
+
+    private int getHeightDevice() {
+        //GET DIMENSION DEVICE
+        DisplayMetrics metrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return metrics.heightPixels;
     }
 
     private void showTimePicker() {
         int timeMode = getHeightDevice() < 720 ? MaterialTimePicker.INPUT_MODE_KEYBOARD : MaterialTimePicker.INPUT_MODE_CLOCK;
-        MaterialTimePicker picker = new
+        mMaterialTimePicker = new
                 MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setInputMode(timeMode)
@@ -64,54 +103,36 @@ public class AddMeetingButtonFragment extends Fragment {
                 .setMinute(0)
                 .build();
 
-
-        picker.show(getParentFragmentManager(), "TAG");
-        manageStateTimePicker(picker);
+        mMaterialTimePicker.show(getParentFragmentManager(), "TAG_PICKER");
+        manageStateTimePicker(mMaterialTimePicker);
     }
 
-    private  int getHeightDevice(){
-        //GET DIMENSION DEVICE
-        DisplayMetrics metrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        return metrics.heightPixels;
-    }
 
-    private void manageStateTimePicker(MaterialTimePicker picker) {
-        picker.addOnPositiveButtonClickListener(v -> {
+    private void manageStateTimePicker(MaterialTimePicker materialTimePicker) {
+        materialTimePicker.addOnPositiveButtonClickListener(v -> {
 
                     StringBuilder hourMeeting = new StringBuilder();
-                    hourMeeting.append(picker.getHour())
+                    hourMeeting.append(materialTimePicker.getHour() == 0 ? "00" : materialTimePicker.getHour())
                             .append(":")
-                            .append(picker.getMinute());
+                            .append(materialTimePicker.getMinute() == 0 ? "00" : materialTimePicker.getMinute());
                     Log.i("click", "addOnPositiveButtonClickListener");
                     mBinding.btnTimePicker.setText(hourMeeting);
-                    mMaterialTimePicker = picker;
                 }
         );
-
-        picker.addOnNegativeButtonClickListener(v -> Log.i("click", "addOnNegativeButtonClickListener"));
-        picker.addOnCancelListener(dialog -> Log.i("click", "addOnCancelListener"));
-        picker.addOnDismissListener(dialog -> Log.i("click", "addOnDismissListener"));
+        materialTimePicker.addOnCancelListener(v -> mMaterialTimePicker = null);
+        materialTimePicker.addOnNegativeButtonClickListener(v -> mMaterialTimePicker = null);
     }
 
-    private void addMeeting() {
 
-        String room = mBinding.spinnerRoom.getSelectedItem().toString();
-
-        Log.d("TAG", room);
-        Log.d("TAG", String.valueOf(mMaterialTimePicker.getHour()));
-        Date date = new Date();
-        ArrayList<String> emails = new ArrayList<>();
-
-        Reunion reunion = new Reunion("test", date, room, emails);
-        Log.d("TAG", reunion.toString());
-        mReunionApiService.createReunion(reunion);
+    private void onSubmit() {
+        runnableFragBtn.run();
     }
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mBinding = null;
+        handler.removeCallbacks(checkInputText);
     }
-
 }

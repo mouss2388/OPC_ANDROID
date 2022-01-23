@@ -1,14 +1,14 @@
 package com.example.mareu.DI;
 
-import com.example.mareu.service.DummyReunionApiService;
-import com.example.mareu.service.ReunionApiService;
+import com.example.mareu.service.DummyMeetingApiService;
+import com.example.mareu.service.MeetingApiService;
 
 public class DI {
 
-    private static final ReunionApiService service = new DummyReunionApiService();
+    private static final MeetingApiService service = new DummyMeetingApiService();
 
-    public static ReunionApiService getReunionApiService() { return service;}
+    public static MeetingApiService getReunionApiService() { return service;}
 
-    public static ReunionApiService getNewInstanceApiService() { return  new DummyReunionApiService();}
+    public static MeetingApiService getNewInstanceApiService() { return  new DummyMeetingApiService();}
 
 }

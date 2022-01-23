@@ -1,137 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frag_frame_layout_add_meeting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".controllers.fragment.AddMeetingFragment">
 
-    <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".controllers.fragment.AddMeetingFragment">
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/margin_horizontal"
+        >
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.example.colorpicker.FloatingButton
+            android:id="@+id/colorPickerButton"
+            android:layout_width="@dimen/size_colorPickerButton"
+            android:layout_height="@dimen/size_colorPickerButton"
+            android:layout_marginBottom="@dimen/margin_top_colorPickerButton"
+            android:labelFor="@id/colorPickerButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textFieldSubject" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldSubject"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/margin_horizontal"
-            android:layout_marginTop="?attr/actionBarSize">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_top_components"
+            android:backgroundTint="@color/cyan_500"
 
+            android:hint="@string/sujet_de_la_reunion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textFieldListEmails"
+            app:startIconDrawable="@drawable/ic_chat_24"
+            app:startIconTint="?attr/colorPrimary">
 
-            <com.example.colorpicker.FloatingButton
-                android:id="@+id/colorPickerButton"
-                android:layout_width="@dimen/size_colorPickerButton"
-                android:layout_height="@dimen/size_colorPickerButton"
-                android:layout_marginTop="@dimen/margin_top_colorPickerButton"
-                android:labelFor="@id/colorPickerButton"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldSubject"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top_components"
-                android:backgroundTint="@color/cyan_500"
-
-                android:hint="@string/sujet_de_la_reunion"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/colorPickerButton"
-                app:startIconDrawable="@drawable/ic_chat_24"
-                app:startIconTint="?attr/colorPrimary">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/textFieldSubject"
-                    android:textSize="@dimen/text_size" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:labelFor="@+id/textFieldSubject"
+                android:textSize="@dimen/text_size" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textFieldListEmails"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/height_list_email_input"
-                android:layout_marginTop="@dimen/margin_top_components"
-                android:hint="@string/target_device"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textFieldListEmails"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/height_list_email_input"
+            android:layout_marginBottom="@dimen/margin_top_components"
+            android:hint="@string/target_device"
 
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textFieldSubject"
-                app:startIconDrawable="@drawable/ic_email"
-                app:startIconTint="?attr/colorPrimary">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:startIconDrawable="@drawable/ic_email"
+            app:startIconTint="?attr/colorPrimary">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:labelFor="@+id/textFieldListEmails"
-                    android:textSize="@dimen/text_size" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:id="@+id/linear_layout_spinner"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/height_list_room"
-                android:layout_marginTop="@dimen/margin_top_components"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textFieldListEmails">
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:labelFor="@+id/textFieldListEmails"
+                android:textSize="@dimen/text_size" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/icon_room"
-                    android:src="@drawable/ic_baseline_meeting_room" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <Spinner
-                    android:id="@+id/spinner_room"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/cyan_500"
-                    android:entries="@array/room_array"
-                    android:gravity="center"
-                    android:labelFor="@id/spinner_room"
-                    android:spinnerMode="dialog" />
-            </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_time_picker"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top_components"
-                android:text="@string/set_time"
-                android:textSize="@dimen/text_size"
-                app:icon="@drawable/ic_time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linear_layout_spinner" />
-
-            <Button
-                android:id="@+id/btnAdd"
-                style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_top_components"
-                android:text="@string/add_meeting"
-                android:textSize="@dimen/text_size"
-                app:icon="@drawable/ic_add_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_time_picker" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
-</ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
 
 

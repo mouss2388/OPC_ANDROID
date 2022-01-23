@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <bool name="isTablet">true</bool>
-
-
     <dimen name="margin_floating_action_btn">60dp</dimen>
     <dimen name="size_colorPickerButton">80dp</dimen>
     <dimen name="margin_top_colorPickerButton">45dp</dimen>
