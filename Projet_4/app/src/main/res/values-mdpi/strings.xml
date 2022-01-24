@@ -2,7 +2,7 @@
     <string name="app_name">Ma réu</string>
     <string name="content_btn_add_reunion">Bouton permettant l\'ajout d\'une nouvelle réunion</string>
     <string name="filtre">filtre</string>
-    <string name="filter_by_date">Filtre par Date</string>
+    <string name="filter_by_hour">Filtre par Heure</string>
     <string name="filter_by_place">Filtre par Lieu</string>
     <string name="filter_reset">Filtre Reset</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -17,6 +17,7 @@
 
 
     <string-array name="room_array">
+        <item>Choice Room</item>
         <item>Mario</item>
         <item>Luigi</item>
         <item>Peach</item>

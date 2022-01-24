@@ -2,6 +2,7 @@ package com.example.mareu.controllers.activity;
 
 
 import static com.example.mareu.controllers.activity.AddMeetingActivity.convertMillisToStr;
+import static com.example.mareu.controllers.activity.MainActivity.updateRecyclerView;
 
 import android.os.Build;
 import android.util.Log;
@@ -10,12 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mareu.DI.DI;
 import com.example.mareu.R;
 import com.example.mareu.model.Meeting;
+import com.example.mareu.service.MeetingApiService;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -24,6 +28,7 @@ import java.util.stream.Collectors;
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHolder> {
 
     private final ArrayList<Meeting> mMeetings;
+    private static final MeetingApiService mMeetingApiService = DI.getReunionApiService();
 
     public MeetingAdapter(ArrayList<Meeting> meetings) {
         this.mMeetings = meetings;
@@ -70,6 +75,19 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
             meeting_info.setText(getHeaderInfo(meeting));
             list_emails.setText(getEmailList(meeting.getEmails()));
             trash.setBackgroundResource(R.drawable.baseline_delete_24);
+            trash.setOnClickListener(v -> {
+                Toast.makeText(v.getContext(), meeting.getSubject()+ " Supprimée",
+                        Toast.LENGTH_SHORT).show();
+                Log.i("TAG", meeting.toString());
+                deleteReunion(meeting);
+
+            });
+        }
+
+        private void deleteReunion(Meeting meeting) {
+            mMeetingApiService.deleteReunion(meeting);
+            updateRecyclerView();
+
         }
 
         private String getHeaderInfo(Meeting meeting) {

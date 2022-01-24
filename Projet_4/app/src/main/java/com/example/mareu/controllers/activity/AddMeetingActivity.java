@@ -83,7 +83,6 @@ public class AddMeetingActivity extends AppCompatActivity {
 
             addFragmentBtn.runnableFragBtn = () -> {
                 Log.i("test", "OnSubmit Click");
-                Log.i("test", String.valueOf(addFragmentBtn.mMaterialTimePicker.getHour()));
 
                 Meeting meeting = getDataMeeting();
                 createMeeting(meeting);
@@ -109,12 +108,12 @@ public class AddMeetingActivity extends AppCompatActivity {
     private void createMeeting(Meeting meeting) {
         mMeetingApiService.createReunion(meeting);
         updateRecyclerView();
-        Toast.makeText(getApplicationContext(), "Réunion ajoutée!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), meeting.getSubject()+ " ajoutée !", Toast.LENGTH_SHORT).show();
         finish();
     }
 
 
-    private long convertTimeToMillis(int hour, int minute) {
+    public static long convertTimeToMillis(int hour, int minute) {
         return (((hour * 60L) + minute) * 60000);
     }
 

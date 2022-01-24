@@ -15,16 +15,16 @@ public class DummyMeetingGenerator {
     static Date date_meeting_3 = new Date();
 
     private static void initDate() {
-    date_meeting_1.setTime(50400000);
-    date_meeting_2.setTime(57600000);
+    date_meeting_1.setTime(57600000);
+    date_meeting_2.setTime(50400000);
     date_meeting_3.setTime(68400000);
     }
 
 
     public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting(-111111, "Réunion A", date_meeting_1, "Peach", new ArrayList<>(Collections.singleton("maxime@lamzone.com, alex@lamzome.com"))),
-            new Meeting(-111111, "Réunion B", date_meeting_2, "Mario", new ArrayList<>(Collections.singleton("paul@lamzome.com, viviane@lamzone.com"))),
-            new Meeting(-111111, "Réunion C", date_meeting_3, "Luigi", new ArrayList<>(Collections.singleton("amandine@lamzome.com, luc@lamzone.com")))
+            new Meeting(-25143, "Réunion A", date_meeting_1, "Peach", new ArrayList<>(Collections.singleton("maxime@lamzone.com, alex@lamzome.com"))),
+            new Meeting(-61180, "Réunion B", date_meeting_2, "Mario", new ArrayList<>(Collections.singleton("paul@lamzome.com, viviane@lamzone.com"))),
+            new Meeting(-16580839, "Réunion C", date_meeting_3, "Luigi", new ArrayList<>(Collections.singleton("amandine@lamzome.com, luc@lamzone.com")))
     );
 
 
