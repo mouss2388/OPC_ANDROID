@@ -45,7 +45,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.displayMail(mMeetings.get(position));
+        holder.displayMeeting(mMeetings.get(position));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
             trash = itemView.findViewById(R.id.trash);
         }
 
-        public void displayMail(Meeting meeting) {
+        public void displayMeeting(Meeting meeting) {
             Log.i("MeetingAdapter getSubj", meeting.getSubject());
             Log.i("MeetingAdapter getColor", String.valueOf(meeting.getColor()));
             circle.setColorFilter(meeting.getColor());
@@ -76,7 +76,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
             list_emails.setText(getEmailList(meeting.getEmails()));
             trash.setBackgroundResource(R.drawable.baseline_delete_24);
             trash.setOnClickListener(v -> {
-                Toast.makeText(v.getContext(), meeting.getSubject()+ " Supprimée",
+                Toast.makeText(v.getContext(), meeting.getSubject() + " Supprimée",
                         Toast.LENGTH_SHORT).show();
                 Log.i("TAG", meeting.toString());
                 deleteReunion(meeting);
@@ -87,7 +87,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         private void deleteReunion(Meeting meeting) {
             mMeetingApiService.deleteReunion(meeting);
             updateRecyclerView();
-
         }
 
         private String getHeaderInfo(Meeting meeting) {

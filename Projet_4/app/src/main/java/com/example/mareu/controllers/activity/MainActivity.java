@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public MaterialTimePicker mMaterialTimePicker;
     private boolean isSpinnerTouched = false;
     private Spinner spinner;
+    public static String filterApply;
+    private static String roomFilter;
+    private static long hourlyFilter;
 
 
     @Override
@@ -54,7 +57,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         this.configureToolbar();
         this.initRecyclerView();
 
-        mBinding.btnAddReu.setOnClickListener(v -> launchAddMeetingActivity());
+        mBinding.btnAddReu.setOnClickListener(v -> {
+            filterApply = "reset";
+            launchAddMeetingActivity();
+        });
     }
 
     private void initUI() {
@@ -80,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void initData() {
         mMeetings = new ArrayList<>(mMeetingApiService.resetReunions());
-        Log.i(TAG, mMeetings.toString());
+        filterApply = "reset";
     }
 
     private void configureToolbar() {
@@ -117,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 isSpinnerTouched = true;
                 return true;
             case R.id.filter_reset:
+                filterApply = "reset";
                 updateRecyclerView();
                 return true;
 
@@ -135,25 +142,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public static void updateRecyclerView() {
         mMeetings.clear();
-        mMeetings.addAll(mMeetingApiService.getReunions());
+        switch (filterApply) {
+            case "room":
+                mMeetings.addAll(mMeetingApiService.filterMeetingByRoom(roomFilter));
+                break;
+            case "hourly":
+                mMeetings.addAll(mMeetingApiService.filterMeetingByHour(hourlyFilter));
+                break;
+            default:
+                mMeetings.addAll(mMeetingApiService.getReunions());
+                break;
+        }
         messageForListEmpty();
         meetingAdapter.notifyDataSetChanged();
     }
-
-    private void filterRecyclerViewByHour(long hourly) {
-        mMeetings.clear();
-        mMeetings.addAll(mMeetingApiService.filterMeetingByHour(hourly));
-        messageForListEmpty();
-        meetingAdapter.notifyDataSetChanged();
-    }
-
-    private void filterRecyclerViewByRoom(String room) {
-        mMeetings.clear();
-        mMeetings.addAll(mMeetingApiService.filterMeetingByRoom(room));
-        messageForListEmpty();
-        meetingAdapter.notifyDataSetChanged();
-    }
-
 
     private int getHeightDevice() {
         //GET DIMENSION DEVICE
@@ -181,25 +183,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         materialTimePicker.addOnPositiveButtonClickListener(v -> {
                     int hour = mMaterialTimePicker.getHour();
                     int minute = materialTimePicker.getMinute();
-                    long hourlyInMilli = convertTimeToMillis(hour, minute);
-                    filterRecyclerViewByHour(hourlyInMilli);
+                    hourlyFilter = convertTimeToMillis(hour, minute);
+                    filterApply = "hourly";
+                    updateRecyclerView();
                 }
         );
+        materialTimePicker.addOnCancelListener(v -> {
+            filterApply = "reset";
+            Toast.makeText(getApplicationContext(), "addOnCancelListener", Toast.LENGTH_SHORT).show();
+            updateRecyclerView();
+        });
 
-
+        materialTimePicker.addOnNegativeButtonClickListener(v -> {
+            filterApply = "reset";
+            Toast.makeText(getApplicationContext(), "addOnNegativeButtonClickListener", Toast.LENGTH_SHORT).show();
+            updateRecyclerView();
+        });
     }
 
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        if(isSpinnerTouched){
+        if (isSpinnerTouched) {
             if (position > 0) {
-                String selected_val = spinner.getSelectedItem().toString();
-                filterRecyclerViewByRoom(selected_val);
+                roomFilter = spinner.getSelectedItem().toString();
+                filterApply = "room";
+                updateRecyclerView();
             } else {
                 Toast.makeText(getApplicationContext(), "Veuillez choisir une salle", Toast.LENGTH_SHORT).show();
-
             }
         }
     }
@@ -208,10 +220,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
-    private static void messageForListEmpty(){
-        if(mMeetings.size()==0)
+    private static void messageForListEmpty() {
+        if (mMeetings.size() == 0)
             Toast.makeText(getAppContext(), "Aucune réunion trouvée", Toast.LENGTH_LONG).show();
     }
+
     private static Context getAppContext() {
         return MainActivity.context;
     }
