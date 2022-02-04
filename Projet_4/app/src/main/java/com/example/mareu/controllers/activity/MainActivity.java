@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         this.initRecyclerView();
 
         mBinding.btnAddReu.setOnClickListener(v -> {
-            filterApply = "reset";
+            resetFilter();
             launchAddMeetingActivity();
         });
     }
@@ -208,6 +208,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (isSpinnerTouched) {
             if (position > 0) {
                 roomFilter = spinner.getSelectedItem().toString();
+                Toast.makeText(getApplicationContext(), "position: " + position + " " + roomFilter, Toast.LENGTH_SHORT).show();
+
                 filterApply = "room";
                 updateRecyclerView();
             } else {
@@ -227,5 +229,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private static Context getAppContext() {
         return MainActivity.context;
+    }
+
+    private void resetFilter() {
+        filterApply = "reset";
+        spinner.setSelection(0);
     }
 }
