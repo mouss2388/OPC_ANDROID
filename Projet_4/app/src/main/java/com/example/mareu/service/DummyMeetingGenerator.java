@@ -17,7 +17,7 @@ public class DummyMeetingGenerator {
     private static void initDate() {
     date_meeting_1.setTime(57600000);
     date_meeting_2.setTime(50400000);
-    date_meeting_3.setTime(68400000);
+    date_meeting_3.setTime(0);
     }
 
 

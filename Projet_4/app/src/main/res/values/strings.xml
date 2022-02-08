@@ -16,6 +16,8 @@
     <string name="str_add_meeting_activity">Add Meeting</string>
     <string name="icon_circle">Icon circle</string>
     <string name="icon_trash">Icon trash</string>
+    <string name="meeting_not_founded">Aucune réunion trouvée</string>
+
 
 
     <string-array name="room_array">

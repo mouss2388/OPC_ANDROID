@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (isSpinnerTouched) {
             if (position > 0) {
                 roomFilter = spinner.getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), "position: " + position + " " + roomFilter, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "position: " + position + " " + roomFilter, Toast.LENGTH_SHORT).show();
 
                 filterApply = "room";
                 updateRecyclerView();
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private static void messageForListEmpty() {
         if (mMeetings.size() == 0)
-            Toast.makeText(getAppContext(), "Aucune réunion trouvée", Toast.LENGTH_LONG).show();
+            Toast.makeText(getAppContext(), R.string.meeting_not_founded, Toast.LENGTH_LONG).show();
     }
 
     private static Context getAppContext() {

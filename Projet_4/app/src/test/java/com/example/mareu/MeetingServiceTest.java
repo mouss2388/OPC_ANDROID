@@ -1,17 +1,17 @@
 package com.example.mareu;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import com.example.mareu.DI.DI;
 import com.example.mareu.model.Meeting;
-import com.example.mareu.service.DummyMeetingGenerator;
 import com.example.mareu.service.MeetingApiService;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +28,7 @@ public class MeetingServiceTest {
 
     private MeetingApiService service;
     private Meeting meeting;
-    private int MEETINGS_COUNT = 3;
+    private final int MEETINGS_COUNT = 3;
     Date hour = new Date();
 
 
@@ -41,11 +41,6 @@ public class MeetingServiceTest {
     }
 
 
-    @Test
-    public void getMeeting() {
-        List<Meeting> meetings = DummyMeetingGenerator.DUMMY_MEETINGS;
-        assertTrue(meetings.contains(meeting));
-    }
 
     @Test
     public void addMeeting() {
@@ -66,7 +61,7 @@ public class MeetingServiceTest {
     public void deleteMeeting() {
         List<Meeting> meetings = service.getReunions();
 
-        assertEquals(3, meetings.size());
+        assertEquals(MEETINGS_COUNT, meetings.size());
         assertTrue(meetings.contains(meeting));
 
         service.deleteReunion(meeting);
@@ -77,15 +72,21 @@ public class MeetingServiceTest {
 
     @Test
     public void FilterByRoom() {
-        Meeting meeting_filter = service.filterMeetingByRoom("Peach").get(0);
+
+        List<Meeting> listFiltered = service.filterMeetingByRoom("Peach");
+        assertEquals(1, listFiltered.size());
+
+        Meeting meeting_filter = listFiltered.get(0);
         assertEquals("Peach",meeting_filter.getRoom());
     }
 
     @Test
     public void FilterByHour() {
 
-        Meeting meeting_filter = service.filterMeetingByHour(hour.getTime()).get(0);
+        List<Meeting> listFiltered = service.filterMeetingByHour(hour.getTime());
+        assertEquals(1, listFiltered.size());
 
+        Meeting meeting_filter = listFiltered.get(0);
         assertEquals(hour.getTime(),meeting_filter.getHour().getTime());
     }
 }

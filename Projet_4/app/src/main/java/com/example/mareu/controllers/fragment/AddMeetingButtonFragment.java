@@ -186,8 +186,7 @@ public class AddMeetingButtonFragment extends Fragment implements View.OnTouchLi
         roomIsAvailable = room.equals("");
 
         if (!roomIsAvailable) {
-            Toast.makeText(getContext(), "Salle " + room + " non disponible pour cet horaire, une réunion dure environ " + MEETING_DURATION + " min", Toast.LENGTH_LONG).show();
-            Toast.makeText(getContext(), "veuillez changer de salle ou d'horaire", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Salle " + room + " non disponible pour cet horaire, une réunion dure environ " + MEETING_DURATION + " min \n veuillez changer de salle ou d'horaire", Toast.LENGTH_LONG).show();
         }
     }
 

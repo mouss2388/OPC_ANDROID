@@ -34,13 +34,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_components"
             android:backgroundTint="@color/cyan_500"
+            android:clickable="true"
 
             android:hint="@string/sujet_de_la_reunion"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/colorPickerButton"
             app:startIconDrawable="@drawable/ic_chat_24"
-            app:startIconTint="?attr/colorPrimary">
+            app:startIconTint="?attr/colorPrimary"
+            android:focusable="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
