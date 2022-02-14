@@ -3,11 +3,11 @@ package com.example.mareu.controllers.fragment;
 import static com.example.mareu.controllers.activity.AddMeetingActivity.convertTimeToMillis;
 import static com.example.mareu.controllers.fragment.AddMeetingFragment.isEmailsValid;
 import static com.example.mareu.controllers.fragment.AddMeetingFragment.isSubjectValid;
+import static com.example.mareu.utlis.CustomTimePicker.getTimePicker;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +25,6 @@ import com.example.mareu.databinding.FragmentAddMeetingButtonBinding;
 import com.example.mareu.model.Meeting;
 import com.example.mareu.service.MeetingApiService;
 import com.google.android.material.timepicker.MaterialTimePicker;
-import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.ArrayList;
 
@@ -93,35 +92,17 @@ public class AddMeetingButtonFragment extends Fragment implements View.OnTouchLi
 
 
     private void initOnClickListener() {
-        mBinding.btnTimePicker.setOnClickListener(v ->
-                showTimePicker());
+        mBinding.btnTimePicker.setOnClickListener(v -> {
+
+            mMaterialTimePicker = getTimePicker(getActivity());
+            mMaterialTimePicker.show(getParentFragmentManager(), "TAG_PICKER");
+            manageStateTimePicker(mMaterialTimePicker);
+        });
+
         mBinding.btnAdd.setOnClickListener(v ->
                 onSubmit());
         changeRoom();
         mBinding.spinnerRoom.setOnTouchListener(this);
-    }
-
-
-    private int getHeightDevice() {
-        //GET DIMENSION DEVICE
-        DisplayMetrics metrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        return metrics.heightPixels;
-    }
-
-    private void showTimePicker() {
-        int timeMode = getHeightDevice() < 720 ? MaterialTimePicker.INPUT_MODE_KEYBOARD : MaterialTimePicker.INPUT_MODE_CLOCK;
-        mMaterialTimePicker = new
-                MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setInputMode(timeMode)
-                .setTitleText(R.string.hour_meeting)
-                .setHour(0)
-                .setMinute(0)
-                .build();
-
-        mMaterialTimePicker.show(getParentFragmentManager(), "TAG_PICKER");
-        manageStateTimePicker(mMaterialTimePicker);
     }
 
 

@@ -2,12 +2,11 @@ package com.example.mareu.controllers.activity;
 
 import static android.widget.Spinner.MODE_DIALOG;
 import static com.example.mareu.controllers.activity.AddMeetingActivity.convertTimeToMillis;
+import static com.example.mareu.utlis.CustomTimePicker.getTimePicker;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,8 +24,8 @@ import com.example.mareu.R;
 import com.example.mareu.databinding.ActivityMainBinding;
 import com.example.mareu.model.Meeting;
 import com.example.mareu.service.MeetingApiService;
+import com.example.mareu.utlis.CustomTimePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
-import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.ArrayList;
 
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static String filterApply;
     private static String roomFilter;
     private static long hourlyFilter;
+    private CustomTimePicker customTimePicker;
 
 
     @Override
@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private void initData() {
         mMeetings = new ArrayList<>(mMeetingApiService.resetReunions());
         filterApply = "reset";
+        customTimePicker = new CustomTimePicker();
     }
 
     private void configureToolbar() {
@@ -116,7 +117,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (item.getItemId()) {
 
             case R.id.filter_hour:
-                showTimePicker();
+                mMaterialTimePicker = getTimePicker(this);
+                mMaterialTimePicker.show(getSupportFragmentManager(), "TAG");
+                manageStateTimePicker(mMaterialTimePicker);
                 return true;
             case R.id.filter_place:
                 spinner.performClick();
@@ -155,28 +158,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         messageForListEmpty();
         meetingAdapter.notifyDataSetChanged();
-    }
-
-    private int getHeightDevice() {
-        //GET DIMENSION DEVICE
-        DisplayMetrics metrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        return metrics.heightPixels;
-    }
-
-    private void showTimePicker() {
-        int timeMode = getHeightDevice() < 720 ? MaterialTimePicker.INPUT_MODE_KEYBOARD : MaterialTimePicker.INPUT_MODE_CLOCK;
-        mMaterialTimePicker = new
-                MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_24H)
-                .setInputMode(timeMode)
-                .setTitleText(R.string.hour_meeting)
-                .setHour(0)
-                .setMinute(0)
-                .build();
-
-        mMaterialTimePicker.show(getSupportFragmentManager(), "TAG");
-        manageStateTimePicker(mMaterialTimePicker);
     }
 
     private void manageStateTimePicker(MaterialTimePicker materialTimePicker) {
