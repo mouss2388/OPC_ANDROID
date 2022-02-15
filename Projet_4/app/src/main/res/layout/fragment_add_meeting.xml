@@ -6,7 +6,7 @@
     android:id="@+id/frag_frame_layout_add_meeting"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    tools:context=".controllers.fragment.AddMeetingFragment"
+    tools:context=".controllers.fragment.AddMeetingFragTxtInput"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,8 @@
             android:labelFor="@id/colorPickerButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/button_for_pick_color_meeting"/>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -36,7 +37,7 @@
             android:backgroundTint="@color/cyan_500"
             android:clickable="true"
 
-            android:hint="@string/sujet_de_la_reunion"
+            android:hint="@string/subject_of_meeting"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/colorPickerButton"
@@ -58,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/height_list_email_input"
             android:layout_marginTop="@dimen/margin_top_components"
-            android:hint="@string/target_device"
+            android:hint="@string/hint_list_email"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

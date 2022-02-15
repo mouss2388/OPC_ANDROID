@@ -1,23 +1,24 @@
 <resources>
     <string name="app_name">Ma réu</string>
-    <string name="content_btn_add_reunion">Bouton permettant l\'ajout d\'une nouvelle réunion</string>
-    <string name="filtre">filtre</string>
+    <string name="content_btn_add_meeting">Bouton permettant l\'ajout d\'une nouvelle réunion</string>
+    <string name="filter">filtre</string>
     <string name="filter_by_hour">Filtre par Heure</string>
-    <string name="filter_by_place">Filtre par Lieu</string>
+    <string name="filter_by_room">Filtre par Lieu</string>
     <string name="filter_reset">Filtre Reset</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="hour_meeting">Réunion horaire</string>
-    <string name="sujet_de_la_reunion">Sujet de la réunion</string>
-    <string name="mails_des_participants">Mails des participants</string>
+    <string name="subject_of_meeting">Sujet de la réunion</string>
     <string name="add_meeting">Ajouter réunion</string>
     <string name="set_time">Set Time</string>
     <string name="icon_room">Icon room</string>
+    <string name="hint_list_email">Listes des emails</string>
     <string name="str_add_meeting_activity">Add Meeting</string>
     <string name="icon_circle">Icon circle</string>
     <string name="icon_trash">Icon trash</string>
     <string name="meeting_not_founded">Aucune réunion trouvée</string>
-
+    <string name="select_a_room">Veuillez choisir une salle</string>
+    <string name="regex_email">[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+</string>
+    <string name="button_for_pick_color_meeting">Button for pick Color Meeting</string>
 
 
     <string-array name="room_array">

@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/meeting_info"
+        android:id="@+id/meeting_header_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -38,8 +38,8 @@
         android:textColor="@color/black"
         android:textSize="12sp"
         android:textStyle="normal"
-        app:layout_constraintStart_toStartOf="@+id/meeting_info"
-        app:layout_constraintTop_toBottomOf="@id/meeting_info"
+        app:layout_constraintStart_toStartOf="@+id/meeting_header_info"
+        app:layout_constraintTop_toBottomOf="@id/meeting_header_info"
         tools:text="maxime@lamzone.com, alex@lamzome.com"
          />
 

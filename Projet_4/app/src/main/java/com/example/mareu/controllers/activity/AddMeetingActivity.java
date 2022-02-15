@@ -1,9 +1,7 @@
 package com.example.mareu.controllers.activity;
 
-import static com.example.mareu.controllers.activity.MainActivity.updateRecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mareu.DI.DI;
 import com.example.mareu.R;
-import com.example.mareu.controllers.fragment.AddMeetingButtonFragment;
-import com.example.mareu.controllers.fragment.AddMeetingFragment;
+import com.example.mareu.controllers.fragment.AddMeetingFragBtn;
+import com.example.mareu.controllers.fragment.AddMeetingFragTxtInput;
 import com.example.mareu.databinding.ActivityAddMeetingBinding;
 import com.example.mareu.model.Meeting;
 import com.example.mareu.service.MeetingApiService;
@@ -25,10 +23,10 @@ import java.util.Objects;
 
 public class AddMeetingActivity extends AppCompatActivity {
 
-    private ActivityAddMeetingBinding mBinding;
-    private AddMeetingFragment addFragment;
-    private AddMeetingButtonFragment addFragmentBtn;
-    private MeetingApiService mMeetingApiService;
+    private ActivityAddMeetingBinding binding;
+    private AddMeetingFragTxtInput addFragTxtInput;
+    private AddMeetingFragBtn addFragBtn;
+    private MeetingApiService meetingApiService;
 
 
     @Override
@@ -38,20 +36,20 @@ public class AddMeetingActivity extends AppCompatActivity {
         initUI();
 
         this.configureToolbar();
-        this.configAddMeetingFragAndShowFragment();
-        this.configAddMeetingBtnFragAndShowFragment();
-        mMeetingApiService = DI.getReunionApiService();
+        this.configAddMeetingFragTxtInputAndShow();
+        this.configAddMeetingFragBtnAndShow();
+        meetingApiService = DI.getMeetingApiService();
 
     }
 
     private void initUI() {
-        mBinding = ActivityAddMeetingBinding.inflate(getLayoutInflater());
-        View view = mBinding.getRoot();
+        binding = ActivityAddMeetingBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
         setContentView(view);
     }
 
     private void configureToolbar() {
-        setSupportActionBar(mBinding.includeToolbar.toolbar);
+        setSupportActionBar(binding.includeToolbar.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -59,31 +57,28 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
 
-    private void configAddMeetingFragAndShowFragment() {
+    private void configAddMeetingFragTxtInputAndShow() {
 
-        addFragment = (AddMeetingFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_add_meeting);
+        addFragTxtInput = (AddMeetingFragTxtInput) getSupportFragmentManager().findFragmentById(R.id.frame_layout_add_meeting_txt_input);
 
-        if (addFragment == null &&
-                findViewById(R.id.frame_layout_add_meeting) != null) {
-            addFragment = new AddMeetingFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_add_meeting, addFragment).commit();
+        if (addFragTxtInput == null) {
+            addFragTxtInput = new AddMeetingFragTxtInput();
 
+            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_add_meeting_txt_input, addFragTxtInput).commit();
         }
     }
 
 
-    private void configAddMeetingBtnFragAndShowFragment() {
-        addFragmentBtn = (AddMeetingButtonFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_add_meeting_btn);
+    private void configAddMeetingFragBtnAndShow() {
 
-        if (addFragmentBtn == null &&
-                findViewById(R.id.frame_layout_add_meeting_btn) != null) {
+        addFragBtn = (AddMeetingFragBtn) getSupportFragmentManager().findFragmentById(R.id.frame_layout_add_meeting_btn);
 
-            addFragmentBtn = new AddMeetingButtonFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_add_meeting_btn, addFragmentBtn).commit();
+        if (addFragBtn == null) {
+            addFragBtn = new AddMeetingFragBtn();
 
-            addFragmentBtn.runnableFragBtn = () -> {
-                Log.i("test", "OnSubmit Click");
+            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_add_meeting_btn, addFragBtn).commit();
 
+            addFragBtn.runnableFragBtn = () -> {
                 Meeting meeting = getDataMeeting();
                 createMeeting(meeting);
             };
@@ -91,51 +86,39 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     private Meeting getDataMeeting() {
-        int color = Objects.requireNonNull(addFragment.mBinding.colorPickerButton.getBackgroundTintList()).getDefaultColor();
 
-        String subject = Objects.requireNonNull(addFragment.mBinding.textFieldSubject.getEditText()).getText().toString();
+        int color = Objects.requireNonNull(addFragTxtInput.binding.colorPickerButton.getBackgroundTintList()).getDefaultColor();
 
-        String room = addFragmentBtn.mBinding.spinnerRoom.getSelectedItem().toString();
-        String[] emailArrayStr = Objects.requireNonNull(addFragment.mBinding.textFieldListEmails.getEditText()).getText().toString().split("\n");
+        String subject = Objects.requireNonNull(addFragTxtInput.binding.textFieldSubject.getEditText()).getText().toString();
+
+        String room = addFragBtn.binding.spinnerRoom.getSelectedItem().toString();
+
+        String[] emailArrayStr = Objects.requireNonNull(addFragTxtInput.binding.textFieldListEmails.getEditText()).getText().toString().split("\n");
 
         ArrayList<String> emails = new ArrayList<>(Arrays.asList(emailArrayStr));
 
-
-        Date hourly = getHourly();
-        return new Meeting(color, subject, hourly, room, emails);
+        Date hour = getHour();
+        return new Meeting(color, subject, hour, room, emails);
     }
 
-    private void createMeeting(Meeting meeting) {
-        mMeetingApiService.createReunion(meeting);
-        updateRecyclerView();
-        Toast.makeText(getApplicationContext(), meeting.getSubject()+ " ajoutée !", Toast.LENGTH_SHORT).show();
-        finish();
+    private Date getHour() {
+        Date date = new Date();
+        int hour = addFragBtn.materialTimePicker.getHour();
+        int minutes = addFragBtn.materialTimePicker.getMinute();
+        long time = convertTimeToMillis(hour, minutes);
+        date.setTime(time);
+        return date;
     }
-
 
     public static long convertTimeToMillis(int hour, int minute) {
         return (((hour * 60L) + minute) * 60000);
     }
 
-    public static String convertMillisToStr(long millis) {
-        int heure = (int) (millis / 60000) / 60;
-        int minute = (int) (millis / 60000) % 60;
-        StringBuilder horaire = new StringBuilder()
-                .append(heure)
-                .append(":");
-        if (minute == 0)
-            horaire.append("00");
-        else
-            horaire.append(minute);
-        return String.valueOf(horaire);
-    }
+    private void createMeeting(Meeting meeting) {
 
-    private Date getHourly() {
-        Date date = new Date();
-        int hour = addFragmentBtn.mMaterialTimePicker.getHour();
-        int minutes = addFragmentBtn.mMaterialTimePicker.getMinute();
-        long time = convertTimeToMillis(hour, minutes);
-        date.setTime(time);
-        return date;
+        meetingApiService.createMeeting(meeting);
+        MainActivity.resetFilter();
+        Toast.makeText(getApplicationContext(), meeting.getSubject() + " Ajouté !", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="select_a_room">Veuillez choisir une salle</string>
+    <string name="regex_email">[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+</string>
+    <string name="button_for_pick_color_meeting">Button for pick Color Meeting</string>
+</resources>

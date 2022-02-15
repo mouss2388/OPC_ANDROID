@@ -17,7 +17,7 @@
             android:layout_height="wrap_content" />
 
         <FrameLayout
-            android:id="@+id/frame_layout_add_meeting"
+            android:id="@+id/frame_layout_add_meeting_txt_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

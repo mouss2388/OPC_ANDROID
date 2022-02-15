@@ -24,74 +24,82 @@ import com.example.mareu.R;
 import com.example.mareu.databinding.ActivityMainBinding;
 import com.example.mareu.model.Meeting;
 import com.example.mareu.service.MeetingApiService;
-import com.example.mareu.utlis.CustomTimePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private final String TAG = MainActivity.class.getSimpleName();
-    private static Context context;
+    public static Context context;
 
-
-    private ActivityMainBinding mBinding;
-    private static final MeetingApiService mMeetingApiService = DI.getReunionApiService();
-    private static ArrayList<Meeting> mMeetings;
+    private ActivityMainBinding binding;
+    private static final MeetingApiService meetingApiService = DI.getMeetingApiService();
+    private static ArrayList<Meeting> meetings;
     public static MeetingAdapter meetingAdapter;
-    public MaterialTimePicker mMaterialTimePicker;
-    private boolean isSpinnerTouched = false;
-    private Spinner spinner;
+
+    public MaterialTimePicker materialTimePicker;
+
+    private static boolean isSpinnerTouched = false;
+    private static Spinner spinRooms;
+
     public static String filterApply;
     private static String roomFilter;
     private static long hourlyFilter;
-    private CustomTimePicker customTimePicker;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         MainActivity.context = getApplicationContext();
-
         initUI();
-        this.configureToolbar();
-        this.initRecyclerView();
-
-        mBinding.btnAddReu.setOnClickListener(v -> {
-            resetFilter();
+        binding.btnAddReu.setOnClickListener(v -> {
             launchAddMeetingActivity();
         });
     }
 
     private void initUI() {
-        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = mBinding.getRoot();
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
         setContentView(view);
-        initData();
-        initSpinnerDialog();
+
+        this.initData();
+        this.initSpinnerDialog();
+        this.configToolbar();
+        this.initRecyclerView();
+    }
+
+    private void initData() {
+        meetings = new ArrayList<>(meetingApiService.resetMeetings());
+        filterApply = "reset";
     }
 
     private void initSpinnerDialog() {
 
-        spinner = findViewById(R.id.mSpinner);
-        spinner.setLayoutMode(MODE_DIALOG);
+        spinRooms = findViewById(R.id.mSpinner);
+        spinRooms.setLayoutMode(MODE_DIALOG);
         String[] spinnerArray = getResources().getStringArray(R.array.room_array);
 
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-        spinner.setAdapter(spinnerAdapter);
-        spinner.setOnItemSelectedListener(this);
+        spinRooms.setAdapter(spinnerAdapter);
+        spinRooms.setOnItemSelectedListener(this);
     }
 
+    private void configToolbar() {
 
-    private void initData() {
-        mMeetings = new ArrayList<>(mMeetingApiService.resetReunions());
-        filterApply = "reset";
-        customTimePicker = new CustomTimePicker();
+        setSupportActionBar(binding.includeToolbar.toolbar);
     }
 
-    private void configureToolbar() {
-        setSupportActionBar(mBinding.includeToolbar.toolbar);
+    private void initRecyclerView() {
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        binding.recyclerView.setLayoutManager(layoutManager);
+
+        meetingAdapter = new MeetingAdapter(meetings);
+        binding.recyclerView.setAdapter(meetingAdapter);
     }
 
 
@@ -99,12 +107,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startActivity(new Intent(MainActivity.this, AddMeetingActivity.class));
     }
 
-    ////////////MENU/////////////
-
-    /**
-     * @param menu which replace by menu_activity_main
-     * @return true
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
@@ -117,17 +119,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         switch (item.getItemId()) {
 
             case R.id.filter_hour:
-                mMaterialTimePicker = getTimePicker(this);
-                mMaterialTimePicker.show(getSupportFragmentManager(), "TAG");
-                manageStateTimePicker(mMaterialTimePicker);
+                filterByHour();
                 return true;
-            case R.id.filter_place:
-                spinner.performClick();
-                isSpinnerTouched = true;
+
+            case R.id.filter_room:
+                filterByRoom();
                 return true;
+
             case R.id.filter_reset:
-                filterApply = "reset";
-                updateRecyclerView();
+                resetFilter();
                 return true;
 
             default:
@@ -135,25 +135,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private void initRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mBinding.recyclerView.setLayoutManager(layoutManager);
-        meetingAdapter = new MeetingAdapter(mMeetings);
 
-        mBinding.recyclerView.setAdapter(meetingAdapter);
+    private void filterByHour() {
+        materialTimePicker = getTimePicker(this);
+        materialTimePicker.show(getSupportFragmentManager(), "TAG");
+        manageStateTimePicker(materialTimePicker);
+    }
+
+    private void filterByRoom() {
+        isSpinnerTouched = true;
+        spinRooms.performClick();
     }
 
     public static void updateRecyclerView() {
-        mMeetings.clear();
+        meetings.clear();
         switch (filterApply) {
             case "room":
-                mMeetings.addAll(mMeetingApiService.filterMeetingByRoom(roomFilter));
+                meetings.addAll(meetingApiService.filterMeetingByRoom(roomFilter));
                 break;
-            case "hourly":
-                mMeetings.addAll(mMeetingApiService.filterMeetingByHour(hourlyFilter));
+            case "hour":
+                meetings.addAll(meetingApiService.filterMeetingByHour(hourlyFilter));
                 break;
             default:
-                mMeetings.addAll(mMeetingApiService.getReunions());
+                meetings.addAll(meetingApiService.getMeetings());
                 break;
         }
         messageForListEmpty();
@@ -162,24 +166,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void manageStateTimePicker(MaterialTimePicker materialTimePicker) {
         materialTimePicker.addOnPositiveButtonClickListener(v -> {
-                    int hour = mMaterialTimePicker.getHour();
+                    int hour = materialTimePicker.getHour();
                     int minute = materialTimePicker.getMinute();
                     hourlyFilter = convertTimeToMillis(hour, minute);
-                    filterApply = "hourly";
+                    filterApply = "hour";
                     updateRecyclerView();
                 }
         );
-        materialTimePicker.addOnCancelListener(v -> {
-            filterApply = "reset";
-            Toast.makeText(getApplicationContext(), "addOnCancelListener", Toast.LENGTH_SHORT).show();
-            updateRecyclerView();
-        });
+        materialTimePicker.addOnCancelListener(v -> resetFilter());
 
-        materialTimePicker.addOnNegativeButtonClickListener(v -> {
-            filterApply = "reset";
-            Toast.makeText(getApplicationContext(), "addOnNegativeButtonClickListener", Toast.LENGTH_SHORT).show();
-            updateRecyclerView();
-        });
+        materialTimePicker.addOnNegativeButtonClickListener(v -> resetFilter());
     }
 
 
@@ -187,14 +183,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         if (isSpinnerTouched) {
-            if (position > 0) {
-                roomFilter = spinner.getSelectedItem().toString();
-                //Toast.makeText(getApplicationContext(), "position: " + position + " " + roomFilter, Toast.LENGTH_SHORT).show();
 
+            if (position > 0) {
+                roomFilter = spinRooms.getSelectedItem().toString();
                 filterApply = "room";
                 updateRecyclerView();
             } else {
-                Toast.makeText(getApplicationContext(), "Veuillez choisir une salle", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.select_a_room, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -204,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private static void messageForListEmpty() {
-        if (mMeetings.size() == 0)
+        if (meetings.size() == 0)
             Toast.makeText(getAppContext(), R.string.meeting_not_founded, Toast.LENGTH_LONG).show();
     }
 
@@ -212,8 +207,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return MainActivity.context;
     }
 
-    private void resetFilter() {
+    public static void resetFilter() {
+        isSpinnerTouched = false;
         filterApply = "reset";
-        spinner.setSelection(0);
+        spinRooms.setSelection(0);
+        Toast.makeText(context, "Filtre réinitialisé", Toast.LENGTH_SHORT).show();
+        updateRecyclerView();
     }
 }

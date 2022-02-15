@@ -7,8 +7,12 @@ public class DI {
 
     private static final MeetingApiService service = new DummyMeetingApiService();
 
-    public static MeetingApiService getReunionApiService() { return service;}
+    public static MeetingApiService getMeetingApiService() {
+        return service;
+    }
 
-    public static MeetingApiService getNewInstanceApiService() { return  new DummyMeetingApiService();}
+    public static MeetingApiService getNewInstanceApiService() {
+        return new DummyMeetingApiService();
+    }
 
 }

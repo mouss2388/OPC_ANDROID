@@ -6,7 +6,7 @@
     android:id="@+id/frag_layout_add_meeting_button"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controllers.fragment.AddMeetingButtonFragment"
+    tools:context=".controllers.fragment.AddMeetingFragBtn"
     tools:ignore="MissingDefaultResource">
 
     <androidx.constraintlayout.widget.ConstraintLayout

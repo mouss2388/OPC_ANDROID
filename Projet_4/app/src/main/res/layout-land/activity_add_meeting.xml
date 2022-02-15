@@ -23,7 +23,7 @@
             android:orientation="horizontal">
 
             <FrameLayout
-                android:id="@+id/frame_layout_add_meeting"
+                android:id="@+id/frame_layout_add_meeting_txt_input"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="50" />

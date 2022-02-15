@@ -6,7 +6,7 @@
     android:id="@+id/frag_frame_layout_add_meeting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controllers.fragment.AddMeetingFragment">
+    tools:context=".controllers.fragment.AddMeetingFragTxtInput">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,11 +19,14 @@
             android:id="@+id/colorPickerButton"
             android:layout_width="@dimen/size_colorPickerButton"
             android:layout_height="@dimen/size_colorPickerButton"
-            android:layout_marginBottom="@dimen/margin_top_colorPickerButton"
+            android:layout_marginTop="@dimen/margin_top_colorPickerButton"
+            android:contentDescription="@string/button_for_pick_color_meeting"
+
             android:labelFor="@id/colorPickerButton"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/textFieldSubject" />
+             />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -31,13 +34,12 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_top_components"
+            android:layout_marginTop="@dimen/margin_top_components"
             android:backgroundTint="@color/cyan_500"
 
-            android:hint="@string/sujet_de_la_reunion"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="@string/subject_of_meeting"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/textFieldListEmails"
+            app:layout_constraintTop_toBottomOf="@id/colorPickerButton"
             app:startIconDrawable="@drawable/ic_chat_24"
             app:startIconTint="?attr/colorPrimary">
 
@@ -54,20 +56,19 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="0dp"
             android:layout_height="@dimen/height_list_email_input"
-            android:layout_marginBottom="@dimen/margin_top_components"
-            android:hint="@string/target_device"
+            android:layout_marginTop="@dimen/margin_top_components"
+            android:hint="@string/hint_list_email"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textFieldSubject"
             app:startIconDrawable="@drawable/ic_email"
             app:startIconTint="?attr/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="top"
-                android:inputType="textMultiLine"
+                android:gravity="top"                android:inputType="textMultiLine"
                 android:labelFor="@+id/textFieldListEmails"
                 android:textSize="@dimen/text_size" />
 

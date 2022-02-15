@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_floating_action_btn"
         android:clickable="true"
-        android:contentDescription="@string/content_btn_add_reunion"
+        android:contentDescription="@string/content_btn_add_meeting"
         android:focusable="true"
         android:src="@drawable/ic_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
