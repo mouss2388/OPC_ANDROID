@@ -6,7 +6,7 @@
     android:id="@+id/frag_layout_add_meeting_button"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    tools:context=".controllers.fragment.AddMeetingButtonFragment"
+    tools:context=".controllers.fragment.AddMeetingFragBtn"
     >
 
         <androidx.constraintlayout.widget.ConstraintLayout

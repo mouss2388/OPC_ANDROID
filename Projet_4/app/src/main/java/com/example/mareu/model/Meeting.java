@@ -20,6 +20,7 @@ public class Meeting {
         this.emails = emails;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Meeting{" +

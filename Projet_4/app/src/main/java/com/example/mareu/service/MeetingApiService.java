@@ -6,15 +6,12 @@ import java.util.List;
 
 public interface MeetingApiService {
 
-
-
-    List<Meeting> getReunions();
-    List<Meeting> resetReunions();
+    List<Meeting> getMeetings();
+    List<Meeting> resetMeetings();
     List<Meeting> filterMeetingByHour(long hourly);
     List<Meeting> filterMeetingByRoom(String room);
 
-    void createReunion(Meeting meeting);
-    void deleteReunion(Meeting meeting);
-
+    void createMeeting(Meeting meeting);
+    void deleteMeeting(Meeting meeting);
 
 }

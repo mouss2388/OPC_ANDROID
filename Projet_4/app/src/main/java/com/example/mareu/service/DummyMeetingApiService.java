@@ -11,38 +11,38 @@ import java.util.stream.Collectors;
 
 public class DummyMeetingApiService implements MeetingApiService {
 
-    public List<Meeting> mMeetings = DummyMeetingGenerator.generateReunions();
+    public List<Meeting> meetings = DummyMeetingGenerator.generateMeetings();
 
     @Override
-    public List<Meeting> getReunions() {
-        return mMeetings;
+    public List<Meeting> getMeetings() {
+        return meetings;
     }
 
     @Override
-    public List<Meeting> resetReunions() {
-        mMeetings = DummyMeetingGenerator.generateReunions();
-        return mMeetings;
+    public List<Meeting> resetMeetings() {
+        meetings = DummyMeetingGenerator.generateMeetings();
+        return meetings;
     }
 
     @Override
-    public void deleteReunion(Meeting meeting) {
-        mMeetings.remove(meeting);
+    public void deleteMeeting(Meeting meeting) {
+        meetings.remove(meeting);
     }
 
     @Override
-    public void createReunion(Meeting meeting) {
-        mMeetings.add(meeting);
-
+    public void createMeeting(Meeting meeting) {
+        meetings.add(meeting);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public List<Meeting> filterMeetingByHour(long hourly) {
-        return getReunions().stream().filter(m -> m.getHour().getTime() == hourly).collect(Collectors.toList());
+    public List<Meeting> filterMeetingByHour(long hour) {
+        return getMeetings().stream().filter(m -> m.getHour().getTime() == hour).collect(Collectors.toList());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<Meeting> filterMeetingByRoom(String room) {
-        return getReunions().stream().filter(m -> m.getRoom().equals(room)).collect(Collectors.toList());    }
+        return getMeetings().stream().filter(m -> m.getRoom().equals(room)).collect(Collectors.toList());
+    }
 }

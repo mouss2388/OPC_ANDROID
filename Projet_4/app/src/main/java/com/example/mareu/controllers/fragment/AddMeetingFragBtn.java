@@ -1,8 +1,10 @@
 package com.example.mareu.controllers.fragment;
 
-import static com.example.mareu.controllers.activity.AddMeetingActivity.convertTimeToMillis;
-import static com.example.mareu.controllers.fragment.AddMeetingFragment.isEmailsValid;
-import static com.example.mareu.controllers.fragment.AddMeetingFragment.isSubjectValid;
+import static com.example.mareu.controllers.fragment.AddMeetingFragTxtInput.isEmailsValid;
+import static com.example.mareu.controllers.fragment.AddMeetingFragTxtInput.isSubjectValid;
+import static com.example.mareu.utlis.CustomTimePicker.MEETING_DURATION;
+import static com.example.mareu.utlis.CustomTimePicker.convertDurationMeetingInMilli;
+import static com.example.mareu.utlis.CustomTimePicker.getHourSelectedInMilli;
 import static com.example.mareu.utlis.CustomTimePicker.getTimePicker;
 
 import android.os.Bundle;
@@ -29,41 +31,34 @@ import com.google.android.material.timepicker.MaterialTimePicker;
 import java.util.ArrayList;
 
 
-public class AddMeetingButtonFragment extends Fragment implements View.OnTouchListener {
+public class AddMeetingFragBtn extends Fragment implements View.OnTouchListener {
 
-    public FragmentAddMeetingButtonBinding mBinding;
-    public MaterialTimePicker mMaterialTimePicker;
-    private boolean roomIsAvailable, spinnerRoomTouched, roomSelected;
-    private MeetingApiService mMeetingApiService;
+
+    public FragmentAddMeetingButtonBinding binding;
+    public MaterialTimePicker materialTimePicker;
+    private boolean spinnerRoomTouched, roomIsAvailable, roomSelected;
+
+    private MeetingApiService meetingApiService;
+
     public Runnable runnableFragBtn;
     private Handler handler;
-    private int MEETING_DURATION;
-
-
-    public AddMeetingButtonFragment() {
-    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initUI();
-        mMeetingApiService = DI.getReunionApiService();
+        meetingApiService = DI.getMeetingApiService();
     }
 
     private void initUI() {
         handler = new Handler(Looper.getMainLooper());
         handler.post(checkInputText);
-        mMaterialTimePicker = null;
-        MEETING_DURATION = 45;
+
+        materialTimePicker = null;
+        spinnerRoomTouched = false;
         roomSelected = false;
         roomIsAvailable = false;
-        spinnerRoomTouched = false;
-    }
-
-    private void checkFormIsValid() {
-        boolean btnIsValid = isSubjectValid && isEmailsValid && mMaterialTimePicker != null && roomSelected && roomIsAvailable;
-        mBinding.btnAdd.setEnabled(btnIsValid);
     }
 
     private final Runnable checkInputText = new Runnable() {
@@ -77,72 +72,86 @@ public class AddMeetingButtonFragment extends Fragment implements View.OnTouchLi
         }
     };
 
+    private void checkFormIsValid() {
+
+        boolean btnIsValid = isSubjectValid && isEmailsValid && materialTimePicker != null && roomSelected && roomIsAvailable;
+        binding.btnAdd.setEnabled(btnIsValid);
+    }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = FragmentAddMeetingButtonBinding.inflate(inflater, container, false);
-        return mBinding.getRoot();
+
+        binding = FragmentAddMeetingButtonBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         initOnClickListener();
     }
 
 
     private void initOnClickListener() {
-        mBinding.btnTimePicker.setOnClickListener(v -> {
 
-            mMaterialTimePicker = getTimePicker(getActivity());
-            mMaterialTimePicker.show(getParentFragmentManager(), "TAG_PICKER");
-            manageStateTimePicker(mMaterialTimePicker);
+        binding.btnTimePicker.setOnClickListener(v -> {
+
+            materialTimePicker = getTimePicker(getActivity());
+            materialTimePicker.show(getParentFragmentManager(), "TAG_PICKER");
+            manageStateTimePicker();
         });
 
-        mBinding.btnAdd.setOnClickListener(v ->
+        binding.btnAdd.setOnClickListener(v ->
                 onSubmit());
+
         changeRoom();
-        mBinding.spinnerRoom.setOnTouchListener(this);
+        binding.spinnerRoom.setOnTouchListener(this);
     }
 
 
-    private void manageStateTimePicker(MaterialTimePicker materialTimePicker) {
+    private void manageStateTimePicker() {
+
         materialTimePicker.addOnPositiveButtonClickListener(v -> {
 
                     StringBuilder hourMeeting = new StringBuilder();
                     hourMeeting.append(materialTimePicker.getHour() < 10 ? "0" + materialTimePicker.getHour() : materialTimePicker.getHour())
                             .append(":")
                             .append(materialTimePicker.getMinute() < 10 ? "0" + materialTimePicker.getMinute() : materialTimePicker.getMinute());
-                    mBinding.btnTimePicker.setText(hourMeeting);
+                    binding.btnTimePicker.setText(hourMeeting);
                     checkRoomIsAvailable();
                 }
         );
         materialTimePicker.addOnCancelListener(v -> {
-            mMaterialTimePicker = null;
-            mBinding.btnTimePicker.setText(R.string.set_time);
+            materialTimePicker = null;
+            binding.btnTimePicker.setText(R.string.set_time);
         });
         materialTimePicker.addOnNegativeButtonClickListener(v -> {
-            mMaterialTimePicker = null;
-            mBinding.btnTimePicker.setText(R.string.set_time);
+            materialTimePicker = null;
+            binding.btnTimePicker.setText(R.string.set_time);
         });
     }
 
 
-    private long getHourlySelectedInMilli() {
-        int hour = mMaterialTimePicker.getHour();
-        int minute = mMaterialTimePicker.getMinute();
-        return convertTimeToMillis(hour, minute);
-    }
+    private void checkRoomIsAvailable() {
 
-    private long convertDurationMeetingInMilli() {
-        return convertTimeToMillis(0, MEETING_DURATION);
+        long meetingHourlyInMilli = getHourSelectedInMilli(materialTimePicker);
+        long meetingDuration = convertDurationMeetingInMilli();
+        String room = getRoomNotAvailable(meetingHourlyInMilli, meetingDuration);
+
+        roomIsAvailable = room.equals("");
+
+        if (!roomIsAvailable) {
+            Toast.makeText(getContext(), "Salle " + room + " non disponible pour cet horaire, une réunion dure environ " + MEETING_DURATION + " min \n veuillez changer de salle ou d'horaire", Toast.LENGTH_LONG).show();
+        }
     }
 
     private String getRoomNotAvailable(long meeting_hourly_reservation, long time_between_meeting) {
 
-        ArrayList<Meeting> meetings = new ArrayList<>(mMeetingApiService.getReunions());
+        ArrayList<Meeting> meetings = new ArrayList<>(meetingApiService.getMeetings());
         String room = "";
-        String room_selected = mBinding.spinnerRoom.getSelectedItem().toString();
+        String room_selected = binding.spinnerRoom.getSelectedItem().toString();
 
         for (int pos = 0; pos < meetings.size(); pos++) {
             if (room_selected.equalsIgnoreCase(meetings.get(pos).getRoom())) {
@@ -159,27 +168,19 @@ public class AddMeetingButtonFragment extends Fragment implements View.OnTouchLi
         return room;
     }
 
-    private void checkRoomIsAvailable() {
-        long meetingHourlyInMilli = getHourlySelectedInMilli();
-        long meetingDuration = convertDurationMeetingInMilli();
-        String room = getRoomNotAvailable(meetingHourlyInMilli, meetingDuration);
-
-        roomIsAvailable = room.equals("");
-
-        if (!roomIsAvailable) {
-            Toast.makeText(getContext(), "Salle " + room + " non disponible pour cet horaire, une réunion dure environ " + MEETING_DURATION + " min \n veuillez changer de salle ou d'horaire", Toast.LENGTH_LONG).show();
-        }
+    private void onSubmit() {
+        runnableFragBtn.run();
     }
 
-
     private void changeRoom() {
-        mBinding.spinnerRoom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinnerRoom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (spinnerRoomTouched) {
+                    //TODO Simplify Block If just test roomSelected
                     if (position > 0) {
                         roomSelected = true;
-                        if (mMaterialTimePicker != null) {
+                        if (materialTimePicker != null) {
                             checkRoomIsAvailable();
                         }
                     } else {
@@ -196,23 +197,17 @@ public class AddMeetingButtonFragment extends Fragment implements View.OnTouchLi
         });
     }
 
-
-    private void onSubmit() {
-        runnableFragBtn.run();
-    }
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mBinding = null;
+        binding = null;
         handler.removeCallbacks(checkInputText);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         spinnerRoomTouched = true;
-        mBinding.spinnerRoom.performClick();
+        binding.spinnerRoom.performClick();
         return false;
     }
 }

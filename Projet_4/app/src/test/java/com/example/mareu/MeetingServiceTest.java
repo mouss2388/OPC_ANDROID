@@ -36,7 +36,7 @@ public class MeetingServiceTest {
     @Before
     public void setup() {
         service = DI.getNewInstanceApiService();
-        meeting = service.getReunions().get(0);
+        meeting = service.getMeetings().get(0);
         hour.setTime(50400000); // 14H00
     }
 
@@ -48,23 +48,23 @@ public class MeetingServiceTest {
 
         Meeting new_meeting = new Meeting(111111, "Reunion D", hour, "Peach", new ArrayList<>(Collections.singleton("test@gmail.com")));
 
-        List<Meeting> meetings = service.getReunions();
-        assertEquals(MEETINGS_COUNT, service.getReunions().size());
+        List<Meeting> meetings = service.getMeetings();
+        assertEquals(MEETINGS_COUNT, service.getMeetings().size());
 
-        service.createReunion(new_meeting);
-        assertEquals(MEETINGS_COUNT + 1, service.getReunions().size());
+        service.createMeeting(new_meeting);
+        assertEquals(MEETINGS_COUNT + 1, service.getMeetings().size());
         assertTrue(meetings.contains(new_meeting));
     }
 
 
     @Test
     public void deleteMeeting() {
-        List<Meeting> meetings = service.getReunions();
+        List<Meeting> meetings = service.getMeetings();
 
         assertEquals(MEETINGS_COUNT, meetings.size());
         assertTrue(meetings.contains(meeting));
 
-        service.deleteReunion(meeting);
+        service.deleteMeeting(meeting);
 
         assertEquals(2, meetings.size());
         assertFalse(meetings.contains(meeting));

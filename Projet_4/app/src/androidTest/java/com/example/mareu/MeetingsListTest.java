@@ -67,6 +67,7 @@ public class MeetingsListTest {
     @Before
     public void setUp() {
         rule.getScenario().onActivity(activity -> decorView = activity.getWindow().getDecorView());
+        rule.getScenario().recreate();
     }
 
     @Test
@@ -221,36 +222,6 @@ public class MeetingsListTest {
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(MEETINGS_COUNT - 1)));
     }
 
-    @Test
-    public void filterMeetingByRoomWithSuccess() {
-        onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(MEETINGS_COUNT)));
-
-        ViewInteraction actionMenuItemView = onView(
-                Matchers.allOf(withId(R.id.menu_activity_main_filter), withContentDescription("filtre"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.includeToolbar),
-                                        1),
-                                0),
-                        isDisplayed()));
-        actionMenuItemView.perform(click());
-
-        ViewInteraction materialTextView = onView(
-                Matchers.allOf(withId(R.id.title), withText("Filtre par Lieu"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.content),
-                                        1),
-                                0),
-                        isDisplayed()));
-        materialTextView.perform(click());
-
-        onView(withText("Mario")).check(matches(isDisplayed())).perform(click());
-
-        onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(1)));
-
-        onView(withId(R.id.recyclerView)).check(matches(hasItem(hasDescendant(withText( containsString("Mario"))))));
-    }
 
     @Test
     public void filterMeetingByHourWithSuccess() {
@@ -284,8 +255,9 @@ public class MeetingsListTest {
 
     }
 
+
     @Test
-    public void filterMeetingByRoomWithFailed() {
+    public void filterMeetingByRoomWithSuccess() {
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(MEETINGS_COUNT)));
 
         ViewInteraction actionMenuItemView = onView(
@@ -308,45 +280,12 @@ public class MeetingsListTest {
                         isDisplayed()));
         materialTextView.perform(click());
 
-        onView(withText("Toad")).check(matches(isDisplayed())).perform(click());
+        onView(withText("Mario")).check(matches(isDisplayed())).perform(click());
 
-        onView(withId(R.id.recyclerView)).check(matches(hasChildCount(0)));
+        onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(1)));
 
-        onView(withText(R.string.meeting_not_founded)).inRoot(withDecorView(not(decorView))).check(matches(isDisplayed()));
+        onView(withId(R.id.recyclerView)).check(matches(hasItem(hasDescendant(withText( containsString("Mario"))))));
     }
-
-    @Test
-    public void filterMeetingByHourWithFailed() {
-        onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(MEETINGS_COUNT)));
-
-        ViewInteraction actionMenuItemView = onView(
-                Matchers.allOf(withId(R.id.menu_activity_main_filter), withContentDescription("filtre"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.includeToolbar),
-                                        1),
-                                0),
-                        isDisplayed()));
-        actionMenuItemView.perform(click());
-
-        ViewInteraction materialTextView = onView(
-                Matchers.allOf(withId(R.id.title), withText("Filtre par Heure"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.content),
-                                        1),
-                                0),
-                        isDisplayed()));
-        materialTextView.perform(click());
-
-        checkInputHourFilled("19","00");
-
-        onView(withId(R.id.recyclerView)).check(matches(hasChildCount(0)));
-
-        onView(withText(R.string.meeting_not_founded)).inRoot(withDecorView(not(decorView))).check(matches(isDisplayed()));
-
-    }
-
     private void checkInputHourFilled(String hour, String minute) {
         ViewInteraction switchButton = onView(
                 Matchers.allOf(withId(R.id.material_timepicker_mode_button), withContentDescription("Switch to text input mode for the time input."),
