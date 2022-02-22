@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     updateRecyclerView();
                 }
         );
-      
+
         materialTimePicker.addOnCancelListener(v -> resetFilter());
 
         materialTimePicker.addOnNegativeButtonClickListener(v -> resetFilter());
@@ -190,8 +190,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 roomFilter = spinRooms.getSelectedItem().toString();
                 filterApply = "room";
                 updateRecyclerView();
-            } else {
-                Toast.makeText(getApplicationContext(), R.string.select_a_room, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -210,11 +208,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public static void resetFilter() {
-        isSpinnerTouched = false;
         filterApply = "reset";
         spinRooms.setSelection(0);
-        Toast.makeText(context, "Filtre réinitialisé", Toast.LENGTH_SHORT).show();
         updateRecyclerView();
-
     }
 }
