@@ -32,19 +32,17 @@ public class MeetingServiceTest {
     Date hour = new Date();
 
 
-
     @Before
     public void setup() {
+
         service = DI.getNewInstanceApiService();
         meeting = service.getMeetings().get(0);
         hour.setTime(50400000); // 14H00
     }
 
 
-
     @Test
     public void addMeeting() {
-
 
         Meeting new_meeting = new Meeting(111111, "Reunion D", hour, "Peach", new ArrayList<>(Collections.singleton("test@gmail.com")));
 
@@ -59,6 +57,7 @@ public class MeetingServiceTest {
 
     @Test
     public void deleteMeeting() {
+
         List<Meeting> meetings = service.getMeetings();
 
         assertEquals(MEETINGS_COUNT, meetings.size());
@@ -77,7 +76,7 @@ public class MeetingServiceTest {
         assertEquals(1, listFiltered.size());
 
         Meeting meeting_filter = listFiltered.get(0);
-        assertEquals("Peach",meeting_filter.getRoom());
+        assertEquals("Peach", meeting_filter.getRoom());
     }
 
     @Test
@@ -87,6 +86,6 @@ public class MeetingServiceTest {
         assertEquals(1, listFiltered.size());
 
         Meeting meeting_filter = listFiltered.get(0);
-        assertEquals(hour.getTime(),meeting_filter.getHour().getTime());
+        assertEquals(hour.getTime(), meeting_filter.getHour().getTime());
     }
 }

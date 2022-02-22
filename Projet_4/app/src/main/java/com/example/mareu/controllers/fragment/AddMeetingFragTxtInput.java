@@ -23,9 +23,6 @@ public class AddMeetingFragTxtInput extends Fragment {
     public static boolean isSubjectValid, isEmailsValid;
 
 
-    public AddMeetingFragTxtInput() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -117,7 +117,8 @@ public class AddMeetingActivity extends AppCompatActivity {
     private void createMeeting(Meeting meeting) {
 
         meetingApiService.createMeeting(meeting);
-        MainActivity.resetFilter(true);
+        MainActivity.resetFilter();
+
         Toast.makeText(getApplicationContext(), meeting.getSubject() + " Ajouté !", Toast.LENGTH_SHORT).show();
         finish();
     }

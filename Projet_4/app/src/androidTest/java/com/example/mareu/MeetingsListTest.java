@@ -197,6 +197,7 @@ public class MeetingsListTest {
 
     @Test
     public void deleteOneMeeting() {
+
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(MEETINGS_COUNT)))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(
                         0,
@@ -247,11 +248,11 @@ public class MeetingsListTest {
                         isDisplayed()));
         materialTextView.perform(click());
 
-        checkInputHourFilled("16","00");
+        checkInputHourFilled("16", "00");
 
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(1)));
 
-        onView(withId(R.id.recyclerView)).check(matches(hasItem(hasDescendant(withText( containsString("16:00"))))));
+        onView(withId(R.id.recyclerView)).check(matches(hasItem(hasDescendant(withText(containsString("16:00"))))));
 
     }
 
@@ -284,8 +285,10 @@ public class MeetingsListTest {
 
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(1)));
 
-        onView(withId(R.id.recyclerView)).check(matches(hasItem(hasDescendant(withText( containsString("Mario"))))));
+        onView(withId(R.id.recyclerView)).check(matches(hasItem(hasDescendant(withText(containsString("Mario"))))));
+
     }
+  
     private void checkInputHourFilled(String hour, String minute) {
         ViewInteraction switchButton = onView(
                 Matchers.allOf(withId(R.id.material_timepicker_mode_button), withContentDescription("Switch to text input mode for the time input."),
@@ -356,12 +359,14 @@ public class MeetingsListTest {
     public static Matcher<View> hasItem(Matcher<View> matcher) {
         return new BoundedMatcher<View, RecyclerView>(RecyclerView.class) {
 
-            @Override public void describeTo(Description description) {
+            @Override
+            public void describeTo(Description description) {
                 description.appendText("has item: ");
                 matcher.describeTo(description);
             }
 
-            @Override protected boolean matchesSafely(RecyclerView view) {
+            @Override
+            protected boolean matchesSafely(RecyclerView view) {
                 RecyclerView.Adapter adapter = view.getAdapter();
                 for (int position = 0; position < adapter.getItemCount(); position++) {
                     int type = adapter.getItemViewType(position);
