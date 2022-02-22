@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/frag_layout_add_meeting_button"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controllers.fragment.AddMeetingFragBtn"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/margin_horizontal"
+        >
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_list_room"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/margin_top_components"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_time_picker"            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/icon_room"
+                android:src="@drawable/ic_baseline_meeting_room" />
+
+            <Spinner
+                android:id="@+id/spinner_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/cyan_500"
+                android:entries="@array/room_array"
+                android:labelFor="@id/spinner_room"
+                android:minHeight="48dp"
+                android:spinnerMode="dialog" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_time_picker"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_top_components"
+            android:text="@string/set_time"
+            android:textSize="@dimen/text_size"
+            app:icon="@drawable/ic_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnAdd" />
+
+        <Button
+            android:id="@+id/btnAdd"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top_components"
+            android:text="@string/add_meeting"
+            android:textSize="@dimen/text_size"
+            app:icon="@drawable/ic_add_24"
+            android:layout_marginBottom="@dimen/margin_top_components"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+

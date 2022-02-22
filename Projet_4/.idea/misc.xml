@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/drawable/baseline_delete_24.xml" value="0.1" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/drawable/circle.xml" value="0.18489583333333334" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/drawable/ic_add_24.xml" value="0.1125" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/drawable/ic_time.xml" value="0.1421875" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-land/activity_add_meeting.xml" value="0.1051930758988016" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-land/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-land/fragment_add_meeting.xml" value="0.1" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-land/fragment_add_meeting_button.xml" value="0.10818908122503329" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-large/activity_main.xml" value="0.11509562841530055" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp-land/activity_add_meeting.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp-land/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp-land/fragment_add_meeting.xml" value="0.1" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp-land/fragment_add_meeting_button.xml" value="0.11221419975932612" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp-land/toolbar.xml" value="0.1" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp/activity_add_meeting.xml" value="0.22" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp/activity_main.xml" value="0.10375615763546799" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp/fragment_add_meeting.xml" value="0.19545454545454546" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp/fragment_add_meeting_button.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp/fragment_add_meeting_input.xml" value="0.1" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout-sw600dp/toolbar.xml" value="0.126953125" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout/activity_add_meeting.xml" value="0.11509562841530055" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout/activity_main.xml" value="0.175" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout/fragment_add_meeting.xml" value="0.17757009345794392" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout/fragment_add_meeting_button.xml" value="0.126953125" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout/item_meeting.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout/spinner_activity_main.xml" value="0.126953125" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/layout/toolbar.xml" value="0.16927083333333334" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_4/app/src/main/res/menu/menu_activity_main.xml" value="0.3333333333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

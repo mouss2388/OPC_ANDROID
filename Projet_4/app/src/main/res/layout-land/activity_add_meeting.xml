@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/addMeeting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/includeToolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/frame_layout_add_meeting_txt_input"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="50" />
+
+            <FrameLayout
+                android:id="@+id/frame_layout_add_meeting_btn"
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="50" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="margin_floating_action_btn">16dp</dimen>
+    <dimen name="size_colorPickerButton">44dp</dimen>
+    <dimen name="margin_top_colorPickerButton">10dp</dimen>
+    <dimen name="margin_horizontal">15dp</dimen>
+    <dimen name="margin_top_time_picker">50dp</dimen>
+    <dimen name="margin_top_components">25dp</dimen>
+    <dimen name="height_list_email_input">150dp</dimen>
+    <dimen name="height_list_room">70dp</dimen>
+    <dimen name="text_size">16sp</dimen>
+
+</resources>
