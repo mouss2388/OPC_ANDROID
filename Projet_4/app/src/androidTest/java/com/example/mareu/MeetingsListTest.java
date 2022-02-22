@@ -286,8 +286,9 @@ public class MeetingsListTest {
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed())).check(matches(hasChildCount(1)));
 
         onView(withId(R.id.recyclerView)).check(matches(hasItem(hasDescendant(withText(containsString("Mario"))))));
-    }
 
+    }
+  
     private void checkInputHourFilled(String hour, String minute) {
         ViewInteraction switchButton = onView(
                 Matchers.allOf(withId(R.id.material_timepicker_mode_button), withContentDescription("Switch to text input mode for the time input."),
