@@ -11,5 +11,6 @@ Ce dépôt contient _Les projets Android_ réalisés pour le parcours **Dévelop
 * Dans terminal taper : cd _"Chemin où vous souhaitez récupérer le code"_
 * Taper :  _git clone https://github.com/mouss2388/OPC_ANDROID.git_
 * Ouvrir le projet souhaité avec Android Studio
-* Ouvrir la classe controllers/MainActivity.java dans l'IDE et si la bannière : *"Safe mode, limited functionality, Trust the project to access full IDE functionality"* apparaît alors cliquer sur **Trust project ...**
+* Ouvrir la classe controllers/activity/MainActivity.java dans l'IDE 
+* Puis la bannière : *"Safe mode, limited functionality, Trust the project to access full IDE functionality"* apparaît alors cliquer sur **Trust project ...**
 * Enjoy 🤓👍
