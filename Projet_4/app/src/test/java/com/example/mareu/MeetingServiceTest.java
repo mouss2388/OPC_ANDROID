@@ -71,6 +71,7 @@ public class MeetingServiceTest {
 
     @Test
     public void FilterByRoom() {
+
         List<Meeting> listFiltered = service.filterMeetingByRoom("Peach");
         assertEquals(1, listFiltered.size());
 
