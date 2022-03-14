@@ -1,4 +1,4 @@
-package com.cleanup.todoc.ui;
+package com.cleanup.todoc.controller.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -19,8 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cleanup.todoc.R;
-import com.cleanup.todoc.model.Project;
-import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.controller.adapter.TasksAdapter;
+import com.cleanup.todoc.database.dao.model.Project;
+import com.cleanup.todoc.database.model.Task;
 
 import java.util.ArrayList;
 import java.util.Collections;

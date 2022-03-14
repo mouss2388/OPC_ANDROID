@@ -1,8 +1,11 @@
-package com.cleanup.todoc.model;
+package com.cleanup.todoc.database.model;
 
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import com.cleanup.todoc.database.dao.model.Project;
 
 import java.util.Comparator;
 
@@ -11,10 +14,13 @@ import java.util.Comparator;
  *
  * @author Gaëtan HERFRAY
  */
+@Entity(tableName = "task_table")
 public class Task {
     /**
      * The unique identifier of the task
      */
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
     private long id;
 
     /**
