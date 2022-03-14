@@ -1,0 +1,25 @@
+package com.cleanup.todoc.database.dao;
+
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+
+import com.cleanup.todoc.database.model.Project;
+
+import java.util.List;
+
+@Dao
+public interface ProjectDao {
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insert(Project project);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Project> projects);
+
+
+    @Query("SELECT * FROM project_table")
+    List<Project> getProjects();
+
+}
