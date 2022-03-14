@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {Task.class, Project.class}, version = 1, exportSchema = false)
 
-abstract class AppDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
 
     // --- SINGLETON ---
 

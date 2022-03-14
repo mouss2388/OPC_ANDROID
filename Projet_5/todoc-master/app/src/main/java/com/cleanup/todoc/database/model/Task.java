@@ -24,7 +24,7 @@ public class Task {
      * The unique identifier of the task
      */
     @PrimaryKey(autoGenerate = true)
-    protected long id;
+    public long id;
 
     /**
      * The unique identifier of the project associated to the task
