@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all projects available in the application
      */
-    private Project[] allProjects;
+    private List<Project> allProjects;
 
     /**
      * List of all current tasks of the application
@@ -53,8 +53,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * The adapter which handles the list of tasks
      */
-//    private final TasksAdapter adapter = new TasksAdapter(tasks, this);
-    private TasksAdapter adapter = new TasksAdapter(tasks, this);
+    private TasksAdapter adapter;
 
     /**
      * The sort method to be used to display tasks
@@ -106,10 +105,12 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         lblNoTasks = findViewById(R.id.lbl_no_task);
 
         initViewModel();
+
+        adapter = new TasksAdapter(tasks, this);
+
         getProjectsFromDatabase();
         getTasksFromDatabase();
 
-        adapter = new TasksAdapter(tasks, this);
         listTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listTasks.setAdapter(adapter);
 
@@ -121,10 +122,14 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
     }
 
-    private void getProjectsFromDatabase(){
-        allProjects =projectViewModel.getAllProjects();
+    private void getProjectsFromDatabase() {
+        projectViewModel.getAllProjects().observe(this, p -> {
+            allProjects = p;
+            adapter.setProjectViewModel(this, projectViewModel);
+        });
     }
-    private void getTasksFromDatabase(){
+
+    private void getTasksFromDatabase() {
         taskViewModel.getAllTasks().observe(this, tasksList -> {
             tasks.clear();
             tasks.addAll(tasksList);
@@ -142,15 +147,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.filter_alphabetical) {
-            sortMethod = SortMethod.ALPHABETICAL;
-        } else if (id == R.id.filter_alphabetical_inverted) {
-            sortMethod = SortMethod.ALPHABETICAL_INVERTED;
-        } else if (id == R.id.filter_oldest_first) {
-            sortMethod = SortMethod.OLD_FIRST;
-        } else if (id == R.id.filter_recent_first) {
-            sortMethod = SortMethod.RECENT_FIRST;
-        }
+
+
 
         updateTasks();
 
@@ -181,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 taskProject = (Project) dialogSpinner.getSelectedItem();
             }
 
-            Log.i("taskProject", String.valueOf(taskProject));
 
             // If a name has not been set
             if (taskName.trim().isEmpty()) {
@@ -190,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             // If both project and name of the task have been set
             else if (taskProject != null) {
 
+                Log.i("taskProject", String.valueOf(taskProject.getId()));
                 Task task = new Task(
                         taskProject.getId(),
                         taskName,
@@ -210,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             dialogInterface.dismiss();
         }
     }
+
 
     /**
      * Shows the Dialog for adding a Task

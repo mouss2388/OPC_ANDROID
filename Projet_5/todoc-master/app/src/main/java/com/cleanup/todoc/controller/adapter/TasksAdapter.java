@@ -8,11 +8,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cleanup.todoc.R;
-import com.cleanup.todoc.database.model.Project;
 import com.cleanup.todoc.database.model.Task;
+import com.cleanup.todoc.viewModel.ProjectViewModel;
 
 import java.util.List;
 
@@ -21,7 +22,8 @@ import java.util.List;
  *
  * @author Gaëtan HERFRAY
  */
-public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
+public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder>
+{
     /**
      * The list of tasks the adapter deals with
      */
@@ -34,6 +36,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     @NonNull
     private final DeleteTaskListener deleteTaskListener;
 
+    private ProjectViewModel projectViewModel;
+
+    private LifecycleOwner lifecycleOwner;
+
+    public void setProjectViewModel(LifecycleOwner lifecycleOwner, ProjectViewModel projectViewModel) {
+        this.projectViewModel = projectViewModel;
+        this.lifecycleOwner = lifecycleOwner;
+    }
+
     /**
      * Instantiates a new TasksAdapter.
      *
@@ -42,7 +53,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     public TasksAdapter(@NonNull final List<Task> tasks, @NonNull final DeleteTaskListener deleteTaskListener) {
         this.tasks = tasks;
         this.deleteTaskListener = deleteTaskListener;
+
     }
+
 
     /**
      * Updates the list of tasks the adapter deals with.
@@ -63,7 +76,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder taskViewHolder, int position) {
-        taskViewHolder.bind(tasks.get(position));
+        taskViewHolder.bind(tasks.get(position), lifecycleOwner, projectViewModel);
     }
 
     @Override
@@ -117,7 +130,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         /**
          * Instantiates a new TaskViewHolder.
          *
-         * @param itemView the view of the task item
+         * @param itemView           the view of the task item
          * @param deleteTaskListener the listener for when a task needs to be deleted to set
          */
         TaskViewHolder(@NonNull View itemView, @NonNull DeleteTaskListener deleteTaskListener) {
@@ -143,18 +156,24 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
          *
          * @param task the task to bind in the item view
          */
-        void bind(Task task) {
+        void bind(Task task, LifecycleOwner lifecycleOwner, ProjectViewModel projectViewModel) {
             lblTaskName.setText(task.getName());
             imgDelete.setTag(task);
 
-            final Project taskProject = task.getProject();
-            if (taskProject != null) {
-                imgProject.setSupportImageTintList(ColorStateList.valueOf(taskProject.getColor()));
-                lblProjectName.setText(taskProject.getName());
-            } else {
-                imgProject.setVisibility(View.INVISIBLE);
-                lblProjectName.setText("");
-            }
+
+            final long projectId = task.getProjectId();
+
+            projectViewModel.getProjectById(projectId).observe(lifecycleOwner, taskProject -> {
+
+                if (taskProject != null) {
+                    imgProject.setSupportImageTintList(ColorStateList.valueOf(taskProject.getColor()));
+                    lblProjectName.setText(taskProject.getName());
+                } else {
+                    imgProject.setVisibility(View.INVISIBLE);
+                    lblProjectName.setText("");
+                }
+            });
+
 
         }
     }
