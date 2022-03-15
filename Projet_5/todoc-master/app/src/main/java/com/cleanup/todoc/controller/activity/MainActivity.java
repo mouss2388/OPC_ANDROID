@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,10 +24,13 @@ import com.cleanup.todoc.R;
 import com.cleanup.todoc.controller.adapter.TasksAdapter;
 import com.cleanup.todoc.database.model.Project;
 import com.cleanup.todoc.database.model.Task;
+import com.cleanup.todoc.viewModel.ProjectViewModel;
+import com.cleanup.todoc.viewModel.TaskViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>Home activity of the application which is displayed when the user opens the app.</p>
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all projects available in the application
      */
-    private final Project[] allProjects = Project.getAllProjects();
+    private Project[] allProjects;
 
     /**
      * List of all current tasks of the application
@@ -49,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * The adapter which handles the list of tasks
      */
-    private final TasksAdapter adapter = new TasksAdapter(tasks, this);
+//    private final TasksAdapter adapter = new TasksAdapter(tasks, this);
+    private TasksAdapter adapter = new TasksAdapter(tasks, this);
 
     /**
      * The sort method to be used to display tasks
@@ -87,6 +92,10 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     private TextView lblNoTasks;
 
+    private TaskViewModel taskViewModel;
+    private ProjectViewModel projectViewModel;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,10 +105,31 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         listTasks = findViewById(R.id.list_tasks);
         lblNoTasks = findViewById(R.id.lbl_no_task);
 
+        initViewModel();
+        getProjectsFromDatabase();
+        getTasksFromDatabase();
+
+        adapter = new TasksAdapter(tasks, this);
         listTasks.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         listTasks.setAdapter(adapter);
 
         findViewById(R.id.fab_add_task).setOnClickListener(view -> showAddTaskDialog());
+    }
+
+    private void initViewModel() {
+        taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+    }
+
+    private void getProjectsFromDatabase(){
+        allProjects =projectViewModel.getAllProjects();
+    }
+    private void getTasksFromDatabase(){
+        taskViewModel.getAllTasks().observe(this, tasksList -> {
+            tasks.clear();
+            tasks.addAll(tasksList);
+            updateTasks();
+        });
     }
 
     @Override
@@ -129,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     @Override
     public void onDeleteTask(Task task) {
+        taskViewModel.delete(task);
         tasks.remove(task);
         updateTasks();
     }
@@ -158,9 +189,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             }
             // If both project and name of the task have been set
             else if (taskProject != null) {
-                // TODO: Replace this by id of persisted task
-                // long id = (long) (Math.random() * 50000);
-
 
                 Task task = new Task(
                         taskProject.getId(),
@@ -203,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * @param task the task to be added to the list
      */
     private void addTask(@NonNull Task task) {
+        taskViewModel.insert(task);
         tasks.add(task);
         updateTasks();
     }

@@ -21,6 +21,6 @@ public interface ProjectDao {
 
 
     @Query("SELECT * FROM project_table")
-    LiveData<List<Project>> getAllProjects();
+    Project[] getAllProjects();
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class ProjectRepository {
 
     private final ProjectDao projectDao;
-    private final LiveData<List<Project>> allProjects;
+    private final Project[] allProjects;
 
     public ProjectRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
@@ -21,7 +21,7 @@ public class ProjectRepository {
         allProjects = projectDao.getAllProjects();
     }
 
-    public LiveData<List<Project>> getAllProjects() {
+    public Project[] getAllProjects() {
         return allProjects;
     }
 
