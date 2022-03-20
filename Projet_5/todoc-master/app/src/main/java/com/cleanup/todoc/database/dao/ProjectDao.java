@@ -13,8 +13,9 @@ import java.util.List;
 @Dao
 public interface ProjectDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Project project);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(Project project);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Project> projects);

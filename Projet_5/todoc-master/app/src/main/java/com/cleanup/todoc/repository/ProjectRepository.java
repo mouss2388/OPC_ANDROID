@@ -29,10 +29,12 @@ public class ProjectRepository {
         projectDao.insertAll(projects);
     }
 
-    public void insert(Project project) {
-        projectDao.insert(project);
+    public long insert(Project project) {
+        return projectDao.insert(project);
     }
 
-    public LiveData<Project> getProjectById(long id){return projectDao.getProjectById(id);}
+    public LiveData<Project> getProjectById(long id) {
+        return projectDao.getProjectById(id);
+    }
 
 }

@@ -3,11 +3,8 @@ package com.cleanup.todoc.database.model;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import com.cleanup.todoc.viewModel.ProjectViewModel;
 
 /**
  * <p>Models for project in which tasks are included.</p>
@@ -26,18 +23,19 @@ public class Project {
      * The name of the project
      */
     @NonNull
-    private  String name;
+    public String name;
 
     /**
      * The hex (ARGB) code of the color associated to the project
      */
     @ColorInt
-    private  int color;
+    public int color;
 
     /**
      * Instantiates a new Project.
+     * <p>
+     * //* @param id    the unique identifier of the project to set
      *
-     //* @param id    the unique identifier of the project to set
      * @param name  the name of the project to set
      * @param color the hex (ARGB) code of the color associated to the project to set
      */
@@ -95,12 +93,16 @@ public class Project {
         return getName();
     }
 
-//    @Override
-//    public String toString() {
-//        return "Project{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", color=" + color +
-//                '}';
-//    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
 }

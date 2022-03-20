@@ -2,7 +2,6 @@ package com.cleanup.todoc.database.model;
 
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -16,8 +15,8 @@ import java.util.Comparator;
  */
 @Entity(tableName = "task_table",
         foreignKeys = @ForeignKey(entity = Project.class,
-        parentColumns = "id",
-        childColumns = "projectId"))
+                parentColumns = "id",
+                childColumns = "projectId"))
 
 public class Task {
     /**
@@ -29,7 +28,7 @@ public class Task {
     /**
      * The unique identifier of the project associated to the task
      */
-    private long projectId;
+    public long projectId;
 
     /**
      * The name of the task
@@ -37,17 +36,18 @@ public class Task {
     // Suppress warning because setName is called in constructor
     @SuppressWarnings("NullableProblems")
     @NonNull
-    private String name;
+    public String name;
 
     /**
      * The timestamp when the task has been created
      */
-    private long creationTimestamp;
+    public long creationTimestamp;
 
     /**
      * Instantiates a new Task.
+     * <p>
+     * //     * @param id                the unique identifier of the task to set
      *
-//     * @param id                the unique identifier of the task to set
      * @param projectId         the unique identifier of the project associated to the task to set
      * @param name              the name of the task to set
      * @param creationTimestamp the timestamp when the task has been created to set
@@ -72,7 +72,7 @@ public class Task {
      *
      * @param id the unique idenifier of the task to set
      */
-    private void setId(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -82,7 +82,7 @@ public class Task {
      *
      * @param projectId the unique identifier of the project associated to the task to set
      */
-    private void setProjectId(long projectId) {
+    public void setProjectId(long projectId) {
         this.projectId = projectId;
     }
 
@@ -95,7 +95,6 @@ public class Task {
 //    public Project getProject() {
 //        return Project.getProjectById(projectId);
 //    }
-
     public long getProjectId() {
         return projectId;
     }
@@ -115,16 +114,17 @@ public class Task {
      *
      * @param name the name of the task to set
      */
-    private void setName(@NonNull String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
+
 
     /**
      * Sets the timestamp when the task has been created.
      *
      * @param creationTimestamp the timestamp when the task has been created to set
      */
-    private void setCreationTimestamp(long creationTimestamp) {
+    public void setCreationTimestamp(long creationTimestamp) {
         this.creationTimestamp = creationTimestamp;
     }
 
@@ -134,6 +134,7 @@ public class Task {
 
     /**
      * Comparator to sort task from A to Z
+     * //
      */
     public static class TaskAZComparator implements Comparator<Task> {
         @Override

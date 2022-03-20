@@ -28,7 +28,6 @@ import com.cleanup.todoc.viewModel.ProjectViewModel;
 import com.cleanup.todoc.viewModel.TaskViewModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -145,14 +144,27 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-
-
-
+        switch (item.getItemId()) {
+            case R.id.filter_alphabetical:
+                sortMethod = SortMethod.ALPHABETICAL;
+                break;
+            case R.id.filter_alphabetical_inverted:
+                sortMethod = SortMethod.ALPHABETICAL_INVERTED;
+                break;
+            case R.id.filter_oldest_first:
+                sortMethod = SortMethod.OLD_FIRST;
+                break;
+            case R.id.filter_recent_first:
+                sortMethod = SortMethod.RECENT_FIRST;
+                break;
+            default:
+                sortMethod = SortMethod.OLD_FIRST;
+                break;
+        }
         updateTasks();
-
         return super.onOptionsItemSelected(item);
+
     }
 
     @Override
@@ -241,27 +253,21 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     private void updateTasks() {
         if (tasks.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
-            listTasks.setVisibility(View.GONE);
+            listTasks.setVisibility(
+                    View.GONE);
         } else {
             lblNoTasks.setVisibility(View.GONE);
             listTasks.setVisibility(View.VISIBLE);
-            switch (sortMethod) {
-                case ALPHABETICAL:
-                    Collections.sort(tasks, new Task.TaskAZComparator());
-                    break;
-                case ALPHABETICAL_INVERTED:
-                    Collections.sort(tasks, new Task.TaskZAComparator());
-                    break;
-                case RECENT_FIRST:
-                    Collections.sort(tasks, new Task.TaskRecentComparator());
-                    break;
-                case OLD_FIRST:
-                    Collections.sort(tasks, new Task.TaskOldComparator());
-                    break;
 
-            }
-            adapter.updateTasks(tasks);
+            /**
+             * SEE WITH MENTOR
+             */
+            taskViewModel.getAllTaskSort(sortMethod).observe(this, tasksList -> {
+                tasks.clear();
+                tasks.addAll(tasksList);
+            });
         }
+        adapter.updateTasks(tasks);
     }
 
     /**
@@ -308,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all possible sort methods for task
      */
-    private enum SortMethod {
+    public enum SortMethod {
         /**
          * Sort alphabetical by name
          */

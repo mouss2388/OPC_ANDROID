@@ -68,16 +68,13 @@ public abstract class AppDatabase extends RoomDatabase {
                 super.onCreate(db);
 
                 Executors.newSingleThreadExecutor().execute(() -> {
-//                    INSTANCE.projectDao().insert(
-//                            new Project(1L, "Projet Tartampion", 0xFFEADAD1));
-//                    INSTANCE.projectDao().insert(new Project(2L, "Projet Lucidia", 0xFFB4CDBA));
-//                    INSTANCE.projectDao().insert(new Project(3L, "Projet Circus", 0xFFA3CED2));
-//                }
+
                     INSTANCE.projectDao().insertAll(
                             Arrays.asList(
                                     new Project("Projet Tartampion", 0xFFEADAD1),
                                     new Project("Projet Lucidia", 0xFFB4CDBA),
-                                    new Project("Projet Circus", 0xFFA3CED2)));
+                                    new Project("Projet Circus", 0xFFA3CED2)
+                            ));
 
                 });
 

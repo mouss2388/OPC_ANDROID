@@ -13,15 +13,31 @@ import java.util.List;
 @Dao
 public interface TaskDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Task task);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(Task task);
 
 
     @Query("DELETE  FROM task_table WHERE id = :id")
-    void delete(long id);
+    int delete(long id);
+
+    @Query("DELETE  FROM task_table")
+    int deleteAll();
 
     @Query("SELECT * FROM task_table ORDER BY id ASC")
     LiveData<List<Task>> getAllTasks();
 
+    @Query("SELECT * FROM task_table WHERE id = :id")
+    LiveData<Task> getTaskById(long id);
 
+    @Query("SELECT * FROM task_table ORDER BY name ASC")
+    LiveData<List<Task>> getAllTaskAZComparator();
+
+    @Query("SELECT * FROM task_table ORDER BY name DESC")
+    LiveData<List<Task>> getAllTaskZAComparator();
+
+    @Query("SELECT * FROM task_table ORDER BY creationTimestamp DESC")
+    LiveData<List<Task>> getAllTaskRecentComparator();
+
+    @Query("SELECT * FROM task_table ORDER BY creationTimestamp ASC")
+    LiveData<List<Task>> getAllTaskOldComparator();
 }

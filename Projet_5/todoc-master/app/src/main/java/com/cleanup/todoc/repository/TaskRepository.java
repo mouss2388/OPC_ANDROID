@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.cleanup.todoc.controller.activity.MainActivity.SortMethod;
 import com.cleanup.todoc.database.AppDatabase;
 import com.cleanup.todoc.database.dao.TaskDao;
 import com.cleanup.todoc.database.model.Task;
@@ -25,11 +26,28 @@ public class TaskRepository {
         return allTasks;
     }
 
-    public void insert(Task task) {
-        taskDao.insert(task);
+    public long insert(Task task) {
+        return taskDao.insert(task);
     }
 
-    public void delete(Task task) {
-        taskDao.delete(task.getId());
+    public int delete(Task task) {
+        return taskDao.delete(task.getId());
+    }
+
+    public LiveData<List<Task>> getAllTaskSort(SortMethod sortMethod) {
+        switch (sortMethod) {
+
+            case ALPHABETICAL:
+                return taskDao.getAllTaskAZComparator();
+
+            case ALPHABETICAL_INVERTED:
+                return taskDao.getAllTaskZAComparator();
+
+            case RECENT_FIRST:
+                return taskDao.getAllTaskRecentComparator();
+
+            default:
+                return taskDao.getAllTaskOldComparator();
+        }
     }
 }
