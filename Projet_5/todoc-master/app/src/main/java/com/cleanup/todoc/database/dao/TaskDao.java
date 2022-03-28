@@ -16,12 +16,8 @@ public interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Task task);
 
-
     @Query("DELETE  FROM task_table WHERE id = :id")
-    int delete(long id);
-
-    @Query("DELETE  FROM task_table")
-    int deleteAll();
+    void delete(long id);
 
     @Query("SELECT * FROM task_table ORDER BY id ASC")
     LiveData<List<Task>> getAllTasks();

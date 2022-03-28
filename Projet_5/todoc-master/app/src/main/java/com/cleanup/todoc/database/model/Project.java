@@ -33,8 +33,6 @@ public class Project {
 
     /**
      * Instantiates a new Project.
-     * <p>
-     * //* @param id    the unique identifier of the project to set
      *
      * @param name  the name of the project to set
      * @param color the hex (ARGB) code of the color associated to the project to set
@@ -43,20 +41,6 @@ public class Project {
         this.name = name;
         this.color = color;
     }
-
-    /**
-     * Returns all the projects of the application.
-     *
-     * @return all the projects of the application
-     */
-
-    /**
-     * Returns the project with the given unique identifier, or null if no project with that
-     * identifier can be found.
-     *
-     * @return the project with the given unique identifier, or null if it has not been found
-     */
-
 
     /**
      * Returns the unique identifier of the project.
@@ -100,9 +84,5 @@ public class Project {
 
     public void setName(@NonNull String name) {
         this.name = name;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
     }
 }

@@ -30,10 +30,6 @@ public class ProjectViewModel extends AndroidViewModel {
         return repository.insert(project);
     }
 
-    public void insertAll(List<Project> projects) {
-        repository.insertAll(projects);
-    }
-
     public LiveData<Project> getProjectById(long id) {
         return repository.getProjectById(id);
     }

@@ -31,8 +31,8 @@ public class TaskViewModel extends AndroidViewModel {
         return repository.insert(task);
     }
 
-    public int delete(Task task) {
-        return repository.delete(task);
+    public void delete(Task task) {
+        repository.delete(task);
     }
 
     public LiveData<List<Task>> getAllTaskSort(SortMethod sortMethod) {

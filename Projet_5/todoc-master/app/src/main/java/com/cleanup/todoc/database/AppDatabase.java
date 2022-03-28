@@ -46,15 +46,10 @@ public abstract class AppDatabase extends RoomDatabase {
                             .allowMainThreadQueries()
                             .addCallback(prepopulateDatabase())
                             .build();
-
                 }
-
             }
-
         }
-
         return INSTANCE;
-
     }
 
     private static Callback prepopulateDatabase() {
@@ -67,20 +62,14 @@ public abstract class AppDatabase extends RoomDatabase {
 
                 super.onCreate(db);
 
-                Executors.newSingleThreadExecutor().execute(() -> {
-
-                    INSTANCE.projectDao().insertAll(
-                            Arrays.asList(
-                                    new Project("Projet Tartampion", 0xFFEADAD1),
-                                    new Project("Projet Lucidia", 0xFFB4CDBA),
-                                    new Project("Projet Circus", 0xFFA3CED2)
-                            ));
-
-                });
-
+                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.projectDao().insertAll(
+                        Arrays.asList(
+                                new Project("Projet Tartampion", 0xFFEADAD1),
+                                new Project("Projet Lucidia", 0xFFB4CDBA),
+                                new Project("Projet Circus", 0xFFA3CED2)
+                        )));
             }
 
         };
-
     }
 }

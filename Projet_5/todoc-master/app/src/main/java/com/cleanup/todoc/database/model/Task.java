@@ -17,7 +17,6 @@ import java.util.Comparator;
         foreignKeys = @ForeignKey(entity = Project.class,
                 parentColumns = "id",
                 childColumns = "projectId"))
-
 public class Task {
     /**
      * The unique identifier of the task
@@ -33,9 +32,6 @@ public class Task {
     /**
      * The name of the task
      */
-    // Suppress warning because setName is called in constructor
-    @SuppressWarnings("NullableProblems")
-    @NonNull
     public String name;
 
     /**
@@ -44,9 +40,7 @@ public class Task {
     public long creationTimestamp;
 
     /**
-     * Instantiates a new Task.
-     * <p>
-     * //     * @param id                the unique identifier of the task to set
+     * Instantiates a new Task
      *
      * @param projectId         the unique identifier of the project associated to the task to set
      * @param name              the name of the task to set
@@ -91,10 +85,6 @@ public class Task {
      *
      * @return the project associated to the task
      */
-//    @Nullable
-//    public Project getProject() {
-//        return Project.getProjectById(projectId);
-//    }
     public long getProjectId() {
         return projectId;
     }
@@ -126,10 +116,6 @@ public class Task {
      */
     public void setCreationTimestamp(long creationTimestamp) {
         this.creationTimestamp = creationTimestamp;
-    }
-
-    public long getCreationTimestamp() {
-        return creationTimestamp;
     }
 
     /**

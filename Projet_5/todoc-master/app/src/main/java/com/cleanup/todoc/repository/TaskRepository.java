@@ -30,8 +30,8 @@ public class TaskRepository {
         return taskDao.insert(task);
     }
 
-    public int delete(Task task) {
-        return taskDao.delete(task.getId());
+    public void delete(Task task) {
+        taskDao.delete(task.getId());
     }
 
     public LiveData<List<Task>> getAllTaskSort(SortMethod sortMethod) {

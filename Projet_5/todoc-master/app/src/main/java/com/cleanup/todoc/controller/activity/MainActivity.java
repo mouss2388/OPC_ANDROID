@@ -145,23 +145,17 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.filter_alphabetical:
-                sortMethod = SortMethod.ALPHABETICAL;
-                break;
-            case R.id.filter_alphabetical_inverted:
-                sortMethod = SortMethod.ALPHABETICAL_INVERTED;
-                break;
-            case R.id.filter_oldest_first:
-                sortMethod = SortMethod.OLD_FIRST;
-                break;
-            case R.id.filter_recent_first:
-                sortMethod = SortMethod.RECENT_FIRST;
-                break;
-            default:
-                sortMethod = SortMethod.OLD_FIRST;
-                break;
-        }
+        if (item.getItemId() == R.id.filter_alphabetical)
+            sortMethod = SortMethod.ALPHABETICAL;
+
+        else if (item.getItemId() == R.id.filter_alphabetical_inverted)
+            sortMethod = SortMethod.ALPHABETICAL_INVERTED;
+
+        else if (item.getItemId() == R.id.filter_recent_first)
+            sortMethod = SortMethod.RECENT_FIRST;
+        else
+            sortMethod = SortMethod.OLD_FIRST;
+
         updateTasks();
         return super.onOptionsItemSelected(item);
 
@@ -259,9 +253,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             lblNoTasks.setVisibility(View.GONE);
             listTasks.setVisibility(View.VISIBLE);
 
-            /**
-             * SEE WITH MENTOR
-             */
             taskViewModel.getAllTaskSort(sortMethod).observe(this, tasksList -> {
                 tasks.clear();
                 tasks.addAll(tasksList);

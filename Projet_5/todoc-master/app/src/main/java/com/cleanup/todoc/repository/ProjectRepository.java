@@ -25,10 +25,6 @@ public class ProjectRepository {
         return allProjects;
     }
 
-    public void insertAll(List<Project> projects) {
-        projectDao.insertAll(projects);
-    }
-
     public long insert(Project project) {
         return projectDao.insert(project);
     }
@@ -36,5 +32,4 @@ public class ProjectRepository {
     public LiveData<Project> getProjectById(long id) {
         return projectDao.getProjectById(id);
     }
-
 }
