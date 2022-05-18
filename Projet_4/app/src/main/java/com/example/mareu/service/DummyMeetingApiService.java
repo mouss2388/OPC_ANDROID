@@ -2,10 +2,9 @@ package com.example.mareu.service;
 
 import android.os.Build;
 
-import androidx.annotation.RequiresApi;
-
 import com.example.mareu.model.Meeting;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,15 +33,34 @@ public class DummyMeetingApiService implements MeetingApiService {
         meetings.add(meeting);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<Meeting> filterMeetingByHour(long hour) {
-        return getMeetings().stream().filter(m -> m.getHour().getTime() == hour).collect(Collectors.toList());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return getMeetings().stream().filter(m -> m.getHour().getTime() == hour).collect(Collectors.toList());
+        } else {
+            List<Meeting> meetings = new ArrayList<>();
+            for (Meeting meeting : getMeetings()) {
+                if (meeting.getHour().getTime() == hour) {
+                    meetings.add(meeting);
+                }
+            }
+            return meetings;
+        }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<Meeting> filterMeetingByRoom(String room) {
-        return getMeetings().stream().filter(m -> m.getRoom().equals(room)).collect(Collectors.toList());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            return getMeetings().stream().filter(m -> m.getRoom().equals(room)).collect(Collectors.toList());
+        }else{
+            List<Meeting> meetings = new ArrayList<>();
+            for (Meeting meeting : getMeetings()) {
+                if (meeting.getRoom().equals(room)) {
+                    meetings.add(meeting);
+                }
+            }
+            return meetings;
+        }
     }
 }
