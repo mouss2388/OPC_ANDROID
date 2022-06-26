@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="facebook">#4066b3</color>
+    <color name="google">#d43225</color>
+    <color name="email">#980C01</color>
+    <color name="main_color">#fc3e1b</color>
+    <color name="stars_yellow">#f7e518</color>
+    <color name="error">#7E1E2C</color>
+    <color name="reserved">#5cf09e</color>
+    <color name="grey">#a1a1a0</color>
+    <color name="orange">#fc7540</color>
 </resources>
