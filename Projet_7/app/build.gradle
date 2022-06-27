@@ -45,4 +45,7 @@ dependencies {
     ///FIREBASE///
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
     implementation 'com.google.firebase:firebase-analytics'
+
+    // FIREBASE UI
+    implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
 }
