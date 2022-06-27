@@ -11,9 +11,9 @@
 
     <ImageView
         android:id="@+id/logo_go_4_lunch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_width="@dimen/logo_size"
+        android:layout_height="@dimen/logo_size"
+        android:layout_marginTop="@dimen/marg_top_logo"
         android:background="@drawable/logo_go_4_lunch"
         android:contentDescription="Logo Go4Lunch"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
         android:id="@+id/linearyout_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/marg_top_linear_layout_buttons"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,22 +34,22 @@
 
         <Button
             android:id="@+id/bnt_login_email"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="312dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="20dp"
+            android:textSize="@dimen/button_text_size"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
             android:backgroundTint="@color/email"
-            android:paddingStart="8dp"
-            android:paddingEnd="40dp"
+            android:layout_marginTop="@dimen/button_marg_top"
+            android:paddingStart="@dimen/button_padd_start"
+            android:paddingEnd="@dimen/button_padd_end"
             android:text="@string/sign_in_email"
             android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            app:cornerRadius="8dp"
+            android:textColor="@color/white"
             app:icon="@drawable/ic_email_logo"
-            app:iconPadding="20dp"
-            app:iconSize="28dp"
-            app:iconTint="@color/white" />
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:iconPadding="@dimen/button_icon_padd"
+            app:iconSize="@dimen/button_icon_size"
+            app:iconTint="@color/white"
+            />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

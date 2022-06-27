@@ -4,11 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_email_logo.xml" value="0.1" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_facebook_logo.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_google_logo.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_restaurant_menu_24.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_star_rate_24.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_view_list_24.xml" value="0.1" />
-        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>
     </option>
   </component>

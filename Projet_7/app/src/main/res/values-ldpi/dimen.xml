@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--LOGO-->
+    <dimen name="marg_top_logo">12dp</dimen>
+    <dimen name="logo_size">188dp</dimen>
+
+
+    <!--LOGIN BUTTONS-->
+    <dimen name="marg_top_linear_layout_buttons">8dp</dimen>
+    <dimen name="button_text_size">12sp</dimen>
+    <dimen name="button_height">40dp</dimen>
+    <dimen name="button_width">280dp</dimen>
+    <dimen name="button_marg_top">4dp</dimen>
+    <dimen name="button_padd_start">8dp</dimen>
+    <dimen name="button_padd_end">40dp</dimen>
+    <dimen name="button_corner_radius">8dp</dimen>
+    <dimen name="button_icon_padd">20dp</dimen>
+    <dimen name="button_icon_size">18dp</dimen>
+</resources>
