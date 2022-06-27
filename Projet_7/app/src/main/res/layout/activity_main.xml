@@ -33,9 +33,8 @@
         app:layout_constraintTop_toBottomOf="@id/logo_go_4_lunch">
 
         <Button
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:id="@+id/bnt_login_email"
-            android:textSize="14sp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="312dp"
             android:layout_height="64dp"
             android:layout_marginTop="20dp"
@@ -45,12 +44,12 @@
             android:text="@string/sign_in_email"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            app:icon="@drawable/ic_email_logo"
+            android:textSize="14sp"
             app:cornerRadius="8dp"
+            app:icon="@drawable/ic_email_logo"
             app:iconPadding="20dp"
             app:iconSize="28dp"
-            app:iconTint="@color/white"
-             />
+            app:iconTint="@color/white" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
