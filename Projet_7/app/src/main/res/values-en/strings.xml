@@ -1,0 +1,41 @@
+<resources>
+
+    <string name="app_name">Projet_7</string>
+
+    <!-- SNACKBAR -->
+    <string name="snackbar_msg_login_success">Authentification success !</string>
+    <string name="snackbar_msg_login_cancelled">Authentification cancelled !</string>
+    <string name="snackbar_msg_error_unknow">An error has occurred !</string>
+
+    <!--LOGINS BUTTONS -->
+    <string name="sign_in_email">Sign in with Email</string>
+    <string name="sign_in_facebook">Sign in with Facebook</string>
+    <string name="sign_in_google">Sign in with Google</string>
+
+    <!-- NAVIGATION DRAWER -->
+    <string name="app_title">I\'m Hungry!</string>
+    <string name="available_workmates">Available workmates</string>
+    <string name="your_lunch">YOUR LUNCH</string>
+    <string name="settings">SETTINGS</string>
+    <string name="logout">LOGOUT</string>
+
+    <!-- RESTAURANT DETAILS -->
+    <string name="call">CALL</string>
+    <string name="like">LIKE</string>
+    <string name="website">WEBSITE</string>
+    <string name="joining">is joining!</string>
+    <string name="none_workmates">not interested colleagues!</string>
+
+    <!-- WORKMATES -->
+    <string name="eating_workmates">is eating</string>
+    <string name="workmates_not_decided">hasn\'t decided yet</string>
+
+    <!-- SEARCH BAR -->
+    <string name="search_restaurants">Search restaurants</string>
+    <string name="search_workmates">Search workmates</string>
+
+    <!-- BOTTOM NAVIGATION -->
+    <string name="bottom_nav_map_view">Map View</string>
+    <string name="bottom_nav_list_view">List View</string>
+    <string name="bottom_nav_workmates">Workmates</string>
+</resources>
