@@ -33,6 +33,44 @@
         app:layout_constraintTop_toBottomOf="@id/logo_go_4_lunch">
 
         <Button
+            android:id="@+id/bnt_login_facebook"
+            android:textSize="@dimen/button_text_size"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:backgroundTint="@color/facebook"
+            android:layout_marginTop="@dimen/button_marg_top"
+            android:paddingStart="@dimen/button_padd_start"
+            android:paddingEnd="@dimen/button_padd_end"
+            android:text="@string/sign_in_facebook"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_facebook_logo"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:iconPadding="@dimen/button_icon_padd"
+            app:iconSize="@dimen/button_icon_size"
+            app:iconTint="@color/white"
+            />
+
+        <Button
+            android:id="@+id/bnt_login_google"
+            android:textSize="@dimen/button_text_size"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:backgroundTint="@color/google"
+            android:layout_marginTop="@dimen/button_marg_top"
+            android:paddingStart="@dimen/button_padd_start"
+            android:paddingEnd="@dimen/button_padd_end"
+            android:text="@string/sign_in_google"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_google_logo"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:iconPadding="@dimen/button_icon_padd"
+            app:iconSize="@dimen/button_icon_size"
+            app:iconTint="@color/white"
+            />
+
+        <Button
             android:id="@+id/bnt_login_email"
             android:textSize="@dimen/button_text_size"
             android:layout_width="@dimen/button_width"

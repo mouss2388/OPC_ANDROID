@@ -22,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        binding.bntLoginEmail.setOnClickListener(v -> Toast.makeText(this, R.string.snackbar_msg_login_success, Toast.LENGTH_SHORT).show());
+
+        binding.bntLoginFacebook.setOnClickListener(v -> Toast.makeText(this, getResources().getString(R.string.snackbar_msg_login_success) + " Facebook", Toast.LENGTH_SHORT).show());
+
+        binding.bntLoginGoogle.setOnClickListener(v -> Toast.makeText(this, getResources().getString(R.string.snackbar_msg_login_success) + " Google", Toast.LENGTH_SHORT).show());
+
+        binding.bntLoginEmail.setOnClickListener(v -> Toast.makeText(this, getResources().getString(R.string.snackbar_msg_login_success) + " Email", Toast.LENGTH_SHORT).show());
+
     }
 }
