@@ -38,4 +38,9 @@
     <string name="bottom_nav_map_view">Vue Carte</string>
     <string name="bottom_nav_list_view">Vue Liste</string>
     <string name="bottom_nav_workmates">Collègues</string>
+
+    <!--FACEBOOK IDS-->
+    <string name="facebook_application_id">992952868077563</string>
+    <string name="facebook_login_protocol_scheme">fb992952868077563</string>
+    <string name="facebook_client_token">9b50d4f46987800eb63bb458c14e12ef</string>
 </resources>

@@ -47,4 +47,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     // FIREBASE UI
     implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
+    //FACEBOOK
+    implementation 'com.facebook.android:facebook-android-sdk:13.2.0'
 }
