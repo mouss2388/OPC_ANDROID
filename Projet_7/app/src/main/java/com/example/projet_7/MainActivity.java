@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.projet_7.databinding.ActivityMainBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,11 +24,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupListeners() {
 
-        binding.bntLoginFacebook.setOnClickListener(v -> Toast.makeText(this, getResources().getString(R.string.snackbar_msg_login_success) + " Facebook", Toast.LENGTH_SHORT).show());
+        binding.bntLoginFacebook.setOnClickListener(v ->
+                showSnackBar(getResources().getString(R.string.snackbar_msg_login_success) + " Facebook"));
 
-        binding.bntLoginGoogle.setOnClickListener(v -> Toast.makeText(this, getResources().getString(R.string.snackbar_msg_login_success) + " Google", Toast.LENGTH_SHORT).show());
 
-        binding.bntLoginEmail.setOnClickListener(v -> Toast.makeText(this, getResources().getString(R.string.snackbar_msg_login_success) + " Email", Toast.LENGTH_SHORT).show());
+        binding.bntLoginGoogle.setOnClickListener(v ->
+                showSnackBar(getResources().getString(R.string.snackbar_msg_login_success) + " Google"));
 
+        binding.bntLoginEmail.setOnClickListener(v ->
+                        showSnackBar(getResources().getString(R.string.snackbar_msg_login_success) + " Email"));
+    }
+
+    // Show Snack Bar with a message
+    private void showSnackBar(String message) {
+        Snackbar.make(binding.mainLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 }
