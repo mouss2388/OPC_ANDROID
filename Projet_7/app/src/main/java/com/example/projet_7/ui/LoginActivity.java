@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityLoginBinding;
+import com.example.projet_7.utils.Utils;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 
@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        this.setupListeners();
         this.handleResponseAfterSignIn();
+        this.setupListeners();
     }
 
     private void handleResponseAfterSignIn() {
@@ -38,19 +38,21 @@ public class LoginActivity extends AppCompatActivity {
 
             if (result.getResultCode() == RESULT_OK) {
                 // userManager.createUser();
-                showSnackBar(getString(R.string.snackbar_msg_login_success));
+                startMainActivity();
 
             } else if (result.getResultCode() == RESULT_CANCELED) {
-                showSnackBar(getString(R.string.snackbar_msg_login_cancelled));
+                Utils.showSnackBar(binding.loginLayout, getString(R.string.snackbar_msg_login_cancelled));
             } else {
-                showSnackBar(getString(R.string.snackbar_msg_error_unknow));
+                Utils.showSnackBar(binding.loginLayout, getString(R.string.snackbar_msg_error_unknow));
             }
         });
     }
 
-    // Show Snack Bar with a message
-    private void showSnackBar(String message) {
-        Snackbar.make(binding.mainLayout, message, Snackbar.LENGTH_SHORT).show();
+
+    // Launching Profile Activity
+    private void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void setupListeners() {
