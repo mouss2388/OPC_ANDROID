@@ -1,4 +1,4 @@
-package com.example.projet_7;
+package com.example.projet_7.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,15 +8,16 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.projet_7.databinding.ActivityMainBinding;
+import com.example.projet_7.R;
+import com.example.projet_7.databinding.ActivityLoginBinding;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    private ActivityLoginBinding binding;
     private ActivityResultLauncher<Intent> startForResult = null;
 
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_SignInActivity);
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
