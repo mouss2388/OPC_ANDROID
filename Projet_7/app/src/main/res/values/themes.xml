@@ -10,18 +10,21 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/google</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="Theme.SignInActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:fitsSystemWindows">true</item>
+
     </style>
 
     <!-- Toolbar theme. -->
     <style name="ToolBarStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:background">@color/main_color</item>
+        <item name="android:statusBarColor">@color/google</item>
     </style>
 </resources>

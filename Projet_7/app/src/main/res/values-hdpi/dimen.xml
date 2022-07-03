@@ -17,4 +17,6 @@
     <dimen name="button_icon_padd">20dp</dimen>
     <dimen name="button_icon_size">16dp</dimen>
 
+    <!--Default NavigationView Header height -->
+    <dimen name="nav_header_height">176dp</dimen>
 </resources>
