@@ -1,8 +1,10 @@
 package com.example.projet_7.ui;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityMainBinding;
 import com.example.projet_7.utils.Utils;
@@ -35,6 +39,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureDrawerLayout();
 
         this.configureNavigationView();
+
+        String urlPictureTest = "https://randomuser.me/api/portraits/women/75.jpg";
+        this.setProfilePicture(urlPictureTest);
+    }
+
+    private void setProfilePicture(String profilePictureUrl) {
+        View navHeader = binding.activityMainNavView.getHeaderView(0);
+        Glide.with(this)
+                .load(profilePictureUrl)
+                .apply(RequestOptions.circleCropTransform())
+                .into((ImageView) navHeader.findViewById(R.id.user_Picture));
     }
 
     @Override
