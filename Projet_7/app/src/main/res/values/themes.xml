@@ -27,4 +27,13 @@
         <item name="android:background">@color/main_color</item>
         <item name="android:statusBarColor">@color/google</item>
     </style>
+
+    <style name="whiteText">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="whiteTextBold" parent="whiteText">
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

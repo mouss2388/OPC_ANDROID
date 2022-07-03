@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_anon_user_48dp.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_email_logo.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_facebook_logo.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_google_logo.xml" value="0.1" />
@@ -11,7 +12,7 @@
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_view_list_24.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/activity_main_nav_header.xml" value="0.16927083333333334" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/activity_main_nav_header.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/menu/activity_main_menu_drawer.xml" value="0.16927083333333334" />
       </map>
     </option>

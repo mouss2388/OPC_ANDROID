@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureDrawerLayout();
 
         this.configureNavigationView();
-
-        this.showFirstFragment();
     }
 
     @Override
@@ -61,17 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureNavigationView() {
         binding.activityMainNavView.setNavigationItemSelectedListener(this);
     }
-
-
-
-    private void showFirstFragment(){
-
-        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(binding.activityMainFrameLayout.getId());
-        if (visibleFragment == null){
-            binding.activityMainNavView.getMenu().getItem(0).setChecked(true);
-        }
-    }
-
 
 
     @Override

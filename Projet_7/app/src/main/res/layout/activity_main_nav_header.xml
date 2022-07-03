@@ -1,16 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="#B2B9E1"
-    android:gravity="center"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/nav_header_background_blur"
+    >
 
-    <ImageView
-        android:id="@+id/imageView"
+    <TextView
+        android:id="@+id/navigation_View_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/logo_go_4_lunch" />
+        android:layout_marginTop="@dimen/nav_title_marg_top"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/nav_header_title_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/nav_header_padd_Bottom"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/user_Picture"
+            android:layout_width="@dimen/user_picture"
+            android:layout_height="@dimen/user_picture"
+            app:srcCompat="@drawable/ic_anon_user_48dp"
+            android:contentDescription="@string/picture_of_user" />
+
+        <androidx.legacy.widget.Space
+            android:layout_width="@dimen/space"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/user_Name"
+                app:theme = "@style/whiteTextBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="John Smith"
+                android:text="John Smith"
+                android:textSize="@dimen/nav_header_userName_size"
+                />
+            <TextView
+                android:id="@+id/user_Email"
+                app:theme = "@style/whiteText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="jsmith.1337@gmail.com"
+                android:text="jsmith.1337@gmail.com"
+                android:textSize="@dimen/nav_header_userEmail_size"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
