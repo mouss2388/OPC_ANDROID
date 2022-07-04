@@ -38,6 +38,19 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="false"
         app:headerLayout="@layout/activity_main_nav_header"
-        app:menu="@menu/activity_main_menu_drawer" />
+        app:menu="@menu/activity_main_menu_drawer"
+        android:background="@color/orange"
+        app:itemBackground="@drawable/nav_item_background"
+        app:itemIconSize="@dimen/icon_menu_size"
+        app:itemIconTint="@color/white"
+        app:itemTextAppearance="@style/MenuItemTextAppearance"
+        app:itemTextColor="@drawable/nav_item_text"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/logo_lunch_menu_size"
+            android:layout_gravity="bottom"
+            android:src="@drawable/bowl_logo_menu" />
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

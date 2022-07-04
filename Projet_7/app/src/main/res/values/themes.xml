@@ -28,6 +28,7 @@
         <item name="android:statusBarColor">@color/google</item>
     </style>
 
+    <!--NAVIGATION VIEW-->
     <style name="whiteText">
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/white</item>
@@ -35,5 +36,10 @@
 
     <style name="whiteTextBold" parent="whiteText">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MenuItemTextAppearance">
+        <item name="textAllCaps">true</item>
+        <item name="android:textSize">@dimen/text_menu_size</item>
     </style>
 </resources>

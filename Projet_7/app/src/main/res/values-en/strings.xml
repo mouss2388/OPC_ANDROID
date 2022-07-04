@@ -15,9 +15,9 @@
     <!-- NAVIGATION DRAWER -->
     <string name="app_title">I\'m Hungry!</string>
     <string name="available_workmates">Available workmates</string>
-    <string name="your_lunch">YOUR LUNCH</string>
-    <string name="settings">SETTINGS</string>
-    <string name="logout">LOGOUT</string>
+    <string name="your_lunch">your lunch</string>
+    <string name="settings">settings</string>
+    <string name="logout">logout</string>
 
     <!-- RESTAURANT DETAILS -->
     <string name="call">CALL</string>

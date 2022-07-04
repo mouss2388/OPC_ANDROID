@@ -15,9 +15,9 @@
     <!-- NAVIGATION DRAWER -->
     <string name="app_title">J\'ai faim!</string>
     <string name="available_workmates">Collègues disponibles</string>
-    <string name="your_lunch">VOTRE DEJEUNER</string>
-    <string name="settings">REGLAGES</string>
-    <string name="logout">SE DECONNECTER</string>
+    <string name="your_lunch">votre déjeuner</string>
+    <string name="settings">réglages</string>
+    <string name="logout">se déconnecter</string>
 
     <!-- RESTAURANT DETAILS -->
     <string name="call">APPELER</string>

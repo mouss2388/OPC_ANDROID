@@ -31,4 +31,8 @@
 
     <dimen name="nav_header_userName_size">14sp</dimen>
     <dimen name="nav_header_userEmail_size">12sp</dimen>
+
+    <dimen name="icon_menu_size">16dp</dimen>
+    <dimen name="text_menu_size">12sp</dimen>
+    <dimen name="logo_lunch_menu_size">84dp</dimen>
 </resources>
