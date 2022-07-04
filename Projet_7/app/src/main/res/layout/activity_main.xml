@@ -23,10 +23,30 @@
             app:theme="@style/ToolBarStyle" />
 
         <!-- FrameLayout for our fragments -->
-        <FrameLayout
-            android:id="@+id/activity_main_frame_layout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/activity_main_frame_layout"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/bottom_nav_view"
+                />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottom_nav_view"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="@color/orange"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:menu="@menu/bottom_nav_menu" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
@@ -36,16 +56,16 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/orange"
         android:fitsSystemWindows="false"
         app:headerLayout="@layout/activity_main_nav_header"
-        app:menu="@menu/activity_main_menu_drawer"
-        android:background="@color/orange"
         app:itemBackground="@drawable/nav_item_background"
         app:itemIconSize="@dimen/icon_menu_size"
         app:itemIconTint="@color/white"
         app:itemTextAppearance="@style/MenuItemTextAppearance"
         app:itemTextColor="@drawable/nav_item_text"
-        >
+        app:menu="@menu/activity_main_menu_drawer">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="@dimen/logo_lunch_menu_size"
