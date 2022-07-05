@@ -136,34 +136,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void updateMenuWithUserData() {
-        if (userManager.isCurrentUserLogged()) {
-            View navHeader = binding.activityMainNavView.getHeaderView(0);
-            FirebaseUser user = userManager.getCurrentUser();
 
+        if (userManager.isCurrentUserLogged()) {
+
+            FirebaseUser user = userManager.getCurrentUser();
             if (user.getPhotoUrl() != null) {
-                setProfilePicture(user.getPhotoUrl(), navHeader);
+                setProfilePicture(user.getPhotoUrl());
             }
-            setTextUserData(user, navHeader);
+            setTextUserData(user);
         }
     }
 
-    private void setProfilePicture(Uri profilePictureUrl, View navHeader) {
+    private void setProfilePicture(Uri profilePictureUrl) {
 
         Glide.with(this)
                 .load(profilePictureUrl)
                 .apply(RequestOptions.circleCropTransform())
-                .into((ImageView) navHeader.findViewById(R.id.user_Picture));
+                .into((ImageView) accessMenuHeaderInfo().findViewById(R.id.user_Picture));
     }
 
-    private void setTextUserData(FirebaseUser user, View navHeader) {
+    private View accessMenuHeaderInfo() {
+        return binding.activityMainNavView.getHeaderView(0);
+    }
+
+    private void setTextUserData(FirebaseUser user) {
 
         //Get email & username from User
         String userName = TextUtils.isEmpty(user.getDisplayName()) ? getString(R.string.info_no_username_found) : user.getDisplayName();
         String userEmail = TextUtils.isEmpty(user.getEmail()) ? getString(R.string.info_no_email_found) : user.getEmail();
 
         //Update views with data
-        TextView userNameTv = navHeader.findViewById(R.id.user_Name);
-        TextView userEmailTv =navHeader.findViewById(R.id.user_Email);
+        TextView userNameTv = accessMenuHeaderInfo().findViewById(R.id.user_Name);
+        TextView userEmailTv = accessMenuHeaderInfo().findViewById(R.id.user_Email);
         userNameTv.setText(userName);
         userEmailTv.setText(userEmail);
     }
@@ -174,7 +178,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (binding.mainLayout.isDrawerOpen(GravityCompat.START)) {
             binding.mainLayout.closeDrawer(GravityCompat.START);
         } else {
-            Utils.showSnackBar(binding.mainLayout, getString(R.string.snackbar_log_out));        }
+            Utils.showSnackBar(binding.mainLayout, getString(R.string.snackbar_log_out));
+        }
     }
 
 }
