@@ -58,4 +58,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="info_no_email_found">No email address found</string>
+    <string name="info_no_username_found">No username found</string>
 </resources>

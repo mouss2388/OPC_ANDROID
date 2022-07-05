@@ -1,6 +1,7 @@
 package com.example.projet_7.manager;
 
 import com.example.projet_7.repository.UserRepository;
+import com.google.firebase.auth.FirebaseUser;
 
 public class UserManager {
 
@@ -22,6 +23,14 @@ public class UserManager {
             }
             return instance;
         }
+    }
+
+    public FirebaseUser getCurrentUser(){
+        return userRepository.getCurrentUser();
+    }
+
+    public Boolean isCurrentUserLogged(){
+        return (this.getCurrentUser() != null);
     }
 
 }
