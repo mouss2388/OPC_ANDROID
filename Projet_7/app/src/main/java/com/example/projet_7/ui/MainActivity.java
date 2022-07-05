@@ -168,5 +168,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userEmailTv.setText(userEmail);
     }
 
+    @Override
+    public void onBackPressed() {
+        // 5 - Handle back click to close menu
+        if (binding.mainLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.mainLayout.closeDrawer(GravityCompat.START);
+        } else {
+            Utils.showSnackBar(binding.mainLayout, getString(R.string.snackbar_log_out));        }
+    }
 
 }
