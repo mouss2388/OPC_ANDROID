@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class UserManager {
 
     private static volatile UserManager instance;
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
 
     private UserManager() {
         userRepository = UserRepository.getInstance();
@@ -20,7 +20,7 @@ public class UserManager {
         if (result != null) {
             return result;
         }
-        synchronized(UserRepository.class) {
+        synchronized (UserRepository.class) {
             if (instance == null) {
                 instance = new UserManager();
             }
@@ -28,16 +28,19 @@ public class UserManager {
         }
     }
 
-    public FirebaseUser getCurrentUser(){
+    public FirebaseUser getCurrentUser() {
         return userRepository.getCurrentUser();
     }
 
-    public Boolean isCurrentUserLogged(){
+    public Boolean isCurrentUserLogged() {
         return (this.getCurrentUser() != null);
     }
 
-    public Task<Void> signOut(Context context){
+    public Task<Void> signOut(Context context) {
         return userRepository.signOut(context);
     }
 
+    public Task<Void> deleteUser(Context context) {
+        return userRepository.deleteUser(context);
+    }
 }

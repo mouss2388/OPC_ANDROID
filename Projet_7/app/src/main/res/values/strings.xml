@@ -7,7 +7,15 @@
     <string name="snackbar_msg_login_cancelled">Authentification annulée !</string>
     <string name="snackbar_msg_error_unknow">Une erreur est survenue !</string>
     <string name="snackbar_log_out">Veuillez-vous déconnecte !</string>
-    <string name="snackbar_you_are_log_out">Vous êtes déconnecté !</string>
+
+    <!-- SETTINGS-->
+    <string name="button_delete_account">Supprimer mon compte</string>
+    <string name="popup_message_confirmation_delete_account">Es-tu sûr(e) de vouloir supprimer votre compte ?</string>
+    <string name="popup_message_choice_yes">Oui</string>
+    <string name="popup_message_choice_no">Non</string>
+    <string name="msg_you_are_log_out">Vous êtes déconnecté !</string>
+    <string name="msg_acount_is_removed">Votre compte est supprimé !</string>
+    <string name="button_close_settings">Bouton de fermeture des paramètres</string>
 
     <!--LOGINS BUTTONS -->
     <string name="sign_in_email">Se connecter avec Email</string>

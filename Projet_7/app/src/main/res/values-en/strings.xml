@@ -7,7 +7,15 @@
     <string name="snackbar_msg_login_cancelled">Authentification cancelled !</string>
     <string name="snackbar_msg_error_unknow">An error has occurred !</string>
     <string name="snackbar_log_out">Please log out !</string>
-    <string name="snackbar_you_are_log_out">Your are logout !</string>
+
+    <!-- SETTINGS-->
+    <string name="button_delete_account">Delete my account</string>
+    <string name="popup_message_confirmation_delete_account">Are you sure you want to delete your  account ?</string>
+    <string name="popup_message_choice_yes">Yes</string>
+    <string name="popup_message_choice_no">No</string>
+    <string name="msg_you_are_log_out">Your are logout !</string>
+    <string name="msg_acount_is_removed">Your account is deleted !</string>
+    <string name="button_close_settings">Button close settings</string>
 
     <!--LOGINS BUTTONS -->
     <string name="sign_in_email">Sign in with Email</string>

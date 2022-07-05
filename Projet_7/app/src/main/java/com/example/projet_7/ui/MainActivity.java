@@ -1,16 +1,21 @@
 package com.example.projet_7.ui;
 
+import android.app.Dialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -42,15 +47,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View view = binding.getRoot();
         setContentView(view);
 
+        this.showSnackBarLogin();
         this.configureMenu();
         this.configureBottomNav();
         this.updateMenuWithUserData();
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    private void showSnackBarLogin() {
         Utils.showSnackBar(binding.mainLayout, getString(R.string.snackbar_msg_login_success));
     }
 
@@ -123,18 +127,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "menu_Item_1", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.menu_Item_2) {
-            Toast.makeText(this, "menu_Item_2", Toast.LENGTH_SHORT).show();
+            Dialog dialog = configDialogSetting();
+            setupListenerDialogSettings(dialog);
 
         } else if (id == R.id.menu_Item_3) {
             userManager.signOut(this).addOnSuccessListener(aVoid -> {
                 finish();
-                Toast.makeText(this, getString(R.string.snackbar_you_are_log_out), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.msg_you_are_log_out), Toast.LENGTH_SHORT).show();
             });
         }
 
         binding.mainLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private Dialog configDialogSetting(){
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.settings_layout);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        return dialog;
+    }
+
+    private void setupListenerDialogSettings(Dialog dialog){
+
+        dialog.show();
+        ImageButton close = dialog.findViewById(R.id.close_Settings);
+        Button deleteAccount = dialog.findViewById(R.id.remove_Account);
+
+        deleteAccount.setOnClickListener(v -> new AlertDialog.Builder(this)
+                .setMessage(R.string.popup_message_confirmation_delete_account)
+                .setPositiveButton(R.string.popup_message_choice_yes, (dialogInterface, i) ->
+                        userManager.deleteUser(MainActivity.this)
+                                .addOnSuccessListener(aVoid -> {
+                                            dialog.dismiss();
+                                            finish();
+                                            Toast.makeText(this, getString(R.string.msg_acount_is_removed), Toast.LENGTH_SHORT).show();
+
+                                        }
+                                )
+                )
+                .setNegativeButton(R.string.popup_message_choice_no, null)
+                .show());
+
+        close.setOnClickListener(v -> dialog.dismiss());
     }
 
     private void updateMenuWithUserData() {
