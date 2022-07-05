@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Projet_7</string>
+    <string name="app_name">Go4Lunch</string>
 
     <!-- SNACKBAR -->
     <string name="snackbar_msg_login_success">Authentification success !</string>
@@ -15,9 +15,9 @@
     <!-- NAVIGATION DRAWER -->
     <string name="app_title">I\'m Hungry!</string>
     <string name="available_workmates">Available workmates</string>
-    <string name="your_lunch">YOUR LUNCH</string>
-    <string name="settings">SETTINGS</string>
-    <string name="logout">LOGOUT</string>
+    <string name="your_lunch">your lunch</string>
+    <string name="settings">settings</string>
+    <string name="logout">logout</string>
 
     <!-- RESTAURANT DETAILS -->
     <string name="call">CALL</string>
@@ -43,4 +43,19 @@
     <string name="facebook_application_id">992952868077563</string>
     <string name="facebook_login_protocol_scheme">fb992952868077563</string>
     <string name="facebook_client_token">9b50d4f46987800eb63bb458c14e12ef</string>
+
+    <!-- Used in NavigationDrawer -->
+    <string name="menu_Item_1">Menu item 1</string>
+    <string name="menu_Item_2">Menu item 2</string>
+    <string name="menu_Item_3">Menu item 3</string>
+    <string name="menu_title">Title Menu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="picture_of_user">picture of user</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

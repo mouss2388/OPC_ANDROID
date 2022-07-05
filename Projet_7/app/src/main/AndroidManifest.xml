@@ -14,10 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Projet_7"
+        android:hardwareAccelerated="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.MainActivity"
-            android:exported="false" />
+            android:name=".ui.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -27,8 +30,10 @@
             android:value="@string/facebook_client_token" />
 
         <activity
-            android:name=".ui.LoginActivity"
-            android:exported="true">
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
