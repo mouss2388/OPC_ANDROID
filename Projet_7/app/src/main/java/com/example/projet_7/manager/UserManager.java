@@ -1,6 +1,9 @@
 package com.example.projet_7.manager;
 
+import android.content.Context;
+
 import com.example.projet_7.repository.UserRepository;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 
 public class UserManager {
@@ -31,6 +34,10 @@ public class UserManager {
 
     public Boolean isCurrentUserLogged(){
         return (this.getCurrentUser() != null);
+    }
+
+    public Task<Void> signOut(Context context){
+        return userRepository.signOut(context);
     }
 
 }

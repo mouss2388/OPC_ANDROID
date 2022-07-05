@@ -7,6 +7,7 @@
     <string name="snackbar_msg_login_cancelled">Authentification cancelled !</string>
     <string name="snackbar_msg_error_unknow">An error has occurred !</string>
     <string name="snackbar_log_out">Please log out !</string>
+    <string name="snackbar_you_are_log_out">Your are logout !</string>
 
     <!--LOGINS BUTTONS -->
     <string name="sign_in_email">Sign in with Email</string>

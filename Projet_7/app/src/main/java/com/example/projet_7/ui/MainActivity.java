@@ -126,8 +126,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "menu_Item_2", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.menu_Item_3) {
-            Toast.makeText(this, "menu_Item_3", Toast.LENGTH_SHORT).show();
-
+            userManager.signOut(this).addOnSuccessListener(aVoid -> {
+                finish();
+                Toast.makeText(this, getString(R.string.snackbar_you_are_log_out), Toast.LENGTH_SHORT).show();
+            });
         }
 
         binding.mainLayout.closeDrawer(GravityCompat.START);
