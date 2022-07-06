@@ -37,7 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMainBinding binding;
-    private UserManager userManager = UserManager.getInstance();
+    private final UserManager userManager = UserManager.getInstance();
 
 
     @Override
@@ -142,14 +142,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private Dialog configDialogSetting(){
+    private Dialog configDialogSetting() {
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.settings_layout);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         return dialog;
     }
 
-    private void setupListenerDialogSettings(Dialog dialog){
+    private void setupListenerDialogSettings(Dialog dialog) {
 
         dialog.show();
         ImageButton close = dialog.findViewById(R.id.close_Settings);
@@ -182,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setProfilePicture(user.getPhotoUrl());
             }
             setTextUserData(user);
+            getUserData();
         }
     }
 
@@ -199,15 +200,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setTextUserData(FirebaseUser user) {
 
-        //Get email & username from User
-        String userName = TextUtils.isEmpty(user.getDisplayName()) ? getString(R.string.info_no_username_found) : user.getDisplayName();
-        String userEmail = TextUtils.isEmpty(user.getEmail()) ? getString(R.string.info_no_email_found) : user.getEmail();
 
-        //Update views with data
-        TextView userNameTv = accessMenuHeaderInfo().findViewById(R.id.user_Name);
-        TextView userEmailTv = accessMenuHeaderInfo().findViewById(R.id.user_Email);
-        userNameTv.setText(userName);
-        userEmailTv.setText(userEmail);
+            String userEmail = TextUtils.isEmpty(user.getEmail()) ? getString(R.string.info_no_email_found) : user.getEmail();
+
+            TextView userEmailTv = accessMenuHeaderInfo().findViewById(R.id.user_Email);
+            userEmailTv.setText(userEmail);
+
+            String username = TextUtils.isEmpty(user.getDisplayName()) ? getString(R.string.info_no_username_found) : user.getDisplayName();
+
+            TextView usernameTv = accessMenuHeaderInfo().findViewById(R.id.user_Name);
+            usernameTv.setText(username);
+
+    }
+
+    private void getUserData() {
+        userManager.getUserData().addOnSuccessListener(user -> {
+            // Set the data with the user information
+            if (user != null) {
+                String username = TextUtils.isEmpty(user.getUsername()) ? getString(R.string.info_no_username_found) : user.getUsername();
+                TextView usernameTv = accessMenuHeaderInfo().findViewById(R.id.user_Name);
+
+                usernameTv.setText(username);
+            }
+        });
     }
 
     @Override

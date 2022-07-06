@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityLoginBinding;
+import com.example.projet_7.manager.UserManager;
 import com.example.projet_7.utils.Utils;
 import com.firebase.ui.auth.AuthUI;
 
@@ -19,7 +20,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     private ActivityResultLauncher<Intent> startForResult = null;
-
+    private final UserManager userManager = UserManager.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 
             if (result.getResultCode() == RESULT_OK) {
-                // userManager.createUser();
+                userManager.createUser();
                 startMainActivity();
 
             } else if (result.getResultCode() == RESULT_CANCELED) {

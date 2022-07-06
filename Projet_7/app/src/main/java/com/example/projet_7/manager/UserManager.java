@@ -1,10 +1,14 @@
 package com.example.projet_7.manager;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.example.projet_7.model.User;
 import com.example.projet_7.repository.UserRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 public class UserManager {
 
@@ -40,7 +44,23 @@ public class UserManager {
         return userRepository.signOut(context);
     }
 
+    ////FIRESTORE
+
+    public void createUser() {
+        userRepository.createUser();
+    }
+
+    public Task<User> getUserData() {
+        // Get the user from Firestore and cast it to a User model Object
+        return Objects.requireNonNull(userRepository.getUserData()).continueWith(task -> task.getResult().toObject(User.class));
+    }
+
     public Task<Void> deleteUser(Context context) {
-        return userRepository.deleteUser(context);
+        // Delete the user account from the Auth
+        userRepository.deleteUserFromFirestore();
+        return userRepository.deleteUser(context).addOnCompleteListener(task -> {
+            // Once done, delete the user datas from Firestore
+            Toast.makeText(context, "User supprimé", Toast.LENGTH_SHORT).show();
+        });
     }
 }
