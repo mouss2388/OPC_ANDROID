@@ -1,5 +1,6 @@
 package com.example.projet_7.ui.maps;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,11 @@ import com.example.projet_7.databinding.FragmentMapsBinding;
 public class MapsFragment extends Fragment {
 
     private FragmentMapsBinding binding;
+    private Context context;
+
+    public MapsFragment(Context context) {
+        this.context = context;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -24,7 +30,6 @@ public class MapsFragment extends Fragment {
         binding = FragmentMapsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textMaps;
 //        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }

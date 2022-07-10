@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showFirstFrag() {
-        replaceFragment(new MapsFragment());
+        replaceFragment(new MapsFragment(getBaseContext()));
     }
 
     private void setupListernerBottomNav() {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.bottomNavView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_maps:
-                    replaceFragment(new MapsFragment());
+                    replaceFragment(new MapsFragment(getBaseContext()));
                     break;
                 case R.id.navigation_restaurants:
                     replaceFragment(new RestaurantsFragment());
