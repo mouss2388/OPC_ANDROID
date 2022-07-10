@@ -57,4 +57,10 @@ dependencies {
     //BOTTOM NAVIGATION
     implementation 'androidx.navigation:navigation-fragment:2.5.0'
     implementation 'androidx.navigation:navigation-ui:2.5.0'
+    //PLAY SERVICES
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    //FRAGMENTS ANDROIDX
+    implementation 'androidx.fragment:fragment:1.5.0'
+    implementation 'com.google.android.libraries.places:places:2.6.0'
 }
