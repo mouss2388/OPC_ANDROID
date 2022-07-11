@@ -1,5 +1,7 @@
 package com.example.projet_7.ui.maps;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -7,6 +9,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.projet_7.BuildConfig;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.FragmentMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -31,8 +35,20 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.PlaceLikelihood;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
+
+import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("MissingPermission")
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -51,7 +67,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private LocationRequest mLocationRequest = null;
     private LocationCallback mLocationCallback = null;
 
-    private  GoogleMap googleMap;
+    private GoogleMap googleMap;
+    private PlacesClient placesClient;
 
 
     public MapsFragment(Context context) {
@@ -92,6 +109,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         mLocationRequest = null;
         mLocationCallback = null;
         googleMap = null;
+        Places.initialize(this.context, BuildConfig.API_KEY);
+        placesClient = Places.createClient(this.context);
 
         initCallBackLocation();
         createLocationRequest();
@@ -150,8 +169,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
                 assert supportMapFragment != null;
                 supportMapFragment.getMapAsync(MapsFragment.this);
-
-            }else {
+            } else {
                 requestLocationUpdate();
                 fetchLocation();
             }
@@ -209,6 +227,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         super.onStop();
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -221,6 +240,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public boolean onMyLocationButtonClick() {
         Toast.makeText(getActivity(), "onMyLocationButtonClick clicked", Toast.LENGTH_SHORT)
                 .show();
+        showRestaurantAround();
         return false;
     }
 
@@ -235,6 +255,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         this.googleMap = googleMap;
         this.googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        this.googleMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                        this.context, R.raw.style_json));
         this.googleMap.setOnMyLocationButtonClickListener(this);
         this.googleMap.setOnMyLocationClickListener(this);
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
@@ -243,6 +266,65 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         this.googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19));
+        showRestaurantAround();
+    }
+
+    private void showRestaurantAround() {
+
+        List<Place.Field> placeFieldsFindCurrentPlace =
+                Arrays.asList(Place.Field.ID, Place.Field.TYPES,
+                        Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.NAME);
+
+
+        // Use the builder to create a FindCurrentPlaceRequest.
+        FindCurrentPlaceRequest request =
+                FindCurrentPlaceRequest.newInstance(placeFieldsFindCurrentPlace);
+
+        final Task<FindCurrentPlaceResponse> placeResult =
+                placesClient.findCurrentPlace(request);
+
+        Log.d(TAG, "onShow");
+        placeResult.addOnCompleteListener(task -> {
+
+            Log.d(TAG, "task");
+            FindCurrentPlaceResponse likelyPlaces = task.getResult();
+            for (PlaceLikelihood p : likelyPlaces.getPlaceLikelihoods()) {
+                if (checkIfTypeOfPlaceIsARestaurant(p.getPlace().getTypes())) {
+                    addMarkerToRestaurant(p);
+                }
+            }
+        });
+    }
+
+
+    private boolean checkIfTypeOfPlaceIsARestaurant(List<Place.Type> types) {
+
+        if (types == null) {
+            return false;
+        }
+        List<Place.Type> typeMeal = Arrays.asList(Place.Type.RESTAURANT, Place.Type.MEAL_TAKEAWAY, Place.Type.FOOD);
+
+        for (Place.Type type : types) {
+            if (typeMeal.contains(type)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addMarkerToRestaurant(PlaceLikelihood place) {
+
+        Place restaurant = place.getPlace();
+
+        if (restaurant.getLatLng() != null) {
+
+            googleMap.addMarker(new MarkerOptions()
+                    .position(restaurant.getLatLng())
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurant_unbooked_24))
+                    .title(restaurant.getName())
+                    .snippet(restaurant.getAddress())
+                    .flat(true));
+        }
     }
 }
