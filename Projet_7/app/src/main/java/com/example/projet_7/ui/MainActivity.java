@@ -1,7 +1,10 @@
 package com.example.projet_7.ui;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -13,10 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -39,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActivityMainBinding binding;
     private final UserManager userManager = UserManager.getInstance();
 
+    private String[] PERMISSIONS;
+    private ActivityResultLauncher<String[]> requestPermissionLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +56,82 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View view = binding.getRoot();
         setContentView(view);
 
+        this.initData();
+        this.handleResponsePermissionsRequest();
+
+        if (this.isAndroidVersionBelowMarshmallow()) {
+            showMapFragment();
+        } else {
+            checkPermissions();
+        }
+
         this.showSnackBarLogin();
         this.configureMenu();
         this.configureBottomNav();
         this.updateMenuWithUserData();
 
+    }
+
+    private void initData() {
+        PERMISSIONS = new String[]{
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+        };
+
+        requestPermissionLauncher = null;
+    }
+
+    private void handleResponsePermissionsRequest() {
+
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
+
+                    boolean areAllGranted = true;
+
+                    for (Boolean b : permissions.values()) {
+                        areAllGranted = areAllGranted && b;
+                    }
+
+                    if (areAllGranted) {
+                        showMapFragment();
+                    } else {
+                        Toast.makeText(getBaseContext(), "You can't use application normally", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private boolean isAndroidVersionBelowMarshmallow() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M;
+    }
+
+    private void checkPermissions() {
+
+        if (hasPermissions()) {
+            showMapFragment();
+        } else {
+            askLocationPermissions();
+        }
+    }
+
+    private boolean hasPermissions() {
+
+        if (getBaseContext() != null && PERMISSIONS != null) {
+            for (String permission : PERMISSIONS) {
+                if (ContextCompat.checkSelfPermission(getBaseContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void showMapFragment() {
+        replaceFragment(new MapsFragment(getBaseContext()));
+    }
+
+    private void askLocationPermissions() {
+        requestPermissionLauncher.launch(PERMISSIONS);
     }
 
     private void showSnackBarLogin() {
@@ -85,12 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void configureBottomNav() {
-        this.showFirstFrag();
         this.setupListernerBottomNav();
-    }
-
-    private void showFirstFrag() {
-        replaceFragment(new MapsFragment(getBaseContext()));
     }
 
     private void setupListernerBottomNav() {
@@ -98,7 +173,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.bottomNavView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_maps:
-                    replaceFragment(new MapsFragment(getBaseContext()));
+                    if (hasPermissions()) {
+                        replaceFragment(new RestaurantsFragment());
+                    }
                     break;
                 case R.id.navigation_restaurants:
                     replaceFragment(new RestaurantsFragment());
@@ -201,15 +278,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setTextUserData(FirebaseUser user) {
 
 
-            String userEmail = TextUtils.isEmpty(user.getEmail()) ? getString(R.string.info_no_email_found) : user.getEmail();
+        String userEmail = TextUtils.isEmpty(user.getEmail()) ? getString(R.string.info_no_email_found) : user.getEmail();
 
-            TextView userEmailTv = accessMenuHeaderInfo().findViewById(R.id.user_Email);
-            userEmailTv.setText(userEmail);
+        TextView userEmailTv = accessMenuHeaderInfo().findViewById(R.id.user_Email);
+        userEmailTv.setText(userEmail);
 
-            String username = TextUtils.isEmpty(user.getDisplayName()) ? getString(R.string.info_no_username_found) : user.getDisplayName();
+        String username = TextUtils.isEmpty(user.getDisplayName()) ? getString(R.string.info_no_username_found) : user.getDisplayName();
 
-            TextView usernameTv = accessMenuHeaderInfo().findViewById(R.id.user_Name);
-            usernameTv.setText(username);
+        TextView usernameTv = accessMenuHeaderInfo().findViewById(R.id.user_Name);
+        usernameTv.setText(username);
 
     }
 

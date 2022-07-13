@@ -2,11 +2,8 @@ package com.example.projet_7.ui.maps;
 
 import static android.content.ContentValues.TAG;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -15,11 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.projet_7.BuildConfig;
@@ -58,9 +52,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private final Context context;
     private SupportMapFragment supportMapFragment;
 
-    private String[] PERMISSIONS;
-    private ActivityResultLauncher<String[]> requestPermissionLauncher;
-
     private Location currentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -86,25 +77,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         super.onViewCreated(view, savedInstanceState);
 
         this.initData();
-        this.handleResponsePermissionsRequest();
-
-        if (this.isAndroidVersionBelowMarshmallow()) {
-            fetchLocation();
-        } else {
-            checkPermissions();
-        }
+        fetchLocation();
     }
 
     private void initData() {
-
-        PERMISSIONS = new String[]{
-                Manifest.permission.INTERNET,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-        };
-
         currentLocation = null;
-        requestPermissionLauncher = null;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.context.getApplicationContext());
         mLocationRequest = null;
         mLocationCallback = null;
@@ -135,29 +112,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 .setInterval(LOCATION_REQUEST_INTERVAL);
     }
 
-    private void handleResponsePermissionsRequest() {
-
-        requestPermissionLauncher =
-                registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
-
-                    boolean areAllGranted = true;
-
-                    for (Boolean b : permissions.values()) {
-                        areAllGranted = areAllGranted && b;
-                    }
-
-                    if (areAllGranted) {
-                        checkPermissions();
-                    } else {
-                        Toast.makeText(context, "You can't use application normally", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private boolean isAndroidVersionBelowMarshmallow() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M;
-    }
-
     private void fetchLocation() {
 
         Task<Location> task = mFusedLocationClient.getLastLocation();
@@ -183,31 +137,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 mLocationCallback,
                 Looper.myLooper()
         );
-    }
-
-    private void checkPermissions() {
-
-        if (hasPermissions()) {
-            fetchLocation();
-        } else {
-            askLocationPermissions();
-        }
-    }
-
-    private boolean hasPermissions() {
-
-        if (context != null && PERMISSIONS != null) {
-            for (String permission : PERMISSIONS) {
-                if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private void askLocationPermissions() {
-        requestPermissionLauncher.launch(PERMISSIONS);
     }
 
     @Override
