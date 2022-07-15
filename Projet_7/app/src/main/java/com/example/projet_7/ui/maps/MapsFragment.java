@@ -32,6 +32,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -46,7 +47,7 @@ import java.util.List;
 
 @SuppressWarnings("MissingPermission")
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener {
+        GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener {
 
     private FragmentMapsBinding binding;
     private final Context context;
@@ -196,6 +197,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         this.googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19));
+        this.googleMap.setOnMarkerClickListener(this);
         showRestaurantAround();
     }
 
@@ -248,12 +250,19 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         if (restaurant.getLatLng() != null) {
 
-            googleMap.addMarker(new MarkerOptions()
+            this.googleMap.addMarker(new MarkerOptions()
                     .position(restaurant.getLatLng())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurant_unbooked_24))
                     .title(restaurant.getName())
                     .snippet(restaurant.getAddress())
                     .flat(true));
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+
+        Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
+        return false;
     }
 }
