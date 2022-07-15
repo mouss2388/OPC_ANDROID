@@ -7,6 +7,7 @@ import com.example.projet_7.model.User;
 import com.example.projet_7.repository.UserRepository;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
 
@@ -48,6 +49,10 @@ public class UserManager {
 
     public void createUser() {
         userRepository.createUser();
+    }
+
+    public Task<DocumentSnapshot> isUserExists() {
+        return userRepository.isUserExists();
     }
 
     public Task<User> getUserData() {

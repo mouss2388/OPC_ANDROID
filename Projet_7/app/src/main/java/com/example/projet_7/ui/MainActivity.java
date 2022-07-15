@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             switch (item.getItemId()) {
                 case R.id.navigation_maps:
                     if (hasPermissions()) {
-                        replaceFragment(new RestaurantsFragment());
+                        replaceFragment(new MapsFragment(getBaseContext()));
                     }
                     break;
                 case R.id.navigation_restaurants:
@@ -298,6 +298,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 TextView usernameTv = accessMenuHeaderInfo().findViewById(R.id.user_Name);
 
                 usernameTv.setText(username);
+
+                String urlPhoto = user.getUrlPicture();
+                if(urlPhoto != null){
+                    Uri photo = Uri.parse(user.getUrlPicture());
+                    setProfilePicture(photo);
+                }
             }
         });
     }

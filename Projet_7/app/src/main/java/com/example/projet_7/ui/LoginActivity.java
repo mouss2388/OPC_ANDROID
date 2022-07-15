@@ -38,8 +38,12 @@ public class LoginActivity extends AppCompatActivity {
         startForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
 
             if (result.getResultCode() == RESULT_OK) {
-                userManager.createUser();
-                startMainActivity();
+                userManager.isUserExists().addOnSuccessListener(documentSnapshot -> {
+                    if (!documentSnapshot.exists()) {
+                        userManager.createUser();
+                    }
+                    startMainActivity();
+                });
 
             } else if (result.getResultCode() == RESULT_CANCELED) {
                 Utils.showSnackBar(binding.loginLayout, getString(R.string.snackbar_msg_login_cancelled));
