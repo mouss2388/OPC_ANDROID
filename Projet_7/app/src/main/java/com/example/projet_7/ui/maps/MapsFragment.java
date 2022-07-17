@@ -1,6 +1,8 @@
 package com.example.projet_7.ui.maps;
 
 import static android.content.ContentValues.TAG;
+import static com.example.projet_7.utils.Utils.getDistanceBetween;
+import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
 
 import android.content.Context;
 import android.location.Location;
@@ -44,6 +46,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @SuppressWarnings("MissingPermission")
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -250,19 +253,29 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         if (restaurant.getLatLng() != null) {
 
-            this.googleMap.addMarker(new MarkerOptions()
+            Objects.requireNonNull(this.googleMap.addMarker(new MarkerOptions()
                     .position(restaurant.getLatLng())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurant_unbooked_24))
                     .title(restaurant.getName())
-                    .snippet(restaurant.getAddress())
-                    .flat(true));
+                    .snippet(restaurant.getId())
+                    .flat(true))).setTag(restaurant.getId());
         }
     }
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
 
-        Toast.makeText(context, marker.getTitle(), Toast.LENGTH_SHORT).show();
+        Location destination = new Location("");
+        destination.setLatitude(marker.getPosition().latitude);
+        destination.setLongitude(marker.getPosition().longitude);
+
+        Toast.makeText(context, Objects.requireNonNull(marker.getTag()).toString(), Toast.LENGTH_SHORT).show();
+        StringBuilder currentLocationCoord = getLatLngForMatrixApi(currentLocation);
+
+        StringBuilder destinationCoord = getLatLngForMatrixApi(marker.getPosition());
+
+        getDistanceBetween(getContext(), currentLocationCoord, destinationCoord);
+
         return false;
     }
 }
