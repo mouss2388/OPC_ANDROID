@@ -21,6 +21,11 @@ import androidx.fragment.app.Fragment;
 import com.example.projet_7.BuildConfig;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.FragmentMapsBinding;
+import com.example.projet_7.model.matrix_api.Distance;
+import com.example.projet_7.model.matrix_api.Duration;
+import com.example.projet_7.model.matrix_api.ElementsItem;
+import com.example.projet_7.model.matrix_api.RowsItem;
+import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -50,7 +55,7 @@ import java.util.Objects;
 
 @SuppressWarnings("MissingPermission")
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener, OnMatrixApiListReceivedCallback {
 
     private FragmentMapsBinding binding;
     private final Context context;
@@ -274,8 +279,19 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         StringBuilder destinationCoord = getLatLngForMatrixApi(marker.getPosition());
 
-        getDistanceBetween(getContext(), currentLocationCoord, destinationCoord);
+        getDistanceBetween(this, getContext(), currentLocationCoord, destinationCoord);
 
         return false;
+    }
+
+    @Override
+    public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem) {
+
+        List<ElementsItem> elementsItems = rowsItem.get(0).getElements();
+        Distance distance = elementsItems.get(0).getDistance();
+        Duration duration = elementsItems.get(0).getDuration();
+
+        Toast.makeText(getContext(), "distance:" + distance.getText(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "duration:" + duration.getText(), Toast.LENGTH_SHORT).show();
     }
 }

@@ -27,7 +27,7 @@ public class Utils {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    public static void getDistanceBetween(Context contex, StringBuilder currentLocationLatLng, StringBuilder destinationLatLng) {
+    public static void getDistanceBetween(OnMatrixApiListReceivedCallback callback,Context context, StringBuilder currentLocationLatLng, StringBuilder destinationLatLng) {
         Call<Response> call = MatrixApiClient.matrixApiService().getResult(currentLocationLatLng, destinationLatLng);
 
         call.enqueue(new Callback<Response>() {
@@ -37,18 +37,13 @@ public class Utils {
 
                     assert response.body() != null;
                     List<RowsItem> rowsItem = response.body().getRows();
-                    List<ElementsItem> elementsItems = rowsItem.get(0).getElements();
-                    Distance distance = elementsItems.get(0).getDistance();
-                    Duration duration = elementsItems.get(0).getDuration();
-
-                    Toast.makeText(contex, "distance:" + distance.getText(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(contex, "duration:" + duration.getText(), Toast.LENGTH_SHORT).show();
+                    callback.onMatrixApiListReceivedCallback(rowsItem);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
-                Toast.makeText(contex, "Failure distance request", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Failure distance request", Toast.LENGTH_SHORT).show();
             }
         });
     }
