@@ -36,6 +36,7 @@ public class RestaurantRepository {
                 Arrays.asList(Place.Field.ID, Place.Field.TYPES,
                         Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.NAME);
 
+        // Use the builder to create a FindCurrentPlaceRequest.
         FindCurrentPlaceRequest request =
                 FindCurrentPlaceRequest.newInstance(placeFieldsFindCurrentPlace);
 
@@ -52,7 +53,7 @@ public class RestaurantRepository {
                 if (checkIfTypeOfPlaceIsARestaurant(p.getPlace().getTypes())) {
 
                     restaurants.add(
-                            new Restaurant(p.getPlace().getId(), p.getPlace().getName(), p.getPlace().getAddress(), p.getPlace().getLatLng(), p.getPlace().getTypes()
+                            new Restaurant(p.getPlace().getId(),p.getPlace().getName(), p.getPlace().getAddress(), p.getPlace().getLatLng(), p.getPlace().getTypes()
                             ));
                 }
             }

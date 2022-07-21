@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Le Zinc" />
+
+    <TextView
+        android:id="@+id/type_Of_Restaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        tools:text="French -" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        tools:text=" 12 rue deu Faubourg Poissonnière" />
+
+    <TextView
+        android:id="@+id/opening_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address"
+        tools:text="Open until 7pm" />
+
+    <ImageView
+        android:id="@+id/photo_restaurant"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:contentDescription="picture of restaurant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@drawable/login_background"
+        />
+
+    <TextView
+        android:id="@+id/distance_to_restaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey"
+        app:layout_constraintEnd_toStartOf="@id/photo_restaurant"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp"
+        tools:text="120m" />
+
+    <LinearLayout
+        android:id="@+id/rating_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/distance_to_restaurant"
+        app:layout_constraintEnd_toEndOf="@id/distance_to_restaurant"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="logo people"
+            tools:background="@drawable/ic_person_outline_24"
+            />
+    <TextView
+        android:id="@+id/total_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        tools:text="(2)"
+        />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/rating_total"
+        app:layout_constraintTop_toBottomOf="@id/rating_total"
+        tools:numStars="2"
+        tools:progressBackgroundTint="#FFE500"
+        tools:progressTint="#FFE500"
+        tools:stepSize="10" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

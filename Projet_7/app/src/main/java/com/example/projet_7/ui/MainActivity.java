@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.example.projet_7.BuildConfig;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityMainBinding;
 import com.example.projet_7.manager.UserManager;
+import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.ui.maps.MapsFragment;
 import com.example.projet_7.ui.restaurants.RestaurantsFragment;
 import com.example.projet_7.ui.workmates.WorkmatesFragment;
@@ -44,6 +46,9 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
