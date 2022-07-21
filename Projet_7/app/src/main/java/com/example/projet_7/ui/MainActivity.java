@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,24 +28,35 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.projet_7.BuildConfig;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityMainBinding;
 import com.example.projet_7.manager.UserManager;
+import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.ui.maps.MapsFragment;
 import com.example.projet_7.ui.restaurants.RestaurantsFragment;
 import com.example.projet_7.ui.workmates.WorkmatesFragment;
 import com.example.projet_7.utils.Utils;
+import com.example.projet_7.viewModel.RestaurantViewModel;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMainBinding binding;
     private final UserManager userManager = UserManager.getInstance();
 
+    RestaurantViewModel restaurantViewModel;
+    public static PlacesClient placesClient;
     private String[] PERMISSIONS;
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
 
@@ -56,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View view = binding.getRoot();
         setContentView(view);
 
+        this.initViewModel();
         this.initData();
         this.handleResponsePermissionsRequest();
 
@@ -70,6 +83,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureBottomNav();
         this.updateMenuWithUserData();
 
+    }
+
+    private void initViewModel() {
+        Places.initialize(this, BuildConfig.API_KEY);
+        placesClient = Places.createClient(this);
+
+        restaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
+//        restaurantViewModel.getLiveData().observe(this, restaurants -> {
+//            Log.i("TEST", "initViewModel: " + restaurants.size());
+//        });
+        restaurantViewModel.getRestaurants(placesClient);
     }
 
     private void initData() {
@@ -300,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 usernameTv.setText(username);
 
                 String urlPhoto = user.getUrlPicture();
-                if(urlPhoto != null){
+                if (urlPhoto != null) {
                     Uri photo = Uri.parse(user.getUrlPicture());
                     setProfilePicture(photo);
                 }
