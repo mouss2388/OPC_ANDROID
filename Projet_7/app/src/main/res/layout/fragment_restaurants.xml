@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.restaurants.RestaurantsFragment">
+    tools:context=".ui.workmates.WorkmatesFragment">
 
     <TextView
-        android:id="@+id/text_restaurants"
+        android:id="@+id/text_workmates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

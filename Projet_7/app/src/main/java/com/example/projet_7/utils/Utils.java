@@ -7,9 +7,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.projet_7.model.matrix_api.Distance;
-import com.example.projet_7.model.matrix_api.Duration;
-import com.example.projet_7.model.matrix_api.ElementsItem;
 import com.example.projet_7.model.matrix_api.Response;
 import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.service.matrix_api.MatrixApiClient;
@@ -27,7 +24,7 @@ public class Utils {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    public static void getDistanceBetween(OnMatrixApiListReceivedCallback callback,Context context, StringBuilder currentLocationLatLng, StringBuilder destinationLatLng) {
+    public static void getDistanceBetween(OnMatrixApiListReceivedCallback callback, Context context, StringBuilder currentLocationLatLng, StringBuilder destinationLatLng) {
         Call<Response> call = MatrixApiClient.matrixApiService().getResult(currentLocationLatLng, destinationLatLng);
 
         call.enqueue(new Callback<Response>() {
