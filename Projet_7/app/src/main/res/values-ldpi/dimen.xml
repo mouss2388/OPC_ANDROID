@@ -35,4 +35,13 @@
     <dimen name="icon_menu_size">14dp</dimen>
     <dimen name="text_menu_size">10sp</dimen>
     <dimen name="logo_lunch_menu_size">60dp</dimen>
+
+    <!--RecyclerView Restaurants-->
+    <dimen name="name_restaurant_size">14sp</dimen>
+    <dimen name="address_restaurant_size">11sp</dimen>
+    <dimen name="opening_hour_restaurant_size">12sp</dimen>
+    <dimen name="distance_to_restaurant_size">14sp</dimen>
+    <dimen name="total_rating_restaurant_size">12sp</dimen>
+    <dimen name="image_restaurant_size">56dp</dimen>
+
 </resources>
