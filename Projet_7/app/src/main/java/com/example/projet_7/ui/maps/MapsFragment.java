@@ -4,6 +4,7 @@ import static com.example.projet_7.utils.Utils.getDistanceBetween;
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -22,6 +23,7 @@ import com.example.projet_7.databinding.FragmentMapsBinding;
 import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.matrix_api.ElementsItem;
 import com.example.projet_7.model.matrix_api.RowsItem;
+import com.example.projet_7.ui.DetailActivity;
 import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.example.projet_7.viewModel.RestaurantViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -250,11 +252,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         ElementsItem matrixItem = rowsItem.get(0).getElements().get(0);
         getInfoDistanceRestaurant(matrixItem);
+        startDetailActivity();
     }
+
 
     void getInfoDistanceRestaurant(ElementsItem matrixItem) {
         Toast.makeText(context, "distance:" + matrixItem.getDistance().getText(), Toast.LENGTH_SHORT).show();
         Toast.makeText(context, "duree:" + matrixItem.getDuration().getText(), Toast.LENGTH_SHORT).show();
+    }
 
+    private void startDetailActivity() {
+        Intent intent= new Intent(getContext(), DetailActivity.class);
+        startActivity(intent);
     }
 }
