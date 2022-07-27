@@ -20,8 +20,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.FragmentMapsBinding;
 import com.example.projet_7.model.Restaurant;
-import com.example.projet_7.model.matrix_api.Distance;
-import com.example.projet_7.model.matrix_api.Duration;
 import com.example.projet_7.model.matrix_api.ElementsItem;
 import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
@@ -125,7 +123,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         task.addOnSuccessListener(location -> {
             if (location != null) {
                 currentLocation = location;
-                Toast.makeText(getActivity(), currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
 
                 supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
                 assert supportMapFragment != null;
@@ -251,11 +248,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem) {
 
-        List<ElementsItem> elementsItems = rowsItem.get(0).getElements();
-        Distance distance = elementsItems.get(0).getDistance();
-        Duration duration = elementsItems.get(0).getDuration();
+        ElementsItem matrixItem = rowsItem.get(0).getElements().get(0);
+        getInfoDistanceRestaurant(matrixItem);
+    }
 
-        Toast.makeText(getContext(), "distance:" + distance.getText(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getContext(), "duration:" + duration.getText(), Toast.LENGTH_SHORT).show();
+    void getInfoDistanceRestaurant(ElementsItem matrixItem) {
+        Toast.makeText(context, "distance:" + matrixItem.getDistance().getText(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "duree:" + matrixItem.getDuration().getText(), Toast.LENGTH_SHORT).show();
+
     }
 }

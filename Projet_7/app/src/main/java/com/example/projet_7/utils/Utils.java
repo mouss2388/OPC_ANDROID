@@ -13,6 +13,7 @@ import com.example.projet_7.service.matrix_api.MatrixApiClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,4 +54,10 @@ public class Utils {
     public static StringBuilder getLatLngForMatrixApi(LatLng position) {
         return new StringBuilder().append(position.latitude).append(",").append(position.longitude);
     }
+
+    public static int getDayOfWeek(){
+        Calendar calendar = Calendar.getInstance();
+        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        return dayIndex;
+        }
 }

@@ -14,9 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.projet_7.databinding.FragmentRestaurantsBinding;
 import com.example.projet_7.model.Restaurant;
+import com.example.projet_7.model.matrix_api.ElementsItem;
+import com.example.projet_7.model.matrix_api.RowsItem;
+import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.example.projet_7.viewModel.RestaurantViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class RestaurantsFragment extends Fragment {
@@ -37,19 +41,9 @@ public class RestaurantsFragment extends Fragment {
         binding = FragmentRestaurantsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         initRecyclerView();
+
+
         return root;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        restaurantViewModel.getLiveData().observe(getViewLifecycleOwner(), mRestaurants -> {
-            restaurants.clear();
-            restaurants.addAll(mRestaurants);
-            binding.recyclerview.getAdapter().notifyDataSetChanged();
-        });
-
     }
 
     private void initRecyclerView() {
@@ -63,8 +57,19 @@ public class RestaurantsFragment extends Fragment {
                 layoutManager.getOrientation());
         binding.recyclerview.addItemDecoration(dividerItemDecoration);
         binding.recyclerview.setAdapter(mAdapter);
-
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        restaurantViewModel.getLiveData().observe(getViewLifecycleOwner(), mRestaurants -> {
+            restaurants.clear();
+            restaurants.addAll(mRestaurants);
+            binding.recyclerview.getAdapter().notifyDataSetChanged();
+        });
+    }
+
 
     @Override
     public void onDestroyView() {
