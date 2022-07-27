@@ -1,5 +1,7 @@
 package com.example.projet_7.ui.restaurants;
 
+import static com.example.projet_7.utils.Utils.convertPurcentageToRating;
+import static com.example.projet_7.utils.Utils.convertRatingToPurcentage;
 import static com.example.projet_7.utils.Utils.getDayOfWeek;
 
 import android.graphics.drawable.Drawable;
@@ -98,20 +100,11 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             if (restaurant.getPhoto() != null) {
                 photo.setImageBitmap(restaurant.getPhoto());
             } else {
-
                 Drawable photoBydefault = this.itemView.getResources().getDrawable(R.drawable.ic_no_image_available);
                 photo.setImageDrawable(photoBydefault);
             }
             String distance_str = "300m";
             distance.setText(distance_str);
-        }
-
-        private double convertRatingToPurcentage(double rating_restaurant) {
-            return rating_restaurant * 100 / 5;
-        }
-
-        private float convertPurcentageToRating(double purcentage) {
-            return (float) (purcentage * 3 / 100);
         }
     }
 

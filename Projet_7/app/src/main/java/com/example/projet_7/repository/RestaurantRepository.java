@@ -26,13 +26,19 @@ import java.util.Objects;
 public class RestaurantRepository {
 
     private final MutableLiveData<ArrayList<Restaurant>> mutableLiveData;
+    private final MutableLiveData<Restaurant> mutableLiveDataDetail;
 
     public RestaurantRepository() {
         this.mutableLiveData = new MutableLiveData<>();
+        this.mutableLiveDataDetail = new MutableLiveData<>();
     }
 
     public LiveData<ArrayList<Restaurant>> getMutableLiveData() {
         return mutableLiveData;
+    }
+
+    public LiveData<Restaurant> getMutableLiveDataDetail() {
+        return mutableLiveDataDetail;
     }
 
     public void getRestaurants(PlacesClient placesClient) {
@@ -103,33 +109,47 @@ public class RestaurantRepository {
         });
     }
 
-//    public void getDetailRestaurant(String placeId) {
-//
-//        List<Place.Field> placeFields =
-//                Arrays.asList(Place.Field.ID, Place.Field.TYPES,
-//                        Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.NAME, Place.Field.RATING, Place.Field.USER_RATINGS_TOTAL);
-//
-//
-//        // Construct a request object, passing the place ID and fields array.
-//        final FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
-//
-//
-//        placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
-//            Place place = response.getPlace();
-//            Restaurant restaurant = new Restaurant(place.getId(), place.getName(), place.getAddress(), place.getLatLng(), place.getRating(), place.getUserRatingsTotal(), place.getTypes());
-//            mutableLiveDataDetail.setValue(restaurant);
-//            Log.i("getDetailRestaurant", "Place found: " + place.getName());
-//        }).addOnFailureListener((exception) -> {
-    // TODO: JUST SAVE THEN TRANSFERT
-    //
-//            if (exception instanceof ApiException) {
-//                final ApiException apiException = (ApiException) exception;
-//                Log.e("getDetailRestaurant", "Place not found: " + exception.getMessage());
-//                final int statusCode = apiException.getStatusCode();
-//                // TODO: Handle error with given status code.
-//            }
-//        });
-//    }
+
+    public void getDetailRestaurant(PlacesClient placesClient, String placeId) {
+
+
+        List<Place.Field> placeFieldsDetail =
+                Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.NAME, Place.Field.RATING, Place.Field.PHOTO_METADATAS, Place.Field.PHONE_NUMBER,Place.Field.WEBSITE_URI);
+
+
+        // Construct a request object, passing the place ID and fields array.
+        final FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFieldsDetail);
+
+
+        placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
+            Place placeDetail = response.getPlace();
+
+            Restaurant restaurant;
+            double rating = placeDetail.getRating() != null ? placeDetail.getRating() : 0.0;
+
+            final List<PhotoMetadata> metadata = placeDetail.getPhotoMetadatas();
+            if (metadata == null || metadata.isEmpty()) {
+                restaurant =
+                        new Restaurant(placeDetail.getId(), placeDetail.getName(), placeDetail.getAddress(), rating,placeDetail.getPhoneNumber(), placeDetail.getWebsiteUri());
+
+                mutableLiveDataDetail.setValue(restaurant);
+            } else {
+                final PhotoMetadata photoMetadata = metadata.get(0);
+                final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
+                        .setMaxWidth(500) // Optional.
+                        .setMaxHeight(300) // Optional.
+                        .build();
+
+                placesClient.fetchPhoto(photoRequest).addOnSuccessListener((fetchPhotoResponse) -> {
+                    Bitmap photo = fetchPhotoResponse.getBitmap();
+                    Restaurant restaurantPhoto =
+                            new Restaurant(placeDetail.getId(), placeDetail.getName(), placeDetail.getAddress(), null, rating,
+                                    0, null, placeDetail.getOpeningHours(), photo);
+                    mutableLiveDataDetail.setValue(restaurantPhoto);
+                });
+            }
+        });
+    }
 
 
     private boolean checkIfTypeOfPlaceIsARestaurant(List<Place.Type> types) {

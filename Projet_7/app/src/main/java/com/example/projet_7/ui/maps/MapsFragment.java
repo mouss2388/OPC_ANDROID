@@ -238,11 +238,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         destination.setLatitude(marker.getPosition().latitude);
         destination.setLongitude(marker.getPosition().longitude);
 
-        StringBuilder currentLocationCoord = getLatLngForMatrixApi(currentLocation);
+        startDetailActivity(getContext(),marker.getTag().toString());
 
+        StringBuilder currentLocationCoord = getLatLngForMatrixApi(currentLocation);
         StringBuilder destinationCoord = getLatLngForMatrixApi(marker.getPosition());
 
-        getDistanceBetween(this, getContext(), currentLocationCoord, destinationCoord);
+        //getDistanceBetween(this, getContext(), currentLocationCoord, destinationCoord);
 
         return false;
     }
@@ -252,7 +253,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         ElementsItem matrixItem = rowsItem.get(0).getElements().get(0);
         getInfoDistanceRestaurant(matrixItem);
-        startDetailActivity();
     }
 
 
@@ -261,8 +261,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         Toast.makeText(context, "duree:" + matrixItem.getDuration().getText(), Toast.LENGTH_SHORT).show();
     }
 
-    private void startDetailActivity() {
-        Intent intent= new Intent(getContext(), DetailActivity.class);
-        startActivity(intent);
+
+
+    private void startDetailActivity(Context context,String id){
+        Intent intent = new Intent(context, DetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("id_restaurant", id);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }

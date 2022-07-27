@@ -1,12 +1,14 @@
 package com.example.projet_7.model;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.model.OpeningHours;
 import com.google.android.libraries.places.api.model.Place;
 
 import java.util.List;
+
 @SuppressWarnings("unused")
 public class Restaurant {
 
@@ -21,7 +23,16 @@ public class Restaurant {
     private int userRatingTotal;
     private boolean isOpen;
     private List<Place.Type> types;
+    private Uri website;
 
+    public Restaurant(String id, String name, String address, double rating, String phoneNumber, Uri website) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.rating = rating;
+        this.phoneNumber = phoneNumber;
+        this.website = website;
+    }
 
     public Restaurant(String id, String name, String address, LatLng latLng, double rating, int userRatingTotal, List<Place.Type> types, OpeningHours openingHours, Bitmap photo) {
         this.id = id;
@@ -34,6 +45,7 @@ public class Restaurant {
         this.openingHours = openingHours;
         this.photo = photo;
     }
+
 
     public String getId() {
         return id;
@@ -121,5 +133,13 @@ public class Restaurant {
 
     public void setTypes(List<Place.Type> types) {
         this.types = types;
+    }
+
+    public Uri getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(Uri website) {
+        this.website = website;
     }
 }

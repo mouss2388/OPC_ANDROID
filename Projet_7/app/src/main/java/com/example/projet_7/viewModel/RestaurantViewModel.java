@@ -26,5 +26,13 @@ public class RestaurantViewModel extends ViewModel {
         restaurantRepository.getRestaurants(placesClient);
     }
 
+    public LiveData<Restaurant> getLiveDataDetail() {
+        return restaurantRepository.getMutableLiveDataDetail();
+    }
+
+    public void getRestaurantDetail(PlacesClient placesClient, String placeId) {
+        restaurantRepository.getDetailRestaurant(placesClient, placeId);
+    }
+
 
 }

@@ -60,4 +60,12 @@ public class Utils {
         int dayIndex = calendar.get(Calendar.DAY_OF_WEEK) - 1;
         return dayIndex;
         }
+
+    public static double convertRatingToPurcentage(double rating_restaurant) {
+        return rating_restaurant * 100 / 5;
+    }
+
+    public static float convertPurcentageToRating(double purcentage) {
+        return (float) (purcentage * 3 / 100);
+    }
 }
