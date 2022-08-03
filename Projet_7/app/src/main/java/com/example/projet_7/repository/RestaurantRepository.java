@@ -61,10 +61,9 @@ public class RestaurantRepository {
             ArrayList<Restaurant> restaurants = new ArrayList<>();
 
             FindCurrentPlaceResponse likelyPlaces = task.getResult();
-            int number_of_restaurant = likelyPlaces.getPlaceLikelihoods().size();
-            String id_last_restaurant = likelyPlaces.getPlaceLikelihoods().get(number_of_restaurant - 1).getPlace().getId();
-            for (PlaceLikelihood p : likelyPlaces.getPlaceLikelihoods()) {
 
+
+            for (PlaceLikelihood p : likelyPlaces.getPlaceLikelihoods()) {
                 Place place = p.getPlace();
                 if (checkIfTypeOfPlaceIsARestaurant(place.getTypes())) {
                     final FetchPlaceRequest requestDetail = FetchPlaceRequest.newInstance(Objects.requireNonNull(place.getId()), placeFieldsDetail);
@@ -81,10 +80,10 @@ public class RestaurantRepository {
                             restaurants.add(
                                     new Restaurant(place.getId(), place.getName(), place.getAddress(), place.getLatLng(), rating,
                                             userRatingTotal, place.getTypes(), placeDetail.getOpeningHours(), null));
-                            if (place.getId().equals(id_last_restaurant)) {
+//                            if (finalCounter_restaurant == number_of_restaurant - 1) {
 
                                 mutableLiveData.setValue(restaurants);
-                            }
+//                            }
                         } else {
                             final PhotoMetadata photoMetadata = metadata.get(0);
                             final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
@@ -97,10 +96,10 @@ public class RestaurantRepository {
                                 restaurants.add(
                                         new Restaurant(place.getId(), place.getName(), place.getAddress(), place.getLatLng(), rating,
                                                 userRatingTotal, place.getTypes(), placeDetail.getOpeningHours(), photo));
-                                if (place.getId().equals(id_last_restaurant)) {
+//                                if (finalCounter_restaurant == number_of_restaurant - 1) {
 
                                     mutableLiveData.setValue(restaurants);
-                                }
+//                                }
                             });
                         }
                     });
@@ -114,7 +113,7 @@ public class RestaurantRepository {
 
 
         List<Place.Field> placeFieldsDetail =
-                Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.NAME, Place.Field.RATING, Place.Field.PHOTO_METADATAS, Place.Field.PHONE_NUMBER,Place.Field.WEBSITE_URI);
+                Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.NAME, Place.Field.RATING, Place.Field.PHOTO_METADATAS, Place.Field.PHONE_NUMBER, Place.Field.WEBSITE_URI);
 
 
         // Construct a request object, passing the place ID and fields array.
@@ -130,7 +129,7 @@ public class RestaurantRepository {
             final List<PhotoMetadata> metadata = placeDetail.getPhotoMetadatas();
             if (metadata == null || metadata.isEmpty()) {
                 restaurant =
-                        new Restaurant(placeDetail.getId(), placeDetail.getName(), placeDetail.getAddress(), rating,placeDetail.getPhoneNumber(), placeDetail.getWebsiteUri());
+                        new Restaurant(placeDetail.getId(), placeDetail.getName(), placeDetail.getAddress(), rating, placeDetail.getPhoneNumber(), placeDetail.getWebsiteUri());
 
                 mutableLiveDataDetail.setValue(restaurant);
             } else {

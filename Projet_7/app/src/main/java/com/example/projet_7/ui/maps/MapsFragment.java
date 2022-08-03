@@ -1,6 +1,5 @@
 package com.example.projet_7.ui.maps;
 
-import static com.example.projet_7.utils.Utils.getDistanceBetween;
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
 
 import android.content.Context;
@@ -24,6 +23,7 @@ import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.matrix_api.ElementsItem;
 import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.ui.DetailActivity;
+import com.example.projet_7.ui.MainActivity;
 import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.example.projet_7.viewModel.RestaurantViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -176,6 +176,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         Toast.makeText(getActivity(), "onMyLocationButtonClick clicked", Toast.LENGTH_SHORT)
                 .show();
         addMarkerToRestaurants();
+        restaurantViewModel.getRestaurants(MainActivity.placesClient);
         return false;
     }
 
@@ -238,7 +239,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         destination.setLatitude(marker.getPosition().latitude);
         destination.setLongitude(marker.getPosition().longitude);
 
-        startDetailActivity(getContext(),marker.getTag().toString());
+        startDetailActivity(getContext(), marker.getTag().toString());
 
         StringBuilder currentLocationCoord = getLatLngForMatrixApi(currentLocation);
         StringBuilder destinationCoord = getLatLngForMatrixApi(marker.getPosition());
@@ -262,8 +263,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
 
-
-    private void startDetailActivity(Context context,String id){
+    private void startDetailActivity(Context context, String id) {
         Intent intent = new Intent(context, DetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("id_restaurant", id);

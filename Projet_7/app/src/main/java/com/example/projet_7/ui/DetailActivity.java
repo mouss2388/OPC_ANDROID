@@ -13,12 +13,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.projet_7.BuildConfig;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityDetailBinding;
 import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.viewModel.RestaurantViewModel;
-import com.google.android.libraries.places.api.Places;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -47,12 +45,10 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void initViewModel(String placeId) {
-        Places.initialize(this, BuildConfig.API_KEY);
-        placesClient = Places.createClient(this);
 
         restaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
         restaurantViewModel.getLiveDataDetail().observe(this, this::bindValues);
-        restaurantViewModel.getRestaurantDetail(placesClient, placeId);
+        restaurantViewModel.getRestaurantDetail(MainActivity.placesClient, placeId);
 
     }
 
