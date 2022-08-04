@@ -89,6 +89,7 @@ public final class UserRepository {
     }
 
     // Create User in Firestore
+    //TODO Add restaurantBookedId
     public void createUser() {
         FirebaseUser user = getCurrentUser();
         if (user != null) {

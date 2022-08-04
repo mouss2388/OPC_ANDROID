@@ -210,6 +210,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     private void addMarkerToRestaurants() {
 
+        //TODO get workMates here and check restaurantBookedId
         restaurantViewModel.getLiveData().observe(getViewLifecycleOwner(), mRestaurants -> {
             restaurants.clear();
             restaurants.addAll(mRestaurants);

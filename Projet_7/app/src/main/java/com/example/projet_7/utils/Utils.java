@@ -3,10 +3,14 @@ package com.example.projet_7.utils;
 import android.content.Context;
 import android.location.Location;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.projet_7.model.matrix_api.Response;
 import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.service.matrix_api.MatrixApiClient;
@@ -55,11 +59,11 @@ public class Utils {
         return new StringBuilder().append(position.latitude).append(",").append(position.longitude);
     }
 
-    public static int getDayOfWeek(){
+    public static int getDayOfWeek() {
         Calendar calendar = Calendar.getInstance();
         int dayIndex = calendar.get(Calendar.DAY_OF_WEEK) - 1;
         return dayIndex;
-        }
+    }
 
     public static double convertRatingToPurcentage(double rating_restaurant) {
         return rating_restaurant * 100 / 5;
@@ -67,5 +71,13 @@ public class Utils {
 
     public static float convertPurcentageToRating(double purcentage) {
         return (float) (purcentage * 3 / 100);
+    }
+
+    public static void getPictureCroppedWithGlide(Context context, String url, ImageView imageView) {
+        Glide.with(context)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .apply(RequestOptions.circleCropTransform())
+                .into(imageView);
     }
 }

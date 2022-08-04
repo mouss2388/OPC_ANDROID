@@ -9,6 +9,7 @@ public class User {
     @Nullable
     private String urlPicture;
 
+    //TODO Add restaurantBookedId (Getter and Setter)
     public User() { }
 
     public User(String uid, String username, @Nullable String urlPicture) {
