@@ -1,9 +1,10 @@
 package com.example.projet_7.repository;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.projet_7.model.User;
 import com.firebase.ui.auth.AuthUI;
@@ -13,15 +14,22 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
 
 public final class UserRepository {
 
     private static final String COLLECTION_NAME = "users";
     private static final String USERNAME_FIELD = "username";
 
+    private final MutableLiveData<ArrayList<User>> mutableLiveData;
+
     private static volatile UserRepository instance;
 
-    private UserRepository() {
+
+    public UserRepository() {
+        this.mutableLiveData = new MutableLiveData<>();
     }
 
     public static UserRepository getInstance() {
@@ -102,4 +110,19 @@ public final class UserRepository {
         return this.getUsersCollection().document(uid).get();
     }
 
+    public LiveData<ArrayList<User>> getMutableLiveData() {
+        return mutableLiveData;
+    }
+
+    public void getUsersData() {
+
+        ArrayList<User> users = new ArrayList<>();
+
+        this.getUsersCollection().whereNotEqualTo("uid", getCurrentUserUID()).get().addOnCompleteListener(task -> {
+            for (QueryDocumentSnapshot user : task.getResult()) {
+                users.add(user.toObject(User.class));
+            }
+            mutableLiveData.setValue(users);
+        });
+    }
 }
