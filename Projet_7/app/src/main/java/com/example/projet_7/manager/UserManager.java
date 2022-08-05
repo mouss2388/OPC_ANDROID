@@ -68,4 +68,8 @@ public class UserManager {
             Toast.makeText(context, "User supprimé", Toast.LENGTH_SHORT).show();
         });
     }
+
+    public void updateUserData(User user) {
+        userRepository.updateUser(user);
+    }
 }

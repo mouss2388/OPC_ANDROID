@@ -96,8 +96,9 @@ public final class UserRepository {
             String urlPicture = (user.getPhotoUrl() != null) ? user.getPhotoUrl().toString() : null;
             String username = user.getDisplayName();
             String uid = user.getUid();
+            String restaurantBookedId = "";
 
-            User userToCreate = new User(uid, username, urlPicture);
+            User userToCreate = new User(uid, username, urlPicture, restaurantBookedId);
 
             Task<DocumentSnapshot> userData = getUserData();
             // If the user already exist in Firestore, we get his data (isMentor)
@@ -125,5 +126,15 @@ public final class UserRepository {
             }
             mutableLiveData.setValue(users);
         });
+    }
+
+    public void updateUser(User user) {
+        FirebaseUser currentUser = getCurrentUser();
+        if (user != null) {
+            Task<DocumentSnapshot> userData = getUserData();
+            String uid = currentUser.getUid();
+            assert userData != null;
+            userData.addOnSuccessListener(documentSnapshot -> this.getUsersCollection().document(uid).set(user));
+        }
     }
 }

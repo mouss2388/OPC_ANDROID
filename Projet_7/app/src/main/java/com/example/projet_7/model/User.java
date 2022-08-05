@@ -9,20 +9,22 @@ public class User {
     @Nullable
     private String urlPicture;
 
-    //TODO Add restaurantBookedId (Getter and Setter)
+    private String restaurantBookedId;
     public User() { }
 
-    public User(String uid, String username, @Nullable String urlPicture) {
+
+    public User(String uid, String username, @Nullable String urlPicture, String restaurantBookedId) {
         this.uid = uid;
         this.username = username;
         this.urlPicture = urlPicture;
+        this.restaurantBookedId = restaurantBookedId;
     }
-
 
 
     // --- GETTERS ---
     public String getUid() { return uid; }
     public String getUsername() { return username; }
+
     @Nullable
     public String getUrlPicture() { return urlPicture; }
 
@@ -31,4 +33,11 @@ public class User {
     public void setUid(String uid) { this.uid = uid; }
     public void setUrlPicture(@Nullable String urlPicture) { this.urlPicture = urlPicture; }
 
+    public String getRestaurantBookedId() {
+        return restaurantBookedId;
+    }
+
+    public void setRestaurantBookedId(String restaurantBookedId) {
+        this.restaurantBookedId = restaurantBookedId;
+    }
 }

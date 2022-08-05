@@ -1,6 +1,5 @@
 package com.example.projet_7.ui;
 
-import static com.example.projet_7.ui.MainActivity.placesClient;
 import static com.example.projet_7.utils.Utils.convertPurcentageToRating;
 import static com.example.projet_7.utils.Utils.convertRatingToPurcentage;
 
@@ -15,14 +14,17 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityDetailBinding;
+import com.example.projet_7.manager.UserManager;
 import com.example.projet_7.model.Restaurant;
+import com.example.projet_7.model.User;
 import com.example.projet_7.viewModel.RestaurantViewModel;
 
 public class DetailActivity extends AppCompatActivity {
 
     private ActivityDetailBinding binding;
     private RestaurantViewModel restaurantViewModel;
-    private String placeId;
+    private final UserManager userManager = UserManager.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,8 @@ public class DetailActivity extends AppCompatActivity {
     private void getIdRestaurant() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            String id = bundle.getString("id_restaurant");
-            initViewModel(id);
+            String idRestaurant = bundle.getString("id_restaurant");
+            initViewModel(idRestaurant);
         }
     }
 
@@ -63,7 +65,21 @@ public class DetailActivity extends AppCompatActivity {
         } else {
             binding.starsRatingRestaurant.setRating(rating);
         }
+
+        setBookFloatBUtton(restaurant);
         initListeners(restaurant);
+    }
+
+    private void setBookFloatBUtton(Restaurant restaurant) {
+            userManager.getUserData().addOnCompleteListener(task -> {
+                User user = task.getResult();
+                if (user.getRestaurantBookedId().isEmpty() || !user.getRestaurantBookedId().equals(restaurant.getId())) {
+                    binding.addFavorite.setImageResource(R.drawable.ic_check_circle_outline_24);
+                } else {
+                    binding.addFavorite.setImageResource(R.drawable.ic_check_circle_24);
+                }
+
+            });
     }
 
     private void initListeners(Restaurant restaurant) {
@@ -85,11 +101,20 @@ public class DetailActivity extends AppCompatActivity {
             Toast.makeText(this, "NONE WEB_URI", Toast.LENGTH_SHORT).show();
         }
 
-        binding.like.setOnClickListener(v -> {
-            //TODO CHECK IF USER HAS BOOKED/UNBOOKED THIS RESTAURANT THEN UPDATE DEFAULT ICON
 
-            Toast.makeText(this, "Like", Toast.LENGTH_SHORT).show();
-            binding.addFavorite.setImageResource(R.drawable.ic_check_circle_24);
-        });
+        binding.like.setOnClickListener(v -> userManager.getUserData().addOnCompleteListener(task -> {
+            User user = task.getResult();
+            if (user.getRestaurantBookedId().isEmpty()  || !user.getRestaurantBookedId().equals(restaurant.getId())) {
+                binding.addFavorite.setImageResource(R.drawable.ic_check_circle_24);
+                user.setRestaurantBookedId(restaurant.getId());
+                userManager.updateUserData(user);
+                Toast.makeText(this, "booked", Toast.LENGTH_SHORT).show();
+            } else {
+                binding.addFavorite.setImageResource(R.drawable.ic_check_circle_outline_24);
+                user.setRestaurantBookedId("");
+                userManager.updateUserData(user);
+                Toast.makeText(this, "unbooked", Toast.LENGTH_SHORT).show();
+            }
+        }));
     }
 }
