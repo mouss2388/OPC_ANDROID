@@ -2,6 +2,7 @@ package com.example.projet_7.ui.restaurants;
 
 import static com.example.projet_7.utils.Utils.convertPurcentageToRating;
 import static com.example.projet_7.utils.Utils.convertRatingToPurcentage;
+import static com.example.projet_7.utils.Utils.getBitmapWithGlide;
 import static com.example.projet_7.utils.Utils.getDayOfWeek;
 
 import android.graphics.drawable.Drawable;
@@ -17,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projet_7.R;
 import com.example.projet_7.model.Restaurant;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -98,7 +97,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             }
 
             if (restaurant.getPhoto() != null) {
-                photo.setImageBitmap(restaurant.getPhoto());
+                getBitmapWithGlide(itemView.getContext(), restaurant.getPhoto(), photo);
             } else {
                 Drawable photoBydefault = this.itemView.getResources().getDrawable(R.drawable.ic_no_image_available);
                 photo.setImageDrawable(photoBydefault);
