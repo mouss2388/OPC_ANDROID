@@ -26,4 +26,13 @@ public class WorkMateViewModel extends ViewModel {
     }
 
 
+    public void getWorkmatesBookedRestaurant(String restaurantId) {
+        userRepository.getWorkmatesBookedRestaurant(restaurantId);
+    }
+
+    public LiveData<ArrayList<User>> getLiveDataRestaurantBooked() {
+        return userRepository.getMutableLiveDataRestaurantBooked();
+    }
+
+
 }

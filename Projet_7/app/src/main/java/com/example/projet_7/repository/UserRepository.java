@@ -24,12 +24,15 @@ public final class UserRepository {
     private static final String USERNAME_FIELD = "username";
 
     private final MutableLiveData<ArrayList<User>> mutableLiveData;
+    private final MutableLiveData<ArrayList<User>> mutableLiveDataUserBookedRestaurant;
 
     private static volatile UserRepository instance;
 
 
     public UserRepository() {
         this.mutableLiveData = new MutableLiveData<>();
+
+       this. mutableLiveDataUserBookedRestaurant = new MutableLiveData<>();
     }
 
     public static UserRepository getInstance() {
@@ -134,7 +137,24 @@ public final class UserRepository {
             Task<DocumentSnapshot> userData = getUserData();
             String uid = currentUser.getUid();
             assert userData != null;
-            userData.addOnSuccessListener(documentSnapshot -> this.getUsersCollection().document(uid).set(user));
+            userData.addOnSuccessListener(documentSnapshot -> this.getUsersCollection().document(uid).update("restaurantBookedId",user.getRestaurantBookedId()));
         }
+    }
+
+    public void getWorkmatesBookedRestaurant(String restaurantId) {
+        ArrayList<User> users = new ArrayList<>();
+
+        this.getUsersCollection()
+                .whereNotEqualTo("uid", getCurrentUserUID())
+                .whereEqualTo("restaurantBookedId", restaurantId).get().addOnCompleteListener(task -> {
+            for (QueryDocumentSnapshot user : task.getResult()) {
+                users.add(user.toObject(User.class));
+            }
+            mutableLiveDataUserBookedRestaurant.setValue(users);
+        });
+    }
+
+    public LiveData<ArrayList<User>> getMutableLiveDataRestaurantBooked() {
+        return mutableLiveDataUserBookedRestaurant;
     }
 }

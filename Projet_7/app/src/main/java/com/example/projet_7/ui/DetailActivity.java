@@ -11,20 +11,29 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityDetailBinding;
 import com.example.projet_7.manager.UserManager;
 import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.User;
+import com.example.projet_7.ui.adapter.DetailWorkmateAdapter;
 import com.example.projet_7.viewModel.RestaurantViewModel;
+import com.example.projet_7.viewModel.WorkMateViewModel;
+
+import java.util.ArrayList;
 
 public class DetailActivity extends AppCompatActivity {
 
     private ActivityDetailBinding binding;
-    private RestaurantViewModel restaurantViewModel;
+    private WorkMateViewModel workMateViewModel;
     private final UserManager userManager = UserManager.getInstance();
 
+    private final ArrayList<User> users = new ArrayList<>();
+
+    private String restaurantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(view);
 
         getIdRestaurant();
+        initRecyclerView();
 
     }
 
@@ -41,17 +51,32 @@ public class DetailActivity extends AppCompatActivity {
     private void getIdRestaurant() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            String idRestaurant = bundle.getString("id_restaurant");
-            initViewModel(idRestaurant);
+            restaurantId = bundle.getString("id_restaurant");
+            initViewModel();
         }
     }
 
-    private void initViewModel(String placeId) {
+    private void initRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        binding.recyclerviewWorkMates.setLayoutManager(layoutManager);
 
-        restaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
+        DetailWorkmateAdapter detailWorkmateAdapter = new DetailWorkmateAdapter(users);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.recyclerviewWorkMates.getContext(),
+                layoutManager.getOrientation());
+        binding.recyclerviewWorkMates.addItemDecoration(dividerItemDecoration);
+        binding.recyclerviewWorkMates.setAdapter(detailWorkmateAdapter);
+    }
+
+    private void initViewModel() {
+
+        RestaurantViewModel restaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
         restaurantViewModel.getLiveDataDetail().observe(this, this::bindValues);
-        restaurantViewModel.getRestaurantDetail(MainActivity.placesClient, placeId);
+        restaurantViewModel.getRestaurantDetail(MainActivity.placesClient, restaurantId);
 
+        workMateViewModel = new ViewModelProvider(this).get(WorkMateViewModel.class);
+
+        updateRecyclerView();
     }
 
     private void bindValues(Restaurant restaurant) {
@@ -71,15 +96,15 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setBookFloatBUtton(Restaurant restaurant) {
-            userManager.getUserData().addOnCompleteListener(task -> {
-                User user = task.getResult();
-                if (user.getRestaurantBookedId().isEmpty() || !user.getRestaurantBookedId().equals(restaurant.getId())) {
-                    binding.addFavorite.setImageResource(R.drawable.ic_check_circle_outline_24);
-                } else {
-                    binding.addFavorite.setImageResource(R.drawable.ic_check_circle_24);
-                }
+        userManager.getUserData().addOnCompleteListener(task -> {
+            User user = task.getResult();
+            if (user.getRestaurantBookedId().isEmpty() || !user.getRestaurantBookedId().equals(restaurant.getId())) {
+                binding.addFavorite.setImageResource(R.drawable.ic_check_circle_outline_24);
+            } else {
+                binding.addFavorite.setImageResource(R.drawable.ic_check_circle_24);
+            }
 
-            });
+        });
     }
 
     private void initListeners(Restaurant restaurant) {
@@ -104,17 +129,32 @@ public class DetailActivity extends AppCompatActivity {
 
         binding.like.setOnClickListener(v -> userManager.getUserData().addOnCompleteListener(task -> {
             User user = task.getResult();
-            if (user.getRestaurantBookedId().isEmpty()  || !user.getRestaurantBookedId().equals(restaurant.getId())) {
+            if (user.getRestaurantBookedId().isEmpty() || !user.getRestaurantBookedId().equals(restaurant.getId())) {
                 binding.addFavorite.setImageResource(R.drawable.ic_check_circle_24);
                 user.setRestaurantBookedId(restaurant.getId());
                 userManager.updateUserData(user);
                 Toast.makeText(this, "booked", Toast.LENGTH_SHORT).show();
+                updateRecyclerView();
             } else {
                 binding.addFavorite.setImageResource(R.drawable.ic_check_circle_outline_24);
                 user.setRestaurantBookedId("");
                 userManager.updateUserData(user);
                 Toast.makeText(this, "unbooked", Toast.LENGTH_SHORT).show();
+
+                updateRecyclerView();
             }
         }));
+
+    }
+
+    private void updateRecyclerView() {
+        //TODO Create getWorkmatesWhichBooked(String restaurantId){}
+        workMateViewModel.getLiveDataRestaurantBooked().observe(this, workmates -> {
+
+            users.clear();
+            users.addAll(workmates);
+            binding.recyclerviewWorkMates.getAdapter().notifyDataSetChanged();
+        });
+        workMateViewModel.getWorkmatesBookedRestaurant(restaurantId);
     }
 }
