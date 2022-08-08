@@ -1,5 +1,6 @@
 package com.example.projet_7.ui.workmates;
 
+import static com.example.projet_7.utils.Utils.concatFirstnameAndSentence;
 import static com.example.projet_7.utils.Utils.getPictureCroppedWithGlide;
 
 import android.view.LayoutInflater;
@@ -60,9 +61,9 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
         public void displayWorkwates(User workmate) {
 
             //TODO Update sentenceStr with restaurantBookedId if != null and inverse (see ternary condition)
-            String sentenceStr = workmate.getUsername().split(" ")[0] + " " + this.itemView.getResources().getString(R.string.eating_workmates);
-
-            sentence.setText(sentenceStr);
+            String str = itemView.getResources().getString(R.string.eating_workmates);
+            StringBuilder textComplete = concatFirstnameAndSentence(workmate, str);
+            sentence.setText(textComplete);
 
             getPictureCroppedWithGlide(itemView.getContext(), workmate.getUrlPicture(), picture);
         }

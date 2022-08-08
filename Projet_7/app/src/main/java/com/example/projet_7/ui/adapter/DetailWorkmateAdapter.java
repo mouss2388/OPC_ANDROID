@@ -1,5 +1,6 @@
 package com.example.projet_7.ui.adapter;
 
+import static com.example.projet_7.utils.Utils.concatFirstnameAndSentence;
 import static com.example.projet_7.utils.Utils.getPictureCroppedWithGlide;
 
 import android.content.res.Resources;
@@ -61,8 +62,11 @@ public class DetailWorkmateAdapter extends RecyclerView.Adapter<DetailWorkmateAd
         public void displayWorkmates(User user) {
 
             getPictureCroppedWithGlide(itemView.getContext(), user.getUrlPicture(), picture);
-            StringBuilder text = new StringBuilder().append(user.getUsername().split(" ")[0]).append(" ").append( itemView.getResources().getString(R.string.joining));
-            sentence.setText(text);
+
+            String str = itemView.getResources().getString(R.string.joining);
+            StringBuilder textComplete = concatFirstnameAndSentence(user, str);
+
+            sentence.setText(textComplete);
         }
 
     }

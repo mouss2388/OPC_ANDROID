@@ -88,7 +88,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             if (restaurant.getOpeningHours() == null) {
                 opening_hours.setText("");
             } else {
-                String[] hours = restaurant.getOpeningHours().getWeekdayText().get(day).split(":");
+                String[] hours = restaurant.getOpeningHours().getWeekdayText().get(day).split(": ");
                 StringBuilder opening_hours_without_day = new StringBuilder();
                 for (int i = 1; i < hours.length; i++) {
                     opening_hours_without_day.append(hours[i]);

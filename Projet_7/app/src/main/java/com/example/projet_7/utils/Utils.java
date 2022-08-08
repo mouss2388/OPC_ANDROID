@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.projet_7.model.User;
 import com.example.projet_7.model.matrix_api.Response;
 import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.service.matrix_api.MatrixApiClient;
@@ -101,5 +102,9 @@ public class Utils {
                     public void onLoadCleared(@Nullable Drawable placeholder) {
                     }
                 });
+    }
+
+    public static StringBuilder concatFirstnameAndSentence(User workmate, String sentence) {
+        return new StringBuilder().append(workmate.getUsername().split(" ")[0]).append(" ").append(sentence);
     }
 }
