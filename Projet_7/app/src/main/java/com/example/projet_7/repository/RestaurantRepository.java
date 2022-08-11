@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.projet_7.model.Restaurant;
+import com.example.projet_7.model.User;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.google.android.libraries.places.api.model.Place;
@@ -19,18 +20,24 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @SuppressLint("MissingPermission")
 public class RestaurantRepository {
 
     private final MutableLiveData<ArrayList<Restaurant>> mutableLiveData;
     private final MutableLiveData<Restaurant> mutableLiveDataDetail;
+    private final MutableLiveData<ArrayList<Restaurant>> mutableLiveDataRestaurantBooked;
 
     public RestaurantRepository() {
         this.mutableLiveData = new MutableLiveData<>();
         this.mutableLiveDataDetail = new MutableLiveData<>();
+        this.mutableLiveDataRestaurantBooked = new MutableLiveData<>();
     }
 
     public LiveData<ArrayList<Restaurant>> getMutableLiveData() {
@@ -39,6 +46,10 @@ public class RestaurantRepository {
 
     public LiveData<Restaurant> getMutableLiveDataDetail() {
         return mutableLiveDataDetail;
+    }
+
+    public LiveData<ArrayList<Restaurant>> getMutableLiveDataRestaurantBooked() {
+        return mutableLiveDataRestaurantBooked;
     }
 
     public void getRestaurants(PlacesClient placesClient) {
@@ -80,10 +91,8 @@ public class RestaurantRepository {
                             restaurants.add(
                                     new Restaurant(place.getId(), place.getName(), place.getAddress(), place.getLatLng(), rating,
                                             userRatingTotal, place.getTypes(), placeDetail.getOpeningHours(), null));
-//                            if (finalCounter_restaurant == number_of_restaurant - 1) {
 
-                                mutableLiveData.setValue(restaurants);
-//                            }
+                            mutableLiveData.setValue(restaurants);
                         } else {
                             final PhotoMetadata photoMetadata = metadata.get(0);
                             final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
@@ -96,10 +105,9 @@ public class RestaurantRepository {
                                 restaurants.add(
                                         new Restaurant(place.getId(), place.getName(), place.getAddress(), place.getLatLng(), rating,
                                                 userRatingTotal, place.getTypes(), placeDetail.getOpeningHours(), photo));
-//                                if (finalCounter_restaurant == number_of_restaurant - 1) {
 
-                                    mutableLiveData.setValue(restaurants);
-//                                }
+                                mutableLiveData.setValue(restaurants);
+
                             });
                         }
                     });
@@ -148,6 +156,33 @@ public class RestaurantRepository {
                 });
             }
         });
+    }
+
+    public void getRestaurantsBooked(ArrayList<User> workmates, PlacesClient placesClient){
+
+        //TODO create getIdsOfRestaurantsWihtoutDuplicate(ArrayList<User> workmates) it in Utils class => return new HashSet<>(uids)
+        List<String> uidRestaurantsBooked = new ArrayList<>();
+        for (User workmate: workmates) {
+        uidRestaurantsBooked.add(workmate.getRestaurantBookedId());
+        }
+
+        //TODO END
+        Set<String> uids = new HashSet<>(uidRestaurantsBooked);
+        ArrayList<Restaurant> restaurantsBooked = new ArrayList<>();
+
+        List<Place.Field> placeFieldsDetail =
+                Arrays.asList(Place.Field.ID,Place.Field.NAME);
+
+        for (String uid: uids){
+            // Construct a request object, passing the place ID and fields array.
+            final FetchPlaceRequest request = FetchPlaceRequest.newInstance(uid, placeFieldsDetail);
+            placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
+                Place placeDetail = response.getPlace();
+                Restaurant restaurant = new Restaurant(placeDetail.getId(), placeDetail.getName());
+                restaurantsBooked.add(restaurant);
+                mutableLiveDataRestaurantBooked.setValue(restaurantsBooked);
+            });
+        }
     }
 
 

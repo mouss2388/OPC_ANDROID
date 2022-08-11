@@ -1,7 +1,8 @@
 package com.example.projet_7.ui.workmates;
 
+import static com.example.projet_7.ui.MainActivity.placesClient;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.projet_7.databinding.FragmentWorkmatesBinding;
+import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.User;
+import com.example.projet_7.viewModel.RestaurantViewModel;
 import com.example.projet_7.viewModel.WorkMateViewModel;
 
 import java.util.ArrayList;
@@ -24,7 +27,10 @@ public class WorkmatesFragment extends Fragment {
 
     private FragmentWorkmatesBinding binding;
     private WorkMateViewModel workMateViewModel;
+    private RestaurantViewModel restaurantViewModel;
     public ArrayList<User> workmates = new ArrayList<>();
+    public ArrayList<Restaurant> restaurantsBooked = new ArrayList<>();
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -39,7 +45,7 @@ public class WorkmatesFragment extends Fragment {
     private void initRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.recyclerview.setLayoutManager(layoutManager);
-        WorkMateAdapter mAdapter = new WorkMateAdapter(workmates);
+        WorkMateAdapter mAdapter = new WorkMateAdapter(workmates, restaurantsBooked);
 
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.recyclerview.getContext(),
@@ -58,18 +64,25 @@ public class WorkmatesFragment extends Fragment {
 
     private void initViewModel() {
         workMateViewModel = new ViewModelProvider(requireActivity()).get(WorkMateViewModel.class);
+        restaurantViewModel = new ViewModelProvider(requireActivity()).get(RestaurantViewModel.class);
     }
 
     private void getUsersData() {
 
-        workMateViewModel.getLiveData().observe(getViewLifecycleOwner(), mUsers -> {
-            for (int i = 0; i < mUsers.size(); i++) {
-                Log.i("From repository", "username: " + mUsers.get(i).getUsername());
-            }
-            workmates.clear();
-            workmates.addAll(mUsers);
-            binding.recyclerview.getAdapter().notifyDataSetChanged();
+        workMateViewModel.getLiveData().observe(getViewLifecycleOwner(), mWorkmates -> {
 
+
+            workmates.clear();
+            workmates.addAll(mWorkmates);
+
+            restaurantViewModel.getLiveDataRestaurantBooked().observe(getViewLifecycleOwner(), restaurants -> {
+
+                restaurantsBooked.clear();
+                restaurantsBooked.addAll(restaurants);
+
+                binding.recyclerview.getAdapter().notifyDataSetChanged();
+            });
+            restaurantViewModel.getRestaurantsBooked(workmates, placesClient);
         });
         //TODO move that in maps Fragment
         workMateViewModel.getWorkMates();

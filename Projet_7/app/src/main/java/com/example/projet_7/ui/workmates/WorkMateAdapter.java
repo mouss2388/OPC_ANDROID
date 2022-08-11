@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projet_7.R;
+import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.User;
 
 import java.util.ArrayList;
@@ -20,9 +21,12 @@ import java.util.ArrayList;
 public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHolder> {
 
     private final ArrayList<User> workMates;
+    private final ArrayList<Restaurant> restaurantsBooked;
 
-    public WorkMateAdapter(ArrayList<User> workMates) {
+    public WorkMateAdapter(ArrayList<User> workMates, ArrayList<Restaurant> restaurantsBooked) {
         this.workMates = workMates;
+        this.restaurantsBooked = restaurantsBooked;
+
     }
 
     @NonNull
@@ -37,7 +41,7 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull WorkMateAdapter.ViewHolder holder, int position) {
-        holder.displayWorkwates(workMates.get(position));
+        holder.displayWorkwates(workMates.get(position), restaurantsBooked);
 
     }
 
@@ -58,13 +62,24 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
             picture = view.findViewById(R.id.picture);
         }
 
-        public void displayWorkwates(User workmate) {
+        public void displayWorkwates(User workmate, ArrayList<Restaurant> restaurantsBooked) {
 
-            //TODO Update sentenceStr with restaurantBookedId if != null and inverse (see ternary condition)
+
             String str = itemView.getResources().getString(R.string.eating_workmates);
-            StringBuilder textComplete = concatFirstnameAndSentence(workmate, str);
-            sentence.setText(textComplete);
+            if (workmate.getRestaurantBookedId().isEmpty()) {
 
+                sentence.setText(itemView.getResources().getString(R.string.workmates_not_decided));
+            } else {
+
+                for (Restaurant restaurant : restaurantsBooked) {
+                    if (workmate.getRestaurantBookedId().equals(restaurant.getId())) {
+                        StringBuilder textComplete = concatFirstnameAndSentence(workmate, str);
+                        textComplete = textComplete.append(" ").append(restaurant.getName());
+                        sentence.setText(textComplete);
+
+                    }
+                }
+            }
             getPictureCroppedWithGlide(itemView.getContext(), workmate.getUrlPicture(), picture);
         }
     }

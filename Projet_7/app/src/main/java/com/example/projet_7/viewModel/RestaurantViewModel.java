@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.projet_7.model.Restaurant;
+import com.example.projet_7.model.User;
 import com.example.projet_7.repository.RestaurantRepository;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
@@ -32,6 +33,14 @@ public class RestaurantViewModel extends ViewModel {
 
     public void getRestaurantDetail(PlacesClient placesClient, String placeId) {
         restaurantRepository.getDetailRestaurant(placesClient, placeId);
+    }
+
+    public LiveData<ArrayList<Restaurant>> getLiveDataRestaurantBooked() {
+        return restaurantRepository.getMutableLiveDataRestaurantBooked();
+    }
+
+    public void getRestaurantsBooked(ArrayList<User> workmates, PlacesClient placesClient) {
+        restaurantRepository.getRestaurantsBooked(workmates, placesClient);
     }
 
 
