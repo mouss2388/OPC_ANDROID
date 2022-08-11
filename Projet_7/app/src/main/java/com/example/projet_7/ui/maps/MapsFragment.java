@@ -1,6 +1,7 @@
 package com.example.projet_7.ui.maps;
 
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
+import static com.example.projet_7.utils.Utils.startDetailActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -263,12 +264,4 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         Toast.makeText(context, "duree:" + matrixItem.getDuration().getText(), Toast.LENGTH_SHORT).show();
     }
 
-
-    private void startDetailActivity(Context context, String id) {
-        Intent intent = new Intent(context, DetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("id_restaurant", id);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
-    }
 }

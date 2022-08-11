@@ -1,9 +1,11 @@
 package com.example.projet_7.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,6 +22,7 @@ import com.example.projet_7.model.User;
 import com.example.projet_7.model.matrix_api.Response;
 import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.service.matrix_api.MatrixApiClient;
+import com.example.projet_7.ui.DetailActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -106,5 +109,13 @@ public class Utils {
 
     public static StringBuilder concatFirstnameAndSentence(User workmate, String sentence) {
         return new StringBuilder().append(workmate.getUsername().split(" ")[0]).append(" ").append(sentence);
+    }
+
+    public static void startDetailActivity(Context context, String id) {
+        Intent intent = new Intent(context, DetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("id_restaurant", id);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }

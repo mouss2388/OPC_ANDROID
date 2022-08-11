@@ -4,13 +4,16 @@ import static com.example.projet_7.utils.Utils.convertPurcentageToRating;
 import static com.example.projet_7.utils.Utils.convertRatingToPurcentage;
 import static com.example.projet_7.utils.Utils.getBitmapWithGlide;
 import static com.example.projet_7.utils.Utils.getDayOfWeek;
+import static com.example.projet_7.utils.Utils.startDetailActivity;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRatingBar;
@@ -50,7 +53,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         return restaurants.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView name;
         private final TextView address;
@@ -71,6 +74,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             opening_hours = view.findViewById(R.id.opening_hour_Restaurant);
             photo = view.findViewById(R.id.photo_restaurant);
             distance = view.findViewById(R.id.distance_to_restaurant);
+            view.setOnClickListener(v -> {
+                int index = getAdapterPosition();
+                Context context = v.getContext();
+                String id = restaurants.get(index).getId();
+                startDetailActivity(context, id);
+
+            });
         }
 
         public void displayRestaurant(Restaurant restaurant) {

@@ -2,7 +2,10 @@ package com.example.projet_7.ui.workmates;
 
 import static com.example.projet_7.utils.Utils.concatFirstnameAndSentence;
 import static com.example.projet_7.utils.Utils.getPictureCroppedWithGlide;
+import static com.example.projet_7.utils.Utils.startDetailActivity;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +53,7 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
         return workMates.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView sentence;
         private final ImageView picture;
 
@@ -60,15 +63,24 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
             // Define click listener for the ViewHolder's View
             sentence = view.findViewById(R.id.sentence);
             picture = view.findViewById(R.id.picture);
+            view.setOnClickListener(v -> {
+                int index = getAdapterPosition();
+                Context context = v.getContext();
+                String id = workMates.get(index).getRestaurantBookedId();
+                if (!id.isEmpty()) {
+                    startDetailActivity(context, id);
+                }
+            });
         }
 
         public void displayWorkwates(User workmate, ArrayList<Restaurant> restaurantsBooked) {
-
 
             String str = itemView.getResources().getString(R.string.eating_workmates);
             if (workmate.getRestaurantBookedId().isEmpty()) {
 
                 sentence.setText(itemView.getResources().getString(R.string.workmates_not_decided));
+                sentence.setTextColor(itemView.getResources().getColor(R.color.grey));
+                sentence.setTypeface(null,Typeface.ITALIC);
             } else {
 
                 for (Restaurant restaurant : restaurantsBooked) {
@@ -76,6 +88,8 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
                         StringBuilder textComplete = concatFirstnameAndSentence(workmate, str);
                         textComplete = textComplete.append(" ").append(restaurant.getName());
                         sentence.setText(textComplete);
+                        sentence.setTextColor(itemView.getResources().getColor(R.color.black));
+                        sentence.setTypeface(null,Typeface.NORMAL);
 
                     }
                 }
