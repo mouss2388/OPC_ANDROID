@@ -38,7 +38,7 @@ public class Utils {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    public static void getDistanceBetween(OnMatrixApiListReceivedCallback callback, Context context, StringBuilder currentLocationLatLng, StringBuilder destinationLatLng) {
+    public static void getDistanceBetweenLocationAndRestaurant(OnMatrixApiListReceivedCallback callback, Context context, StringBuilder currentLocationLatLng, StringBuilder destinationLatLng,int restaurantIndex) {
         Call<Response> call = MatrixApiClient.matrixApiService().getResult(currentLocationLatLng, destinationLatLng);
 
         call.enqueue(new Callback<Response>() {
@@ -48,7 +48,7 @@ public class Utils {
 
                     assert response.body() != null;
                     List<RowsItem> rowsItem = response.body().getRows();
-                    callback.onMatrixApiListReceivedCallback(rowsItem);
+                    callback.onMatrixApiListReceivedCallback(rowsItem, restaurantIndex);
                 }
             }
 

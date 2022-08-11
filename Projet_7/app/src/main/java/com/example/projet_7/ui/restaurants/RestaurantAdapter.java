@@ -112,7 +112,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 Drawable photoBydefault = this.itemView.getResources().getDrawable(R.drawable.ic_no_image_available);
                 photo.setImageDrawable(photoBydefault);
             }
-            String distance_str = "300m";
+            String distance_str =  restaurant.getDistance() != null ? restaurant.getDistance(): "";
             distance.setText(distance_str);
         }
     }

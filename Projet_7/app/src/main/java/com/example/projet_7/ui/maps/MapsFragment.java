@@ -4,7 +4,6 @@ import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
 import static com.example.projet_7.utils.Utils.startDetailActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -23,7 +22,6 @@ import com.example.projet_7.databinding.FragmentMapsBinding;
 import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.matrix_api.ElementsItem;
 import com.example.projet_7.model.matrix_api.RowsItem;
-import com.example.projet_7.ui.DetailActivity;
 import com.example.projet_7.ui.MainActivity;
 import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.example.projet_7.viewModel.RestaurantViewModel;
@@ -56,7 +54,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private final Context context;
     private SupportMapFragment supportMapFragment;
 
-    private Location currentLocation;
+    public static Location currentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
 
     private LocationRequest mLocationRequest = null;
@@ -252,7 +250,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     @Override
-    public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem) {
+    public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem, int idx) {
 
         ElementsItem matrixItem = rowsItem.get(0).getElements().get(0);
         getInfoDistanceRestaurant(matrixItem);

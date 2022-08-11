@@ -1,5 +1,9 @@
 package com.example.projet_7.ui.restaurants;
 
+import static com.example.projet_7.ui.maps.MapsFragment.currentLocation;
+import static com.example.projet_7.utils.Utils.getDistanceBetweenLocationAndRestaurant;
+import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RestaurantsFragment extends Fragment {
+public class RestaurantsFragment extends Fragment implements OnMatrixApiListReceivedCallback {
 
     private FragmentRestaurantsBinding binding;
     private RestaurantViewModel restaurantViewModel;
-    public ArrayList<Restaurant> restaurants = new ArrayList<>();
+    private ArrayList<Restaurant> restaurants = new ArrayList<>();
 
     private void initViewModel() {
         restaurantViewModel = new ViewModelProvider(requireActivity()).get(RestaurantViewModel.class);
@@ -66,8 +70,19 @@ public class RestaurantsFragment extends Fragment {
         restaurantViewModel.getLiveData().observe(getViewLifecycleOwner(), mRestaurants -> {
             restaurants.clear();
             restaurants.addAll(mRestaurants);
-            binding.recyclerview.getAdapter().notifyDataSetChanged();
+            calculDistFromLocationToRestaurants();
+
         });
+    }
+
+    private void calculDistFromLocationToRestaurants() {
+
+        for (int idx = 0; idx < restaurants.size(); idx++) {
+            StringBuilder currentLocationCoord = getLatLngForMatrixApi(currentLocation);
+            StringBuilder destinationCoord = getLatLngForMatrixApi(restaurants.get(idx).getLatLng());
+            getDistanceBetweenLocationAndRestaurant(this, getContext(), currentLocationCoord, destinationCoord, idx);
+        }
+
     }
 
 
@@ -75,5 +90,19 @@ public class RestaurantsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem, int idx) {
+        ElementsItem matrixItem = rowsItem.get(0).getElements().get(0);
+        String distance = matrixItem.getDistance().getText();
+        String duration = matrixItem.getDuration().getText();
+        restaurants.get(idx).setDistance(distance);
+        restaurants.get(idx).setDuration(duration);
+
+        if (idx == restaurants.size() - 1) {
+            binding.recyclerview.getAdapter().notifyDataSetChanged();
+        }
+
     }
 }

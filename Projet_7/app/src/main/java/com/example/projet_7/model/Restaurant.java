@@ -24,6 +24,8 @@ public class Restaurant {
     private boolean isOpen;
     private List<Place.Type> types;
     private Uri website;
+    private String distance;
+    private String duration;
 
     public Restaurant(String id, String name, String address, double rating, String phoneNumber, Uri website) {
         this.id = id;
@@ -46,10 +48,10 @@ public class Restaurant {
         this.photo = photo;
     }
 
-public Restaurant(String id, String name){
-        this.id=id;
-        this.name= name;
-}
+    public Restaurant(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public String getId() {
         return id;
@@ -145,5 +147,21 @@ public Restaurant(String id, String name){
 
     public void setWebsite(Uri website) {
         this.website = website;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }
