@@ -1,12 +1,12 @@
 package com.example.projet_7.ui.maps;
 
+import static com.example.projet_7.ui.MainActivity.placesClient;
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
 import static com.example.projet_7.utils.Utils.startDetailActivity;
 
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +25,6 @@ import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.ui.MainActivity;
 import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.example.projet_7.viewModel.RestaurantViewModel;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,7 +34,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,13 +47,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private final Context context;
     private SupportMapFragment supportMapFragment;
 
-    public static Location currentLocation;
-    private FusedLocationProviderClient mFusedLocationClient;
-
-    private LocationRequest mLocationRequest = null;
-    private LocationCallback mLocationCallback = null;
-
     private GoogleMap googleMap;
+
+    private Location currentLocation;
 
     private final ArrayList<Restaurant> restaurants = new ArrayList<>();
     RestaurantViewModel restaurantViewModel;
@@ -81,7 +70,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         this.initViewModel();
         this.initData();
-        fetchLocation();
     }
 
     private void initViewModel() {
@@ -89,99 +77,44 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     private void initData() {
-        currentLocation = null;
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.context.getApplicationContext());
-        mLocationRequest = null;
-        mLocationCallback = null;
+
         googleMap = null;
-
-        initCallBackLocation();
-        createLocationRequest();
+        currentLocation = ((MainActivity) requireContext()).currentLocation;
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
+        assert supportMapFragment != null;
+        supportMapFragment.getMapAsync(MapsFragment.this);
     }
-
-    private void initCallBackLocation() {
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                currentLocation = locationResult.getLastLocation();
-            }
-        };
-    }
-
-    private void createLocationRequest() {
-
-        long LOCATION_REQUEST_INTERVAL = 1000L;
-
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                .setInterval(LOCATION_REQUEST_INTERVAL);
-    }
-
-    private void fetchLocation() {
-
-        Task<Location> task = mFusedLocationClient.getLastLocation();
-        task.addOnSuccessListener(location -> {
-            if (location != null) {
-                currentLocation = location;
-
-                supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
-                assert supportMapFragment != null;
-                supportMapFragment.getMapAsync(MapsFragment.this);
-            } else {
-                requestLocationUpdate();
-                fetchLocation();
-            }
-        });
-    }
-
-    private void requestLocationUpdate() {
-
-        mFusedLocationClient.requestLocationUpdates(
-                mLocationRequest,
-                mLocationCallback,
-                Looper.myLooper()
-        );
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        this.requestLocationUpdate();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-    }
-
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(getActivity(), "onMyLocationButtonClick clicked", Toast.LENGTH_SHORT)
+
+        Toast.makeText(getActivity(), "MainAcitivty " +  ((MainActivity) requireContext()).currentLocation.getLongitude(), Toast.LENGTH_LONG)
                 .show();
-        addMarkerToRestaurants();
-        restaurantViewModel.getRestaurants(MainActivity.placesClient);
+        Toast.makeText(getActivity(), "Maps Fragment " + currentLocation.getLongitude(), Toast.LENGTH_LONG)
+                .show();
+        if(isCuruentLocationChanged()){
+            currentLocation.setLongitude(((MainActivity) requireContext()).currentLocation.getLongitude());
+            currentLocation.setLatitude(((MainActivity) requireContext()).currentLocation.getLatitude());
+            restaurantViewModel.getRestaurants(placesClient);
+            addMarkerToRestaurants();
+            Toast.makeText(getActivity(), "currentLocation update ", Toast.LENGTH_SHORT)
+                    .show();
+        }else{
+            Toast.makeText(getActivity(), "currentLocation not update ", Toast.LENGTH_SHORT)
+                    .show();
+
+        }
+
         return false;
+    }
+
+    private boolean isCuruentLocationChanged(){
+        return currentLocation.getLongitude() != ((MainActivity) requireContext()).currentLocation.getLongitude() || currentLocation.getLatitude() !=((MainActivity) requireContext()).currentLocation.getLatitude();
     }
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(getActivity(), " onMyLocationClick Current location:\n" + location, Toast.LENGTH_LONG)
+        Toast.makeText(getActivity(), "Vous êtes ici:\n" + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG)
                 .show();
     }
 
@@ -217,7 +150,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             if (restaurants.size() > 0) {
 
                 for (Restaurant restaurant : restaurants) {
-
+                    //TODO FILTER RESTAURANTS BOOKED THEN CHANGE MARKER COLOR
                     Objects.requireNonNull(this.googleMap.addMarker(new MarkerOptions()
                             .position(restaurant.getLatLng())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurant_unbooked_24))
@@ -225,11 +158,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                             .snippet(restaurant.getAddress())
                             .flat(true))).setTag(restaurant.getId());
                 }
-
             }
         });
-
-
     }
 
     @Override

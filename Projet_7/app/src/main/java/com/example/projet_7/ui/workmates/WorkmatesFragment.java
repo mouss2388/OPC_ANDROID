@@ -32,7 +32,6 @@ public class WorkmatesFragment extends Fragment {
     public ArrayList<Restaurant> restaurantsBooked = new ArrayList<>();
 
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -71,10 +70,8 @@ public class WorkmatesFragment extends Fragment {
 
         workMateViewModel.getLiveData().observe(getViewLifecycleOwner(), mWorkmates -> {
 
-
             workmates.clear();
             workmates.addAll(mWorkmates);
-
             restaurantViewModel.getLiveDataRestaurantBooked().observe(getViewLifecycleOwner(), restaurants -> {
 
                 restaurantsBooked.clear();
@@ -84,8 +81,6 @@ public class WorkmatesFragment extends Fragment {
             });
             restaurantViewModel.getRestaurantsBooked(workmates, placesClient);
         });
-        //TODO move that in maps Fragment
-        workMateViewModel.getWorkMates();
     }
 
     @Override

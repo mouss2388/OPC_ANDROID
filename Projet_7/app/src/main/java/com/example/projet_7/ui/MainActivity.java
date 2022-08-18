@@ -3,11 +3,12 @@ package com.example.projet_7.ui;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,29 +37,41 @@ import com.example.projet_7.BuildConfig;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityMainBinding;
 import com.example.projet_7.manager.UserManager;
-import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.ui.maps.MapsFragment;
 import com.example.projet_7.ui.restaurants.RestaurantsFragment;
 import com.example.projet_7.ui.workmates.WorkmatesFragment;
 import com.example.projet_7.utils.Utils;
 import com.example.projet_7.viewModel.RestaurantViewModel;
+import com.example.projet_7.viewModel.WorkMateViewModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@SuppressWarnings("MissingPermission")
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMainBinding binding;
     private final UserManager userManager = UserManager.getInstance();
 
     RestaurantViewModel restaurantViewModel;
+    WorkMateViewModel workMateViewModel;
     public static PlacesClient placesClient;
     private String[] PERMISSIONS;
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
+
+    public FusedLocationProviderClient mFusedLocationClient;
+    public  Location currentLocation;
+
+    private LocationRequest mLocationRequest = null;
+    private LocationCallback mLocationCallback = null;
 
 
     @Override
@@ -68,12 +81,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View view = binding.getRoot();
         setContentView(view);
 
-        this.initViewModel();
         this.initData();
         this.handleResponsePermissionsRequest();
 
         if (this.isAndroidVersionBelowMarshmallow()) {
-            showMapFragment();
+            this.initViewModel();
+            fetchLocation();
         } else {
             checkPermissions();
         }
@@ -90,7 +103,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         placesClient = Places.createClient(this);
 
         restaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
+
+        workMateViewModel =  new ViewModelProvider(this).get(WorkMateViewModel.class);
+
         restaurantViewModel.getRestaurants(placesClient);
+        workMateViewModel.getWorkMates();
     }
 
     private void initData() {
@@ -101,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
 
         requestPermissionLauncher = null;
+        currentLocation = null;
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getBaseContext());
     }
 
     private void handleResponsePermissionsRequest() {
@@ -115,11 +134,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
 
                     if (areAllGranted) {
-                        showMapFragment();
+                        checkPermissions();
                     } else {
                         Toast.makeText(getBaseContext(), "You can't use application normally", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void fetchLocation() {
+
+        Task<Location> task = mFusedLocationClient.getLastLocation();
+        task.addOnSuccessListener(location -> {
+            if (location != null) {
+                currentLocation = location;
+                showMapFragment();
+            } else {
+                requestLocationUpdate();
+                fetchLocation();
+            }
+        });
+    }
+
+    public void requestLocationUpdate() {
+
+        initCallBackLocation();
+        createLocationRequest();
+
+        mFusedLocationClient.requestLocationUpdates(
+                mLocationRequest,
+                mLocationCallback,
+                Looper.myLooper()
+        );
+    }
+
+    private void initCallBackLocation() {
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                currentLocation = locationResult.getLastLocation();
+            }
+        };
+    }
+
+    private void createLocationRequest() {
+
+        long LOCATION_REQUEST_INTERVAL = 1000L;
+
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                .setInterval(LOCATION_REQUEST_INTERVAL);
     }
 
     private boolean isAndroidVersionBelowMarshmallow() {
@@ -129,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void checkPermissions() {
 
         if (hasPermissions()) {
-            showMapFragment();
+            this.initViewModel();
+            fetchLocation();
         } else {
             askLocationPermissions();
         }
@@ -179,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    // 3 - Configure NavigationView
     private void configureNavigationView() {
         binding.activityMainNavView.setNavigationItemSelectedListener(this);
     }
@@ -194,9 +258,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.bottomNavView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_maps:
-                    if (hasPermissions()) {
-                        replaceFragment(new MapsFragment(getBaseContext()));
-                    }
+                    checkPermissions();
                     break;
                 case R.id.navigation_restaurants:
                     replaceFragment(new RestaurantsFragment());
@@ -339,4 +401,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.requestLocationUpdate();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
 }
