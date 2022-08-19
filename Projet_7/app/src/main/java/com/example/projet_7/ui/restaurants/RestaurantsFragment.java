@@ -1,9 +1,9 @@
 package com.example.projet_7.ui.restaurants;
 
-import static com.example.projet_7.ui.maps.MapsFragment.currentLocation;
 import static com.example.projet_7.utils.Utils.getDistanceBetweenLocationAndRestaurant;
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +20,7 @@ import com.example.projet_7.databinding.FragmentRestaurantsBinding;
 import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.matrix_api.ElementsItem;
 import com.example.projet_7.model.matrix_api.RowsItem;
+import com.example.projet_7.ui.MainActivity;
 import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.example.projet_7.viewModel.RestaurantViewModel;
 
@@ -77,6 +78,7 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
 
     private void calculDistFromLocationToRestaurants() {
 
+        Location currentLocation = ((MainActivity) requireContext()).currentLocation;
         for (int idx = 0; idx < restaurants.size(); idx++) {
             StringBuilder currentLocationCoord = getLatLngForMatrixApi(currentLocation);
             StringBuilder destinationCoord = getLatLngForMatrixApi(restaurants.get(idx).getLatLng());
