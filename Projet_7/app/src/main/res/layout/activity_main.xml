@@ -21,7 +21,20 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:elevation="4dp"
-            app:theme="@style/ToolBarStyle" />
+            app:theme="@style/ToolBarStyle">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:theme="@style/SearchViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                app:queryBackground="@color/white"
+                app:searchHintIcon="@drawable/ic_search_24"
+                app:closeIcon="@drawable/ic_close_24"
+                />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <!-- FrameLayout for our fragments -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,11 +46,10 @@
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/bottom_nav_view"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <View
                 android:layout_width="match_parent"
@@ -50,15 +62,15 @@
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottom_nav_view"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:itemIconTint="@drawable/bottom_item_background"
                 app:itemIconSize="@dimen/icon_menu_size"
+                app:itemIconTint="@drawable/bottom_item_background"
                 app:itemTextColor="@drawable/bottom_item_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:menu="@menu/bottom_nav_menu" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
