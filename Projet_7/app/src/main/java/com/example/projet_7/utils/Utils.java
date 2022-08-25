@@ -23,6 +23,7 @@ import com.example.projet_7.model.matrix_api.Response;
 import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.service.matrix_api.MatrixApiClient;
 import com.example.projet_7.ui.DetailActivity;
+import com.example.projet_7.ui.MainActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -38,7 +39,7 @@ public class Utils {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    public static void getDistanceBetweenLocationAndRestaurant(OnMatrixApiListReceivedCallback callback, Context context, StringBuilder currentLocationLatLng, StringBuilder destinationLatLng,int restaurantIndex) {
+    public static void getDistanceBetweenLocationAndRestaurant(OnMatrixApiListReceivedCallback callback, Context context, StringBuilder currentLocationLatLng, StringBuilder destinationLatLng, String restaurantId) {
         Call<Response> call = MatrixApiClient.matrixApiService().getResult(currentLocationLatLng, destinationLatLng);
 
         call.enqueue(new Callback<Response>() {
@@ -48,7 +49,7 @@ public class Utils {
 
                     assert response.body() != null;
                     List<RowsItem> rowsItem = response.body().getRows();
-                    callback.onMatrixApiListReceivedCallback(rowsItem, restaurantIndex);
+                    callback.onMatrixApiListReceivedCallback(rowsItem, restaurantId);
                 }
             }
 
@@ -117,5 +118,9 @@ public class Utils {
         bundle.putString("id_restaurant", id);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    public static boolean isQuerySearchLengthBetterThan3(Context context) {
+        return ((MainActivity)context).querySearchView.length() >= 3;
     }
 }

@@ -2,6 +2,7 @@ package com.example.projet_7.ui.maps;
 
 import static com.example.projet_7.ui.MainActivity.placesClient;
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
+import static com.example.projet_7.utils.Utils.isQuerySearchLengthBetterThan3;
 import static com.example.projet_7.utils.Utils.startDetailActivity;
 
 import android.content.Context;
@@ -20,11 +21,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.FragmentMapsBinding;
 import com.example.projet_7.model.Restaurant;
+import com.example.projet_7.model.User;
 import com.example.projet_7.model.matrix_api.ElementsItem;
 import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.ui.MainActivity;
 import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.example.projet_7.viewModel.RestaurantViewModel;
+import com.example.projet_7.viewModel.WorkMateViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -53,6 +56,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     private final ArrayList<Restaurant> restaurants = new ArrayList<>();
     RestaurantViewModel restaurantViewModel;
+    WorkMateViewModel workMateViewModel;
 
     public MapsFragment(Context context) {
         this.context = context;
@@ -74,6 +78,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     private void initViewModel() {
         restaurantViewModel = new ViewModelProvider(requireActivity()).get(RestaurantViewModel.class);
+        workMateViewModel = new ViewModelProvider(requireActivity()).get(WorkMateViewModel.class);
     }
 
     private void initData() {
@@ -88,18 +93,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public boolean onMyLocationButtonClick() {
 
-        Toast.makeText(getActivity(), "MainAcitivty " +  ((MainActivity) requireContext()).currentLocation.getLongitude(), Toast.LENGTH_LONG)
+        Toast.makeText(getActivity(), "MainAcitivty " + ((MainActivity) requireContext()).currentLocation.getLongitude(), Toast.LENGTH_LONG)
                 .show();
         Toast.makeText(getActivity(), "Maps Fragment " + currentLocation.getLongitude(), Toast.LENGTH_LONG)
                 .show();
-        if(isCuruentLocationChanged()){
+        if (isCuruentLocationChanged()) {
             currentLocation.setLongitude(((MainActivity) requireContext()).currentLocation.getLongitude());
             currentLocation.setLatitude(((MainActivity) requireContext()).currentLocation.getLatitude());
             restaurantViewModel.getRestaurants(placesClient);
-            addMarkerToRestaurants();
+            getRestaurantsFromLocationAndPrediction();
             Toast.makeText(getActivity(), "currentLocation update ", Toast.LENGTH_SHORT)
                     .show();
-        }else{
+        } else {
             Toast.makeText(getActivity(), "currentLocation not update ", Toast.LENGTH_SHORT)
                     .show();
 
@@ -108,8 +113,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         return false;
     }
 
-    private boolean isCuruentLocationChanged(){
-        return currentLocation.getLongitude() != ((MainActivity) requireContext()).currentLocation.getLongitude() || currentLocation.getLatitude() !=((MainActivity) requireContext()).currentLocation.getLatitude();
+    private boolean isCuruentLocationChanged() {
+        return currentLocation.getLongitude() != ((MainActivity) requireContext()).currentLocation.getLongitude() || currentLocation.getLatitude() != ((MainActivity) requireContext()).currentLocation.getLatitude();
     }
 
     @Override
@@ -136,30 +141,72 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         this.googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19));
         this.googleMap.setOnMarkerClickListener(this);
-        addMarkerToRestaurants();
+        getRestaurantsFromLocationAndPrediction();
     }
 
 
-    private void addMarkerToRestaurants() {
+    private void getRestaurantsFromLocationAndPrediction() {
+        getRestaurantsByPrediction();
+        getRestaurantsAroundMe();
+    }
 
-        //TODO get workMates here and check restaurantBookedId
-        restaurantViewModel.getLiveData().observe(getViewLifecycleOwner(), mRestaurants -> {
+    private void getRestaurantsByPrediction() {
+        restaurantViewModel.getLiveDataRestaurantsPrediction().observe(getViewLifecycleOwner(), mRestaurants -> {
+            this.googleMap.clear();
+
             restaurants.clear();
             restaurants.addAll(mRestaurants);
+            if (isQuerySearchLengthBetterThan3(getContext())) {
+                checkRestaurantBooked(restaurants);
+            }
+        });
+    }
 
-            if (restaurants.size() > 0) {
 
-                for (Restaurant restaurant : restaurants) {
-                    //TODO FILTER RESTAURANTS BOOKED THEN CHANGE MARKER COLOR
-                    Objects.requireNonNull(this.googleMap.addMarker(new MarkerOptions()
-                            .position(restaurant.getLatLng())
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurant_unbooked_24))
-                            .title(restaurant.getName())
-                            .snippet(restaurant.getAddress())
-                            .flat(true))).setTag(restaurant.getId());
+    private void getRestaurantsAroundMe() {
+        restaurantViewModel.getLiveData().
+
+                observe(getViewLifecycleOwner(), mRestaurants ->
+                {
+                    this.googleMap.clear();
+                    restaurants.clear();
+                    restaurants.addAll(mRestaurants);
+
+                    if (!isQuerySearchLengthBetterThan3(getContext())) {
+                        checkRestaurantBooked(restaurants);
+                    }
+                });
+    }
+
+    private void checkRestaurantBooked(ArrayList<Restaurant> restaurants) {
+
+        workMateViewModel.getLiveData().observe(getViewLifecycleOwner(), mWorkmates -> {
+            boolean booked;
+
+            for (Restaurant restaurant : restaurants) {
+                booked = false;
+                for (User workmate : mWorkmates) {
+                    if (restaurant.getId().equals(workmate.getRestaurantBookedId())) {
+                        booked = true;
+                        addMarkerColored(restaurant, booked);
+                        break;
+                    }
+                }
+                if (!booked) {
+                    addMarkerColored(restaurant, booked);
                 }
             }
         });
+    }
+
+    private void addMarkerColored(Restaurant restaurant, boolean booked) {
+
+        Objects.requireNonNull(this.googleMap.addMarker(new MarkerOptions()
+                .position(restaurant.getLatLng())
+                .icon(BitmapDescriptorFactory.fromResource(booked ? R.drawable.ic_restaurant_booked_24 : R.drawable.ic_restaurant_unbooked_24))
+                .title(restaurant.getName())
+                .snippet(restaurant.getAddress())
+                .flat(true))).setTag(restaurant.getId());
     }
 
     @Override
@@ -180,7 +227,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     @Override
-    public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem, int idx) {
+    public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem, String id) {
 
         ElementsItem matrixItem = rowsItem.get(0).getElements().get(0);
         getInfoDistanceRestaurant(matrixItem);
