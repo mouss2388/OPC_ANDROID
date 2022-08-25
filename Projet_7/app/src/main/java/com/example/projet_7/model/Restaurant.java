@@ -53,6 +53,11 @@ public class Restaurant {
         this.name = name;
     }
 
+    public Restaurant(String id, String name, LatLng latLng) {
+        this.id = id;
+        this.latLng = latLng;
+    }
+
     public String getId() {
         return id;
     }

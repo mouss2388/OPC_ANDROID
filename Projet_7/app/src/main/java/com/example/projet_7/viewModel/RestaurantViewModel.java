@@ -1,5 +1,7 @@
 package com.example.projet_7.viewModel;
 
+import android.location.Location;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -41,6 +43,14 @@ public class RestaurantViewModel extends ViewModel {
 
     public void getRestaurantsBooked(ArrayList<User> workmates, PlacesClient placesClient) {
         restaurantRepository.getRestaurantsBooked(workmates, placesClient);
+    }
+
+    public LiveData<ArrayList<Restaurant>> getLiveDataRestaurantsPrediction() {
+        return restaurantRepository.getMutableLiveDataRestaurantsPrediction();
+    }
+
+    public void getRestaurantsPrediction(Location currentLocation, String query) {
+        restaurantRepository.getRestaurantsPrediction(currentLocation, query);
     }
 
 
