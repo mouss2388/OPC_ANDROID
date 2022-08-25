@@ -7,8 +7,10 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -68,11 +71,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
 
     public FusedLocationProviderClient mFusedLocationClient;
-    public  Location currentLocation;
+    public Location currentLocation;
+    public String querySearchView;
 
     private LocationRequest mLocationRequest = null;
     private LocationCallback mLocationCallback = null;
 
+    private final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         restaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
 
-        workMateViewModel =  new ViewModelProvider(this).get(WorkMateViewModel.class);
+        workMateViewModel = new ViewModelProvider(this).get(WorkMateViewModel.class);
 
         restaurantViewModel.getRestaurants(placesClient);
         workMateViewModel.getWorkMates();
@@ -120,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         requestPermissionLauncher = null;
         currentLocation = null;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getBaseContext());
+        querySearchView = "";
+        initSearchBoxListener();
     }
 
     private void handleResponsePermissionsRequest() {
@@ -258,13 +265,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.bottomNavView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_maps:
+
+                    binding.searchView.setQueryHint(getResources().getString(R.string.search_restaurants));
                     checkPermissions();
                     break;
                 case R.id.navigation_restaurants:
                     replaceFragment(new RestaurantsFragment());
+                    binding.searchView.setQueryHint(getResources().getString(R.string.search_restaurants));
                     break;
                 case R.id.navigation_workmates:
                     replaceFragment(new WorkmatesFragment());
+                    binding.searchView.setQueryHint(getResources().getString(R.string.search_workmates));
                     break;
             }
             return true;
@@ -425,4 +436,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding = null;
         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
+
+    private void initSearchBoxListener() {
+
+        binding.searchView.setQueryHint("Search restaurants");
+
+        binding.searchView.setOnCloseListener(() -> {
+            //reset marker to restaurant around currentLocation
+            restaurantViewModel.getRestaurants(placesClient);
+            querySearchView = "";
+            return false;
+        });
+
+
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                querySearchView = query;
+                if (query.length() >= 3) {
+                    restaurantViewModel.getRestaurantsPrediction(currentLocation, querySearchView);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                querySearchView = newText;
+                if (newText.length() >= 3) {
+                    handler.removeCallbacksAndMessages(null);
+                    handler.postDelayed(() -> restaurantViewModel.getRestaurantsPrediction(currentLocation, querySearchView), 1000);
+                }
+                Log.i("MainActivity ", String.valueOf(newText.length()));
+                return false;
+            }
+        });
+    }
+
 }
