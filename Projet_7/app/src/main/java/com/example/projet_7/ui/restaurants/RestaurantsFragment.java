@@ -2,6 +2,7 @@ package com.example.projet_7.ui.restaurants;
 
 import static com.example.projet_7.utils.Utils.getDistanceBetweenLocationAndRestaurant;
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
+import static com.example.projet_7.utils.Utils.isQuerySearchLengthBetterThan3;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
     private FragmentRestaurantsBinding binding;
     private RestaurantViewModel restaurantViewModel;
     private ArrayList<Restaurant> restaurants = new ArrayList<>();
+    private Location currentLocation;
 
     private void initViewModel() {
         restaurantViewModel = new ViewModelProvider(requireActivity()).get(RestaurantViewModel.class);
@@ -45,6 +47,8 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
         initViewModel();
         binding = FragmentRestaurantsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        currentLocation = ((MainActivity) requireContext()).currentLocation;
+
         initRecyclerView();
 
 
@@ -67,22 +71,41 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getRestaurantsByPrediction();
+        getRestaurantsAroundMe();
+    }
 
-        restaurantViewModel.getLiveData().observe(getViewLifecycleOwner(), mRestaurants -> {
-            restaurants.clear();
-            restaurants.addAll(mRestaurants);
-            calculDistFromLocationToRestaurants();
+    private void getRestaurantsByPrediction() {
+        restaurantViewModel.getLiveDataRestaurantsPrediction().observe(getViewLifecycleOwner(), mRestaurants -> {
 
+            if (isQuerySearchLengthBetterThan3(getContext())) {
+                updateList(mRestaurants);
+            }
         });
+    }
+
+
+    private void getRestaurantsAroundMe() {
+        restaurantViewModel.getLiveData().observe(getViewLifecycleOwner(), mRestaurants -> {
+            if (!isQuerySearchLengthBetterThan3(getContext())) {
+                updateList(mRestaurants);
+            }
+        });
+    }
+
+    private void updateList(ArrayList<Restaurant> mRestaurants) {
+        restaurants.clear();
+        restaurants.addAll(mRestaurants);
+        binding.recyclerview.getAdapter().notifyDataSetChanged();
+        calculDistFromLocationToRestaurants();
     }
 
     private void calculDistFromLocationToRestaurants() {
 
-        Location currentLocation = ((MainActivity) requireContext()).currentLocation;
         for (int idx = 0; idx < restaurants.size(); idx++) {
             StringBuilder currentLocationCoord = getLatLngForMatrixApi(currentLocation);
             StringBuilder destinationCoord = getLatLngForMatrixApi(restaurants.get(idx).getLatLng());
-            getDistanceBetweenLocationAndRestaurant(this, getContext(), currentLocationCoord, destinationCoord, idx);
+            getDistanceBetweenLocationAndRestaurant(this, getContext(), currentLocationCoord, destinationCoord, restaurants.get(idx).getId());
         }
 
     }
@@ -95,16 +118,21 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
     }
 
     @Override
-    public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem, int idx) {
+    public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem, String id) {
         ElementsItem matrixItem = rowsItem.get(0).getElements().get(0);
         String distance = matrixItem.getDistance().getText();
         String duration = matrixItem.getDuration().getText();
-        restaurants.get(idx).setDistance(distance);
-        restaurants.get(idx).setDuration(duration);
+        for (int idx = 0; idx < restaurants.size(); idx++) {
+            if (restaurants.get(idx).getId().equals(id)) {
+                restaurants.get(idx).setDistance(distance);
+                restaurants.get(idx).setDuration(duration);
 
-        if (idx == restaurants.size() - 1) {
-            binding.recyclerview.getAdapter().notifyDataSetChanged();
+                if (idx == restaurants.size() - 1) {
+                    binding.recyclerview.getAdapter().notifyDataSetChanged();
+                }
+                break;
+            }
+
         }
-
     }
 }
