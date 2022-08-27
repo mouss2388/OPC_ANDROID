@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LocationCallback mLocationCallback = null;
 
     private final Handler handler = new Handler();
+    private final int TRIGGER_SEARCH_RESTAURANTS = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -442,8 +442,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.searchView.setQueryHint("Search restaurants");
 
         binding.searchView.setOnCloseListener(() -> {
-            //reset marker to restaurant around currentLocation
-            restaurantViewModel.getRestaurants(placesClient);
+
+            if (isWorkmatesBottomNavigationSelected()) {
+
+                if (!querySearchView.isEmpty()) {
+                    workMateViewModel.getWorkMates();
+                }
+            } else {
+                restaurantViewModel.getRestaurants(placesClient);
+            }
+
             querySearchView = "";
             return false;
         });
@@ -452,24 +460,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                querySearchView = query;
-                if (query.length() >= 3) {
-                    restaurantViewModel.getRestaurantsPrediction(currentLocation, querySearchView);
-                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 querySearchView = newText;
-                if (newText.length() >= 3) {
-                    handler.removeCallbacksAndMessages(null);
-                    handler.postDelayed(() -> restaurantViewModel.getRestaurantsPrediction(currentLocation, querySearchView), 1000);
-                }
-                Log.i("MainActivity ", String.valueOf(newText.length()));
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(() -> {
+
+                    if (isWorkmatesBottomNavigationSelected()) {
+
+                        getWorkmatesByQueryOrDefault(querySearchView.isEmpty());
+
+                    } else {
+
+                        if (querySearchView.length() >= TRIGGER_SEARCH_RESTAURANTS) {
+                            restaurantViewModel.getRestaurantsPrediction(currentLocation, querySearchView);
+                        }
+                    }
+
+                }, 1000);
+
                 return false;
             }
         });
+    }
+
+    private boolean isWorkmatesBottomNavigationSelected() {
+        return binding.bottomNavView.getSelectedItemId() == R.id.navigation_workmates;
+    }
+
+    private void getWorkmatesByQueryOrDefault(boolean isSearchBoxEmpty) {
+
+        if (isSearchBoxEmpty) {
+
+            workMateViewModel.getWorkMates();
+
+        } else {
+
+            workMateViewModel.getWorkmatesByQuery(querySearchView);
+        }
     }
 
 }

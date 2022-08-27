@@ -2,7 +2,7 @@ package com.example.projet_7.ui.restaurants;
 
 import static com.example.projet_7.utils.Utils.getDistanceBetweenLocationAndRestaurant;
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
-import static com.example.projet_7.utils.Utils.isQuerySearchLengthBetterThan3;
+import static com.example.projet_7.utils.Utils.isSearchBoxLengthAtleast3;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -78,7 +78,7 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
     private void getRestaurantsByPrediction() {
         restaurantViewModel.getLiveDataRestaurantsPrediction().observe(getViewLifecycleOwner(), mRestaurants -> {
 
-            if (isQuerySearchLengthBetterThan3(getContext())) {
+            if (isSearchBoxLengthAtleast3(getContext())) {
                 updateList(mRestaurants);
             }
         });
@@ -87,7 +87,7 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
 
     private void getRestaurantsAroundMe() {
         restaurantViewModel.getLiveData().observe(getViewLifecycleOwner(), mRestaurants -> {
-            if (!isQuerySearchLengthBetterThan3(getContext())) {
+            if (!isSearchBoxLengthAtleast3(getContext())) {
                 updateList(mRestaurants);
             }
         });

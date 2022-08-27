@@ -2,7 +2,7 @@ package com.example.projet_7.ui.maps;
 
 import static com.example.projet_7.ui.MainActivity.placesClient;
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
-import static com.example.projet_7.utils.Utils.isQuerySearchLengthBetterThan3;
+import static com.example.projet_7.utils.Utils.isSearchBoxLengthAtleast3;
 import static com.example.projet_7.utils.Utils.startDetailActivity;
 
 import android.content.Context;
@@ -156,7 +156,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
             restaurants.clear();
             restaurants.addAll(mRestaurants);
-            if (isQuerySearchLengthBetterThan3(getContext())) {
+            if (isSearchBoxLengthAtleast3(getContext())) {
                 checkRestaurantBooked(restaurants);
             }
         });
@@ -172,7 +172,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     restaurants.clear();
                     restaurants.addAll(mRestaurants);
 
-                    if (!isQuerySearchLengthBetterThan3(getContext())) {
+                    if (!isSearchBoxLengthAtleast3(getContext())) {
                         checkRestaurantBooked(restaurants);
                     }
                 });

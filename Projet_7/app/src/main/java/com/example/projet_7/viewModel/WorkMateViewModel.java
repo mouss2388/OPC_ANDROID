@@ -34,5 +34,13 @@ public class WorkMateViewModel extends ViewModel {
         return userRepository.getMutableLiveDataRestaurantBooked();
     }
 
+    public void getWorkmatesByQuery(String query) {
+        userRepository.getWorkmatesByQuery(query);
+    }
+
+    public LiveData<String> getWorkmatesByQuery() {
+        return userRepository.getMutableLiveDataWorkmateByQuery();
+    }
+
 
 }

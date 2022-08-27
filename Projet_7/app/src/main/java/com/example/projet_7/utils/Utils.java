@@ -120,7 +120,15 @@ public class Utils {
         context.startActivity(intent);
     }
 
-    public static boolean isQuerySearchLengthBetterThan3(Context context) {
+    public static boolean isSearchBoxLengthAtleast3(Context context) {
         return ((MainActivity)context).querySearchView.length() >= 3;
+    }
+
+    public static boolean isSearchBoxLengthAtleast1(Context context) {
+        return ((MainActivity)context).querySearchView.length() >= 1;
+    }
+
+    public static boolean isQuerySearchEmpty(Context context) {
+        return ((MainActivity)context).querySearchView.isEmpty();
     }
 }

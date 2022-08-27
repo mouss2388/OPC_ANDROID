@@ -75,13 +75,15 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
 
         public void displayWorkwates(User workmate, ArrayList<Restaurant> restaurantsBooked) {
 
-            String str = itemView.getResources().getString(R.string.eating_workmates);
             if (workmate.getRestaurantBookedId().isEmpty()) {
 
-                sentence.setText(itemView.getResources().getString(R.string.workmates_not_decided));
+                String str = itemView.getResources().getString(R.string.workmates_not_decided);
+                StringBuilder textComplete = concatFirstnameAndSentence(workmate, str);
+                sentence.setText(textComplete);
                 sentence.setTextColor(itemView.getResources().getColor(R.color.grey));
-                sentence.setTypeface(null,Typeface.ITALIC);
+                sentence.setTypeface(null, Typeface.ITALIC);
             } else {
+                String str = itemView.getResources().getString(R.string.eating_workmates);
 
                 for (Restaurant restaurant : restaurantsBooked) {
                     if (workmate.getRestaurantBookedId().equals(restaurant.getId())) {
@@ -89,7 +91,7 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
                         textComplete = textComplete.append(" ").append(restaurant.getName());
                         sentence.setText(textComplete);
                         sentence.setTextColor(itemView.getResources().getColor(R.color.black));
-                        sentence.setTypeface(null,Typeface.NORMAL);
+                        sentence.setTypeface(null, Typeface.NORMAL);
 
                     }
                 }

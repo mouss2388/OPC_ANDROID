@@ -25,6 +25,7 @@ public final class UserRepository {
 
     private final MutableLiveData<ArrayList<User>> mutableLiveData;
     private final MutableLiveData<ArrayList<User>> mutableLiveDataUserBookedRestaurant;
+    private final MutableLiveData<String> mutableLiveDataByQuery;
 
     private static volatile UserRepository instance;
 
@@ -32,7 +33,8 @@ public final class UserRepository {
     public UserRepository() {
         this.mutableLiveData = new MutableLiveData<>();
 
-       this. mutableLiveDataUserBookedRestaurant = new MutableLiveData<>();
+        this.mutableLiveDataUserBookedRestaurant = new MutableLiveData<>();
+        this.mutableLiveDataByQuery = new MutableLiveData<>();
     }
 
     public static UserRepository getInstance() {
@@ -92,7 +94,6 @@ public final class UserRepository {
     }
 
     // Create User in Firestore
-    //TODO Add restaurantBookedId
     public void createUser() {
         FirebaseUser user = getCurrentUser();
         if (user != null) {
@@ -137,7 +138,7 @@ public final class UserRepository {
             Task<DocumentSnapshot> userData = getUserData();
             String uid = currentUser.getUid();
             assert userData != null;
-            userData.addOnSuccessListener(documentSnapshot -> this.getUsersCollection().document(uid).update("restaurantBookedId",user.getRestaurantBookedId()));
+            userData.addOnSuccessListener(documentSnapshot -> this.getUsersCollection().document(uid).update("restaurantBookedId", user.getRestaurantBookedId()));
         }
     }
 
@@ -147,14 +148,22 @@ public final class UserRepository {
         this.getUsersCollection()
                 .whereNotEqualTo("uid", getCurrentUserUID())
                 .whereEqualTo("restaurantBookedId", restaurantId).get().addOnCompleteListener(task -> {
-            for (QueryDocumentSnapshot user : task.getResult()) {
-                users.add(user.toObject(User.class));
-            }
-            mutableLiveDataUserBookedRestaurant.setValue(users);
-        });
+                    for (QueryDocumentSnapshot user : task.getResult()) {
+                        users.add(user.toObject(User.class));
+                    }
+                    mutableLiveDataUserBookedRestaurant.setValue(users);
+                });
     }
 
     public LiveData<ArrayList<User>> getMutableLiveDataRestaurantBooked() {
         return mutableLiveDataUserBookedRestaurant;
+    }
+
+    public void getWorkmatesByQuery(String query) {
+        mutableLiveDataByQuery.setValue(query);
+    }
+
+    public LiveData<String> getMutableLiveDataWorkmateByQuery() {
+        return mutableLiveDataByQuery;
     }
 }

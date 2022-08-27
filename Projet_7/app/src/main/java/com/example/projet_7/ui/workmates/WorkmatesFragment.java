@@ -1,6 +1,8 @@
 package com.example.projet_7.ui.workmates;
 
 import static com.example.projet_7.ui.MainActivity.placesClient;
+import static com.example.projet_7.utils.Utils.isQuerySearchEmpty;
+import static com.example.projet_7.utils.Utils.isSearchBoxLengthAtleast1;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ public class WorkmatesFragment extends Fragment {
     private WorkMateViewModel workMateViewModel;
     private RestaurantViewModel restaurantViewModel;
     public ArrayList<User> workmates = new ArrayList<>();
+    public ArrayList<User> workmatesCopy = new ArrayList<>();
     public ArrayList<Restaurant> restaurantsBooked = new ArrayList<>();
 
 
@@ -58,7 +61,7 @@ public class WorkmatesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.initViewModel();
         getUsersData();
-
+        getWorkmatesByQuery();
     }
 
     private void initViewModel() {
@@ -70,17 +73,65 @@ public class WorkmatesFragment extends Fragment {
 
         workMateViewModel.getLiveData().observe(getViewLifecycleOwner(), mWorkmates -> {
 
-            workmates.clear();
-            workmates.addAll(mWorkmates);
-            restaurantViewModel.getLiveDataRestaurantBooked().observe(getViewLifecycleOwner(), restaurants -> {
+            if (isQuerySearchEmpty(getContext())) {
 
-                restaurantsBooked.clear();
-                restaurantsBooked.addAll(restaurants);
+                if (workmatesCopyNotExistsYet()) {
+                    workmatesCopy.addAll(mWorkmates);
+                }
 
-                binding.recyclerview.getAdapter().notifyDataSetChanged();
-            });
-            restaurantViewModel.getRestaurantsBooked(workmates, placesClient);
+
+                updateList(mWorkmates);
+                restaurantViewModel.getLiveDataRestaurantBooked().observe(getViewLifecycleOwner(), restaurants -> {
+
+                    restaurantsBooked.clear();
+                    restaurantsBooked.addAll(restaurants);
+
+                    binding.recyclerview.getAdapter().notifyDataSetChanged();
+                });
+                restaurantViewModel.getRestaurantsBooked(workmates, placesClient);
+            }
         });
+    }
+
+    private boolean workmatesCopyNotExistsYet() {
+        return workmatesCopy.isEmpty();
+    }
+
+
+    private void getWorkmatesByQuery() {
+
+        workMateViewModel.getWorkmatesByQuery().observe(getViewLifecycleOwner(), query -> {
+
+            if (isSearchBoxLengthAtleast1(getContext())) {
+
+                ArrayList<User> workmatesFiltered = getWorkmatesFilterByQuery(query);
+                updateList(workmatesFiltered);
+            }
+        });
+    }
+
+    private ArrayList<User> getWorkmatesFilterByQuery(String query) {
+
+        ArrayList<User> usersMatched = new ArrayList<>();
+
+        if (!workmatesCopy.isEmpty()) {
+            for (User workmate : workmatesCopy) {
+                String firstname = workmate.getUsername().split(" ")[0].toLowerCase();
+
+                if (firstname.contains(query.toLowerCase())) {
+                    usersMatched.add(workmate);
+                }
+            }
+        }
+
+        return usersMatched;
+    }
+
+
+    private void updateList(ArrayList<User> mWorkmates) {
+        workmates.clear();
+        workmates.addAll(mWorkmates);
+        binding.recyclerview.getAdapter().notifyDataSetChanged();
     }
 
     @Override
