@@ -71,4 +71,6 @@
 
     <string name="info_no_email_found">No email address found</string>
     <string name="info_no_username_found">No username found</string>
+
+    <string name="info_must_accept_permission">For use the application you must accept  localisation permissions</string>
 </resources>

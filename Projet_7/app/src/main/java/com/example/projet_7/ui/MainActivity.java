@@ -145,7 +145,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (areAllGranted) {
                         checkPermissions();
                     } else {
-                        Toast.makeText(getBaseContext(), "You can't use application normally", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.info_must_accept_permission), Toast.LENGTH_LONG).show();
+                        finish();
                     }
                 });
     }
