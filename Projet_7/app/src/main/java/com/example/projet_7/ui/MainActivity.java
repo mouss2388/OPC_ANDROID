@@ -1,5 +1,7 @@
 package com.example.projet_7.ui;
 
+import static com.example.projet_7.utils.Utils.startDetailActivity;
+
 import android.Manifest;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
@@ -295,7 +297,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.menu_Item_1) {
-            Toast.makeText(this, "menu_Item_1", Toast.LENGTH_SHORT).show();
+            userManager.getUserData().addOnSuccessListener(user -> {
+
+                String restaurantBooked = user.getRestaurantBookedId();
+                startDetailActivity(this, restaurantBooked);
+            });
 
         } else if (id == R.id.menu_Item_2) {
             Dialog dialog = configDialogSetting();
