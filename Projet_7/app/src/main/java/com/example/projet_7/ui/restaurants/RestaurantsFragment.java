@@ -22,6 +22,7 @@ import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.matrix_api.ElementsItem;
 import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.ui.MainActivity;
+import com.example.projet_7.ui.adapters.RestaurantAdapter;
 import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.example.projet_7.viewModel.RestaurantViewModel;
 

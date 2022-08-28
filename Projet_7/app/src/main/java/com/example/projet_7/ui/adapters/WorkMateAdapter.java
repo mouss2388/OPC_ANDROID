@@ -1,4 +1,4 @@
-package com.example.projet_7.ui.workmates;
+package com.example.projet_7.ui.adapters;
 
 import static com.example.projet_7.utils.Utils.concatFirstnameAndSentence;
 import static com.example.projet_7.utils.Utils.getPictureCroppedWithGlide;

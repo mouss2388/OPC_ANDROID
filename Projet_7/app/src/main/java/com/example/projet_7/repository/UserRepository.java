@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public final class UserRepository {
 
     private static final String COLLECTION_NAME = "users";
-    private static final String USERNAME_FIELD = "username";
 
     private final MutableLiveData<ArrayList<User>> mutableLiveData;
     private final MutableLiveData<ArrayList<User>> mutableLiveDataUserBookedRestaurant;
@@ -113,6 +112,7 @@ public final class UserRepository {
 
     public Task<DocumentSnapshot> isUserExists() {
         String uid = this.getCurrentUserUID();
+        assert uid != null;
         return this.getUsersCollection().document(uid).get();
     }
 
@@ -136,6 +136,7 @@ public final class UserRepository {
         FirebaseUser currentUser = getCurrentUser();
         if (user != null) {
             Task<DocumentSnapshot> userData = getUserData();
+            assert currentUser != null;
             String uid = currentUser.getUid();
             assert userData != null;
             userData.addOnSuccessListener(documentSnapshot -> this.getUsersCollection().document(uid).update("restaurantBookedId", user.getRestaurantBookedId()));

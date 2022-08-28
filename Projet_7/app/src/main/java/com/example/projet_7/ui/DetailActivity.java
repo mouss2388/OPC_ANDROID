@@ -23,7 +23,7 @@ import com.example.projet_7.databinding.ActivityDetailBinding;
 import com.example.projet_7.manager.UserManager;
 import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.User;
-import com.example.projet_7.ui.adapter.DetailWorkmateAdapter;
+import com.example.projet_7.ui.adapters.DetailWorkmateAdapter;
 import com.example.projet_7.viewModel.RestaurantViewModel;
 import com.example.projet_7.viewModel.WorkMateViewModel;
 

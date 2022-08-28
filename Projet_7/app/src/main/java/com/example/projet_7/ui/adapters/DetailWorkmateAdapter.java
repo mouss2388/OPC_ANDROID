@@ -1,9 +1,8 @@
-package com.example.projet_7.ui.adapter;
+package com.example.projet_7.ui.adapters;
 
 import static com.example.projet_7.utils.Utils.concatFirstnameAndSentence;
 import static com.example.projet_7.utils.Utils.getPictureCroppedWithGlide;
 
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.projet_7.databinding.FragmentWorkmatesBinding;
 import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.User;
+import com.example.projet_7.ui.adapters.WorkMateAdapter;
 import com.example.projet_7.viewModel.RestaurantViewModel;
 import com.example.projet_7.viewModel.WorkMateViewModel;
 
