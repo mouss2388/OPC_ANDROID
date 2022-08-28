@@ -4,6 +4,7 @@ import static com.example.projet_7.utils.Utils.getDistanceBetweenLocationAndRest
 import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
 import static com.example.projet_7.utils.Utils.isSearchBoxLengthAtleast3;
 
+import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,13 +29,14 @@ import com.example.projet_7.viewModel.RestaurantViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-
+@SuppressLint("NotifyDataSetChanged")
 public class RestaurantsFragment extends Fragment implements OnMatrixApiListReceivedCallback {
 
     private FragmentRestaurantsBinding binding;
     private RestaurantViewModel restaurantViewModel;
-    private ArrayList<Restaurant> restaurants = new ArrayList<>();
+    private final ArrayList<Restaurant> restaurants = new ArrayList<>();
     private Location currentLocation;
 
     private void initViewModel() {
@@ -97,11 +99,11 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
     private void updateList(ArrayList<Restaurant> mRestaurants) {
         restaurants.clear();
         restaurants.addAll(mRestaurants);
-        binding.recyclerview.getAdapter().notifyDataSetChanged();
-        calculDistFromLocationToRestaurants();
+        Objects.requireNonNull(binding.recyclerview.getAdapter()).notifyDataSetChanged();
+        calculateDistFromLocationToRestaurants();
     }
 
-    private void calculDistFromLocationToRestaurants() {
+    private void calculateDistFromLocationToRestaurants() {
 
         for (int idx = 0; idx < restaurants.size(); idx++) {
             StringBuilder currentLocationCoord = getLatLngForMatrixApi(currentLocation);
@@ -129,7 +131,7 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
                 restaurants.get(idx).setDuration(duration);
 
                 if (idx == restaurants.size() - 1) {
-                    binding.recyclerview.getAdapter().notifyDataSetChanged();
+                    Objects.requireNonNull(binding.recyclerview.getAdapter()).notifyDataSetChanged();
                 }
                 break;
             }

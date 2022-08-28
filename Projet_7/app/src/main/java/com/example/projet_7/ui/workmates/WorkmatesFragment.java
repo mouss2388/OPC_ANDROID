@@ -4,6 +4,7 @@ import static com.example.projet_7.ui.MainActivity.placesClient;
 import static com.example.projet_7.utils.Utils.isQuerySearchEmpty;
 import static com.example.projet_7.utils.Utils.isSearchBoxLengthAtleast1;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +25,9 @@ import com.example.projet_7.viewModel.RestaurantViewModel;
 import com.example.projet_7.viewModel.WorkMateViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-
+@SuppressLint("NotifyDataSetChanged")
 public class WorkmatesFragment extends Fragment {
 
     private FragmentWorkmatesBinding binding;
@@ -87,7 +89,7 @@ public class WorkmatesFragment extends Fragment {
                     restaurantsBooked.clear();
                     restaurantsBooked.addAll(restaurants);
 
-                    binding.recyclerview.getAdapter().notifyDataSetChanged();
+                    Objects.requireNonNull(binding.recyclerview.getAdapter()).notifyDataSetChanged();
                 });
                 restaurantViewModel.getRestaurantsBooked(workmates, placesClient);
             }
@@ -132,7 +134,7 @@ public class WorkmatesFragment extends Fragment {
     private void updateList(ArrayList<User> mWorkmates) {
         workmates.clear();
         workmates.addAll(mWorkmates);
-        binding.recyclerview.getAdapter().notifyDataSetChanged();
+        Objects.requireNonNull(binding.recyclerview.getAdapter()).notifyDataSetChanged();
     }
 
     @Override

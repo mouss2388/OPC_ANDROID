@@ -1,7 +1,6 @@
 package com.example.projet_7.ui.maps;
 
 import static com.example.projet_7.ui.MainActivity.placesClient;
-import static com.example.projet_7.utils.Utils.getLatLngForMatrixApi;
 import static com.example.projet_7.utils.Utils.isSearchBoxLengthAtleast3;
 import static com.example.projet_7.utils.Utils.startDetailActivity;
 
@@ -22,10 +21,7 @@ import com.example.projet_7.R;
 import com.example.projet_7.databinding.FragmentMapsBinding;
 import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.User;
-import com.example.projet_7.model.matrix_api.ElementsItem;
-import com.example.projet_7.model.matrix_api.RowsItem;
 import com.example.projet_7.ui.MainActivity;
-import com.example.projet_7.utils.OnMatrixApiListReceivedCallback;
 import com.example.projet_7.viewModel.RestaurantViewModel;
 import com.example.projet_7.viewModel.WorkMateViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,16 +35,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @SuppressWarnings("MissingPermission")
 public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener, OnMatrixApiListReceivedCallback {
+        GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerClickListener {
 
-    private FragmentMapsBinding binding;
     private final Context context;
-    private SupportMapFragment supportMapFragment;
 
     private GoogleMap googleMap;
 
@@ -65,7 +58,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentMapsBinding.inflate(inflater, container, false);
+        FragmentMapsBinding binding = FragmentMapsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -85,7 +78,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         googleMap = null;
         currentLocation = ((MainActivity) requireContext()).currentLocation;
-        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.maps);
         assert supportMapFragment != null;
         supportMapFragment.getMapAsync(MapsFragment.this);
     }
@@ -93,33 +86,28 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public boolean onMyLocationButtonClick() {
 
-        Toast.makeText(getActivity(), "MainAcitivty " + ((MainActivity) requireContext()).currentLocation.getLongitude(), Toast.LENGTH_LONG)
-                .show();
-        Toast.makeText(getActivity(), "Maps Fragment " + currentLocation.getLongitude(), Toast.LENGTH_LONG)
-                .show();
-        if (isCuruentLocationChanged()) {
-            currentLocation.setLongitude(((MainActivity) requireContext()).currentLocation.getLongitude());
-            currentLocation.setLatitude(((MainActivity) requireContext()).currentLocation.getLatitude());
-            restaurantViewModel.getRestaurantsAroundMe(placesClient);
-            getRestaurantsFromLocationAndPrediction();
-            Toast.makeText(getActivity(), "currentLocation update ", Toast.LENGTH_SHORT)
-                    .show();
-        } else {
-            Toast.makeText(getActivity(), "currentLocation not update ", Toast.LENGTH_SHORT)
-                    .show();
 
+        if (isCurrentLocationChanged()) {
+
+            currentLocation.setLongitude(((MainActivity) requireContext()).currentLocation.getLongitude());
+
+            currentLocation.setLatitude(((MainActivity) requireContext()).currentLocation.getLatitude());
+
+            restaurantViewModel.getRestaurantsAroundMe(placesClient);
+
+            getRestaurantsFromLocationAndPrediction();
         }
 
         return false;
     }
 
-    private boolean isCuruentLocationChanged() {
+    private boolean isCurrentLocationChanged() {
         return currentLocation.getLongitude() != ((MainActivity) requireContext()).currentLocation.getLongitude() || currentLocation.getLatitude() != ((MainActivity) requireContext()).currentLocation.getLatitude();
     }
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(getActivity(), "Vous êtes ici:\n" + location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG)
+        Toast.makeText(getActivity(), "Vous êtes ici:\n latitude:" + location.getLatitude() + "\n longitude:" + location.getLongitude(), Toast.LENGTH_LONG)
                 .show();
     }
 
@@ -139,7 +127,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         this.googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19));
+        this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
         this.googleMap.setOnMarkerClickListener(this);
         getRestaurantsFromLocationAndPrediction();
     }
@@ -157,7 +145,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
             restaurants.clear();
             restaurants.addAll(mRestaurants);
             if (isSearchBoxLengthAtleast3(getContext())) {
-                checkRestaurantBooked(restaurants);
+                checkRestaurantsBooked(restaurants);
             }
         });
     }
@@ -173,12 +161,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                     restaurants.addAll(mRestaurants);
 
                     if (!isSearchBoxLengthAtleast3(getContext())) {
-                        checkRestaurantBooked(restaurants);
+                        checkRestaurantsBooked(restaurants);
                     }
                 });
     }
 
-    private void checkRestaurantBooked(ArrayList<Restaurant> restaurants) {
+    private void checkRestaurantsBooked(ArrayList<Restaurant> restaurants) {
 
         workMateViewModel.getLiveData().observe(getViewLifecycleOwner(), mWorkmates -> {
             boolean booked;
@@ -188,12 +176,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
                 for (User workmate : mWorkmates) {
                     if (restaurant.getId().equals(workmate.getRestaurantBookedId())) {
                         booked = true;
-                        addMarkerColored(restaurant, booked);
+                        addMarkerColored(restaurant, true);
                         break;
                     }
                 }
                 if (!booked) {
-                    addMarkerColored(restaurant, booked);
+                    addMarkerColored(restaurant, false);
                 }
             }
         });
@@ -216,27 +204,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         destination.setLatitude(marker.getPosition().latitude);
         destination.setLongitude(marker.getPosition().longitude);
 
-        startDetailActivity(getContext(), marker.getTag().toString());
-
-        StringBuilder currentLocationCoord = getLatLngForMatrixApi(currentLocation);
-        StringBuilder destinationCoord = getLatLngForMatrixApi(marker.getPosition());
-
-        //getDistanceBetween(this, getContext(), currentLocationCoord, destinationCoord);
-
+        startDetailActivity(getContext(), Objects.requireNonNull(marker.getTag()).toString());
         return false;
     }
-
-    @Override
-    public void onMatrixApiListReceivedCallback(List<RowsItem> rowsItem, String id) {
-
-        ElementsItem matrixItem = rowsItem.get(0).getElements().get(0);
-        getInfoDistanceRestaurant(matrixItem);
-    }
-
-
-    void getInfoDistanceRestaurant(ElementsItem matrixItem) {
-        Toast.makeText(context, "distance:" + matrixItem.getDistance().getText(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(context, "duree:" + matrixItem.getDuration().getText(), Toast.LENGTH_SHORT).show();
-    }
-
 }
