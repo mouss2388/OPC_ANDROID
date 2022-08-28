@@ -15,7 +15,7 @@
         android:layout_height="@dimen/logo_size"
         android:layout_marginTop="@dimen/marg_top_logo"
         android:background="@drawable/logo_go_4_lunch"
-        android:contentDescription="Logo Go4Lunch"
+        android:contentDescription="@string/logo_go4lunch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

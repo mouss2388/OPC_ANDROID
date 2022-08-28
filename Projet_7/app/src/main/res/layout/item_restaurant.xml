@@ -42,7 +42,7 @@
         android:id="@+id/photo_restaurant"
         android:layout_width="@dimen/image_restaurant_size"
         android:layout_height="@dimen/image_restaurant_size"
-        android:contentDescription="picture of restaurant"
+        android:contentDescription="@string/picture_of_restaurant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/roundedImageView"
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_person_outline_24"
-            android:contentDescription="logo people"
+            android:contentDescription="@string/logo_people"
             tools:background="@drawable/ic_person_outline_24" />
 
         <TextView

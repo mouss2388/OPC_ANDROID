@@ -26,7 +26,7 @@
     <string name="app_title">I\'m Hungry!</string>
     <string name="available_workmates">Available workmates</string>
     <string name="your_lunch">your lunch</string>
-    <string name="settings">settings</string>
+    <string name="settings">Settings</string>
     <string name="logout">logout</string>
 
     <!-- RESTAURANT DETAILS -->
@@ -39,6 +39,10 @@
     <string name="none_web_site_found">Not WebSite found</string>
     <string name="booked">Booked</string>
     <string name="unbooked">Unbooked</string>
+    <string name="image_of_restaurant">image of restaurant</string>
+    <string name="description_booked_button">Button of reservation</string>
+
+
 
     <!-- WORKMATES -->
     <string name="eating_workmates">is eating</string>
@@ -77,4 +81,8 @@
     <string name="info_no_username_found">No username found</string>
 
     <string name="info_must_accept_permission">For use the application you must accept  localisation permissions</string>
+    <string name="logo_go4lunch">Logo Go4Lunch</string>
+    <string name="picture_of_restaurant">picture of restaurant</string>
+    <string name="logo_people">logo people</string>
+    <string name="picture_of_user_profil">picture of user profil</string>
 </resources>

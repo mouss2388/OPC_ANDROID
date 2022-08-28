@@ -17,6 +17,7 @@
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_logout_24.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_map_24.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_people_alt_24.xml" value="0.1" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_person_outline_24.xml" value="0.1105" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_restaurant_menu_24.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_settings_24.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/drawable/ic_star_24.xml" value="0.115" />
@@ -32,14 +33,16 @@
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/fragment_dashboard.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/fragment_home.xml" value="0.16927083333333334" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/fragment_map.xml" value="0.16927083333333334" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/fragment_maps.xml" value="0.14479166666666668" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/fragment_notifications.xml" value="0.16927083333333334" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/fragment_restaurant.xml" value="0.16927083333333334" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/fragment_restaurants.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/fragment_workmate.xml" value="0.33007334963325186" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/fragment_workmates.xml" value="0.14479166666666668" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/item_restaurant.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/item_workmate.xml" value="0.14479166666666668" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/selector_item.xml" value="0.16927083333333334" />
-        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/settings_layout.xml" value="0.22" />
+        <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/layout/settings_layout.xml" value="0.1" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/menu/activity_main_menu_drawer.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/menu/bottom_nav_menu.xml" value="0.16927083333333334" />
         <entry key="..\:/Users/mouss/Desktop/OPC_ANDROID/Projet_7/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.16927083333333334" />

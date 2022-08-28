@@ -96,7 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/logo_lunch_menu_size"
             android:layout_gravity="bottom"
-            android:src="@drawable/bowl_logo_menu" />
+            android:src="@drawable/bowl_logo_menu"
+            android:contentDescription="@string/logo_go4lunch" />
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

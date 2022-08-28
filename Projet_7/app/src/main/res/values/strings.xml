@@ -26,7 +26,7 @@
     <string name="app_title">J\'ai faim!</string>
     <string name="available_workmates">Collègues disponibles</string>
     <string name="your_lunch">votre déjeuner</string>
-    <string name="settings">réglages</string>
+    <string name="settings">Réglages</string>
     <string name="logout">se déconnecter</string>
 
     <!-- RESTAURANT DETAILS -->
@@ -39,6 +39,9 @@
     <string name="none_web_site_found">Pas de site Web trouvé</string>
     <string name="booked">Réservé</string>
     <string name="unbooked">Non réservé</string>
+    <string name="image_of_restaurant">image du restaurant</string>
+    <string name="description_booked_button">Bouton de réservation</string>
+
 
     <!-- WORKMATES -->
     <string name="eating_workmates">mange</string>
@@ -73,10 +76,14 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <string name="info_no_email_found">Auncune adresse email</string>
+    <string name="info_no_email_found">Aucune adresse email</string>
     <string name="info_no_username_found">Aucun nom d\'utilisateur</string>
 
     <string name="info_must_accept_permission">Pour utiliser  l\'application vous devez accepter les permissions de localisation</string>
+    <string name="logo_go4lunch">Logo Go4Lunch</string>
+    <string name="picture_of_restaurant">photo du restaurant</string>
+    <string name="logo_people">logo personne</string>
+    <string name="picture_of_user_profil">image du profil de l\'utilisateur</string>
 
 
 </resources>

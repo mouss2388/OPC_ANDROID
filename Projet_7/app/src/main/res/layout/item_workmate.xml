@@ -10,7 +10,7 @@
         android:id="@+id/picture"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:contentDescription="picture of user profil"
+        android:contentDescription="@string/picture_of_user_profil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

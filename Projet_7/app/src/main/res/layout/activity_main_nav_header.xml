@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="John Smith"
-                android:text="John Smith"
+                android:text=""
                 android:textSize="@dimen/nav_header_userName_size"
                 />
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="jsmith.1337@gmail.com"
-                android:text="jsmith.1337@gmail.com"
+                android:text=""
                 android:textSize="@dimen/nav_header_userEmail_size"
                 />
 
