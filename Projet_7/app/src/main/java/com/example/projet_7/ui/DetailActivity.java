@@ -201,7 +201,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void updateRecyclerView() {
 
-        workMateViewModel.getLiveDataRestaurantBooked().observe(this, workmates -> {
+        workMateViewModel.getLiveDataUsersWhoHasBooked().observe(this, workmates -> {
 
             users.clear();
             users.addAll(workmates);

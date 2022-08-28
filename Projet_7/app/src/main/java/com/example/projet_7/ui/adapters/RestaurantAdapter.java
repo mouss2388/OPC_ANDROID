@@ -3,7 +3,7 @@ package com.example.projet_7.ui.adapters;
 import static com.example.projet_7.utils.Utils.convertPurcentageToRating;
 import static com.example.projet_7.utils.Utils.convertRatingToPurcentage;
 import static com.example.projet_7.utils.Utils.getBitmapWithGlide;
-import static com.example.projet_7.utils.Utils.getDayOfWeek;
+import static com.example.projet_7.utils.Utils.getIndexDayOfWeek;
 import static com.example.projet_7.utils.Utils.startDetailActivity;
 
 import android.content.Context;
@@ -107,7 +107,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         private void setAndFormattingOpeningHours(Restaurant restaurant) {
 
-            int day = getDayOfWeek();
+            int day = getIndexDayOfWeek();
             if (restaurant.getOpeningHours() == null) {
                 opening_hours.setText("");
             } else {

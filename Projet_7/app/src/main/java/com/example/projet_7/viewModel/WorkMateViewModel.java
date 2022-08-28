@@ -17,8 +17,8 @@ public class WorkMateViewModel extends ViewModel {
         userRepository = new UserRepository();
     }
 
-    public LiveData<ArrayList<User>> getLiveData() {
-        return userRepository.getMutableLiveData();
+    public LiveData<ArrayList<User>> getLiveDataOtherUsers() {
+        return userRepository.getLiveDataOtherUsers();
     }
 
     public void getWorkMates() {
@@ -30,15 +30,15 @@ public class WorkMateViewModel extends ViewModel {
         userRepository.getWorkmatesBookedRestaurant(restaurantId);
     }
 
-    public LiveData<ArrayList<User>> getLiveDataRestaurantBooked() {
-        return userRepository.getMutableLiveDataRestaurantBooked();
+    public LiveData<ArrayList<User>> getLiveDataUsersWhoHasBooked() {
+        return userRepository.getLiveDataUsersWhoHasBooked();
     }
 
     public void getWorkmatesByQuery(String query) {
         userRepository.getWorkmatesByQuery(query);
     }
 
-    public LiveData<String> getWorkmatesByQuery() {
+    public LiveData<String> getLiveDataWorkmatesByQuery() {
         return userRepository.getMutableLiveDataWorkmateByQuery();
     }
 

@@ -168,7 +168,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     private void checkRestaurantsBooked(ArrayList<Restaurant> restaurants) {
 
-        workMateViewModel.getLiveData().observe(getViewLifecycleOwner(), mWorkmates -> {
+        workMateViewModel.getLiveDataOtherUsers().observe(getViewLifecycleOwner(), mWorkmates -> {
             boolean booked;
 
             for (Restaurant restaurant : restaurants) {

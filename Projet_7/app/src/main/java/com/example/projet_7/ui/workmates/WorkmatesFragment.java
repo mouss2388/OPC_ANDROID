@@ -74,7 +74,7 @@ public class WorkmatesFragment extends Fragment {
 
     private void getUsersData() {
 
-        workMateViewModel.getLiveData().observe(getViewLifecycleOwner(), mWorkmates -> {
+        workMateViewModel.getLiveDataOtherUsers().observe(getViewLifecycleOwner(), mWorkmates -> {
 
             if (isQuerySearchEmpty(getContext())) {
 
@@ -103,7 +103,7 @@ public class WorkmatesFragment extends Fragment {
 
     private void getWorkmatesByQuery() {
 
-        workMateViewModel.getWorkmatesByQuery().observe(getViewLifecycleOwner(), query -> {
+        workMateViewModel.getLiveDataWorkmatesByQuery().observe(getViewLifecycleOwner(), query -> {
 
             if (isSearchBoxLengthAtleast1(getContext())) {
 

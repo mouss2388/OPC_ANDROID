@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,10 +73,9 @@ public class Utils {
         return new StringBuilder().append(position.latitude).append(",").append(position.longitude);
     }
 
-    public static int getDayOfWeek() {
+    public static int getIndexDayOfWeek() {
         Calendar calendar = Calendar.getInstance();
-        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        return dayIndex;
+        return calendar.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
     public static double convertRatingToPurcentage(double rating_restaurant) {

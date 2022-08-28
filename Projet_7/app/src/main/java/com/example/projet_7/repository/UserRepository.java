@@ -22,18 +22,18 @@ public final class UserRepository {
 
     private static final String COLLECTION_NAME = "users";
 
-    private final MutableLiveData<ArrayList<User>> mutableLiveData;
-    private final MutableLiveData<ArrayList<User>> mutableLiveDataUserBookedRestaurant;
-    private final MutableLiveData<String> mutableLiveDataByQuery;
+    private final MutableLiveData<ArrayList<User>> muLiveDataOtherUsers;
+    private final MutableLiveData<ArrayList<User>> muLiveDataUsersWhoHasBooked;
+    private final MutableLiveData<String> muLiveDataUsersByQuery;
 
     private static volatile UserRepository instance;
 
 
     public UserRepository() {
-        this.mutableLiveData = new MutableLiveData<>();
 
-        this.mutableLiveDataUserBookedRestaurant = new MutableLiveData<>();
-        this.mutableLiveDataByQuery = new MutableLiveData<>();
+        this.muLiveDataOtherUsers = new MutableLiveData<>();
+        this.muLiveDataUsersWhoHasBooked = new MutableLiveData<>();
+        this.muLiveDataUsersByQuery = new MutableLiveData<>();
     }
 
     public static UserRepository getInstance() {
@@ -116,8 +116,8 @@ public final class UserRepository {
         return this.getUsersCollection().document(uid).get();
     }
 
-    public LiveData<ArrayList<User>> getMutableLiveData() {
-        return mutableLiveData;
+    public LiveData<ArrayList<User>> getLiveDataOtherUsers() {
+        return muLiveDataOtherUsers;
     }
 
     public void getUsersData() {
@@ -128,7 +128,7 @@ public final class UserRepository {
             for (QueryDocumentSnapshot user : task.getResult()) {
                 users.add(user.toObject(User.class));
             }
-            mutableLiveData.setValue(users);
+            muLiveDataOtherUsers.postValue(users);
         });
     }
 
@@ -152,19 +152,19 @@ public final class UserRepository {
                     for (QueryDocumentSnapshot user : task.getResult()) {
                         users.add(user.toObject(User.class));
                     }
-                    mutableLiveDataUserBookedRestaurant.setValue(users);
+                    muLiveDataUsersWhoHasBooked.setValue(users);
                 });
     }
 
-    public LiveData<ArrayList<User>> getMutableLiveDataRestaurantBooked() {
-        return mutableLiveDataUserBookedRestaurant;
+    public LiveData<ArrayList<User>> getLiveDataUsersWhoHasBooked() {
+        return muLiveDataUsersWhoHasBooked;
     }
 
     public void getWorkmatesByQuery(String query) {
-        mutableLiveDataByQuery.setValue(query);
+        muLiveDataUsersByQuery.setValue(query);
     }
 
     public LiveData<String> getMutableLiveDataWorkmateByQuery() {
-        return mutableLiveDataByQuery;
+        return muLiveDataUsersByQuery;
     }
 }
