@@ -44,7 +44,7 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull WorkMateAdapter.ViewHolder holder, int position) {
-        holder.displayWorkwates(workMates.get(position), restaurantsBooked);
+        holder.displayWorkmates(workMates.get(position), restaurantsBooked);
 
     }
 
@@ -73,30 +73,42 @@ public class WorkMateAdapter extends RecyclerView.Adapter<WorkMateAdapter.ViewHo
             });
         }
 
-        public void displayWorkwates(User workmate, ArrayList<Restaurant> restaurantsBooked) {
+        public void displayWorkmates(User workmate, ArrayList<Restaurant> restaurantsBooked) {
 
             if (workmate.getRestaurantBookedId().isEmpty()) {
 
-                String str = itemView.getResources().getString(R.string.workmates_not_decided);
-                StringBuilder textComplete = concatFirstnameAndSentence(workmate, str);
-                sentence.setText(textComplete);
-                sentence.setTextColor(itemView.getResources().getColor(R.color.grey));
-                sentence.setTypeface(null, Typeface.ITALIC);
+                showSentenceForWorkmateWhoNotBookedYet(workmate);
             } else {
-                String str = itemView.getResources().getString(R.string.eating_workmates);
 
                 for (Restaurant restaurant : restaurantsBooked) {
-                    if (workmate.getRestaurantBookedId().equals(restaurant.getId())) {
-                        StringBuilder textComplete = concatFirstnameAndSentence(workmate, str);
-                        textComplete = textComplete.append(" ").append(restaurant.getName());
-                        sentence.setText(textComplete);
-                        sentence.setTextColor(itemView.getResources().getColor(R.color.black));
-                        sentence.setTypeface(null, Typeface.NORMAL);
-
-                    }
+                    showSentenceForWorkmateWhoHasAlreadyBooked(workmate, restaurant);
                 }
             }
             getPictureCroppedWithGlide(itemView.getContext(), workmate.getUrlPicture(), picture);
+        }
+
+
+        private void showSentenceForWorkmateWhoNotBookedYet(User workmate) {
+
+            String str = itemView.getResources().getString(R.string.workmates_not_decided);
+            StringBuilder textComplete = concatFirstnameAndSentence(workmate, str);
+            sentence.setText(textComplete);
+            sentence.setTextColor(itemView.getResources().getColor(R.color.grey));
+            sentence.setTypeface(null, Typeface.ITALIC);
+        }
+
+        private void showSentenceForWorkmateWhoHasAlreadyBooked(User workmate, Restaurant restaurant) {
+            String str = itemView.getResources().getString(R.string.eating_workmates);
+
+            if (workmate.getRestaurantBookedId().equals(restaurant.getId())) {
+
+                StringBuilder textComplete = concatFirstnameAndSentence(workmate, str);
+                textComplete = textComplete.append(" ").append(restaurant.getName());
+                sentence.setText(textComplete);
+                sentence.setTextColor(itemView.getResources().getColor(R.color.black));
+                sentence.setTypeface(null, Typeface.NORMAL);
+
+            }
         }
     }
 }

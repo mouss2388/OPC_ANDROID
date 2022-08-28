@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRatingBar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projet_7.R;
@@ -65,6 +66,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
 
         public ViewHolder(View view) {
             super(view);
+
             // Define click listener for the ViewHolder's View
             name = view.findViewById(R.id.name_Restaurant);
             address = view.findViewById(R.id.address_Restaurant);
@@ -83,15 +85,27 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         }
 
         public void displayRestaurant(Restaurant restaurant) {
+
             name.setText(restaurant.getName());
             address.setText(restaurant.getAddress());
 
-            double purcentageRating = convertRatingToPurcentage(restaurant.getRating());
-            float rating = convertPurcentageToRating(purcentageRating);
+            double percentageRating = convertRatingToPurcentage(restaurant.getRating());
+            float rating = convertPurcentageToRating(percentageRating);
+
             stars_rating.setRating(rating);
 
             String userRatingTotal = "(" + restaurant.getUserRatingTotal() + ")";
             total_rating.setText(userRatingTotal);
+
+            setAndFormattingOpeningHours(restaurant);
+            setPictureOfRestaurant(restaurant);
+
+            String distance_str = restaurant.getDistance() != null ? restaurant.getDistance() : "";
+            distance.setText(distance_str);
+        }
+
+
+        private void setAndFormattingOpeningHours(Restaurant restaurant) {
 
             int day = getDayOfWeek();
             if (restaurant.getOpeningHours() == null) {
@@ -104,16 +118,16 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
                 }
                 opening_hours.setText(opening_hours_without_day);
             }
+        }
 
+
+        private void setPictureOfRestaurant(Restaurant restaurant) {
             if (restaurant.getPhoto() != null) {
                 getBitmapWithGlide(itemView.getContext(), restaurant.getPhoto(), photo);
             } else {
-                Drawable photoBydefault = this.itemView.getResources().getDrawable(R.drawable.ic_no_image_available);
-                photo.setImageDrawable(photoBydefault);
+                Drawable photoByDefault = ResourcesCompat.getDrawable(this.itemView.getResources(), R.drawable.ic_no_image_available, null);
+                photo.setImageDrawable(photoByDefault);
             }
-            String distance_str =  restaurant.getDistance() != null ? restaurant.getDistance(): "";
-            distance.setText(distance_str);
         }
     }
-
 }
