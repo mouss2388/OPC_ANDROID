@@ -1,12 +1,16 @@
 package com.example.projet_7.ui;
 
+import static com.example.projet_7.utils.Utils.RESTAURANT_ID;
 import static com.example.projet_7.utils.Utils.convertPurcentageToRating;
 import static com.example.projet_7.utils.Utils.convertRatingToPurcentage;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +28,7 @@ import com.example.projet_7.viewModel.RestaurantViewModel;
 import com.example.projet_7.viewModel.WorkMateViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -42,18 +47,18 @@ public class DetailActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        getIdRestaurant();
         initRecyclerView();
+        restaurantId = getIdRestaurant();
+        if(!restaurantId.isEmpty()){
+            initViewModel();
+        }
 
     }
 
 
-    private void getIdRestaurant() {
+    private String getIdRestaurant() {
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            restaurantId = bundle.getString("id_restaurant");
-            initViewModel();
-        }
+        return bundle.getString(RESTAURANT_ID);
     }
 
     private void initRecyclerView() {
@@ -70,41 +75,53 @@ public class DetailActivity extends AppCompatActivity {
 
     private void initViewModel() {
 
-        RestaurantViewModel restaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
-        restaurantViewModel.getLiveDataDetail().observe(this, this::bindValues);
-        restaurantViewModel.getRestaurantDetail(MainActivity.placesClient, restaurantId);
 
+        RestaurantViewModel restaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
         workMateViewModel = new ViewModelProvider(this).get(WorkMateViewModel.class);
 
-        updateRecyclerView();
+        restaurantViewModel.getLiveDataDetail().observe(this, this::bindValuesRestaurant);
+        restaurantViewModel.getRestaurantDetail(MainActivity.placesClient, restaurantId);
     }
 
-    private void bindValues(Restaurant restaurant) {
-        //TODO CONTINUE TO BIND VALUE WITH LAYOUT VIEW
+    private void bindValuesRestaurant(Restaurant restaurant) {
+
         binding.nameRestaurant.setText(restaurant.getName());
         binding.addressRestaurant.setText(restaurant.getAddress());
-        double purcentageRating = convertRatingToPurcentage(restaurant.getRating());
-        float rating = convertPurcentageToRating(purcentageRating);
+
+        double percentageRating = convertRatingToPurcentage(restaurant.getRating());
+        float rating = convertPurcentageToRating(percentageRating);
+
         if (rating == 0) {
             binding.starsRatingRestaurant.setVisibility(View.GONE);
         } else {
             binding.starsRatingRestaurant.setRating(rating);
         }
 
-        setBookFloatBUtton(restaurant);
+        updateRecyclerView();
+        setBookFloatButton(restaurant);
         initListeners(restaurant);
     }
 
-    private void setBookFloatBUtton(Restaurant restaurant) {
+    private void setBookFloatButton(Restaurant restaurant) {
+
         userManager.getUserData().addOnCompleteListener(task -> {
             User user = task.getResult();
-            if (user.getRestaurantBookedId().isEmpty() || !user.getRestaurantBookedId().equals(restaurant.getId())) {
+
+            if (userBookedNoOneRestaurant(user) || userNotBookedThisRestaurant(user, restaurant)) {
                 binding.addFavorite.setImageResource(R.drawable.ic_check_circle_outline_24);
             } else {
                 binding.addFavorite.setImageResource(R.drawable.ic_check_circle_24);
             }
-
         });
+    }
+
+    private boolean userBookedNoOneRestaurant(User user) {
+        return user.getRestaurantBookedId().isEmpty();
+    }
+
+    private boolean userNotBookedThisRestaurant(User user, Restaurant restaurant) {
+        return !Objects.equals(user.getRestaurantBookedId(), restaurant.getId());
+
     }
 
     private void initListeners(Restaurant restaurant) {
@@ -112,43 +129,76 @@ public class DetailActivity extends AppCompatActivity {
             Drawable photo = new BitmapDrawable(this.getResources(), restaurant.getPhoto());
             binding.restaurantImg.setBackground(photo);
         }
-        if (restaurant.getPhoneNumber() != null) {
-
-            binding.call.setOnClickListener(v -> Toast.makeText(DetailActivity.this, restaurant.getPhoneNumber(), Toast.LENGTH_SHORT).show());
-        } else {
-            Toast.makeText(this, "NONE PHONE_NUMBER", Toast.LENGTH_SHORT).show();
-
-        }
-        if (restaurant.getWebsite() != null) {
-
-            binding.website.setOnClickListener(v -> Toast.makeText(DetailActivity.this, restaurant.getWebsite().toString(), Toast.LENGTH_SHORT).show());
-        } else {
-            Toast.makeText(this, "NONE WEB_URI", Toast.LENGTH_SHORT).show();
-        }
-
-
-        binding.like.setOnClickListener(v -> userManager.getUserData().addOnCompleteListener(task -> {
-            User user = task.getResult();
-            if (user.getRestaurantBookedId().isEmpty() || !user.getRestaurantBookedId().equals(restaurant.getId())) {
-                binding.addFavorite.setImageResource(R.drawable.ic_check_circle_24);
-                user.setRestaurantBookedId(restaurant.getId());
-                userManager.updateUserData(user);
-                Toast.makeText(this, "booked", Toast.LENGTH_SHORT).show();
-                updateRecyclerView();
-            } else {
-                binding.addFavorite.setImageResource(R.drawable.ic_check_circle_outline_24);
-                user.setRestaurantBookedId("");
-                userManager.updateUserData(user);
-                Toast.makeText(this, "unbooked", Toast.LENGTH_SHORT).show();
-
-                updateRecyclerView();
-            }
-        }));
-
+        binding.call.setOnClickListener(v -> setupListener(restaurant, binding.call));
+        binding.website.setOnClickListener(v -> setupListener(restaurant, binding.website));
+        binding.like.setOnClickListener(v -> setupListener(restaurant, binding.like));
     }
 
+    private void setupListener(Restaurant restaurant, TextView view) {
+
+        if (view.getId() == binding.call.getId()) {
+
+            if (restaurant.getPhoneNumber() == null)
+                Toast.makeText(this, getString(R.string.none_phone_number_found), Toast.LENGTH_SHORT).show();
+
+            else {
+                call(restaurant);
+            }
+
+        } else if (view.getId() == binding.website.getId()) {
+
+
+            if (restaurant.getWebsite() == null)
+                Toast.makeText(this, getString(R.string.none_web_site_found), Toast.LENGTH_SHORT).show();
+            else {
+                consultWebSite(restaurant);
+            }
+
+        } else {
+
+            getUserInfo(restaurant);
+        }
+    }
+
+    private void call(Restaurant restaurant) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", restaurant.getPhoneNumber(), null));
+        startActivity(intent);
+    }
+
+    private void consultWebSite(Restaurant restaurant) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, restaurant.getWebsite());
+        startActivity(browserIntent);
+    }
+
+
+    private void getUserInfo(Restaurant restaurant) {
+        userManager.getUserData().addOnCompleteListener(task -> {
+            User user = task.getResult();
+            gottaIamReserve(restaurant, user, userBookedNoOneRestaurant(user) || userNotBookedThisRestaurant(user, restaurant));
+
+        });
+    }
+
+
+    private void gottaIamReserve(Restaurant restaurant, User user, boolean reserve) {
+
+        if (reserve) {
+            binding.addFavorite.setImageResource(R.drawable.ic_check_circle_24);
+            user.setRestaurantBookedId(restaurant.getId());
+            Toast.makeText(this, getString(R.string.booked), Toast.LENGTH_SHORT).show();
+        } else {
+
+            binding.addFavorite.setImageResource(R.drawable.ic_check_circle_outline_24);
+            user.setRestaurantBookedId("");
+            Toast.makeText(this, getString(R.string.unbooked), Toast.LENGTH_SHORT).show();
+        }
+
+        userManager.updateUserData(user);
+    }
+
+
     private void updateRecyclerView() {
-        //TODO Create getWorkmatesWhichBooked(String restaurantId){}
+
         workMateViewModel.getLiveDataRestaurantBooked().observe(this, workmates -> {
 
             users.clear();

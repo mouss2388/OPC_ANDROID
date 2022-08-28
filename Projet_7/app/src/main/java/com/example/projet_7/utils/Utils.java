@@ -35,6 +35,8 @@ import retrofit2.Callback;
 
 public class Utils {
 
+    public static final String  RESTAURANT_ID = "id_restaurant";
+
     public static void showSnackBar(View view, String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
@@ -115,7 +117,7 @@ public class Utils {
     public static void startDetailActivity(Context context, String id) {
         Intent intent = new Intent(context, DetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("id_restaurant", id);
+        bundle.putString(RESTAURANT_ID, id);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }

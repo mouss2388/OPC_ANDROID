@@ -35,6 +35,10 @@
     <string name="website">WEBSITE</string>
     <string name="joining">is joining!</string>
     <string name="none_workmates">not interested colleagues!</string>
+    <string name="none_phone_number_found">Not Phone Number found</string>
+    <string name="none_web_site_found">Not WebSite found</string>
+    <string name="booked">Booked</string>
+    <string name="unbooked">Unbooked</string>
 
     <!-- WORKMATES -->
     <string name="eating_workmates">is eating</string>

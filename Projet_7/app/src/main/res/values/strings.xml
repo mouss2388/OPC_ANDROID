@@ -35,6 +35,10 @@
     <string name="website">SITE WEB</string>
     <string name="joining">rejoint!</string>
     <string name="none_workmates">aucuns collègues intéréssés!</string>
+    <string name="none_phone_number_found">Pas de numéro de téléphone trouvé</string>
+    <string name="none_web_site_found">Pas de site Web trouvé</string>
+    <string name="booked">Réservé</string>
+    <string name="unbooked">Non réservé</string>
 
     <!-- WORKMATES -->
     <string name="eating_workmates">mange</string>
