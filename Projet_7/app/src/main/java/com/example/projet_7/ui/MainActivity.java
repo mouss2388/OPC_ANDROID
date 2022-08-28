@@ -260,26 +260,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void configureBottomNav() {
-        this.setupListernerBottomNav();
+        this.setupListenerBottomNav();
     }
 
-    private void setupListernerBottomNav() {
+    private void setupListenerBottomNav() {
 
         binding.bottomNavView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.navigation_maps:
 
+            if(item.getItemId() == R.id.navigation_maps){
                     binding.searchView.setQueryHint(getResources().getString(R.string.search_restaurants));
                     checkPermissions();
-                    break;
-                case R.id.navigation_restaurants:
-                    replaceFragment(new RestaurantsFragment());
-                    binding.searchView.setQueryHint(getResources().getString(R.string.search_restaurants));
-                    break;
-                case R.id.navigation_workmates:
-                    replaceFragment(new WorkmatesFragment());
-                    binding.searchView.setQueryHint(getResources().getString(R.string.search_workmates));
-                    break;
+
+            }else if(item.getItemId() == R.id.navigation_restaurants){
+                replaceFragment(new RestaurantsFragment());
+                binding.searchView.setQueryHint(getResources().getString(R.string.search_restaurants));
+            } else {
+                replaceFragment(new WorkmatesFragment());
+                binding.searchView.setQueryHint(getResources().getString(R.string.search_workmates));
             }
             return true;
         });
@@ -446,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initSearchBoxListener() {
 
-        binding.searchView.setQueryHint("Search restaurants");
+        binding.searchView.setQueryHint(getString(R.string.search_restaurants));
 
         binding.searchView.setOnCloseListener(() -> {
 
@@ -472,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 querySearchView = newText;
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {

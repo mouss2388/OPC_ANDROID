@@ -4,6 +4,7 @@ import static com.example.projet_7.utils.Utils.RESTAURANT_ID;
 import static com.example.projet_7.utils.Utils.convertPurcentageToRating;
 import static com.example.projet_7.utils.Utils.convertRatingToPurcentage;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -30,6 +31,7 @@ import com.example.projet_7.viewModel.WorkMateViewModel;
 import java.util.ArrayList;
 import java.util.Objects;
 
+@SuppressLint("NotifyDataSetChanged")
 public class DetailActivity extends AppCompatActivity {
 
     private ActivityDetailBinding binding;
@@ -49,7 +51,7 @@ public class DetailActivity extends AppCompatActivity {
 
         initRecyclerView();
         restaurantId = getIdRestaurant();
-        if(!restaurantId.isEmpty()){
+        if (!restaurantId.isEmpty()) {
             initViewModel();
         }
 
@@ -203,7 +205,7 @@ public class DetailActivity extends AppCompatActivity {
 
             users.clear();
             users.addAll(workmates);
-            binding.recyclerviewWorkMates.getAdapter().notifyDataSetChanged();
+            Objects.requireNonNull(binding.recyclerviewWorkMates.getAdapter()).notifyDataSetChanged();
         });
         workMateViewModel.getWorkmatesBookedRestaurant(restaurantId);
     }
