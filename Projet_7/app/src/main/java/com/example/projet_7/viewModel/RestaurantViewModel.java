@@ -21,36 +21,36 @@ public class RestaurantViewModel extends ViewModel {
     }
 
 
-    public LiveData<ArrayList<Restaurant>> getLiveData() {
-        return restaurantRepository.getMutableLiveData();
+    public LiveData<ArrayList<Restaurant>> getLiveDataRestaurantsAroundMe() {
+        return restaurantRepository.getLiveDataRestaurantsAroundMe();
     }
 
-    public void getRestaurants(PlacesClient placesClient) {
-        restaurantRepository.getRestaurants(placesClient);
+    public void getRestaurantsAroundMe(PlacesClient placesClient) {
+        restaurantRepository.getRestaurantsAroundMe(placesClient);
     }
 
-    public LiveData<Restaurant> getLiveDataDetail() {
-        return restaurantRepository.getMutableLiveDataDetail();
+    public LiveData<Restaurant> getLiveDataRestaurantDetail() {
+        return restaurantRepository.getLiveDataRestaurantDetail();
     }
 
-    public void getRestaurantDetail(PlacesClient placesClient, String placeId) {
-        restaurantRepository.getDetailRestaurant(placesClient, placeId);
+    public void getDetailsRestaurant(PlacesClient placesClient, String placeId) {
+        restaurantRepository.getDetailsRestaurant(placesClient, placeId);
     }
 
     public LiveData<ArrayList<Restaurant>> getLiveDataRestaurantBooked() {
-        return restaurantRepository.getMutableLiveDataRestaurantBooked();
+        return restaurantRepository.getLiveDataRestaurantBooked();
     }
 
     public void getRestaurantsBooked(ArrayList<User> workmates, PlacesClient placesClient) {
         restaurantRepository.getRestaurantsBooked(workmates, placesClient);
     }
 
-    public LiveData<ArrayList<Restaurant>> getLiveDataRestaurantsPrediction() {
-        return restaurantRepository.getMutableLiveDataRestaurantsPrediction();
+    public LiveData<ArrayList<Restaurant>> getLiveDataRestaurantsByPrediction() {
+        return restaurantRepository.getLiveDataRestaurantsByPrediction();
     }
 
-    public void getRestaurantsPrediction(Location currentLocation, String query) {
-        restaurantRepository.getRestaurantsPrediction(currentLocation, query);
+    public void getRestaurantsByPrediction(Location currentLocation, String query) {
+        restaurantRepository.getRestaurantsByPrediction(currentLocation, query);
     }
 
 

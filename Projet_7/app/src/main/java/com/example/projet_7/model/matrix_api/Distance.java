@@ -1,5 +1,6 @@
 package com.example.projet_7.model.matrix_api;
 
+@SuppressWarnings("unused")
 public class Distance {
     private final String text;
     private final int value;

@@ -27,8 +27,11 @@ import com.example.projet_7.ui.MainActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -132,5 +135,15 @@ public class Utils {
 
     public static boolean isQuerySearchEmpty(Context context) {
         return ((MainActivity)context).querySearchView.isEmpty();
+    }
+
+    public static HashSet<String> getIdsOfRestaurantsWithoutDuplicate(ArrayList<User> workmates){
+
+        List<String> uidRestaurantsBooked = new ArrayList<>();
+        for (User workmate : workmates) {
+            uidRestaurantsBooked.add(workmate.getRestaurantBookedId());
+        }
+
+        return new HashSet<>(uidRestaurantsBooked);
     }
 }

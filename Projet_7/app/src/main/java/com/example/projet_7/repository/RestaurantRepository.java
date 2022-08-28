@@ -1,6 +1,7 @@
 package com.example.projet_7.repository;
 
 import static com.example.projet_7.ui.MainActivity.placesClient;
+import static com.example.projet_7.utils.Utils.getIdsOfRestaurantsWithoutDuplicate;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -31,7 +32,6 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -39,35 +39,35 @@ import java.util.Set;
 @SuppressLint("MissingPermission")
 public class RestaurantRepository {
 
-    private final MutableLiveData<ArrayList<Restaurant>> mutableLiveData;
-    private final MutableLiveData<Restaurant> mutableLiveDataDetail;
-    private final MutableLiveData<ArrayList<Restaurant>> mutableLiveDataRestaurantBooked;
-    private final MutableLiveData<ArrayList<Restaurant>> mutableLiveDataRestaurantsPrediction;
+    private final MutableLiveData<ArrayList<Restaurant>> muLivDataRestaurantsAroundMe;
+    private final MutableLiveData<Restaurant> muLivDataRestaurantDetail;
+    private final MutableLiveData<ArrayList<Restaurant>> muLivDataRestaurantsBooked;
+    private final MutableLiveData<ArrayList<Restaurant>> muLivDataRestaurantsPrediction;
 
     public RestaurantRepository() {
-        this.mutableLiveData = new MutableLiveData<>();
-        this.mutableLiveDataDetail = new MutableLiveData<>();
-        this.mutableLiveDataRestaurantBooked = new MutableLiveData<>();
-        this.mutableLiveDataRestaurantsPrediction = new MutableLiveData<>();
+        this.muLivDataRestaurantsAroundMe = new MutableLiveData<>();
+        this.muLivDataRestaurantDetail = new MutableLiveData<>();
+        this.muLivDataRestaurantsBooked = new MutableLiveData<>();
+        this.muLivDataRestaurantsPrediction = new MutableLiveData<>();
     }
 
-    public LiveData<ArrayList<Restaurant>> getMutableLiveData() {
-        return mutableLiveData;
+    public LiveData<ArrayList<Restaurant>> getLiveDataRestaurantsAroundMe() {
+        return muLivDataRestaurantsAroundMe;
     }
 
-    public LiveData<Restaurant> getMutableLiveDataDetail() {
-        return mutableLiveDataDetail;
+    public LiveData<Restaurant> getLiveDataRestaurantDetail() {
+        return muLivDataRestaurantDetail;
     }
 
-    public LiveData<ArrayList<Restaurant>> getMutableLiveDataRestaurantBooked() {
-        return mutableLiveDataRestaurantBooked;
+    public LiveData<ArrayList<Restaurant>> getLiveDataRestaurantBooked() {
+        return muLivDataRestaurantsBooked;
     }
 
-    public LiveData<ArrayList<Restaurant>> getMutableLiveDataRestaurantsPrediction() {
-        return mutableLiveDataRestaurantsPrediction;
+    public LiveData<ArrayList<Restaurant>> getLiveDataRestaurantsByPrediction() {
+        return muLivDataRestaurantsPrediction;
     }
 
-    public void getRestaurants(PlacesClient placesClient) {
+    public void getRestaurantsAroundMe(PlacesClient placesClient) {
 
         List<Place.Field> placeFieldsFindCurrentPlace =
                 Arrays.asList(Place.Field.ID, Place.Field.TYPES,
@@ -107,7 +107,7 @@ public class RestaurantRepository {
                                     new Restaurant(place.getId(), place.getName(), place.getAddress(), place.getLatLng(), rating,
                                             userRatingTotal, place.getTypes(), placeDetail.getOpeningHours(), null));
 
-                            mutableLiveData.setValue(restaurants);
+                            muLivDataRestaurantsAroundMe.postValue(restaurants);
                         } else {
                             final PhotoMetadata photoMetadata = metadata.get(0);
                             final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
@@ -121,7 +121,7 @@ public class RestaurantRepository {
                                         new Restaurant(place.getId(), place.getName(), place.getAddress(), place.getLatLng(), rating,
                                                 userRatingTotal, place.getTypes(), placeDetail.getOpeningHours(), photo));
 
-                                mutableLiveData.setValue(restaurants);
+                                muLivDataRestaurantsAroundMe.postValue(restaurants);
 
                             });
                         }
@@ -131,8 +131,22 @@ public class RestaurantRepository {
         });
     }
 
+    private boolean checkIfTypeOfPlaceIsARestaurant(List<Place.Type> types) {
 
-    public void getDetailRestaurant(PlacesClient placesClient, String placeId) {
+        if (types == null) {
+            return false;
+        }
+        List<Place.Type> typeMeal = Arrays.asList(Place.Type.RESTAURANT, Place.Type.MEAL_TAKEAWAY, Place.Type.FOOD);
+
+        for (Place.Type type : types) {
+            if (typeMeal.contains(type)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void getDetailsRestaurant(PlacesClient placesClient, String placeId) {
 
 
         List<Place.Field> placeFieldsDetail =
@@ -154,7 +168,7 @@ public class RestaurantRepository {
                 restaurant =
                         new Restaurant(placeDetail.getId(), placeDetail.getName(), placeDetail.getAddress(), rating, placeDetail.getPhoneNumber(), placeDetail.getWebsiteUri());
 
-                mutableLiveDataDetail.setValue(restaurant);
+                muLivDataRestaurantDetail.postValue(restaurant);
             } else {
                 final PhotoMetadata photoMetadata = metadata.get(0);
                 final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
@@ -167,7 +181,7 @@ public class RestaurantRepository {
                     Restaurant restaurantPhoto =
                             new Restaurant(placeDetail.getId(), placeDetail.getName(), placeDetail.getAddress(), null, rating,
                                     0, null, placeDetail.getOpeningHours(), photo);
-                    mutableLiveDataDetail.setValue(restaurantPhoto);
+                    muLivDataRestaurantDetail.postValue(restaurantPhoto);
                 });
             }
         });
@@ -175,15 +189,9 @@ public class RestaurantRepository {
 
     public void getRestaurantsBooked(ArrayList<User> workmates, PlacesClient placesClient) {
 
-        //TODO create getIdsOfRestaurantsWihtoutDuplicate(ArrayList<User> workmates) it in Utils class => return new HashSet<>(uids)
-        List<String> uidRestaurantsBooked = new ArrayList<>();
-        for (User workmate : workmates) {
-            uidRestaurantsBooked.add(workmate.getRestaurantBookedId());
-        }
-
-        Set<String> uids = new HashSet<>(uidRestaurantsBooked);
-        //TODO END
         ArrayList<Restaurant> restaurantsBooked = new ArrayList<>();
+
+        Set<String> uids = getIdsOfRestaurantsWithoutDuplicate(workmates);
 
         List<Place.Field> placeFieldsDetail =
                 Arrays.asList(Place.Field.ID, Place.Field.NAME);
@@ -195,15 +203,15 @@ public class RestaurantRepository {
                 Place placeDetail = response.getPlace();
                 Restaurant restaurant = new Restaurant(placeDetail.getId(), placeDetail.getName());
                 restaurantsBooked.add(restaurant);
-                mutableLiveDataRestaurantBooked.setValue(restaurantsBooked);
+                muLivDataRestaurantsBooked.postValue(restaurantsBooked);
             });
         }
     }
 
-    public void getRestaurantsPrediction(Location currentLocation, String text) {
+    public void getRestaurantsByPrediction(Location currentLocation, String text) {
 
         List<Place.Field> placeFieldsDetail =
-                Arrays.asList(Place.Field.ID,Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.NAME, Place.Field.RATING, Place.Field.PHOTO_METADATAS, Place.Field.PHONE_NUMBER, Place.Field.WEBSITE_URI, Place.Field.USER_RATINGS_TOTAL);
+                Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.ADDRESS, Place.Field.NAME, Place.Field.RATING, Place.Field.PHOTO_METADATAS, Place.Field.PHONE_NUMBER, Place.Field.WEBSITE_URI, Place.Field.USER_RATINGS_TOTAL);
         // Create a new token for the autocomplete session. Pass this to FindAutocompletePredictionsRequest,
         // and once again when the user makes a selection (for example when calling fetchPlace()).
         AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
@@ -247,7 +255,7 @@ public class RestaurantRepository {
                                     new Restaurant(placeDetail.getId(), placeDetail.getName(), placeDetail.getAddress(), placeDetail.getLatLng(), rating,
                                             userRatingTotal, placeDetail.getTypes(), placeDetail.getOpeningHours(), null));
 
-                            mutableLiveDataRestaurantsPrediction.setValue(restaurants);
+                            muLivDataRestaurantsPrediction.postValue(restaurants);
                         } else {
                             final PhotoMetadata photoMetadata = metadata.get(0);
                             final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata)
@@ -260,7 +268,7 @@ public class RestaurantRepository {
                                 restaurants.add(
                                         new Restaurant(placeDetail.getId(), placeDetail.getName(), placeDetail.getAddress(), placeDetail.getLatLng(), rating,
                                                 userRatingTotal, placeDetail.getTypes(), placeDetail.getOpeningHours(), photo));
-                                mutableLiveDataRestaurantsPrediction.setValue(restaurants);
+                                muLivDataRestaurantsPrediction.postValue(restaurants);
                             });
                         }
                     }).addOnFailureListener((exception) -> {
@@ -286,18 +294,4 @@ public class RestaurantRepository {
         };
     }
 
-    private boolean checkIfTypeOfPlaceIsARestaurant(List<Place.Type> types) {
-
-        if (types == null) {
-            return false;
-        }
-        List<Place.Type> typeMeal = Arrays.asList(Place.Type.RESTAURANT, Place.Type.MEAL_TAKEAWAY, Place.Type.FOOD);
-
-        for (Place.Type type : types) {
-            if (typeMeal.contains(type)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

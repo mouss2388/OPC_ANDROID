@@ -79,8 +79,8 @@ public class DetailActivity extends AppCompatActivity {
         RestaurantViewModel restaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
         workMateViewModel = new ViewModelProvider(this).get(WorkMateViewModel.class);
 
-        restaurantViewModel.getLiveDataDetail().observe(this, this::bindValuesRestaurant);
-        restaurantViewModel.getRestaurantDetail(MainActivity.placesClient, restaurantId);
+        restaurantViewModel.getLiveDataRestaurantDetail().observe(this, this::bindValuesRestaurant);
+        restaurantViewModel.getDetailsRestaurant(MainActivity.placesClient, restaurantId);
     }
 
     private void bindValuesRestaurant(Restaurant restaurant) {

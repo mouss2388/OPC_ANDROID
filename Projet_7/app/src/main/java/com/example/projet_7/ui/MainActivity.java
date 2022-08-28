@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         workMateViewModel = new ViewModelProvider(this).get(WorkMateViewModel.class);
 
-        restaurantViewModel.getRestaurants(placesClient);
+        restaurantViewModel.getRestaurantsAroundMe(placesClient);
         workMateViewModel.getWorkMates();
     }
 
@@ -456,7 +456,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     workMateViewModel.getWorkMates();
                 }
             } else {
-                restaurantViewModel.getRestaurants(placesClient);
+                restaurantViewModel.getRestaurantsAroundMe(placesClient);
             }
 
             querySearchView = "";
@@ -483,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     } else {
 
                         if (querySearchView.length() >= TRIGGER_SEARCH_RESTAURANTS) {
-                            restaurantViewModel.getRestaurantsPrediction(currentLocation, querySearchView);
+                            restaurantViewModel.getRestaurantsByPrediction(currentLocation, querySearchView);
                         }
                     }
 

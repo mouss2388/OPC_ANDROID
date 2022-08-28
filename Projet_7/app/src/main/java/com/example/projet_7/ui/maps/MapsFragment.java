@@ -100,7 +100,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         if (isCuruentLocationChanged()) {
             currentLocation.setLongitude(((MainActivity) requireContext()).currentLocation.getLongitude());
             currentLocation.setLatitude(((MainActivity) requireContext()).currentLocation.getLatitude());
-            restaurantViewModel.getRestaurants(placesClient);
+            restaurantViewModel.getRestaurantsAroundMe(placesClient);
             getRestaurantsFromLocationAndPrediction();
             Toast.makeText(getActivity(), "currentLocation update ", Toast.LENGTH_SHORT)
                     .show();
@@ -151,7 +151,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     private void getRestaurantsByPrediction() {
-        restaurantViewModel.getLiveDataRestaurantsPrediction().observe(getViewLifecycleOwner(), mRestaurants -> {
+        restaurantViewModel.getLiveDataRestaurantsByPrediction().observe(getViewLifecycleOwner(), mRestaurants -> {
             this.googleMap.clear();
 
             restaurants.clear();
@@ -164,7 +164,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
 
     private void getRestaurantsAroundMe() {
-        restaurantViewModel.getLiveData().
+        restaurantViewModel.getLiveDataRestaurantsAroundMe().
 
                 observe(getViewLifecycleOwner(), mRestaurants ->
                 {

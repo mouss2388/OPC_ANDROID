@@ -76,7 +76,7 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
     }
 
     private void getRestaurantsByPrediction() {
-        restaurantViewModel.getLiveDataRestaurantsPrediction().observe(getViewLifecycleOwner(), mRestaurants -> {
+        restaurantViewModel.getLiveDataRestaurantsByPrediction().observe(getViewLifecycleOwner(), mRestaurants -> {
 
             if (isSearchBoxLengthAtleast3(getContext())) {
                 updateList(mRestaurants);
@@ -86,7 +86,7 @@ public class RestaurantsFragment extends Fragment implements OnMatrixApiListRece
 
 
     private void getRestaurantsAroundMe() {
-        restaurantViewModel.getLiveData().observe(getViewLifecycleOwner(), mRestaurants -> {
+        restaurantViewModel.getLiveDataRestaurantsAroundMe().observe(getViewLifecycleOwner(), mRestaurants -> {
             if (!isSearchBoxLengthAtleast3(getContext())) {
                 updateList(mRestaurants);
             }
