@@ -5,7 +5,6 @@ import static com.example.projet_7.utils.Utils.startDetailActivity;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -339,7 +338,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userManager.getUserData().addOnSuccessListener(user -> {
 
                 String restaurantBooked = user.getRestaurantBookedId();
-                startDetailActivity(this, restaurantBooked);
+                if(!restaurantBooked.equals("")) {
+                    startDetailActivity(this, restaurantBooked);
+                }else{
+                    showSnackBarNoneRestaurantBooked();
+                }
             });
 
         } else if (id == R.id.menu_Item_2) {
@@ -356,6 +359,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.mainLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private void showSnackBarNoneRestaurantBooked() {
+            Utils.showSnackBar(binding.mainLayout, getString(R.string.snackbar_msg_none_restaurant_booked));
     }
 
     private Dialog configDialogSetting() {

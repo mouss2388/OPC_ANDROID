@@ -4,6 +4,7 @@
 
     <!-- SNACKBAR -->
     <string name="snackbar_msg_login_success">Authentification success !</string>
+    <string name="snackbar_msg_none_restaurant_booked">None restaurant booked!</string>
     <string name="snackbar_msg_login_cancelled">Authentification cancelled !</string>
     <string name="snackbar_msg_error_unknow">An error has occurred !</string>
     <string name="snackbar_log_out">Please log out !</string>
