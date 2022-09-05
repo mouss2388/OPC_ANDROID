@@ -85,5 +85,8 @@
     <string name="logo_people">logo personne</string>
     <string name="picture_of_user_profil">image du profil de l\'utilisateur</string>
 
+    <string name="default_notification_channel_id">notification</string>
+    <string name="you_booked_at">Vous avez réservé au</string>
+    <string name="there_will_be">Il y aura:</string>
 
 </resources>

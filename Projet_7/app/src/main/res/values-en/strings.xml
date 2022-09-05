@@ -85,4 +85,9 @@
     <string name="picture_of_restaurant">picture of restaurant</string>
     <string name="logo_people">logo people</string>
     <string name="picture_of_user_profil">picture of user profil</string>
+
+    <string name="default_notification_channel_id">notification</string>
+    <string name="you_booked_at">You booked at</string>
+    <string name="there_will_be">There will be:</string>
+
 </resources>

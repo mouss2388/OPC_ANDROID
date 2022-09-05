@@ -5,6 +5,7 @@ import static com.example.projet_7.utils.Utils.startDetailActivity;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -41,6 +42,7 @@ import com.example.projet_7.BuildConfig;
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.ActivityMainBinding;
 import com.example.projet_7.manager.UserManager;
+import com.example.projet_7.model.User;
 import com.example.projet_7.ui.maps.MapsFragment;
 import com.example.projet_7.ui.restaurants.RestaurantsFragment;
 import com.example.projet_7.ui.workmates.WorkmatesFragment;
@@ -58,6 +60,8 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 @SuppressWarnings("MissingPermission")
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -80,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private final Handler handler = new Handler();
     private final int TRIGGER_SEARCH_RESTAURANTS = 3;
+
+    public static StringBuilder restaurantBookedInfo = new StringBuilder().append("");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +121,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         restaurantViewModel.getRestaurantsAroundMe(placesClient);
         workMateViewModel.getWorkMates();
+
+        getDataForNotification();
+    }
+
+    private void getDataForNotification() {
+
+        userManager.getUserData().addOnSuccessListener(user -> {
+
+            String restaurantBookedId = user.getRestaurantBookedId();
+            if (!Objects.equals(restaurantBookedId, "")) {
+
+                restaurantViewModel.getLiveDataRestaurantDetail().observe(this, restaurant -> {
+
+
+                    restaurantBookedInfo.append(this.getResources().getString(R.string.you_booked_at))
+                            .append(restaurant.getName())
+                            .append("\n")
+                            .append(restaurant.getAddress())
+                            .append("\n");
+
+                    workMateViewModel.getLiveDataUsersWhoHasBooked().observe(this, workmates -> {
+
+                        restaurantBookedInfo.append(this.getResources().getString(R.string.there_will_be)).append("\n");
+                        for (User workmate : workmates) {
+                            restaurantBookedInfo.append("- ")
+                                    .append(workmate.getUsername())
+                                    .append("\n");
+                        }
+                    });
+                    workMateViewModel.getWorkmatesBookedRestaurant(restaurantBookedId);
+                });
+                restaurantViewModel.getDetailsRestaurant(MainActivity.placesClient, restaurantBookedId);
+            }
+        });
+
     }
 
     private void initData() {
@@ -267,11 +308,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         binding.bottomNavView.setOnItemSelectedListener(item -> {
 
-            if(item.getItemId() == R.id.navigation_maps){
-                    binding.searchView.setQueryHint(getResources().getString(R.string.search_restaurants));
-                    checkPermissions();
+            if (item.getItemId() == R.id.navigation_maps) {
+                binding.searchView.setQueryHint(getResources().getString(R.string.search_restaurants));
+                checkPermissions();
 
-            }else if(item.getItemId() == R.id.navigation_restaurants){
+            } else if (item.getItemId() == R.id.navigation_restaurants) {
                 replaceFragment(new RestaurantsFragment());
                 binding.searchView.setQueryHint(getResources().getString(R.string.search_restaurants));
             } else {

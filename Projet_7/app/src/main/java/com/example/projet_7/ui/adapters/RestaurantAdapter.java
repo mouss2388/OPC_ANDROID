@@ -76,7 +76,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
             photo = view.findViewById(R.id.photo_restaurant);
             distance = view.findViewById(R.id.distance_to_restaurant);
             view.setOnClickListener(v -> {
-                int index = getAdapterPosition();
+                int index = getAbsoluteAdapterPosition();
                 Context context = v.getContext();
                 String id = restaurants.get(index).getId();
                 startDetailActivity(context, id);
