@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.projet_7.R;
 import com.example.projet_7.databinding.FragmentMapsBinding;
+import com.example.projet_7.manager.UserManager;
 import com.example.projet_7.model.Restaurant;
 import com.example.projet_7.model.User;
 import com.example.projet_7.ui.MainActivity;
@@ -46,6 +47,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
     private GoogleMap googleMap;
 
     private Location currentLocation;
+
+    private final UserManager userManager = UserManager.getInstance();
 
     private final ArrayList<Restaurant> restaurants = new ArrayList<>();
     RestaurantViewModel restaurantViewModel;
@@ -168,22 +171,30 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
 
     private void checkRestaurantsBooked(ArrayList<Restaurant> restaurants) {
 
-        workMateViewModel.getLiveDataOtherUsers().observe(getViewLifecycleOwner(), mWorkmates -> {
-            boolean booked;
+        userManager.getUserData().addOnCompleteListener(user -> {
+           String restaurantBookedByMine = user.getResult().getRestaurantBookedId();
+            workMateViewModel.getLiveDataOtherUsers().observe(getViewLifecycleOwner(), mWorkmates -> {
+                boolean booked;
 
-            for (Restaurant restaurant : restaurants) {
-                booked = false;
-                for (User workmate : mWorkmates) {
-                    if (restaurant.getId().equals(workmate.getRestaurantBookedId())) {
-                        booked = true;
+                for (Restaurant restaurant : restaurants) {
+                    booked = false;
+
+                    if(restaurantBookedByMine.equals(restaurant.getId())){
                         addMarkerColored(restaurant, true);
-                        break;
+                        continue;
+                    }
+                    for (User workmate : mWorkmates) {
+                        if (restaurant.getId().equals(workmate.getRestaurantBookedId())) {
+                            booked = true;
+                            addMarkerColored(restaurant, true);
+                            break;
+                        }
+                    }
+                    if (!booked) {
+                        addMarkerColored(restaurant, false);
                     }
                 }
-                if (!booked) {
-                    addMarkerColored(restaurant, false);
-                }
-            }
+            });
         });
     }
 
