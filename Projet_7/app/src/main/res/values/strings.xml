@@ -1,3 +1,93 @@
 <resources>
-    <string name="app_name">Projet_7</string>
+
+    <string name="app_name">Go4Lunch</string>
+
+    <!-- SNACKBAR -->
+    <string name="snackbar_msg_login_success">Authentification réussie !</string>
+    <string name="snackbar_msg_none_restaurant_booked">Aucun restaurant réservé!</string>
+    <string name="snackbar_msg_login_cancelled">Authentification annulée !</string>
+    <string name="snackbar_msg_error_unknow">Une erreur est survenue !</string>
+    <string name="snackbar_log_out">Veuillez-vous déconnecte !</string>
+
+    <!-- SETTINGS-->
+    <string name="button_delete_account">Supprimer mon compte</string>
+    <string name="popup_message_confirmation_delete_account">Es-tu sûr(e) de vouloir supprimer votre compte ?</string>
+    <string name="popup_message_choice_yes">Oui</string>
+    <string name="popup_message_choice_no">Non</string>
+    <string name="msg_you_are_log_out">Vous êtes déconnecté !</string>
+    <string name="msg_acount_is_removed">Votre compte est supprimé !</string>
+    <string name="button_close_settings">Bouton de fermeture des paramètres</string>
+
+    <!--LOGINS BUTTONS -->
+    <string name="sign_in_email">Se connecter avec Email</string>
+    <string name="sign_in_facebook">Se connecter avec Facebook</string>
+    <string name="sign_in_google">Se connecter avec Google</string>
+
+    <!-- NAVIGATION DRAWER -->
+    <string name="app_title">J\'ai faim!</string>
+    <string name="available_workmates">Collègues disponibles</string>
+    <string name="your_lunch">votre déjeuner</string>
+    <string name="settings">Réglages</string>
+    <string name="logout">se déconnecter</string>
+
+    <!-- RESTAURANT DETAILS -->
+    <string name="call">APPELER</string>
+    <string name="like">AIMER</string>
+    <string name="website">SITE WEB</string>
+    <string name="joining">rejoint!</string>
+    <string name="none_workmates">aucuns collègues intéréssés!</string>
+    <string name="none_phone_number_found">Pas de numéro de téléphone trouvé</string>
+    <string name="none_web_site_found">Pas de site Web trouvé</string>
+    <string name="booked">Réservé</string>
+    <string name="unbooked">Non réservé</string>
+    <string name="image_of_restaurant">image du restaurant</string>
+    <string name="description_booked_button">Bouton de réservation</string>
+
+
+    <!-- WORKMATES -->
+    <string name="eating_workmates">mange</string>
+    <string name="workmates_not_decided">n\'a pas encore décidé</string>
+
+    <!-- SEARCH BAR -->
+    <string name="search_restaurants">Recherche des restaurants</string>
+    <string name="search_workmates">Rechercher des collègues</string>
+
+    <!-- BOTTOM NAVIGATION -->
+    <string name="bottom_nav_map_view">Vue Carte</string>
+    <string name="bottom_nav_list_view">Vue Liste</string>
+    <string name="bottom_nav_workmates">Collègues</string>
+
+    <!--FACEBOOK IDS-->
+    <string name="facebook_application_id">992952868077563</string>
+    <string name="facebook_login_protocol_scheme">fb992952868077563</string>
+    <string name="facebook_client_token">9b50d4f46987800eb63bb458c14e12ef</string>
+
+    <!-- Used in NavigationDrawer -->
+    <string name="menu_Item_1">Menu item 1</string>
+    <string name="menu_Item_2">Menu item 2</string>
+    <string name="menu_Item_3">Menu item 3</string>
+    <string name="menu_title">Title Menu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="picture_of_user">photo de l\'utilisateur</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="info_no_email_found">Aucune adresse email</string>
+    <string name="info_no_username_found">Aucun nom d\'utilisateur</string>
+
+    <string name="info_must_accept_permission">Pour utiliser  l\'application vous devez accepter les permissions de localisation</string>
+    <string name="logo_go4lunch">Logo Go4Lunch</string>
+    <string name="picture_of_restaurant">photo du restaurant</string>
+    <string name="logo_people">logo personne</string>
+    <string name="picture_of_user_profil">image du profil de l\'utilisateur</string>
+
+    <string name="default_notification_channel_id">notification</string>
+    <string name="you_booked_at">Vous avez réservé au</string>
+    <string name="there_will_be">Il y aura:</string>
+
 </resources>

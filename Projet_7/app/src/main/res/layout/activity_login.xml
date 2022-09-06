@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    tools:context=".ui.LoginActivity">
+
+
+    <ImageView
+        android:id="@+id/logo_go_4_lunch"
+        android:layout_width="@dimen/logo_size"
+        android:layout_height="@dimen/logo_size"
+        android:layout_marginTop="@dimen/marg_top_logo"
+        android:background="@drawable/logo_go_4_lunch"
+        android:contentDescription="@string/logo_go4lunch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearyout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marg_top_linear_layout_buttons"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo_go_4_lunch">
+
+        <Button
+            android:id="@+id/bnt_login_facebook"
+            android:textSize="@dimen/button_text_size"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:backgroundTint="@color/facebook"
+            android:layout_marginTop="@dimen/button_marg_top"
+            android:paddingStart="@dimen/button_padd_start"
+            android:paddingEnd="@dimen/button_padd_end"
+            android:text="@string/sign_in_facebook"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_facebook_logo"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:iconPadding="@dimen/button_icon_padd"
+            app:iconSize="@dimen/button_icon_size"
+            app:iconTint="@color/white"
+            />
+
+        <Button
+            android:id="@+id/bnt_login_google"
+            android:textSize="@dimen/button_text_size"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:backgroundTint="@color/google"
+            android:layout_marginTop="@dimen/button_marg_top"
+            android:paddingStart="@dimen/button_padd_start"
+            android:paddingEnd="@dimen/button_padd_end"
+            android:text="@string/sign_in_google"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_google_logo"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:iconPadding="@dimen/button_icon_padd"
+            app:iconSize="@dimen/button_icon_size"
+            app:iconTint="@color/white"
+            />
+
+        <Button
+            android:id="@+id/bnt_login_email"
+            android:textSize="@dimen/button_text_size"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:backgroundTint="@color/email"
+            android:layout_marginTop="@dimen/button_marg_top"
+            android:paddingStart="@dimen/button_padd_start"
+            android:paddingEnd="@dimen/button_padd_end"
+            android:text="@string/sign_in_email"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_email_logo"
+            app:cornerRadius="@dimen/button_corner_radius"
+            app:iconPadding="@dimen/button_icon_padd"
+            app:iconSize="@dimen/button_icon_size"
+            app:iconTint="@color/white"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
