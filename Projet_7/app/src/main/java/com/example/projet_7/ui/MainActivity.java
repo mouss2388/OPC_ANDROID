@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 restaurantViewModel.getLiveDataRestaurantDetail().observe(this, restaurant -> {
 
 
-                    restaurantBookedInfo.append(this.getResources().getString(R.string.you_booked_at))
+                    restaurantBookedInfo.append(user.getUsername()).append(this.getResources().getString(R.string.you_booked_at))
                             .append(restaurant.getName())
                             .append("\n")
                             .append(restaurant.getAddress())

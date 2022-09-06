@@ -17,9 +17,15 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.example.projet_7.R;
+import com.example.projet_7.manager.UserManager;
+import com.example.projet_7.model.User;
 import com.example.projet_7.ui.MainActivity;
+import com.example.projet_7.viewModel.RestaurantViewModel;
+import com.example.projet_7.viewModel.WorkMateViewModel;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Objects;
 
 @SuppressLint("InlinedApi")
 
