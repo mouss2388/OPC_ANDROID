@@ -1,34 +1,36 @@
 package com.openclassrooms.realestatemanager;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textViewMain;
-    private TextView textViewQuantity;
+    String TAG = MainActivity.this.getClass().getSimpleName();
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        this.textViewMain = findViewById(R.id.activity_second_activity_text_view_main);
-        this.textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity);
-
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
         this.configureTextViewMain();
         this.configureTextViewQuantity();
     }
 
-    private void configureTextViewMain(){
-        this.textViewMain.setTextSize(15);
-        this.textViewMain.setText("Le premier bien immobilier enregistré vaut ");
+    private void configureTextViewMain() {
+        binding.activityMainActivityTextViewMain.setTextSize(Float.parseFloat("15"));
+        binding.activityMainActivityTextViewMain.setText("Le premier bien immobilier enregistré vaut ");
     }
 
-    private void configureTextViewQuantity(){
+    private void configureTextViewQuantity() {
         int quantity = Utils.convertDollarToEuro(100);
-        this.textViewQuantity.setTextSize(20);
-        this.textViewQuantity.setText(quantity);
+        binding.activityMainActivityTextViewQuantity.setTextSize(Float.parseFloat("20"));
+        binding.activityMainActivityTextViewQuantity.setText(String.valueOf(quantity));
     }
 }

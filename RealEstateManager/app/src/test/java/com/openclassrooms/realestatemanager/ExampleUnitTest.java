@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -11,7 +15,30 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+    public void convert_2DollarsToEuro_Return2() {
+        assertEquals(2, Utils.convertDollarToEuro(2));
+    }
+
+    @Test
+    public void convert_5DollarsToEuro_Return4() {
+        assertEquals(4, Utils.convertDollarToEuro(5));
+    }
+
+    @Test
+    public void convert_10DollarsToEuro_Return8() {
+        assertEquals(8, Utils.convertDollarToEuro(10));
+    }
+
+
+    @Test
+    //TODO bug see format in mainActivity
+    public void convert_8EurosToDollars_Return10() {
+        assertEquals(10, Utils.convertEuroToDollar(8));
+    }
+
+    @Test
+    public void check_formatDateIs_DDMMYYYY() {
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        assertEquals(currentDate, Utils.getTodayDate());
     }
 }
