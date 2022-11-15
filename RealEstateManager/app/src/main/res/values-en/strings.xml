@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Real Estate Manager</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Confirm your password</string>
+    <string name="price">Price</string>
+    <string name="media">Media</string>
+    <string name="description">Description</string>
+    <string name="surface">Surface</string>
+    <string name="number_of_rooms">Number of piece</string>
+    <string name="number_of_bathrooms">Number of bathrooms</string>
+    <string name="number_of_bedrooms">Number of bedrooms</string>
+    <string name="location">Location</string>
+    <string name="status">Status</string>
+    <string name="entry_date">Entry date</string>
+    <string name="date_of_sale">Date of sale</string>
+    <string name="settings">Settings</string>
+</resources>

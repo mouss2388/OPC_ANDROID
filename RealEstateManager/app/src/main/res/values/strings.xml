@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
+    <string name="firstname">Prénom</string>
+    <string name="lastname">Nom</string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="password_confirm">Confimer votre mot de passe</string>
+    <string name="price">Prix</string>
+    <string name="media">Médias</string>
+    <string name="description">Description</string>
+    <string name="surface">Surface</string>
+    <string name="number_of_rooms">Nombre de pièces</string>
+    <string name="number_of_bathrooms">Nombre de salles de bain</string>
+    <string name="number_of_bedrooms">Nombre de chambres</string>
+    <string name="location">Emplacement</string>
+    <string name="status">Statut</string>
+    <string name="entry_date">Date d\'entée</string>
+    <string name="date_of_sale">Date de vente</string>
+    <string name="settings">Réglages</string>
 </resources>
