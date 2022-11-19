@@ -1,8 +1,10 @@
 package com.openclassrooms.realestatemanager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Bundle;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,6 +17,12 @@ import java.util.Date;
  */
 @SuppressWarnings("ALL")
 public class Utils {
+
+    public static final String  SIGN_CHOICE = "SIGN_CHOICE";
+    public static final String  SIGN_IN = "SIGN_IN";
+    public static final String  SIGN_UP = "SIGN_UP";
+    public static final String  ERROR_GET_BUNDLE = "ERROR GET BUNDLE";
+
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
@@ -66,5 +74,14 @@ public class Utils {
         {
             return false;
         }
+    }
+
+
+    public static void startSignActivity(Context context, String id) {
+        Intent intent = new Intent(context, SignActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(SIGN_CHOICE, id);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }

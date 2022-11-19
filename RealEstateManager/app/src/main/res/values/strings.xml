@@ -1,10 +1,22 @@
 <resources>
+
+    <!--LaunchActivity-->
     <string name="app_name">Real Estate Manager</string>
+    <string name="welcome">Bienvenue sur Real Estate Manager</string>
+    <string name="instruction">Veuillez-vous connecter ou vous inscrire !</string>
+    <string name="instructionSignIn">Veuillez-vous connecter!</string>
+    <string name="instructionSignUp">Veuillez-vous enregistrer!</string>
+    <string name="signIn">S\'identifier</string>
+    <string name="signUp">S\'inscrire</string>
+    <string name="signOut">Se déconnecter</string>
+
+
+    <!--MainActivity-->
     <string name="firstname">Prénom</string>
     <string name="lastname">Nom</string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
-    <string name="password_confirm">Confimer votre mot de passe</string>
+    <string name="password_confirm">Confimer mot de passe</string>
     <string name="price">Prix</string>
     <string name="media">Médias</string>
     <string name="description">Description</string>
@@ -17,4 +29,5 @@
     <string name="entry_date">Date d\'entée</string>
     <string name="date_of_sale">Date de vente</string>
     <string name="settings">Réglages</string>
+    <string name="logo_description">logo description</string>
 </resources>
