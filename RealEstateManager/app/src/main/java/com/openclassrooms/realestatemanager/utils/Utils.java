@@ -1,10 +1,12 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+
+import com.openclassrooms.realestatemanager.controllers.SignActivity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -65,7 +67,9 @@ public class Utils {
      * @return
      */
     public static Boolean isInternetAvailable(Context context) {
+
         WifiManager wifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
         if (wifi.isWifiEnabled()) {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
 

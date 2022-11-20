@@ -1,11 +1,11 @@
-package com.openclassrooms.realestatemanager;
+package com.openclassrooms.realestatemanager.controllers;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {

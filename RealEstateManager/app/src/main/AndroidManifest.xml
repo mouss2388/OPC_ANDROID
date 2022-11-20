@@ -13,17 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SignActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+            android:name=".controllers.SignActivity"
+            android:exported="false"/>
+
         <activity
-            android:name=".MainActivity"
+            android:name=".controllers.MainActivity"
             android:exported="false" />
+
         <activity
-            android:name=".LaunchActivity"
+            android:name=".controllers.LaunchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity" />
     </application>
 
 </manifest>

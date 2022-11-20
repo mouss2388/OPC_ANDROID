@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_launch_dark"
-    tools:context=".LaunchActivity">
+    tools:context=".controllers.LaunchActivity">
 
 
     <androidx.appcompat.widget.LinearLayoutCompat

@@ -34,11 +34,24 @@ dependencies {
     //MATERIAL DESIGN GOOGLE
     implementation 'com.google.android.material:material:1.7.0'
 
+    implementation 'com.google.android.material:material:1.7.0'
+
     //MOCKITO
     androidTestImplementation 'org.mockito:mockito-core:4.8.1'
     testImplementation 'org.mockito:mockito-core:4.8.1'
     implementation 'org.mockito:mockito-android:4.8.1'
 
     implementation 'com.android.support:multidex:1.0.3'
+
+    // Room components
+    implementation "androidx.room:room-runtime:$rootProject.roomVersionLastest"
+    annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
+    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersionLastest"
+
+    // Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata:$rootProject.lifecycleVersionLatest"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycleVersion"
+
 
 }
