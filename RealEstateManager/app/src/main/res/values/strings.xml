@@ -30,4 +30,7 @@
     <string name="date_of_sale">Date de vente</string>
     <string name="settings">Réglages</string>
     <string name="logo_description">logo description</string>
+    <string name="logout">se déconnecter</string>
+    <string name="navigation_drawer_open">Ouvrir navigation drawer</string>
+    <string name="navigation_drawer_close">Fermer navigation drawer</string>
 </resources>

@@ -6,6 +6,36 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
+
+
+    <!-- Toolbar theme. -->
+    <style name="ToolBarStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <!--NAVIGATION VIEW-->
+    <style name="whiteText">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="whiteTextBold" parent="whiteText">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MenuItemTextAppearance">
+        <item name="textAllCaps">true</item>
+        <item name="android:textSize">@dimen/text_size</item>
+    </style>
+
+    <style name="roundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
 
 </resources>
