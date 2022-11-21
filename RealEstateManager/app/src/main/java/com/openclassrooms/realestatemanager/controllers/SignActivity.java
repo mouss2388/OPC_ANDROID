@@ -274,6 +274,7 @@ public class SignActivity extends AppCompatActivity {
                 user.setEmail(Objects.requireNonNull(fields.get(EMAIL)));
                 user.setPassword(Objects.requireNonNull(fields.get(PASSWORD)));
 
+                //TODO BUG IF NOT MATCH WITH EMAIL RETURN NULL WHICH != BOOLEAN
                 boolean userRecognized = userViewModel.checkIfPasswordIsCorrect(user);
                 if (userRecognized) {
                     startMainActivity();

@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.database.model;
 
+import android.content.ContentValues;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -83,5 +85,22 @@ public class User {
 
     public void setEmail(@NonNull String email) {
         this.email = email;
+    }
+
+    public static User fromContentValues(ContentValues values) {
+
+        final User user = new User();
+
+        if (values.containsKey("id")) user.setId(values.getAsLong("id"));
+
+        if (values.containsKey("firstname")) user.setFirstname(values.getAsString("firstname"));
+        if (values.containsKey("lastname")) user.setLastname(values.getAsString("lastname"));
+
+        if (values.containsKey("email")) user.setEmail(values.getAsString("email"));
+
+
+        if (values.containsKey("password")) user.setPassword(values.getAsString("password"));
+
+        return user;
     }
 }
