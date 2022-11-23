@@ -15,6 +15,7 @@ public class UserRepository {
         userDao = db.userDao();
 
     }
+
     public long insert(User user) {
         return userDao.insert(user);
     }
@@ -24,6 +25,12 @@ public class UserRepository {
     }
 
     public boolean checkIfPasswordIsCorrect(User user) {
-        return userDao.getPassword(user.getEmail()).equals(user.getPassword());
+        String passwordFromDb = userDao.getPassword(user.getEmail());
+        if (passwordFromDb == null) {
+            return false;
+        } else {
+
+            return passwordFromDb.equals(user.getPassword());
+        }
     }
 }

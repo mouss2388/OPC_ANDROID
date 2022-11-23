@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.controllers;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -31,6 +32,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.configureMenu();
 
+    }
+
+    private void configureTextViewMain() {
+//        binding.activityMainActivityTextViewMain.setTextSize(Float.parseFloat("15"));
+//        binding.activityMainActivityTextViewMain.setText("Le premier bien immobilier enregistré vaut ");
+    }
+
+    private void configureTextViewQuantity() {
+        int quantity = Utils.convertDollarToEuro(100);
+//        binding.activityMainActivityTextViewQuantity.setTextSize(Float.parseFloat("20"));
+//        binding.activityMainActivityTextViewQuantity.setText(String.valueOf(quantity));
     }
 
     private void configureMenu() {
@@ -78,15 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void configureTextViewMain() {
-//        binding.activityMainActivityTextViewMain.setTextSize(Float.parseFloat("15"));
-//        binding.activityMainActivityTextViewMain.setText("Le premier bien immobilier enregistré vaut ");
-    }
 
-    private void configureTextViewQuantity() {
-        int quantity = Utils.convertDollarToEuro(100);
-//        binding.activityMainActivityTextViewQuantity.setTextSize(Float.parseFloat("20"));
-//        binding.activityMainActivityTextViewQuantity.setText(String.valueOf(quantity));
-    }
+
 
 }

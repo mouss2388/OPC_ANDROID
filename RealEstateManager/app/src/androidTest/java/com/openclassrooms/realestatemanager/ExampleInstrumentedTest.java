@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -52,7 +53,9 @@ public class ExampleInstrumentedTest {
         Context applicationContext = Mockito.mock(Context.class);
 
         Mockito.when(context.getApplicationContext()).thenReturn(applicationContext);
-        Mockito.when(applicationContext.getSystemService(Context.WIFI_SERVICE)).thenReturn(wifiManager);
+        Mockito.when(applicationContext.getSystemService(any(String.class))).thenReturn(wifiManager);
+
+        assertEquals(applicationContext.getSystemService(Context.WIFI_SERVICE), wifiManager);
 
         Mockito.when(context.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(connectivityManager);
 
