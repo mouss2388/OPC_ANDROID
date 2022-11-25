@@ -1,0 +1,197 @@
+package com.openclassrooms.realestatemanager.database.model;
+
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
+
+import java.util.Date;
+
+@Entity(tableName = "realEstate_table",
+        foreignKeys = @ForeignKey(entity = User.class,
+                parentColumns = "id",
+                childColumns = "agentId"))
+public class RealEstate {
+
+    /**
+     * The unique identifier of the property
+     */
+    @PrimaryKey(autoGenerate = true)
+    public long id;
+
+    @Nullable
+    public Long agentId;
+
+
+    @NonNull
+    public String name;
+
+    @NonNull
+    public Integer price;
+
+    @NonNull
+    public TypeRealEstate typeRealEstate;
+
+    @NonNull
+    public Integer surface;
+
+    @NonNull
+    public Integer nbRoom;
+
+    @NonNull
+    public Integer nbBedRoom;
+
+    @NonNull
+    public String description;
+
+    @NonNull
+    public String address;
+
+    @NonNull
+    public Boolean sold;
+
+    @NonNull
+    public String dateOfEntry;
+
+    @Nullable
+    public String dateOfSell;
+
+
+
+
+    public RealEstate(@NonNull String name,  @NonNull String description, @NonNull String address,@NonNull Integer price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Boolean sold, @NonNull String dateOfEntry) {
+        this.setName(name);
+        this.setDescription(description);
+        this.setAddress(address);
+        this.setPrice(price);
+        this.setTypeRealEstate(typeRealEstate);
+        this.setSurface(surface);
+        this.setNbRoom(nbRoom);
+        this.setNbBedRoom(nbBedRoom);
+        this.setSold(sold);
+        this.setDateOfEntry(dateOfEntry);
+    }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Nullable
+    public Long getAgentId() {
+        return agentId;
+    }
+
+    public void setAgentId(@Nullable Long agentId) {
+        this.agentId = agentId;
+    }
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    @NonNull
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(@NonNull Integer price) {
+        this.price = price;
+    }
+
+    @NonNull
+    public TypeRealEstate getTypeRealEstate() {
+        return typeRealEstate;
+    }
+
+    public void setTypeRealEstate(@NonNull TypeRealEstate typeRealEstate) {
+        this.typeRealEstate = typeRealEstate;
+    }
+
+    @NonNull
+    public Integer getSurface() {
+        return surface;
+    }
+
+    public void setSurface(@NonNull Integer surface) {
+        this.surface = surface;
+    }
+
+    @NonNull
+    public Integer getNbRoom() {
+        return nbRoom;
+    }
+
+    public void setNbRoom(@NonNull Integer nbRoom) {
+        this.nbRoom = nbRoom;
+    }
+
+    @NonNull
+    public Integer getNbBedRoom() {
+        return nbBedRoom;
+    }
+
+    public void setNbBedRoom(@NonNull Integer nbBedRoom) {
+        this.nbBedRoom = nbBedRoom;
+    }
+
+    @NonNull
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(@NonNull String description) {
+        this.description = description;
+    }
+
+    @NonNull
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(@NonNull String address) {
+        this.address = address;
+    }
+
+    @NonNull
+    public Boolean getSold() {
+        return sold;
+    }
+
+    public void setSold(@NonNull Boolean sold) {
+        this.sold = sold;
+    }
+
+    @NonNull
+    public String getDateOfEntry() {
+        return dateOfEntry;
+    }
+
+
+    public void setDateOfEntry(@NonNull String dateOfEntry) {
+        this.dateOfEntry = dateOfEntry;
+    }
+
+    @Nullable
+    public String getDateOfSell() {
+        return dateOfSell;
+    }
+
+    public void setDateOfSell(@Nullable String dateOfSell) {
+        this.dateOfSell = dateOfSell;
+    }
+}
