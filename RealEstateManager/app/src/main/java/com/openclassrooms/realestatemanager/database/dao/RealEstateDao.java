@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.database.dao;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -15,10 +17,10 @@ import java.util.List;
 public interface RealEstateDao {
 
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insert(RealEstate property);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAll(List<RealEstate> realEstates);
 
     @Update
@@ -30,6 +32,7 @@ public interface RealEstateDao {
     @Query("SELECT * FROM realEstate_table")
     LiveData<List<RealEstate>> getAllRealEstates();
 
-
+    @Query("SELECT * FROM realEstate_table WHERE id = :id")
+    Cursor getRealEstateWithCursor(long id);
 
 }

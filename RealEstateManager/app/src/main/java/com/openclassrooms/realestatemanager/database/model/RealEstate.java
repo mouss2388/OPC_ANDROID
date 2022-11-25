@@ -1,16 +1,15 @@
 package com.openclassrooms.realestatemanager.database.model;
 
 
+import android.content.ContentValues;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
-
-import java.util.Date;
 
 @Entity(tableName = "realEstate_table",
         foreignKeys = @ForeignKey(entity = User.class,
@@ -62,9 +61,10 @@ public class RealEstate {
     public String dateOfSell;
 
 
+    public RealEstate() {
+    }
 
-
-    public RealEstate(@NonNull String name,  @NonNull String description, @NonNull String address,@NonNull Integer price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Boolean sold, @NonNull String dateOfEntry) {
+    public RealEstate(@NonNull String name, @NonNull String description, @NonNull String address, @NonNull Integer price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Boolean sold, @NonNull String dateOfEntry) {
         this.setName(name);
         this.setDescription(description);
         this.setAddress(address);
@@ -193,5 +193,27 @@ public class RealEstate {
 
     public void setDateOfSell(@Nullable String dateOfSell) {
         this.dateOfSell = dateOfSell;
+    }
+
+
+    public static RealEstate fromContentValues(ContentValues values) {
+
+        final RealEstate realEstate = new RealEstate();
+
+        if (values.containsKey("id")) realEstate.setId(values.getAsLong("id"));
+        if (values.containsKey("agentId")) realEstate.setAgentId(values.getAsLong("agentId"));
+        if (values.containsKey("name")) realEstate.setName(values.getAsString("name"));
+        if (values.containsKey("description")) realEstate.setDescription(values.getAsString("description"));
+        if (values.containsKey("address")) realEstate.setAddress(values.getAsString("address"));
+        if (values.containsKey("price")) realEstate.setPrice(values.getAsInteger("price"));
+        if (values.containsKey("surface")) realEstate.setSurface(values.getAsInteger("surface"));
+        if (values.containsKey("nbRoom")) realEstate.setNbRoom(values.getAsInteger("nbRoom"));
+        if (values.containsKey("nbBedRoom")) realEstate.setNbBedRoom(values.getAsInteger("nbBedRoom"));
+        if (values.containsKey("typeRealEstate")) realEstate.setTypeRealEstate(TypeRealEstate.House);
+        if (values.containsKey("sold")) realEstate.setSold(values.getAsBoolean("sold"));
+        if (values.containsKey("dateOfEntry")) realEstate.setDateOfEntry(values.getAsString("dateOfEntry"));
+        if (values.containsKey("dateOfSell")) realEstate.setDateOfSell(values.getAsString("dateOfSell"));
+
+        return realEstate;
     }
 }

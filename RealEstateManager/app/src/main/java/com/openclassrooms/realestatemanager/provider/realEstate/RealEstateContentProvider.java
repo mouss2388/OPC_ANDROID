@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.provider;
+package com.openclassrooms.realestatemanager.provider.realEstate;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -10,13 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.openclassrooms.realestatemanager.database.AppDatabase;
-import com.openclassrooms.realestatemanager.database.model.User;
+import com.openclassrooms.realestatemanager.database.model.RealEstate;
 
-public class UserContentProvider extends ContentProvider {
+public class RealEstateContentProvider extends ContentProvider {
 
-    public static final String AUTHORITY = "com.openclassrooms.realestatemanager.provider";
+    public static final String AUTHORITY = "com.openclassrooms.realestatemanager.provider.realEstate";
 
-    public static final String TABLE_NAME = User.class.getSimpleName();
+    public static final String TABLE_NAME = RealEstate.class.getSimpleName();
 
     public static final Uri URI_ITEM = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 
@@ -31,9 +31,9 @@ public class UserContentProvider extends ContentProvider {
 
         if (getContext() != null) {
 
-            long userId = ContentUris.parseId(uri);
+            long realEstateId = ContentUris.parseId(uri);
 
-            final Cursor cursor = AppDatabase.getInstance(getContext()).userDao().getUserWithCursor(userId);
+            final Cursor cursor = AppDatabase.getInstance(getContext()).realEstateDao().getRealEstateWithCursor(realEstateId);
 
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
@@ -47,7 +47,7 @@ public class UserContentProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        return "vnd.android.cursor.User/" + AUTHORITY + "." + TABLE_NAME;
+        return "vnd.android.cursor.RealEstate/" + AUTHORITY + "." + TABLE_NAME;
     }
 
     @Nullable
@@ -55,7 +55,7 @@ public class UserContentProvider extends ContentProvider {
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
         if (getContext() != null && contentValues != null) {
 
-            final long id = AppDatabase.getInstance(getContext()).userDao().insert(User.fromContentValues(contentValues));
+            final long id = AppDatabase.getInstance(getContext()).realEstateDao().insert(RealEstate.fromContentValues(contentValues));
 
             if (id != 0) {
 
@@ -67,22 +67,24 @@ public class UserContentProvider extends ContentProvider {
 
         }
 
-        throw new IllegalArgumentException("Failed to insert row into " + uri);    }
+        throw new IllegalArgumentException("Failed to insert row into " + uri);
+    }
 
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         if (getContext() != null) {
 
-            final int count = AppDatabase.getInstance(getContext()).userDao().delete(ContentUris.parseId(uri));
-
-            getContext().getContentResolver().notifyChange(uri, null);
-
-            return count;
+//            final int count = AppDatabase.getInstance(getContext()).realEstateDao().delete(ContentUris.parseId(uri));
+//
+//            getContext().getContentResolver().notifyChange(uri, null);
+//
+//            return count;
 
         }
 
-        throw new IllegalArgumentException("Failed to delete row into " + uri);    }
+        throw new IllegalArgumentException("Failed to delete row into " + uri);
+    }
 
     @Override
 
@@ -90,7 +92,7 @@ public class UserContentProvider extends ContentProvider {
 
         if (getContext() != null && contentValues != null) {
 
-            final int count = AppDatabase.getInstance(getContext()).userDao().update(User.fromContentValues(contentValues));
+            final int count = AppDatabase.getInstance(getContext()).realEstateDao().update(RealEstate.fromContentValues(contentValues));
 
             getContext().getContentResolver().notifyChange(uri, null);
 
