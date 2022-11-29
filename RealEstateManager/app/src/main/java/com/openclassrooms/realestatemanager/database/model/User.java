@@ -1,10 +1,13 @@
 package com.openclassrooms.realestatemanager.database.model;
 
 import android.content.ContentValues;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
@@ -30,12 +33,16 @@ public class User {
     @ColumnInfo(name = "email")
     public String email;
 
+    @ColumnInfo(name = "picture")
+    public String picture;
 
+    @Ignore
     public User() {
     }
 
-    public User(@NonNull String firstname, @NonNull
+    public User(String picture, @NonNull String firstname, @NonNull
             String lastname, @NonNull String email, @NonNull String password) {
+        this.picture = picture;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -85,6 +92,15 @@ public class User {
 
     public void setEmail(@NonNull String email) {
         this.email = email;
+    }
+
+    @Nullable
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(@Nullable String picture) {
+        this.picture = picture;
     }
 
     public static User fromContentValues(ContentValues values) {

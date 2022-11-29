@@ -33,4 +33,12 @@ public class UserRepository {
             return passwordFromDb.equals(user.getPassword());
         }
     }
+
+    public User getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
+    }
+
+    public User getUserById(long id) {
+        return userDao.getUserById(id);
+    }
 }

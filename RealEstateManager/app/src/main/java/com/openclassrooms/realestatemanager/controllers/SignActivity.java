@@ -5,6 +5,7 @@ import static com.openclassrooms.realestatemanager.utils.Utils.ERROR_GET_BUNDLE;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_CHOICE;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_IN;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_UP;
+import static com.openclassrooms.realestatemanager.utils.Utils.USER_LOGGED_FORMAT_JSON;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivitySignBinding;
@@ -101,13 +103,13 @@ public class SignActivity extends AppCompatActivity {
             if (checkFieldsNotEmpties() && !checkUserExistYet() && emailValid() && passwordsAreIdentical()) {
 
                 User user = new User();
+                user.setPicture(null);
                 user.setFirstname(Objects.requireNonNull(fields.get(FIRSTNAME)));
                 user.setLastname(Objects.requireNonNull(fields.get(LASTNAME)));
                 user.setEmail(Objects.requireNonNull(fields.get(EMAIL)));
                 user.setPassword(Objects.requireNonNull(fields.get(PASSWORD)));
 
                 addUser(user);
-
             }
         });
 
@@ -141,6 +143,12 @@ public class SignActivity extends AppCompatActivity {
                 }
             }
         } else {
+            if (Objects.requireNonNull(fields.get(EMAIL)).isEmpty()) {
+                setErrorOnField(EMAIL, "Field Empty");
+                return false;
+            } else {
+                clearErrorOnField(EMAIL);
+            }
             if (Objects.requireNonNull(fields.get(PASSWORD)).isEmpty()) {
                 setErrorOnField(PASSWORD, "Field Empty");
                 return false;
@@ -148,12 +156,6 @@ public class SignActivity extends AppCompatActivity {
                 clearErrorOnField(PASSWORD);
             }
 
-            if (Objects.requireNonNull(fields.get(EMAIL)).isEmpty()) {
-                setErrorOnField(EMAIL, "Field Empty");
-                return false;
-            } else {
-                clearErrorOnField(EMAIL);
-            }
         }
 
         return true;
@@ -241,13 +243,16 @@ public class SignActivity extends AppCompatActivity {
     }
 
     private void addUser(@NonNull User user) {
-        userViewModel.insert(user);
-        startMainActivity();
+        long id = userViewModel.insert(user);
+        user = userViewModel.getUserById(id);
+        startMainActivity(user);
         Toast.makeText(getApplicationContext(), "Account create", Toast.LENGTH_SHORT).show();
     }
 
-    private void startMainActivity() {
+    private void startMainActivity(User user) {
         Intent intent = new Intent(this, MainActivity.class);
+        String userLoggedFormatJson = getUserInJsonFormat(user);
+        intent.putExtra(USER_LOGGED_FORMAT_JSON, userLoggedFormatJson);
         finish();
         startActivity(intent);
     }
@@ -277,7 +282,8 @@ public class SignActivity extends AppCompatActivity {
                 //TODO BUG IF NOT MATCH WITH EMAIL RETURN NULL WHICH != BOOLEAN
                 boolean userRecognized = userViewModel.checkIfPasswordIsCorrect(user);
                 if (userRecognized) {
-                    startMainActivity();
+                    user = userViewModel.getUserByEmail(user.getEmail());
+                    startMainActivity(user);
                     Toast.makeText(getApplicationContext(), "SIgn In successful", Toast.LENGTH_SHORT).show();
 
                     clearErrorOnField(PASSWORD);
@@ -286,5 +292,9 @@ public class SignActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private String getUserInJsonFormat(User user) {
+        return new Gson().toJson(user);
     }
 }

@@ -20,19 +20,21 @@ import java.util.Date;
 @SuppressWarnings("ALL")
 public class Utils {
 
-    public static final String  SIGN_CHOICE = "SIGN_CHOICE";
-    public static final String  SIGN_IN = "SIGN_IN";
-    public static final String  SIGN_UP = "SIGN_UP";
-    public static final String  ERROR_GET_BUNDLE = "ERROR GET BUNDLE";
+    public static final String SIGN_CHOICE = "SIGN_CHOICE";
+    public static final String SIGN_IN = "SIGN_IN";
+    public static final String SIGN_UP = "SIGN_UP";
+    public static final String ERROR_GET_BUNDLE = "ERROR GET BUNDLE";
+    public static final String USER_LOGGED_FORMAT_JSON = "USER_LOGGED_FORMAT_JSON";
 
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     *
      * @param dollars
      * @return
      */
-    public static int convertDollarToEuro(int dollars){
+    public static int convertDollarToEuro(int dollars) {
         return (int) Math.round(dollars * 0.812);
     }
 
@@ -52,9 +54,10 @@ public class Utils {
     /**
      * Conversion de la date d'aujourd'hui en un format plus approprié
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     *
      * @return
      */
-    public static String getTodayDate(){
+    public static String getTodayDate() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());
     }
@@ -75,7 +78,7 @@ public class Utils {
 
             return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
         }
-            return false;
+        return false;
     }
 
 
@@ -85,5 +88,13 @@ public class Utils {
         bundle.putString(SIGN_CHOICE, id);
         intent.putExtras(bundle);
         context.startActivity(intent);
+    }
+
+    public static String concatStr(String... strgs) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String strg : strgs) {
+            stringBuilder.append(strg).append(" ");
+        }
+        return stringBuilder.toString();
     }
 }

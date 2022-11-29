@@ -29,4 +29,12 @@ public class UserViewModel extends AndroidViewModel {
     public boolean checkIfPasswordIsCorrect(User user) {
         return repository.checkIfPasswordIsCorrect(user);
     }
+
+    public User getUserByEmail(String email) {
+        return repository.getUserByEmail(email);
+    }
+
+    public User getUserById(long id) {
+        return repository.getUserById(id);
+    }
 }

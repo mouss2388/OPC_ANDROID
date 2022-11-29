@@ -67,14 +67,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
                 super.onCreate(db);
 
-                Executors.newSingleThreadExecutor().execute(() -> {
+                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.realEstateDao().insertAll(
 
-
-                    INSTANCE.realEstateDao().insertAll(
-
-                            realEstateApiService.getRealEstates()
-                    );
-                });
+                        realEstateApiService.getRealEstates()
+                ));
 
             }
         };
