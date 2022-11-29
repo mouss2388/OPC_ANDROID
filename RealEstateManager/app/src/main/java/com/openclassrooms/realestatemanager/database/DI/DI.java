@@ -1,31 +1,53 @@
 package com.openclassrooms.realestatemanager.database.DI;
 
 
-import com.openclassrooms.realestatemanager.database.service.DummyRealEstateApiService;
-import com.openclassrooms.realestatemanager.database.service.RealEstateApiService;
+import com.openclassrooms.realestatemanager.database.service.realEstate.DummyRealEstateApiService;
+import com.openclassrooms.realestatemanager.database.service.realEstate.RealEstateApiService;
+import com.openclassrooms.realestatemanager.database.service.user.DummyUserApiService;
+import com.openclassrooms.realestatemanager.database.service.user.UserApiService;
 
 /**
  * Dependency injector to get instance of services
  */
+@SuppressWarnings("unused")
 public class DI {
 
-    private static final RealEstateApiService service = new DummyRealEstateApiService();
+    private static final RealEstateApiService serviceRealEstate = new DummyRealEstateApiService();
+    private static final UserApiService serviceUser = new DummyUserApiService();
 
     /**
      * Get an instance on @{@link RealEstateApiService}
      *
-     * @return
+     * @return serviceRealEstate
      */
     public static RealEstateApiService getRealEstatesApiService() {
-        return service;
+        return serviceRealEstate;
+    }
+
+    /**
+     * Get an instance on @{@link UserApiService}
+     *
+     * @return serviceUser
+     */
+    public static UserApiService getUserApiService() {
+        return serviceUser;
     }
 
     /**
      * Get always a new instance on @{@link RealEstateApiService}. Useful for tests, so we ensure the context is clean.
      *
-     * @return
+     * @return DummyRealEstateApiService
      */
-    public static RealEstateApiService getNewInstanceApiService() {
+    public static RealEstateApiService getNewInstanceRealEstateApiService() {
         return new DummyRealEstateApiService();
+    }
+
+    /**
+     * Get always a new instance on @{@link RealEstateApiService}. Useful for tests, so we ensure the context is clean.
+     *
+     * @return DummyUserApiService
+     */
+    public static UserApiService getNewInstanceUserApiService() {
+        return new DummyUserApiService();
     }
 }

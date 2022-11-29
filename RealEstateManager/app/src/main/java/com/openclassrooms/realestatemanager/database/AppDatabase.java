@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.database;
 
+import static com.openclassrooms.realestatemanager.utils.Utils.DEVELOPMENT_MODE;
+
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -13,7 +15,8 @@ import com.openclassrooms.realestatemanager.database.dao.RealEstateDao;
 import com.openclassrooms.realestatemanager.database.dao.UserDao;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
-import com.openclassrooms.realestatemanager.database.service.RealEstateApiService;
+import com.openclassrooms.realestatemanager.database.service.realEstate.RealEstateApiService;
+import com.openclassrooms.realestatemanager.database.service.user.UserApiService;
 
 import java.util.concurrent.Executors;
 
@@ -58,6 +61,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static Callback prepopulateDatabase() {
         RealEstateApiService realEstateApiService = DI.getRealEstatesApiService();
+        UserApiService userApiService = DI.getUserApiService();
 
         return new Callback() {
 
@@ -67,10 +71,18 @@ public abstract class AppDatabase extends RoomDatabase {
 
                 super.onCreate(db);
 
-                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.realEstateDao().insertAll(
+                Executors.newSingleThreadExecutor().execute(() -> {
 
-                        realEstateApiService.getRealEstates()
-                ));
+                    if(DEVELOPMENT_MODE){
+                        INSTANCE.userDao().insert(
+                                userApiService.getUsers().get(0)
+                        );
+                    }
+                    INSTANCE.realEstateDao().insertAll(
+
+                            realEstateApiService.getRealEstates()
+                    );
+                });
 
             }
         };

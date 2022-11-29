@@ -16,7 +16,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.openclassrooms.realestatemanager.database.AppDatabase;
 import com.openclassrooms.realestatemanager.database.DI.DI;
 import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
-import com.openclassrooms.realestatemanager.database.service.RealEstateApiService;
+import com.openclassrooms.realestatemanager.database.service.realEstate.RealEstateApiService;
 import com.openclassrooms.realestatemanager.provider.realEstate.RealEstateContentProvider;
 import com.openclassrooms.realestatemanager.utils.Utils;
 
@@ -30,7 +30,7 @@ public class RealEstateContentProviderTest {
     private ContentResolver mContentResolver;
 
     // DATA SET FOR TEST
-    private final static RealEstateApiService realEstateApiService = DI.getNewInstanceApiService();
+    private final static RealEstateApiService realEstateApiService = DI.getNewInstanceRealEstateApiService();
 
     private static final long REAL_ESTATE_ID = 1;
     private static final long REAL_ESTATE_ID_ADDED = realEstateApiService.getRealEstates().size() + 1;

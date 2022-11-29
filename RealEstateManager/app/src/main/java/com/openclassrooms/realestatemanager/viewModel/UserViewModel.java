@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.repository.UserRepository;
 
+import java.util.List;
+
 public class UserViewModel extends AndroidViewModel {
 
     private final UserRepository repository;
@@ -36,5 +38,9 @@ public class UserViewModel extends AndroidViewModel {
 
     public User getUserById(long id) {
         return repository.getUserById(id);
+    }
+
+    public List<User> getUsersForPrepopulateDB() {
+        return repository.getUsersForPrepopulateDB();
     }
 }

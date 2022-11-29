@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.database.service;
+package com.openclassrooms.realestatemanager.database.service.realEstate;
 
 
 import com.openclassrooms.realestatemanager.database.model.RealEstate;

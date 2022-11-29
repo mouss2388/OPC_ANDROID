@@ -10,6 +10,8 @@ import androidx.room.Update;
 
 import com.openclassrooms.realestatemanager.database.model.User;
 
+import java.util.List;
+
 @Dao
 public interface UserDao {
 
@@ -37,5 +39,8 @@ public interface UserDao {
 
     @Query("SELECT * FROM user_table WHERE id = :id")
     Cursor getUserWithCursor(long id);
+
+    @Query("SELECT * FROM user_table")
+    List<User> getUsersForPrepopulateDB();
 
 }

@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.controllers;
 
 
+import static com.openclassrooms.realestatemanager.utils.Utils.DEVELOPMENT_MODE;
 import static com.openclassrooms.realestatemanager.utils.Utils.ERROR_GET_BUNDLE;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_CHOICE;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_IN;
@@ -72,6 +73,7 @@ public class SignActivity extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
+
     private void updateLayout() {
 
         if (signId.equals(SIGN_UP)) {
@@ -81,7 +83,22 @@ public class SignActivity extends AppCompatActivity {
         } else {
             updateLayoutToSignIn();
             setupSignInListener();
+            if (DEVELOPMENT_MODE) {
+                FillFieldsByDefault();
+            }
         }
+    }
+
+
+    private void FillFieldsByDefault() {
+        //TODO BUG HOW CAN I PREPOPULATE AND USE DIRECTLY USER FOR FILL FIELD
+        userViewModel.getUsersForPrepopulateDB();
+        User user = userViewModel.getUsersForPrepopulateDB().get(0);
+
+        Objects.requireNonNull(binding.txtFieldFirstname.getEditText()).setText(user.getFirstname());
+        Objects.requireNonNull(binding.txtFieldLastname.getEditText()).setText(user.getLastname());
+        Objects.requireNonNull(binding.txtFieldEmail.getEditText()).setText(user.getEmail());
+        Objects.requireNonNull(binding.txtFieldPsswrd.getEditText()).setText(user.getPassword());
     }
 
     private void updateLayoutToSignUp() {

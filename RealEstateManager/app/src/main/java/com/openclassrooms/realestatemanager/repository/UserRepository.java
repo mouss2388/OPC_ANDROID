@@ -6,6 +6,8 @@ import com.openclassrooms.realestatemanager.database.AppDatabase;
 import com.openclassrooms.realestatemanager.database.dao.UserDao;
 import com.openclassrooms.realestatemanager.database.model.User;
 
+import java.util.List;
+
 public class UserRepository {
 
     private final UserDao userDao;
@@ -40,5 +42,9 @@ public class UserRepository {
 
     public User getUserById(long id) {
         return userDao.getUserById(id);
+    }
+
+    public List<User> getUsersForPrepopulateDB() {
+        return userDao.getUsersForPrepopulateDB();
     }
 }

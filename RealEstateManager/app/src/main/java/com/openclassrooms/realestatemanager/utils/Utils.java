@@ -25,6 +25,7 @@ public class Utils {
     public static final String SIGN_UP = "SIGN_UP";
     public static final String ERROR_GET_BUNDLE = "ERROR GET BUNDLE";
     public static final String USER_LOGGED_FORMAT_JSON = "USER_LOGGED_FORMAT_JSON";
+    public static final boolean DEVELOPMENT_MODE = true;
 
 
     /**
