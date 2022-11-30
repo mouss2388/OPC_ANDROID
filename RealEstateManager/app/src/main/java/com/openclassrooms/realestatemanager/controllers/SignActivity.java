@@ -91,14 +91,13 @@ public class SignActivity extends AppCompatActivity {
 
 
     private void FillFieldsByDefault() {
-        //TODO BUG HOW CAN I PREPOPULATE AND USE DIRECTLY USER FOR FILL FIELD
-        userViewModel.getUsersForPrepopulateDB();
-        User user = userViewModel.getUsersForPrepopulateDB().get(0);
 
-        Objects.requireNonNull(binding.txtFieldFirstname.getEditText()).setText(user.getFirstname());
-        Objects.requireNonNull(binding.txtFieldLastname.getEditText()).setText(user.getLastname());
-        Objects.requireNonNull(binding.txtFieldEmail.getEditText()).setText(user.getEmail());
-        Objects.requireNonNull(binding.txtFieldPsswrd.getEditText()).setText(user.getPassword());
+        userViewModel.getUsersForPrepopulateDB().observe(this, users -> {
+            if (users.size() > 0) {
+                Objects.requireNonNull(binding.txtFieldEmail.getEditText()).setText(users.get(0).getEmail());
+                Objects.requireNonNull(binding.txtFieldPsswrd.getEditText()).setText(users.get(0).getPassword());
+            }
+        });
     }
 
     private void updateLayoutToSignUp() {

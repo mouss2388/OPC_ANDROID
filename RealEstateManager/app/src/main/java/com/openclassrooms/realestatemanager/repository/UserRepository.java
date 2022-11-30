@@ -2,6 +2,8 @@ package com.openclassrooms.realestatemanager.repository;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import com.openclassrooms.realestatemanager.database.AppDatabase;
 import com.openclassrooms.realestatemanager.database.dao.UserDao;
 import com.openclassrooms.realestatemanager.database.model.User;
@@ -14,8 +16,7 @@ public class UserRepository {
 
     public UserRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
-        userDao = db.userDao();
-
+        this.userDao = db.userDao();
     }
 
     public long insert(User user) {
@@ -44,7 +45,7 @@ public class UserRepository {
         return userDao.getUserById(id);
     }
 
-    public List<User> getUsersForPrepopulateDB() {
+    public LiveData<List<User>> getUsersForPrepopulateDB() {
         return userDao.getUsersForPrepopulateDB();
     }
 }

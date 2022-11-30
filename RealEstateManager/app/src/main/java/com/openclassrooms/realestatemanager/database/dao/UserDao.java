@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.database.dao;
 
 import android.database.Cursor;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -41,6 +42,6 @@ public interface UserDao {
     Cursor getUserWithCursor(long id);
 
     @Query("SELECT * FROM user_table")
-    List<User> getUsersForPrepopulateDB();
+    LiveData<List<User>> getUsersForPrepopulateDB();
 
 }

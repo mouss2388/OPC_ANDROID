@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.viewModel;
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.repository.UserRepository;
@@ -16,7 +18,6 @@ public class UserViewModel extends AndroidViewModel {
     public UserViewModel(Application application) {
         super(application);
         repository = new UserRepository(application);
-
     }
 
     public long insert(User user) {
@@ -40,7 +41,8 @@ public class UserViewModel extends AndroidViewModel {
         return repository.getUserById(id);
     }
 
-    public List<User> getUsersForPrepopulateDB() {
+
+    public LiveData<List<User>> getUsersForPrepopulateDB() {
         return repository.getUsersForPrepopulateDB();
     }
 }

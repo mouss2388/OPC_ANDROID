@@ -38,9 +38,9 @@ dependencies {
 
 
     //MOCKITO
-    androidTestImplementation 'org.mockito:mockito-core:4.9.0'
-    testImplementation 'org.mockito:mockito-core:4.9.0'
-    implementation 'org.mockito:mockito-android:4.9.0'
+    androidTestImplementation 'org.mockito:mockito-core:3.7.0'
+    testImplementation 'org.mockito:mockito-core:3.7.0'
+    implementation 'org.mockito:mockito-android:3.7.0'
 
     implementation 'androidx.multidex:multidex:2.0.1'
 
@@ -58,5 +58,9 @@ dependencies {
     //GLIDE
     implementation 'com.github.bumptech.glide:glide:4.13.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+
+    //LIVEDATA & VIEW MODEL
+    implementation "androidx.lifecycle:lifecycle-livedata:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1"
 
 }

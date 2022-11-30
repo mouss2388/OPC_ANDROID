@@ -94,7 +94,6 @@ public class RealEstateContentProviderTest {
 
         final ContentValues values = new ContentValues();
 
-        values.put("id", "4");
         values.put("agentId", "1");
         values.put("name", "Bien 4");
         values.put("description", "Description test du bien 4");
