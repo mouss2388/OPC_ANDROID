@@ -10,7 +10,10 @@ import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
 import static com.openclassrooms.realestatemanager.utils.Utils.getDialogSetting;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.MenuItem;
@@ -21,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +41,6 @@ import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
-import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
 import java.util.HashMap;
@@ -45,7 +49,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    String TAG = MainActivity.this.getClass().getSimpleName();
+//    String TAG = MainActivity.this.getClass().getSimpleName();
 
     private ActivityMainBinding binding;
     private UserViewModel userViewModel;
@@ -53,11 +57,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final Map<String, String> maskFieldsSettings = new HashMap<>();
 
     private Dialog customDialogSettings;
+
+    private ImageView picture;
     private TextInputLayout editTxtFirstname;
     private TextInputLayout editTxtLastname;
     private TextInputLayout editTxtEmail;
     private TextInputLayout editTxtPassword;
 
+    private Uri selectedImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(view);
 
         this.initViewModel();
-        this.configureTextViewMain();
-        this.configureTextViewQuantity();
+//        this.configureTextViewMain();
+//        this.configureTextViewQuantity();
         this.configureMenu();
     }
 
@@ -76,16 +83,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
     }
 
-    private void configureTextViewMain() {
+//    private void configureTextViewMain() {
 //        binding.activityMainActivityTextViewMain.setTextSize(Float.parseFloat("15"));
 //        binding.activityMainActivityTextViewMain.setText("Le premier bien immobilier enregistré vaut ");
-    }
-
-    private void configureTextViewQuantity() {
-        int quantity = Utils.convertDollarToEuro(100);
+//    }
+//
+//    private void configureTextViewQuantity() {
+//        int quantity = Utils.convertDollarToEuro(100);
 //        binding.activityMainActivityTextViewQuantity.setTextSize(Float.parseFloat("20"));
 //        binding.activityMainActivityTextViewQuantity.setText(String.valueOf(quantity));
-    }
+//    }
 
     private void configureMenu() {
         this.configureToolBar();
@@ -93,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureNavigationView();
         this.updateMenuWithUserData();
     }
+
 
     private void configureToolBar() {
         binding.activityMainToolbar.setTitle(R.string.app_name);
@@ -111,17 +119,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void updateMenuWithUserData() {
 
-        long id = getUserJsonInUserObject().getId();
         TextView userName = accessMenuHeaderInfo().findViewById(R.id.user_Name);
         TextView userEmail = accessMenuHeaderInfo().findViewById(R.id.user_Email);
 
+        long id = getIdUserLogged();
         userViewModel.getUserById(id).observe(this, user -> {
+
             userName.setText(concatStr(user.getFirstname(), user.getLastname()));
             userEmail.setText(user.getEmail());
             if (user.getPicture() != null) {
-                setProfilePicture(user);
+                ImageView picture = accessMenuHeaderInfo().findViewById(R.id.user_Picture);
+                setProfilePicture(user.getPicture(), picture);
             }
         });
+    }
+
+    private View accessMenuHeaderInfo() {
+        return binding.activityMainNavView.getHeaderView(0);
+    }
+
+    private long getIdUserLogged() {
+        return getUserJsonInUserObject().getId();
     }
 
     private User getUserJsonInUserObject() {
@@ -130,16 +148,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return gson.fromJson(getIntent().getStringExtra(USER_LOGGED_FORMAT_JSON), User.class);
     }
 
-    private View accessMenuHeaderInfo() {
-        return binding.activityMainNavView.getHeaderView(0);
-    }
 
-    private void setProfilePicture(User user) {
+    private void setProfilePicture(String url, ImageView picture) {
         Glide.with(this)
-                .load(user.getPicture())
+                .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .apply(RequestOptions.circleCropTransform())
-                .into((ImageView) accessMenuHeaderInfo().findViewById(R.id.user_Picture));
+                .into(picture);
     }
 
     @Override
@@ -152,15 +167,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         } else if (id == R.id.menu_Item_2) {
+
             customDialogSettings = getDialogSetting(MainActivity.this);
             initViewDialogSetting();
             setupListenerDialogSettings();
             customDialogSettings.show();
 
-
         } else if (id == R.id.menu_Item_3) {
             Toast.makeText(this, "Click On Item 3", Toast.LENGTH_SHORT).show();
-
         }
 
         binding.mainLayout.closeDrawer(GravityCompat.START);
@@ -169,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initViewDialogSetting() {
+        picture = customDialogSettings.findViewById(R.id.user_Picture);
         editTxtFirstname = customDialogSettings.findViewById(R.id.txtFieldFirstname);
         editTxtLastname = customDialogSettings.findViewById(R.id.txtFieldLastname);
         editTxtEmail = customDialogSettings.findViewById(R.id.txtFieldEmail);
@@ -181,27 +196,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         close.setOnClickListener(v -> customDialogSettings.dismiss());
 
 
-        long id = getUserJsonInUserObject().getId();
+        picture.setOnClickListener(v -> imageChooser());
+
+        long id = getIdUserLogged();
         userViewModel.getUserById(id).observe(this, user -> {
 
-            fillFieldsCustomDialogSettings(user);
-
+            updateCustomDialogSettings(user);
             Button btnSave = customDialogSettings.findViewById(R.id.btnSave);
             btnSave.setOnClickListener(v -> {
 
                 setMaskFieldsSettings();
 
-                if (!areTheFieldsEmpty() && !isUserEmailExistAlready() && emailValid()) {
+                if (!areTheFieldsEmpty() && !isUserEmailExistAlready(user) && emailValid()) {
                     updateUserAccount(user);
                     customDialogSettings.dismiss();
-
                 }
             });
         });
     }
 
-    private void fillFieldsCustomDialogSettings(User user) {
+    private void imageChooser() {
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        launchSomeActivity.launch(i);
+    }
 
+    ActivityResultLauncher<Intent> launchSomeActivity
+            = registerForActivityResult(
+            new ActivityResultContracts
+                    .StartActivityForResult(),
+            result -> {
+                if (result.getResultCode()
+                        == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+
+                    if (data != null
+                            && data.getData() != null) {
+                        long id = getIdUserLogged();
+                        userViewModel.getUserById(id).observe(this, user -> {
+                            selectedImageUri = data.getData();
+                            user.setPicture(selectedImageUri.toString());
+                            setProfilePicture(user.getPicture(), picture);
+                        });
+                    }
+                }
+            });
+
+    private void updateCustomDialogSettings(User user) {
+
+        setProfilePicture(user.getPicture(), picture);
         Objects.requireNonNull(editTxtFirstname.getEditText()).setText(user.getFirstname());
         Objects.requireNonNull(editTxtLastname.getEditText()).setText(user.getLastname());
         Objects.requireNonNull(editTxtEmail.getEditText()).setText(user.getEmail());
@@ -231,10 +275,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return isEmpty;
     }
 
-    private boolean isUserEmailExistAlready() {
-        boolean isUserEmailExistYet = userViewModel.checkIfEmailExistYet(maskFieldsSettings.get(EMAIL));
+    private boolean isUserEmailExistAlready(User user) {
+        boolean isUserEmailExistYet = userViewModel.isUserEmailExistAlready(user);
         if (isUserEmailExistYet) {
-            setErrorOnField(customDialogSettings,EMAIL, "A user with that e-mail already exists");
+            setErrorOnField(customDialogSettings, EMAIL, "A user with that e-mail already exists");
         }
         return isUserEmailExistYet;
     }
@@ -243,21 +287,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         boolean emailFormatValid = Patterns.EMAIL_ADDRESS.matcher(Objects.requireNonNull(maskFieldsSettings.get(EMAIL))).matches();
         if (!emailFormatValid) {
-            setErrorOnField(customDialogSettings,EMAIL, "Email invalid");
+            setErrorOnField(customDialogSettings, EMAIL, "Email invalid");
         }
         return emailFormatValid;
     }
 
 
     private void updateUserAccount(User user) {
-        //TODO When user change email check if email exist yet if setError Also Update Account
-        //TODO Change image when user click on img rounded, user.setPicture("url")
 
+        if (selectedImageUri != null) {
+            user.setPicture(selectedImageUri.toString());
+        }
         user.setFirstname(Objects.requireNonNull(maskFieldsSettings.get(FIRSTNAME)));
         user.setLastname(Objects.requireNonNull(maskFieldsSettings.get(LASTNAME)));
         user.setEmail(Objects.requireNonNull(maskFieldsSettings.get(EMAIL)));
         user.setPassword(Objects.requireNonNull(maskFieldsSettings.get(PASSWORD)));
-        userViewModel.update(user);
-        Toast.makeText(this, "Account updated", Toast.LENGTH_SHORT).show();
+        int nbUpdate = userViewModel.update(user);
+        if (nbUpdate > 0) {
+            Toast.makeText(this, "Account updated", Toast.LENGTH_SHORT).show();
+
+        }
     }
 }

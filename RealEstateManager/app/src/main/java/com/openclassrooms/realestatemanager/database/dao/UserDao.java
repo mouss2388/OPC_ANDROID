@@ -29,6 +29,9 @@ public interface UserDao {
     @Query("SELECT email FROM user_table WHERE email = :email")
     String getEmail(String email);
 
+    @Query("SELECT email FROM user_table WHERE email = :email AND id !=:id ")
+    String getEmail(long id, String email);
+
     @Query("SELECT * FROM user_table WHERE id = :id")
     LiveData<User> getUserById(long id);
 

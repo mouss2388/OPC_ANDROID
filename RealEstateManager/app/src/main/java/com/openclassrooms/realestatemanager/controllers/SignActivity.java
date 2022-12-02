@@ -179,7 +179,7 @@ public class SignActivity extends AppCompatActivity {
     }
 
     private boolean isUserEmailExistAlready() {
-        boolean isUserEmailExistYet = userViewModel.checkIfEmailExistYet(fields.get(EMAIL));
+        boolean isUserEmailExistYet = userViewModel.isUserEmailExistAlready(fields.get(EMAIL));
         if (isUserEmailExistYet) {
             setErrorOnField(binding,EMAIL, "A user with that e-mail already exists");
         }

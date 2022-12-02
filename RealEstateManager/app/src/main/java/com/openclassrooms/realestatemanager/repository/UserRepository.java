@@ -23,8 +23,12 @@ public class UserRepository {
         return userDao.insert(user);
     }
 
-    public boolean checkIfEmailExistYet(String email) {
+    public boolean isUserEmailExistAlready(String email) {
         return userDao.getEmail(email) != null;
+    }
+
+    public boolean isUserEmailExistAlready(User user) {
+        return userDao.getEmail(user.getId(), user.getEmail()) != null;
     }
 
     public boolean checkIfPasswordIsCorrect(User user) {

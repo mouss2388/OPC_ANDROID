@@ -25,8 +25,12 @@ public class UserViewModel extends AndroidViewModel {
     }
 
 
-    public boolean checkIfEmailExistYet(String email) {
-        return repository.checkIfEmailExistYet(email);
+    public boolean isUserEmailExistAlready(String email) {
+        return repository.isUserEmailExistAlready(email);
+    }
+
+    public boolean isUserEmailExistAlready(User user) {
+        return repository.isUserEmailExistAlready(user);
     }
 
     public boolean checkIfPasswordIsCorrect(User user) {
