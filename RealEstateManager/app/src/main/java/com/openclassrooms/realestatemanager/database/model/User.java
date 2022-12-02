@@ -14,27 +14,27 @@ import androidx.room.PrimaryKey;
 public class User {
 
     @PrimaryKey(autoGenerate = true)
-    public long id;
+    private long id;
 
     @NonNull
     @ColumnInfo(name = "firstname")
-    public String firstname;
+    private String firstname;
 
     @NonNull
     @ColumnInfo(name = "lastname")
-    public String lastname;
+    private String lastname;
 
     @NonNull
     @ColumnInfo(name = "password")
-    public String password;
+    private String password;
 
 
     @NonNull
     @ColumnInfo(name = "email")
-    public String email;
+    private String email;
 
     @ColumnInfo(name = "picture")
-    public String picture;
+    private String picture;
 
     @Ignore
     public User() {

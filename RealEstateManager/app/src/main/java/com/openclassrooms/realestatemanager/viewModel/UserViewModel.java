@@ -37,12 +37,16 @@ public class UserViewModel extends AndroidViewModel {
         return repository.getUserByEmail(email);
     }
 
-    public User getUserById(long id) {
+    public LiveData<User> getUserById(long id) {
         return repository.getUserById(id);
     }
 
 
     public LiveData<List<User>> getUsersForPrepopulateDB() {
         return repository.getUsersForPrepopulateDB();
+    }
+
+    public int update(User user){
+        return repository.update(user);
     }
 }

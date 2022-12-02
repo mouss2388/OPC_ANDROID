@@ -41,11 +41,15 @@ public class UserRepository {
         return userDao.getUserByEmail(email);
     }
 
-    public User getUserById(long id) {
+    public LiveData<User> getUserById(long id) {
         return userDao.getUserById(id);
     }
 
     public LiveData<List<User>> getUsersForPrepopulateDB() {
         return userDao.getUsersForPrepopulateDB();
+    }
+
+    public int update(User user){
+        return userDao.update(user);
     }
 }

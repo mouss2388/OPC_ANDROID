@@ -30,7 +30,7 @@ public interface UserDao {
     String getEmail(String email);
 
     @Query("SELECT * FROM user_table WHERE id = :id")
-    User getUserById(long id);
+    LiveData<User> getUserById(long id);
 
     @Query("SELECT * FROM user_table WHERE email = :email")
     User getUserByEmail(String email);

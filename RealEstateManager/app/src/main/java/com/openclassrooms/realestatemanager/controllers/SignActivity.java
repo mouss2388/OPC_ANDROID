@@ -2,11 +2,18 @@ package com.openclassrooms.realestatemanager.controllers;
 
 
 import static com.openclassrooms.realestatemanager.utils.Utils.DEVELOPMENT_MODE;
+import static com.openclassrooms.realestatemanager.utils.Utils.EMAIL;
 import static com.openclassrooms.realestatemanager.utils.Utils.ERROR_GET_BUNDLE;
+import static com.openclassrooms.realestatemanager.utils.Utils.FIRSTNAME;
+import static com.openclassrooms.realestatemanager.utils.Utils.LASTNAME;
+import static com.openclassrooms.realestatemanager.utils.Utils.PASSWORD;
+import static com.openclassrooms.realestatemanager.utils.Utils.PASSWORD_CONFIRM;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_CHOICE;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_IN;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_UP;
 import static com.openclassrooms.realestatemanager.utils.Utils.USER_LOGGED_FORMAT_JSON;
+import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField;
+import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,12 +36,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class SignActivity extends AppCompatActivity {
-
-    private final String FIRSTNAME = "FIRSTNAME";
-    private final String LASTNAME = "LASTNAME";
-    private final String EMAIL = "EMAIL";
-    private final String PASSWORD = "PASSWORD";
-    private final String PASSWORD_CONFIRM = "PASSWORD_CONFIRM";
 
     private ActivitySignBinding binding;
 
@@ -116,7 +117,7 @@ public class SignActivity extends AppCompatActivity {
 
             setArrayFieldWithTxtFields();
 
-            if (checkFieldsNotEmpties() && !checkUserExistYet() && emailValid() && passwordsAreIdentical()) {
+            if (checkFieldsNotEmpties() && !isUserEmailExistAlready() && emailValid() && passwordsAreIdentical()) {
 
                 User user = new User();
                 user.setPicture(null);
@@ -152,24 +153,24 @@ public class SignActivity extends AppCompatActivity {
             for (String key : fields.keySet()) {
 
                 if (Objects.requireNonNull(fields.get(key)).isEmpty()) {
-                    setErrorOnField(key, "Field Empty");
+                    setErrorOnField(binding,key, "* This field is requiered");
                     return false;
                 } else {
-                    clearErrorOnField(key);
+                   clearErrorOnField(binding,key);
                 }
             }
         } else {
             if (Objects.requireNonNull(fields.get(EMAIL)).isEmpty()) {
-                setErrorOnField(EMAIL, "Field Empty");
+                setErrorOnField(binding,EMAIL, "* This field is requiered");
                 return false;
             } else {
-                clearErrorOnField(EMAIL);
+                clearErrorOnField(binding,EMAIL);
             }
             if (Objects.requireNonNull(fields.get(PASSWORD)).isEmpty()) {
-                setErrorOnField(PASSWORD, "Field Empty");
+                setErrorOnField(binding,PASSWORD, "* This field is requiered");
                 return false;
             } else {
-                clearErrorOnField(PASSWORD);
+                clearErrorOnField(binding,PASSWORD);
             }
 
         }
@@ -177,73 +178,19 @@ public class SignActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setErrorOnField(String key, String message) {
-        switch (key) {
-            case FIRSTNAME:
-                binding.txtFieldFirstname.setError(message);
-                return;
-
-            case LASTNAME:
-                binding.txtFieldLastname.setError(message);
-                return;
-
-            case EMAIL:
-                binding.txtFieldEmail.setError(message);
-                return;
-
-            case PASSWORD:
-                binding.txtFieldPsswrd.setError(message);
-                return;
-
-            case PASSWORD_CONFIRM:
-                binding.txtFieldPsswrdConfirm.setError(message);
-                return;
-
-            default:
-                break;
+    private boolean isUserEmailExistAlready() {
+        boolean isUserEmailExistYet = userViewModel.checkIfEmailExistYet(fields.get(EMAIL));
+        if (isUserEmailExistYet) {
+            setErrorOnField(binding,EMAIL, "A user with that e-mail already exists");
         }
-    }
-
-    private void clearErrorOnField(String key) {
-        switch (key) {
-            case FIRSTNAME:
-                binding.txtFieldFirstname.setError(null);
-                return;
-
-            case LASTNAME:
-                binding.txtFieldLastname.setError(null);
-                return;
-
-            case EMAIL:
-                binding.txtFieldEmail.setError(null);
-                return;
-
-            case PASSWORD:
-                binding.txtFieldPsswrd.setError(null);
-                return;
-
-            case PASSWORD_CONFIRM:
-                binding.txtFieldPsswrdConfirm.setError(null);
-                return;
-
-            default:
-                break;
-        }
-    }
-
-    private boolean checkUserExistYet() {
-        boolean isUserExistYet = userViewModel.checkIfEmailExistYet(fields.get(EMAIL));
-        if (isUserExistYet) {
-            setErrorOnField(EMAIL, "Email already used");
-        }
-        return isUserExistYet;
+        return isUserEmailExistYet;
     }
 
     private boolean emailValid() {
 
         boolean emailFormatValid = Patterns.EMAIL_ADDRESS.matcher(Objects.requireNonNull(fields.get(EMAIL))).matches();
         if (!emailFormatValid) {
-            setErrorOnField(EMAIL, "Email invalid");
+            setErrorOnField(binding,EMAIL, "Email invalid");
         }
         return emailFormatValid;
     }
@@ -253,16 +200,18 @@ public class SignActivity extends AppCompatActivity {
         boolean passwordIdentical = Objects.equals(fields.get(PASSWORD), fields.get(PASSWORD_CONFIRM));
 
         if (!passwordIdentical) {
-            setErrorOnField(PASSWORD_CONFIRM, "Passwords different");
+            setErrorOnField(binding,PASSWORD_CONFIRM, "Passwords different");
         }
         return passwordIdentical;
     }
 
     private void addUser(@NonNull User user) {
         long id = userViewModel.insert(user);
-        user = userViewModel.getUserById(id);
-        startMainActivity(user);
-        Toast.makeText(getApplicationContext(), "Account create", Toast.LENGTH_SHORT).show();
+        userViewModel.getUserById(id).observe(this, userById ->{
+            startMainActivity(userById);
+            Toast.makeText(getApplicationContext(), "Account create", Toast.LENGTH_SHORT).show();
+
+        } );
     }
 
     private void startMainActivity(User user) {
@@ -302,9 +251,9 @@ public class SignActivity extends AppCompatActivity {
                     startMainActivity(user);
                     Toast.makeText(getApplicationContext(), "SIgn In successful", Toast.LENGTH_SHORT).show();
 
-                    clearErrorOnField(PASSWORD);
+                    clearErrorOnField(binding,PASSWORD);
                 } else {
-                    setErrorOnField(PASSWORD, "Email or password incorrect");
+                    setErrorOnField(binding,PASSWORD, "Incorrect email or password");
                 }
             }
         });
