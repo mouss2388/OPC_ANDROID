@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.controllers.SignActivity;
@@ -139,7 +139,6 @@ public class Utils {
     }
 
 
-
     public static void setErrorOnField(Dialog dialog, String key, String message) {
         switch (key) {
             case "FIRSTNAME":
@@ -221,12 +220,7 @@ public class Utils {
         }
     }
 
-    public static Dialog getDialogSetting(Context context) {
-        Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.settings_layout);
-        dialog.setCancelable(true);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        return dialog;
+    public static void showSnackBar(View view, String message) {
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 }

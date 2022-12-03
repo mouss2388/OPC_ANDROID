@@ -14,6 +14,7 @@ import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_UP;
 import static com.openclassrooms.realestatemanager.utils.Utils.USER_LOGGED_FORMAT_JSON;
 import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
+import static com.openclassrooms.realestatemanager.utils.Utils.showSnackBar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,8 +51,6 @@ public class SignActivity extends AppCompatActivity {
         binding = ActivitySignBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-        Toast.makeText(this, "onCreate", Toast.LENGTH_LONG).show();
 
         signId = getSignId();
 
@@ -146,6 +145,7 @@ public class SignActivity extends AppCompatActivity {
             fields.put(PASSWORD_CONFIRM, Objects.requireNonNull(binding.txtFieldPsswrdConfirm.getEditText()).getText().toString().trim());
         }
     }
+    //TODO USE
 
     private boolean checkFieldsNotEmpties() {
 
@@ -153,7 +153,7 @@ public class SignActivity extends AppCompatActivity {
             for (String key : fields.keySet()) {
 
                 if (Objects.requireNonNull(fields.get(key)).isEmpty()) {
-                    setErrorOnField(binding,key, "* This field is requiered");
+                    setErrorOnField(binding,key, getResources().getString(R.string.field_is_requiered));
                     return false;
                 } else {
                    clearErrorOnField(binding,key);
@@ -161,13 +161,13 @@ public class SignActivity extends AppCompatActivity {
             }
         } else {
             if (Objects.requireNonNull(fields.get(EMAIL)).isEmpty()) {
-                setErrorOnField(binding,EMAIL, "* This field is requiered");
+                setErrorOnField(binding,EMAIL, getResources().getString(R.string.field_is_requiered));
                 return false;
             } else {
                 clearErrorOnField(binding,EMAIL);
             }
             if (Objects.requireNonNull(fields.get(PASSWORD)).isEmpty()) {
-                setErrorOnField(binding,PASSWORD, "* This field is requiered");
+                setErrorOnField(binding,PASSWORD, getResources().getString(R.string.field_is_requiered));
                 return false;
             } else {
                 clearErrorOnField(binding,PASSWORD);
@@ -181,7 +181,7 @@ public class SignActivity extends AppCompatActivity {
     private boolean isUserEmailExistAlready() {
         boolean isUserEmailExistYet = userViewModel.isUserEmailExistAlready(fields.get(EMAIL));
         if (isUserEmailExistYet) {
-            setErrorOnField(binding,EMAIL, "A user with that e-mail already exists");
+            setErrorOnField(binding,EMAIL, getResources().getString(R.string.email_exists_already));
         }
         return isUserEmailExistYet;
     }
@@ -190,7 +190,7 @@ public class SignActivity extends AppCompatActivity {
 
         boolean emailFormatValid = Patterns.EMAIL_ADDRESS.matcher(Objects.requireNonNull(fields.get(EMAIL))).matches();
         if (!emailFormatValid) {
-            setErrorOnField(binding,EMAIL, "Email invalid");
+            setErrorOnField(binding,EMAIL, getResources().getString(R.string.email_invalid));
         }
         return emailFormatValid;
     }
@@ -200,16 +200,16 @@ public class SignActivity extends AppCompatActivity {
         boolean passwordIdentical = Objects.equals(fields.get(PASSWORD), fields.get(PASSWORD_CONFIRM));
 
         if (!passwordIdentical) {
-            setErrorOnField(binding,PASSWORD_CONFIRM, "Passwords different");
+            setErrorOnField(binding,PASSWORD_CONFIRM, getResources().getString(R.string.pasword_must_be_identical));
         }
         return passwordIdentical;
     }
 
     private void addUser(@NonNull User user) {
         long id = userViewModel.insert(user);
-        userViewModel.getUserById(id).observe(this, userById ->{
-            startMainActivity(userById);
-            Toast.makeText(getApplicationContext(), "Account create", Toast.LENGTH_SHORT).show();
+        userViewModel.getUserById(id).observe(this, newUser ->{
+            startMainActivity(newUser);
+            showSnackBar(binding.signActivity, getResources().getString(R.string.sign_up_successfull));
 
         } );
     }
@@ -218,6 +218,7 @@ public class SignActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         String userLoggedFormatJson = getUserInJsonFormat(user);
         intent.putExtra(USER_LOGGED_FORMAT_JSON, userLoggedFormatJson);
+        intent.putExtra(SIGN_CHOICE,signId);
         finish();
         startActivity(intent);
     }
@@ -244,16 +245,15 @@ public class SignActivity extends AppCompatActivity {
                 user.setEmail(Objects.requireNonNull(fields.get(EMAIL)));
                 user.setPassword(Objects.requireNonNull(fields.get(PASSWORD)));
 
-                //TODO BUG IF NOT MATCH WITH EMAIL RETURN NULL WHICH != BOOLEAN
+
                 boolean userRecognized = userViewModel.checkIfPasswordIsCorrect(user);
                 if (userRecognized) {
                     user = userViewModel.getUserByEmail(user.getEmail());
                     startMainActivity(user);
-                    Toast.makeText(getApplicationContext(), "SIgn In successful", Toast.LENGTH_SHORT).show();
 
                     clearErrorOnField(binding,PASSWORD);
                 } else {
-                    setErrorOnField(binding,PASSWORD, "Incorrect email or password");
+                    setErrorOnField(binding,PASSWORD, getResources().getString(R.string.error_email_or_password));
                 }
             }
         });

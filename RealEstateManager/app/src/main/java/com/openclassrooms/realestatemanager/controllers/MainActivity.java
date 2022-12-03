@@ -4,11 +4,13 @@ import static com.openclassrooms.realestatemanager.utils.Utils.EMAIL;
 import static com.openclassrooms.realestatemanager.utils.Utils.FIRSTNAME;
 import static com.openclassrooms.realestatemanager.utils.Utils.LASTNAME;
 import static com.openclassrooms.realestatemanager.utils.Utils.PASSWORD;
+import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_CHOICE;
+import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_IN;
 import static com.openclassrooms.realestatemanager.utils.Utils.USER_LOGGED_FORMAT_JSON;
 import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
-import static com.openclassrooms.realestatemanager.utils.Utils.getDialogSetting;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
+import static com.openclassrooms.realestatemanager.utils.Utils.showSnackBar;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -18,16 +20,18 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
@@ -73,10 +77,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View view = binding.getRoot();
         setContentView(view);
 
+        this.msgSign();
+
         this.initViewModel();
 //        this.configureTextViewMain();
 //        this.configureTextViewQuantity();
         this.configureMenu();
+    }
+
+    private void msgSign() {
+        String msg = getIntent().getExtras().getString(SIGN_CHOICE).equals(SIGN_IN) ? getResources().getString(R.string.sign_in_successfull) : getResources().getString(R.string.sign_up_successfull);
+        showSnackBar(binding.mainLayout, msg);
     }
 
     private void initViewModel() {
@@ -127,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             userName.setText(concatStr(user.getFirstname(), user.getLastname()));
             userEmail.setText(user.getEmail());
-            if (user.getPicture() != null) {
+            if (doesUserHaveAPicture(user)) {
                 ImageView picture = accessMenuHeaderInfo().findViewById(R.id.user_Picture);
                 setProfilePicture(user.getPicture(), picture);
             }
@@ -148,6 +159,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return gson.fromJson(getIntent().getStringExtra(USER_LOGGED_FORMAT_JSON), User.class);
     }
 
+    private boolean doesUserHaveAPicture(User user){
+        return user.getPicture()!= null;
+    }
 
     private void setProfilePicture(String url, ImageView picture) {
         Glide.with(this)
@@ -163,23 +177,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.menu_Item_1) {
-            Toast.makeText(this, "Click On Item 1", Toast.LENGTH_SHORT).show();
 
 
         } else if (id == R.id.menu_Item_2) {
 
-            customDialogSettings = getDialogSetting(MainActivity.this);
+            customDialogSettings = getDialogSetting();
             initViewDialogSetting();
             setupListenerDialogSettings();
             customDialogSettings.show();
 
-        } else if (id == R.id.menu_Item_3) {
-            Toast.makeText(this, "Click On Item 3", Toast.LENGTH_SHORT).show();
+        } else {
+            setupListenerDialogLogout();
         }
 
         binding.mainLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    private Dialog getDialogSetting() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.settings_layout);
+        dialog.setCancelable(true);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        return dialog;
+    }
+
+
+    private void setupListenerDialogLogout() {
+
+        new AlertDialog.Builder(this)
+                .setMessage(getResources().getString(R.string.do_you_want_disconnected))
+                .setPositiveButton(getResources().getString(R.string.yes), (dialogInterface, i) -> finish()
+                )
+                .setNegativeButton(getResources().getString(R.string.no), null)
+                .show();
     }
 
     private void initViewDialogSetting() {
@@ -245,7 +278,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void updateCustomDialogSettings(User user) {
 
-        setProfilePicture(user.getPicture(), picture);
+        if (doesUserHaveAPicture(user)) {
+            setProfilePicture(user.getPicture(), picture);
+        }
         Objects.requireNonNull(editTxtFirstname.getEditText()).setText(user.getFirstname());
         Objects.requireNonNull(editTxtLastname.getEditText()).setText(user.getLastname());
         Objects.requireNonNull(editTxtEmail.getEditText()).setText(user.getEmail());
@@ -266,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for (String key : maskFieldsSettings.keySet()) {
 
             if (Objects.requireNonNull(maskFieldsSettings.get(key)).isEmpty()) {
-                setErrorOnField(customDialogSettings, key, "* This field is requiered");
+                setErrorOnField(customDialogSettings, key, getResources().getString(R.string.field_is_requiered));
                 isEmpty = true;
             } else {
                 clearErrorOnField(customDialogSettings, key);
@@ -278,7 +313,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean isUserEmailExistAlready(User user) {
         boolean isUserEmailExistYet = userViewModel.isUserEmailExistAlready(user);
         if (isUserEmailExistYet) {
-            setErrorOnField(customDialogSettings, EMAIL, "A user with that e-mail already exists");
+            setErrorOnField(customDialogSettings, EMAIL, getResources().getString(R.string.email_exists_already));
         }
         return isUserEmailExistYet;
     }
@@ -287,7 +322,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         boolean emailFormatValid = Patterns.EMAIL_ADDRESS.matcher(Objects.requireNonNull(maskFieldsSettings.get(EMAIL))).matches();
         if (!emailFormatValid) {
-            setErrorOnField(customDialogSettings, EMAIL, "Email invalid");
+            setErrorOnField(customDialogSettings, EMAIL, getResources().getString(R.string.email_invalid));
         }
         return emailFormatValid;
     }
@@ -304,8 +339,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         user.setPassword(Objects.requireNonNull(maskFieldsSettings.get(PASSWORD)));
         int nbUpdate = userViewModel.update(user);
         if (nbUpdate > 0) {
-            Toast.makeText(this, "Account updated", Toast.LENGTH_SHORT).show();
+            showSnackBar(binding.mainLayout, getResources().getString(R.string.account_updated));
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        // 5 - Handle back click to close menu
+        if (binding.mainLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.mainLayout.closeDrawer(GravityCompat.START);
+        } else {
+            showSnackBar(binding.mainLayout, getResources().getString(R.string.please_disconnected_you));
+        }
+    }
+
 }

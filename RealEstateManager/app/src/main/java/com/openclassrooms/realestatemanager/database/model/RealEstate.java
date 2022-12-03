@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
@@ -60,7 +61,7 @@ public class RealEstate {
     @Nullable
     public String dateOfSell;
 
-
+    @Ignore
     public RealEstate() {
     }
 
@@ -203,16 +204,21 @@ public class RealEstate {
         if (values.containsKey("id")) realEstate.setId(values.getAsLong("id"));
         if (values.containsKey("agentId")) realEstate.setAgentId(values.getAsLong("agentId"));
         if (values.containsKey("name")) realEstate.setName(values.getAsString("name"));
-        if (values.containsKey("description")) realEstate.setDescription(values.getAsString("description"));
+        if (values.containsKey("description"))
+            realEstate.setDescription(values.getAsString("description"));
         if (values.containsKey("address")) realEstate.setAddress(values.getAsString("address"));
         if (values.containsKey("price")) realEstate.setPrice(values.getAsInteger("price"));
         if (values.containsKey("surface")) realEstate.setSurface(values.getAsInteger("surface"));
         if (values.containsKey("nbRoom")) realEstate.setNbRoom(values.getAsInteger("nbRoom"));
-        if (values.containsKey("nbBedRoom")) realEstate.setNbBedRoom(values.getAsInteger("nbBedRoom"));
-        if (values.containsKey("typeRealEstate")) realEstate.setTypeRealEstate(TypeRealEstate.House);
+        if (values.containsKey("nbBedRoom"))
+            realEstate.setNbBedRoom(values.getAsInteger("nbBedRoom"));
+        if (values.containsKey("typeRealEstate"))
+            realEstate.setTypeRealEstate(TypeRealEstate.House);
         if (values.containsKey("sold")) realEstate.setSold(values.getAsBoolean("sold"));
-        if (values.containsKey("dateOfEntry")) realEstate.setDateOfEntry(values.getAsString("dateOfEntry"));
-        if (values.containsKey("dateOfSell")) realEstate.setDateOfSell(values.getAsString("dateOfSell"));
+        if (values.containsKey("dateOfEntry"))
+            realEstate.setDateOfEntry(values.getAsString("dateOfEntry"));
+        if (values.containsKey("dateOfSell"))
+            realEstate.setDateOfSell(values.getAsString("dateOfSell"));
 
         return realEstate;
     }

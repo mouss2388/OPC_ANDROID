@@ -33,4 +33,18 @@
     <string name="logout">se déconnecter</string>
     <string name="navigation_drawer_open">Ouvrir navigation drawer</string>
     <string name="navigation_drawer_close">Fermer navigation drawer</string>
+
+    <!--SNACKBAR-->
+    <string name="email_invalid">Email invalide</string>
+    <string name="email_exists_already">Un utilisateur avec cet email existe déja</string>
+    <string name="field_is_requiered">* Ce champs est nécessaire</string>
+    <string name="pasword_must_be_identical">Les mots de passe doivent être identique</string>
+    <string name="error_email_or_password">Email ou mot de passe incorrect</string>
+    <string name="do_you_want_disconnected">Voulez-vous vraiment vous déconnecter ?</string>
+    <string name="please_disconnected_you">Veuillez-vous déconnecter !</string>
+    <string name="sign_in_successfull">Connexion réussie</string>
+    <string name="sign_up_successfull">Inscription réussie</string>
+    <string name="account_updated">Compte mis à jour</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 </resources>

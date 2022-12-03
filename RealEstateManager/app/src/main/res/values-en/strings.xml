@@ -34,4 +34,18 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!--SNACKBAR-->
+    <string name="email_invalid">Email invalid</string>
+    <string name="email_exists_already">A user with that e-mail already exists</string>
+    <string name="field_is_requiered">* This field is requiered</string>
+    <string name="pasword_must_be_identical">Passwords must be identical</string>
+    <string name="error_email_or_password">Incorrect email or password</string>
+    <string name="do_you_want_disconnected">Do you want really disconnected you ?</string>
+    <string name="please_disconnected_you">Please disconnected you !</string>
+    <string name="sign_in_successfull">Sign in successful</string>
+    <string name="sign_up_successfull">Sign up successful</string>
+    <string name="account_updated">Account updated</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+
 </resources>
