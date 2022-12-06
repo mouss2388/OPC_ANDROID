@@ -28,11 +28,15 @@
     <string name="status">Statut</string>
     <string name="entry_date">Date d\'entée</string>
     <string name="date_of_sale">Date de vente</string>
-    <string name="settings">Réglages</string>
     <string name="logo_description">logo description</string>
-    <string name="logout">se déconnecter</string>
     <string name="navigation_drawer_open">Ouvrir navigation drawer</string>
     <string name="navigation_drawer_close">Fermer navigation drawer</string>
+
+    <!--Navigation Drawer-->
+    <string name="your_real_estates">Vos biens immobilliers</string>
+    <string name="settings">Réglages</string>
+    <string name="logout">Se déconnecter</string>
+    <string name="description_user_image">image de l\'utilisateur</string>
 
     <!--SNACKBAR-->
     <string name="email_invalid">Email invalide</string>

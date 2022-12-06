@@ -37,4 +37,8 @@ public class RealEstateViewModel extends AndroidViewModel {
     public LiveData<List<RealEstate>> getAllRealEstates() {
         return allRealEstates;
     }
+
+    public LiveData<List<RealEstate>> getRealEstateByUserId(long id) {
+        return repository.getRealEstateByUserId(id);
+    }
 }

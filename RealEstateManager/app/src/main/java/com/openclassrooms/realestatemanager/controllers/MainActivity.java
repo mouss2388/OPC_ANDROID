@@ -17,6 +17,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -43,8 +45,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
+import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
 import java.util.HashMap;
@@ -53,10 +57,11 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-//    String TAG = MainActivity.this.getClass().getSimpleName();
+    String TAG = MainActivity.this.getClass().getSimpleName();
 
     private ActivityMainBinding binding;
     private UserViewModel userViewModel;
+    private RealEstateViewModel realEstateViewModel;
 
     private final Map<String, String> maskFieldsSettings = new HashMap<>();
 
@@ -92,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initViewModel() {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        realEstateViewModel = new ViewModelProvider(this).get(RealEstateViewModel.class);
     }
 
 //    private void configureTextViewMain() {
@@ -159,8 +165,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return gson.fromJson(getIntent().getStringExtra(USER_LOGGED_FORMAT_JSON), User.class);
     }
 
-    private boolean doesUserHaveAPicture(User user){
-        return user.getPicture()!= null;
+    private boolean doesUserHaveAPicture(User user) {
+        return user.getPicture() != null;
     }
 
     private void setProfilePicture(String url, ImageView picture) {
@@ -177,6 +183,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.menu_Item_1) {
+            long idUserLogged = getIdUserLogged();
+            realEstateViewModel.getRealEstateByUserId(idUserLogged).observe(this, realEstates -> {
+                RealEstate realEstate = realEstates.get(0);
+                Toast.makeText(this, realEstate.toString(), Toast.LENGTH_LONG).show();
+                Log.i(TAG, realEstate.toString());
+            });
 
 
         } else if (id == R.id.menu_Item_2) {

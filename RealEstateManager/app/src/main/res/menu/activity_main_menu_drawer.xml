@@ -7,7 +7,7 @@
         <item
             android:id="@+id/menu_Item_1"
             android:icon="@drawable/ic_settings_24"
-            android:title="@string/logout" />
+            android:title="@string/your_real_estates" />
         <item
             android:id="@+id/menu_Item_2"
             android:icon="@drawable/ic_settings_24"

@@ -32,7 +32,7 @@
             android:id="@+id/user_Picture"
             android:layout_width="68dp"
             android:layout_height="68dp"
-            android:contentDescription="description user img"
+            android:contentDescription="@string/description_user_image"
             app:srcCompat="@drawable/ic_anon_user_48dp" />
 
         <Space

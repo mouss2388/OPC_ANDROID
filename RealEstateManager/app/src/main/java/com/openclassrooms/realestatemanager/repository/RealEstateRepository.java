@@ -38,4 +38,8 @@ public class RealEstateRepository {
         return allRealEstates;
     }
 
+    public LiveData<List<RealEstate>> getRealEstateByUserId(long id) {
+        return realEstateDao.getRealEstateByUserId(id);
+    }
+
 }

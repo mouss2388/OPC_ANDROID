@@ -65,7 +65,8 @@ public class RealEstate {
     public RealEstate() {
     }
 
-    public RealEstate(@NonNull String name, @NonNull String description, @NonNull String address, @NonNull Integer price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Boolean sold, @NonNull String dateOfEntry) {
+    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Integer price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry) {
+        this.setAgentId(agentId);
         this.setName(name);
         this.setDescription(description);
         this.setAddress(address);
@@ -221,5 +222,17 @@ public class RealEstate {
             realEstate.setDateOfSell(values.getAsString("dateOfSell"));
 
         return realEstate;
+    }
+
+    @Override
+    @NonNull
+    public String toString() {
+        return "RealEstate{" +
+                "id=" + id +
+                ", agentId=" + agentId +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", typeRealEstate=" + typeRealEstate +
+                ", dateOfEntry='" + dateOfEntry + '\'' + '}';
     }
 }
