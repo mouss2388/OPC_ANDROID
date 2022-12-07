@@ -36,6 +36,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -48,6 +49,7 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
+import com.openclassrooms.realestatemanager.fragments.RealEstateFragment;
 import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Uri selectedImageUri;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,15 +85,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View view = binding.getRoot();
         setContentView(view);
 
-        this.msgSign();
-
+        this.messageLogin();
         this.initViewModel();
 //        this.configureTextViewMain();
 //        this.configureTextViewQuantity();
+        this.showRealEstateFragment();
         this.configureMenu();
     }
 
-    private void msgSign() {
+    private void messageLogin() {
         String msg = getIntent().getExtras().getString(SIGN_CHOICE).equals(SIGN_IN) ? getResources().getString(R.string.sign_in_successfull) : getResources().getString(R.string.sign_up_successfull);
         showSnackBar(binding.mainLayout, msg);
     }
@@ -110,6 +113,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        binding.activityMainActivityTextViewQuantity.setTextSize(Float.parseFloat("20"));
 //        binding.activityMainActivityTextViewQuantity.setText(String.valueOf(quantity));
 //    }
+
+    // 1 - Show first fragment when activity is created
+    private void showRealEstateFragment() {
+        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(binding.activityMainFrameLayout.getId());
+        if (visibleFragment == null) {
+            // 1.1 - Show News Fragment
+            this.showFrag(R.id.menu_Item_0);
+            // 1.2 - Mark as selected the menu item corresponding to NewsFragment
+            binding.activityMainNavView.getMenu().getItem(0).setChecked(true);
+        }
+    }
+
+    private void showFrag(int fragId) {
+        if (fragId == R.id.menu_Item_0) {
+            Fragment fragmentMain = RealEstateFragment.newInstance();
+            this.startTransactionFragment(fragmentMain);
+        } else {
+            showSnackBar(binding.mainLayout, getResources().getString(R.string.error_displaying_fragment));
+        }
+    }
+
+    private void startTransactionFragment(Fragment fragment) {
+        if (!fragment.isVisible()) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(binding.activityMainFrameLayout.getId(), fragment).commit();
+        }
+    }
 
     private void configureMenu() {
         this.configureToolBar();
@@ -182,14 +212,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         int id = item.getItemId();
 
-        if (id == R.id.menu_Item_1) {
+        if (id == R.id.menu_Item_0) {
+            Toast.makeText(this, "ALL REALESTATES", Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.menu_Item_1) {
+
             long idUserLogged = getIdUserLogged();
             realEstateViewModel.getRealEstateByUserId(idUserLogged).observe(this, realEstates -> {
                 RealEstate realEstate = realEstates.get(0);
                 Toast.makeText(this, realEstate.toString(), Toast.LENGTH_LONG).show();
                 Log.i(TAG, realEstate.toString());
             });
-
 
         } else if (id == R.id.menu_Item_2) {
 
@@ -216,16 +249,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return dialog;
     }
 
-
-    private void setupListenerDialogLogout() {
-
-        new AlertDialog.Builder(this)
-                .setMessage(getResources().getString(R.string.do_you_want_disconnected))
-                .setPositiveButton(getResources().getString(R.string.yes), (dialogInterface, i) -> finish()
-                )
-                .setNegativeButton(getResources().getString(R.string.no), null)
-                .show();
-    }
 
     private void initViewDialogSetting() {
         picture = customDialogSettings.findViewById(R.id.user_Picture);
@@ -354,6 +377,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showSnackBar(binding.mainLayout, getResources().getString(R.string.account_updated));
 
         }
+    }
+
+    private void setupListenerDialogLogout() {
+
+        new AlertDialog.Builder(this)
+                .setMessage(getResources().getString(R.string.do_you_want_disconnected))
+                .setPositiveButton(getResources().getString(R.string.yes), (dialogInterface, i) -> finish()
+                )
+                .setNegativeButton(getResources().getString(R.string.no), null)
+                .show();
     }
 
     @Override

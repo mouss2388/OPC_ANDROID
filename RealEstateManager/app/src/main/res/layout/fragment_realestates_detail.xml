@@ -1,0 +1,21 @@
+<LinearLayout
+    android:id="@+id/fragment_real_estates_detail"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".fragments.RealEstateDetailFragment"
+    android:gravity="center"
+    android:background="#07079E">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dip"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:textAlignment="center"
+        android:text="REAL ESTATES DETAIL"/>
+
+</LinearLayout>

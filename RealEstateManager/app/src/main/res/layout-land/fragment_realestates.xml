@@ -1,0 +1,30 @@
+<LinearLayout
+    android:id="@+id/fragment_real_estates"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".fragments.RealEstateFragment"
+    android:weightSum="1"
+    android:gravity="center"
+    android:background="#EDD9CF"
+    android:baselineAligned="false">
+
+    <!-- FrameLayout for our fragments -->
+    <FrameLayout
+        android:id="@+id/real_estates_list_frame_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="0.6"
+        />
+
+    <!-- FrameLayout for our fragments -->
+    <FrameLayout
+        android:id="@+id/real_estates_detail_frame_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_weight="0.4"
+        />
+
+</LinearLayout>

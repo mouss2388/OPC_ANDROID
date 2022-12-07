@@ -37,6 +37,7 @@
     <string name="settings">Réglages</string>
     <string name="logout">Se déconnecter</string>
     <string name="description_user_image">image de l\'utilisateur</string>
+    <string name="home">Accueil</string>
 
     <!--SNACKBAR-->
     <string name="email_invalid">Email invalide</string>
@@ -51,4 +52,5 @@
     <string name="account_updated">Compte mis à jour</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
+    <string name="error_displaying_fragment">Erreur, affichage non disponible,\n essayez plus tard</string>
 </resources>
