@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,6 +153,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureToolBar() {
         binding.activityMainToolbar.setTitle(R.string.app_name);
         setSupportActionBar(binding.activityMainToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.add_realestate) {
+            Toast.makeText(this, "Click on Add", Toast.LENGTH_SHORT).show();
+        }else if(item.getItemId() == R.id.edit_realestate){
+            Toast.makeText(this, "Click on Edit", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Click on Search", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void configureDrawerLayout() {

@@ -22,7 +22,6 @@
             android:id="@+id/activity_main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             app:theme="@style/ToolBarStyle"/>
 
         <!-- FrameLayout for our fragments -->
