@@ -37,7 +37,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -50,7 +49,8 @@ import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
-import com.openclassrooms.realestatemanager.fragments.RealEstateFragment;
+import com.openclassrooms.realestatemanager.fragments.RealEstateDetailFragment;
+import com.openclassrooms.realestatemanager.fragments.RealEstateListFragment;
 import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActivityMainBinding binding;
     private UserViewModel userViewModel;
     private RealEstateViewModel realEstateViewModel;
+
+    private RealEstateListFragment realEstateListFragment;
+    private RealEstateDetailFragment realEstateDetailFragment;
 
     private final Map<String, String> maskFieldsSettings = new HashMap<>();
 
@@ -88,9 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.messageLogin();
         this.initViewModel();
-//        this.configureTextViewMain();
-//        this.configureTextViewQuantity();
-        this.showRealEstateFragment();
+        this.showFragments(true);
         this.configureMenu();
     }
 
@@ -104,41 +105,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         realEstateViewModel = new ViewModelProvider(this).get(RealEstateViewModel.class);
     }
 
-//    private void configureTextViewMain() {
-//        binding.activityMainActivityTextViewMain.setTextSize(Float.parseFloat("15"));
-//        binding.activityMainActivityTextViewMain.setText("Le premier bien immobilier enregistré vaut ");
-//    }
-//
-//    private void configureTextViewQuantity() {
-//        int quantity = Utils.convertDollarToEuro(100);
-//        binding.activityMainActivityTextViewQuantity.setTextSize(Float.parseFloat("20"));
-//        binding.activityMainActivityTextViewQuantity.setText(String.valueOf(quantity));
-//    }
-
-    // 1 - Show first fragment when activity is created
-    private void showRealEstateFragment() {
-        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(binding.activityMainFrameLayout.getId());
-        if (visibleFragment == null) {
-            // 1.1 - Show News Fragment
-            this.showFrag(R.id.menu_Item_0);
-            // 1.2 - Mark as selected the menu item corresponding to NewsFragment
+    private void showFragments(boolean firstTime) {
+        setupRealEstateListFragmentAndShow();
+        setupRealEstateDetailFragmentAndShow();
+        if (firstTime) {
             binding.activityMainNavView.getMenu().getItem(0).setChecked(true);
         }
     }
 
-    private void showFrag(int fragId) {
-        if (fragId == R.id.menu_Item_0) {
-            Fragment fragmentMain = RealEstateFragment.newInstance();
-            this.startTransactionFragment(fragmentMain);
-        } else {
-            showSnackBar(binding.mainLayout, getResources().getString(R.string.error_displaying_fragment));
+    private void setupRealEstateListFragmentAndShow() {
+
+        realEstateListFragment = (RealEstateListFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesListFrameLayout.getId());
+
+        if (realEstateListFragment == null) {
+            realEstateListFragment = RealEstateListFragment.newInstance();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateListFragment).commit();
         }
     }
 
-    private void startTransactionFragment(Fragment fragment) {
-        if (!fragment.isVisible()) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(binding.activityMainFrameLayout.getId(), fragment).commit();
+    private void setupRealEstateDetailFragmentAndShow() {
+
+        realEstateDetailFragment = (RealEstateDetailFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesDetailFrameLayout.getId());
+
+        if (realEstateDetailFragment == null) {
+            realEstateDetailFragment = RealEstateDetailFragment.newInstance();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_detail_frame_layout, realEstateDetailFragment).commit();
         }
     }
 
@@ -166,9 +159,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (item.getItemId() == R.id.add_realestate) {
             Toast.makeText(this, "Click on Add", Toast.LENGTH_SHORT).show();
-        }else if(item.getItemId() == R.id.edit_realestate){
+        } else if (item.getItemId() == R.id.edit_realestate) {
             Toast.makeText(this, "Click on Edit", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Toast.makeText(this, "Click on Search", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
@@ -234,9 +227,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.menu_Item_0) {
             Toast.makeText(this, "ALL REALESTATES", Toast.LENGTH_SHORT).show();
+            showFragments(false);
 
         } else if (id == R.id.menu_Item_1) {
-
+            showFragments(false);
             long idUserLogged = getIdUserLogged();
             realEstateViewModel.getRealEstateByUserId(idUserLogged).observe(this, realEstates -> {
                 RealEstate realEstate = realEstates.get(0);
