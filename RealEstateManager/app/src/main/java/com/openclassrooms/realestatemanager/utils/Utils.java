@@ -58,10 +58,7 @@ public class Utils {
      * @return dollars
      */
     public static int convertEuroToDollar(int euros) {
-        RoundingMode mode = RoundingMode.HALF_EVEN;
-        BigDecimal dollarBigDecimal = new BigDecimal(Double.toString(euros / 0.812)).setScale(0, mode);
-        return dollarBigDecimal.intValue();
-
+        return (int) Math.round(euros / 0.812);
     }
 
     /**
