@@ -7,25 +7,31 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.openclassrooms.realestatemanager.databinding.FragmentRealestatesDetailBinding;
+import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 
 public class RealEstateDetailFragment extends Fragment {
 
     public FragmentRealestatesDetailBinding binding;
 
+    public RealEstateViewModel realEstateViewModel;
+
     public static RealEstateDetailFragment newInstance() {
         return (new RealEstateDetailFragment());
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_realestates_detail, container, false);
-//    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRealestatesDetailBinding.inflate(inflater, container, false);
+        this.initViewModel();
+
+//        realEstateViewModel.getRealEstatesImg()
         return binding.getRoot();
-//        return inflater.inflate(R.layout.fragment_realestates, container, false);
+    }
+
+    public void initViewModel() {
+        realEstateViewModel = new ViewModelProvider(requireActivity()).get(RealEstateViewModel.class);
     }
 }

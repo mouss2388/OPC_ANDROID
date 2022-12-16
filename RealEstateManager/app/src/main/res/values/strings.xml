@@ -35,6 +35,7 @@
     <!--Navigation Drawer-->
     <string name="your_real_estates">Vos biens immobilliers</string>
     <string name="settings">Réglages</string>
+    <string name="home_loan_simulator">Simulateur de prêt immobilier</string>
     <string name="logout">Se déconnecter</string>
     <string name="description_user_image">image de l\'utilisateur</string>
     <string name="home">Accueil</string>
@@ -53,4 +54,18 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="error_displaying_fragment">Erreur, affichage non disponible,\n essayez plus tard</string>
+
+    <!--TOOLBAR-->
+    <string name="add_real_estate">ajout bien immobilier</string>
+    <string name="edit_real_estate">modifie bien immobilier</string>
+    <string name="search_real_estate">recherhce bien immobilier</string>
+    <string name="home_loan">Prêt immobilier</string>
+    <string name="description_button_close">bouton fermeture</string>
+    <string name="amount_of_the_loan">Montant du prêt ($)</string>
+    <string name="number_of_years">Nombre d\'années</string>
+    <string name="taeg_fixe">TAEG Fixe (%)</string>
+    <string name="refund">Remboursement:</string>
+    <string name="calculate">Calculer</string>
+    <string name="by_month">%1$d €/ mois </string>
+    <string name="error_fill_all_field">Merci de compléter tous les champs</string>
 </resources>

@@ -26,20 +26,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:weightSum="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <!-- FrameLayout for our fragments -->
             <FrameLayout
                 android:id="@+id/real_estates_list_frame_layout"
                 android:layout_weight="0.4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
             <FrameLayout
                 android:id="@+id/real_estates_detail_frame_layout"
                 android:layout_weight="0.6"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </LinearLayout>

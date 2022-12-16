@@ -11,8 +11,10 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.openclassrooms.realestatemanager.database.DI.DI;
+import com.openclassrooms.realestatemanager.database.dao.ImageDao;
 import com.openclassrooms.realestatemanager.database.dao.RealEstateDao;
 import com.openclassrooms.realestatemanager.database.dao.UserDao;
+import com.openclassrooms.realestatemanager.database.model.Image;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.database.service.realEstate.RealEstateApiService;
@@ -20,7 +22,7 @@ import com.openclassrooms.realestatemanager.database.service.user.UserApiService
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {RealEstate.class, User.class}, version = 1, exportSchema = false)
+@Database(entities = {RealEstate.class, User.class, Image.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "MyDatabase.db";
@@ -32,6 +34,8 @@ public abstract class AppDatabase extends RoomDatabase {
     // --- DAO ---
 
     public abstract UserDao userDao();
+
+    public abstract ImageDao imageDao();
 
     public abstract RealEstateDao realEstateDao();
 
@@ -73,7 +77,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
                 Executors.newSingleThreadExecutor().execute(() -> {
 
-                    if(DEVELOPMENT_MODE){
+                    if (DEVELOPMENT_MODE) {
                         INSTANCE.userDao().insert(
                                 userApiService.getUsers().get(0)
                         );

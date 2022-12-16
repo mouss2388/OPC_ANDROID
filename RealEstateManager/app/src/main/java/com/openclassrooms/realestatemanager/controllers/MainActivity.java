@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,20 +37,21 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
-import com.openclassrooms.realestatemanager.fragments.RealEstateFragment;
+import com.openclassrooms.realestatemanager.fragments.RealEstateDetailFragment;
+import com.openclassrooms.realestatemanager.fragments.RealEstateListFragment;
 import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
@@ -65,9 +67,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private UserViewModel userViewModel;
     private RealEstateViewModel realEstateViewModel;
 
+    private RealEstateListFragment realEstateListFragment;
+    private RealEstateDetailFragment realEstateDetailFragment;
+
     private final Map<String, String> maskFieldsSettings = new HashMap<>();
 
-    private Dialog customDialogSettings;
+    private Dialog customDialogSettings, customDialogHomeLoan;
 
     private ImageView picture;
     private TextInputLayout editTxtFirstname;
@@ -87,9 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.messageLogin();
         this.initViewModel();
-//        this.configureTextViewMain();
-//        this.configureTextViewQuantity();
-        this.showRealEstateFragment();
+        this.showFragments(true);
         this.configureMenu();
     }
 
@@ -103,41 +106,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         realEstateViewModel = new ViewModelProvider(this).get(RealEstateViewModel.class);
     }
 
-//    private void configureTextViewMain() {
-//        binding.activityMainActivityTextViewMain.setTextSize(Float.parseFloat("15"));
-//        binding.activityMainActivityTextViewMain.setText("Le premier bien immobilier enregistré vaut ");
-//    }
-//
-//    private void configureTextViewQuantity() {
-//        int quantity = Utils.convertDollarToEuro(100);
-//        binding.activityMainActivityTextViewQuantity.setTextSize(Float.parseFloat("20"));
-//        binding.activityMainActivityTextViewQuantity.setText(String.valueOf(quantity));
-//    }
-
-    // 1 - Show first fragment when activity is created
-    private void showRealEstateFragment() {
-        Fragment visibleFragment = getSupportFragmentManager().findFragmentById(binding.activityMainFrameLayout.getId());
-        if (visibleFragment == null) {
-            // 1.1 - Show News Fragment
-            this.showFrag(R.id.menu_Item_0);
-            // 1.2 - Mark as selected the menu item corresponding to NewsFragment
+    private void showFragments(boolean firstTime) {
+        setupRealEstateListFragmentAndShow();
+        setupRealEstateDetailFragmentAndShow();
+        if (firstTime) {
             binding.activityMainNavView.getMenu().getItem(0).setChecked(true);
         }
     }
 
-    private void showFrag(int fragId) {
-        if (fragId == R.id.menu_Item_0) {
-            Fragment fragmentMain = RealEstateFragment.newInstance();
-            this.startTransactionFragment(fragmentMain);
-        } else {
-            showSnackBar(binding.mainLayout, getResources().getString(R.string.error_displaying_fragment));
+    private void setupRealEstateListFragmentAndShow() {
+
+        realEstateListFragment = (RealEstateListFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesListFrameLayout.getId());
+
+        if (realEstateListFragment == null) {
+            realEstateListFragment = RealEstateListFragment.newInstance();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateListFragment).commit();
         }
     }
 
-    private void startTransactionFragment(Fragment fragment) {
-        if (!fragment.isVisible()) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(binding.activityMainFrameLayout.getId(), fragment).commit();
+    private void setupRealEstateDetailFragmentAndShow() {
+
+        realEstateDetailFragment = (RealEstateDetailFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesDetailFrameLayout.getId());
+
+        if (realEstateDetailFragment == null) {
+            realEstateDetailFragment = RealEstateDetailFragment.newInstance();
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_detail_frame_layout, realEstateDetailFragment).commit();
         }
     }
 
@@ -152,6 +147,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureToolBar() {
         binding.activityMainToolbar.setTitle(R.string.app_name);
         setSupportActionBar(binding.activityMainToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actions, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.add_realestate) {
+            Toast.makeText(this, "Click on Add", Toast.LENGTH_SHORT).show();
+        } else if (item.getItemId() == R.id.edit_realestate) {
+            Toast.makeText(this, "Click on Edit", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Click on Search", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void configureDrawerLayout() {
@@ -214,9 +228,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.menu_Item_0) {
             Toast.makeText(this, "ALL REALESTATES", Toast.LENGTH_SHORT).show();
+            showFragments(false);
 
         } else if (id == R.id.menu_Item_1) {
-
+            showFragments(false);
             long idUserLogged = getIdUserLogged();
             realEstateViewModel.getRealEstateByUserId(idUserLogged).observe(this, realEstates -> {
                 RealEstate realEstate = realEstates.get(0);
@@ -226,10 +241,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.menu_Item_2) {
 
-            customDialogSettings = getDialogSetting();
+            customDialogSettings = getDialogSetting(R.layout.settings_layout);
             initViewDialogSetting();
             setupListenerDialogSettings();
             customDialogSettings.show();
+
+        } else if (id == R.id.menu_Item_3) {
+
+            customDialogHomeLoan = getDialogSetting(R.layout.home_loan_layout);
+            setupDialogHomeLoan();
+            customDialogHomeLoan.show();
 
         } else {
             setupListenerDialogLogout();
@@ -240,10 +261,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private Dialog getDialogSetting() {
+
+    private Dialog getDialogSetting(int layoutId) {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.settings_layout);
+        dialog.setContentView(layoutId);
         dialog.setCancelable(true);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         return dialog;
@@ -281,6 +303,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
         });
+    }
+
+    private void setupDialogHomeLoan() {
+
+        ImageButton close = customDialogHomeLoan.findViewById(R.id.close_Settings);
+        close.setOnClickListener(v -> customDialogHomeLoan.dismiss());
+
+        TextInputLayout txtInputCredit = customDialogHomeLoan.findViewById(R.id.credit);
+        Slider slideInputYear = customDialogHomeLoan.findViewById(R.id.slider_years);
+        Slider slideInterestRate = customDialogHomeLoan.findViewById(R.id.slider_txtInterestRate);
+
+        Button btnCalculHomeLoan = customDialogHomeLoan.findViewById(R.id.btnCalcul);
+        TextView resultMonthly = customDialogHomeLoan.findViewById(R.id.monthly_refund);
+
+        btnCalculHomeLoan.setOnClickListener(v -> {
+
+            boolean allFieldsFill = !Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString().isEmpty() && slideInputYear.getValue() > 0 && slideInterestRate.getValue() > 0;
+
+            if (allFieldsFill) {
+
+                double creditAmount = Float.parseFloat(Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString());
+                double interestRate = Float.parseFloat(String.valueOf(slideInterestRate.getValue())) / 100;
+                double nbYearsOfRefundInMonth = (slideInputYear.getValue()) * 12;
+                int monthlyRefund = (int) Math.round(((creditAmount * interestRate) / 12.0) / (1 - (Math.pow((1 + (interestRate / 12.0)), (-1 * nbYearsOfRefundInMonth)))));
+
+                resultMonthly.setVisibility(View.VISIBLE);
+                resultMonthly.setText(getResources().getString(R.string.by_month, monthlyRefund));
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.error_fill_all_field), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void imageChooser() {

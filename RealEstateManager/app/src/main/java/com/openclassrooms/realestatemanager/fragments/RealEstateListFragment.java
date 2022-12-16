@@ -20,14 +20,9 @@ public class RealEstateListFragment extends Fragment {
     }
 
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_realestates_list, container, false);
-//    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentRealestatesListBinding.inflate(inflater, container, false);
         return binding.getRoot();
-//        return inflater.inflate(R.layout.fragment_realestates, container, false);
     }
 }

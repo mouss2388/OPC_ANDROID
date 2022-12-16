@@ -61,6 +61,7 @@ public class RealEstate {
     @Nullable
     public String dateOfSell;
 
+
     @Ignore
     public RealEstate() {
     }

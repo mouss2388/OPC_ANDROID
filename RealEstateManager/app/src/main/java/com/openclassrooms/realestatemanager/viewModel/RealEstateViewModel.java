@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.openclassrooms.realestatemanager.database.model.Image;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.repository.RealEstateRepository;
 
@@ -27,18 +28,23 @@ public class RealEstateViewModel extends AndroidViewModel {
         return repository.insert(realEstate);
     }
 
-    public int update(RealEstate realEstate){
+    public int update(RealEstate realEstate) {
         return repository.update(realEstate);
     }
 
     public LiveData<RealEstate> getRealEstateById(long id) {
         return repository.getRealEstateById(id);
     }
+
     public LiveData<List<RealEstate>> getAllRealEstates() {
         return allRealEstates;
     }
 
     public LiveData<List<RealEstate>> getRealEstateByUserId(long id) {
         return repository.getRealEstateByUserId(id);
+    }
+
+    public LiveData<List<Image>> getRealEstatesImages(RealEstate realEstate) {
+        return repository.getRealEstatesImages(realEstate);
     }
 }
