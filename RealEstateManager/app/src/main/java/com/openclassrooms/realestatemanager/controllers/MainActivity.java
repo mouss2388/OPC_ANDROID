@@ -9,6 +9,7 @@ import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_IN;
 import static com.openclassrooms.realestatemanager.utils.Utils.USER_LOGGED_FORMAT_JSON;
 import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
+import static com.openclassrooms.realestatemanager.utils.Utils.getTodayDate;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.showSnackBar;
 
@@ -17,7 +18,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +47,8 @@ import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
+import com.openclassrooms.realestatemanager.adapters.RealEstateAdapter;
+import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
@@ -56,16 +58,19 @@ import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RealEstateAdapter.OnRealEstateListener {
 
     String TAG = MainActivity.this.getClass().getSimpleName();
 
     private ActivityMainBinding binding;
     private UserViewModel userViewModel;
     private RealEstateViewModel realEstateViewModel;
+
+    private boolean userViewer;
 
     private RealEstateListFragment realEstateListFragment;
     private RealEstateDetailFragment realEstateDetailFragment;
@@ -81,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextInputLayout editTxtPassword;
 
     private Uri selectedImageUri;
+    private long id = 0L;
 
 
     @Override
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.messageLogin();
         this.initViewModel();
-        this.showFragments(true);
+        this.showFragmentsFirstTime();
         this.configureMenu();
     }
 
@@ -106,35 +112,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         realEstateViewModel = new ViewModelProvider(this).get(RealEstateViewModel.class);
     }
 
-    private void showFragments(boolean firstTime) {
-        setupRealEstateListFragmentAndShow();
+    private void showFragmentsFirstTime() {
+        getAllRealEstates();
+        binding.activityMainNavView.getMenu().getItem(0).setChecked(true);
         setupRealEstateDetailFragmentAndShow();
-        if (firstTime) {
-            binding.activityMainNavView.getMenu().getItem(0).setChecked(true);
-        }
-    }
-
-    private void setupRealEstateListFragmentAndShow() {
-
-        realEstateListFragment = (RealEstateListFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesListFrameLayout.getId());
-
-        if (realEstateListFragment == null) {
-            realEstateListFragment = RealEstateListFragment.newInstance();
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateListFragment).commit();
-        }
     }
 
     private void setupRealEstateDetailFragmentAndShow() {
 
         realEstateDetailFragment = (RealEstateDetailFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesDetailFrameLayout.getId());
 
-        if (realEstateDetailFragment == null) {
-            realEstateDetailFragment = RealEstateDetailFragment.newInstance();
+        if (realEstateListFragment == null || id > 0) {
 
-            getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_detail_frame_layout, realEstateDetailFragment).commit();
+                realEstateDetailFragment = RealEstateDetailFragment.newInstance();
+
+                realEstateDetailFragment.setRealEstate(id);
+                getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_detail_frame_layout, realEstateDetailFragment).commit();
         }
     }
+
+    private void getAllRealEstates() {
+
+        userViewer = false;
+        realEstateViewModel.getAllRealEstates().observe(this, realEstates -> {
+
+            if (!userViewer) {
+                setupRealEstateListFragmentAndShow(realEstates);
+            }
+        });
+    }
+
+    private void setupRealEstateListFragmentAndShow(List<RealEstate> realEstates) {
+
+        if (realEstateListFragment == null) {
+
+            realEstateListFragment = (RealEstateListFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesListFrameLayout.getId());
+
+            realEstateListFragment = RealEstateListFragment.newInstance(realEstates, this);
+            getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateListFragment).commit();
+        } else {
+            realEstateListFragment.updateList(realEstates);
+        }
+    }
+
 
     private void configureMenu() {
         this.configureToolBar();
@@ -160,6 +180,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (item.getItemId() == R.id.add_realestate) {
             Toast.makeText(this, "Click on Add", Toast.LENGTH_SHORT).show();
+
+            RealEstate newRealEstate = new RealEstate(null, "test", 150, TypeRealEstate.House, 50, 2, 4, "description", "address", false, getTodayDate());
+            realEstateViewModel.insert(newRealEstate);
+
         } else if (item.getItemId() == R.id.edit_realestate) {
             Toast.makeText(this, "Click on Edit", Toast.LENGTH_SHORT).show();
         } else {
@@ -227,17 +251,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.menu_Item_0) {
-            Toast.makeText(this, "ALL REALESTATES", Toast.LENGTH_SHORT).show();
-            showFragments(false);
+            getAllRealEstates();
 
         } else if (id == R.id.menu_Item_1) {
-            showFragments(false);
-            long idUserLogged = getIdUserLogged();
-            realEstateViewModel.getRealEstateByUserId(idUserLogged).observe(this, realEstates -> {
-                RealEstate realEstate = realEstates.get(0);
-                Toast.makeText(this, realEstate.toString(), Toast.LENGTH_LONG).show();
-                Log.i(TAG, realEstate.toString());
-            });
+            getAllRealEstatesAssociatedWithAUser();
 
         } else if (id == R.id.menu_Item_2) {
 
@@ -261,6 +278,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
+    private void getAllRealEstatesAssociatedWithAUser() {
+
+        long id = getIdUserLogged();
+        realEstateViewModel.getRealEstateByUserId(id).observe(this, this::setupRealEstateListFragmentAndShow);
+    }
 
     private Dialog getDialogSetting(int layoutId) {
         Dialog dialog = new Dialog(this);
@@ -453,4 +476,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    public void onRealEstateClick(long id) {
+        this.id = id;
+        setupRealEstateDetailFragmentAndShow();
+
+    }
 }

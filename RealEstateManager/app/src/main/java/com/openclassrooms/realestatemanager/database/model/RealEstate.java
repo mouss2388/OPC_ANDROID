@@ -108,7 +108,7 @@ public class RealEstate {
     }
 
     @NonNull
-    public Integer getPrice() {
+    public int getPrice() {
         return price;
     }
 
