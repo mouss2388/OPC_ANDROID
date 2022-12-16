@@ -7,7 +7,7 @@
     <item
         android:id="@+id/add_realestate"
         android:icon="@drawable/ic_add_24"
-        android:title="add"
+        android:title="@string/add_real_estate"
         app:iconTint="@color/colorWhite"
         app:showAsAction="ifRoom">
 <!--        <menu>-->
@@ -33,14 +33,14 @@
     <item
         android:id="@+id/edit_realestate"
         android:icon="@drawable/ic_edit_24"
-        android:title="edit"
+        android:title="@string/edit_real_estate"
         app:iconTint="@color/colorWhite"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/search_realestate"
         android:icon="@drawable/ic_search_24"
-        android:title="search"
+        android:title="@string/search_real_estate"
         app:iconTint="@color/colorWhite"
         app:showAsAction="ifRoom"/>
 

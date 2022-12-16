@@ -43,6 +43,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private final Map<String, String> maskFieldsSettings = new HashMap<>();
 
-    private Dialog customDialogSettings;
+    private Dialog customDialogSettings, customDialogHomeLoan;
 
     private ImageView picture;
     private TextInputLayout editTxtFirstname;
@@ -240,10 +241,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.menu_Item_2) {
 
-            customDialogSettings = getDialogSetting();
+            customDialogSettings = getDialogSetting(R.layout.settings_layout);
             initViewDialogSetting();
             setupListenerDialogSettings();
             customDialogSettings.show();
+
+        } else if (id == R.id.menu_Item_3) {
+
+            customDialogHomeLoan = getDialogSetting(R.layout.home_loan_layout);
+            setupDialogHomeLoan();
+            customDialogHomeLoan.show();
 
         } else {
             setupListenerDialogLogout();
@@ -254,10 +261,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private Dialog getDialogSetting() {
+
+    private Dialog getDialogSetting(int layoutId) {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.settings_layout);
+        dialog.setContentView(layoutId);
         dialog.setCancelable(true);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         return dialog;
@@ -295,6 +303,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
         });
+    }
+
+    private void setupDialogHomeLoan() {
+
+        ImageButton close = customDialogHomeLoan.findViewById(R.id.close_Settings);
+        close.setOnClickListener(v -> customDialogHomeLoan.dismiss());
+
+        TextInputLayout txtInputCredit = customDialogHomeLoan.findViewById(R.id.credit);
+        Slider slideInputYear = customDialogHomeLoan.findViewById(R.id.slider_years);
+        Slider slideInterestRate = customDialogHomeLoan.findViewById(R.id.slider_txtInterestRate);
+
+        Button btnCalculHomeLoan = customDialogHomeLoan.findViewById(R.id.btnCalcul);
+        TextView resultMonthly = customDialogHomeLoan.findViewById(R.id.monthly_refund);
+
+        btnCalculHomeLoan.setOnClickListener(v -> {
+
+            boolean allFieldsFill = !Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString().isEmpty() && slideInputYear.getValue() > 0 && slideInterestRate.getValue() > 0;
+
+            if (allFieldsFill) {
+
+                double creditAmount = Float.parseFloat(Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString());
+                double interestRate = Float.parseFloat(String.valueOf(slideInterestRate.getValue())) / 100;
+                double nbYearsOfRefundInMonth = (slideInputYear.getValue()) * 12;
+                int monthlyRefund = (int) Math.round(((creditAmount * interestRate) / 12.0) / (1 - (Math.pow((1 + (interestRate / 12.0)), (-1 * nbYearsOfRefundInMonth)))));
+
+                resultMonthly.setVisibility(View.VISIBLE);
+                resultMonthly.setText(getResources().getString(R.string.by_month, monthlyRefund));
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.error_fill_all_field), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void imageChooser() {
