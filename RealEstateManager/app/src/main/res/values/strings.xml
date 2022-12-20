@@ -68,4 +68,19 @@
     <string name="calculate">Calculer</string>
     <string name="by_month">%1$d €/ mois </string>
     <string name="error_fill_all_field">Merci de compléter tous les champs</string>
+
+    <!--DETAIL FRAGMENT-->
+    <string name="txt_description">Description</string>
+    <string name="txt_surface">Surface</string>
+    <string name="txt_number_of_rooms">Nombre de pièce</string>
+    <string name="txt_number_of_bedrooms">Nombre de chambre</string>
+    <string name="txt_number_of_bathrooms">Nombre de salle de bain</string>
+    <string name="txt_location">Emplacement</string>
+
+    <string name="image_surface_description">Image du logo surface</string>
+    <string name="image_room_description">Image du logo pièce</string>
+    <string name="image_bathroom_description">Image du logo salle de bain</string>
+    <string name="image_bedroom_description">Image du logo chambre</string>
+    <string name="image_location_description">Image du logo emplacement</string>
+
 </resources>

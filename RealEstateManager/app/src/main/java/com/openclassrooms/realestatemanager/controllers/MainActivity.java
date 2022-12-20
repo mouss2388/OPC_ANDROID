@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         realEstateDetailFragment = (RealEstateDetailFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesDetailFrameLayout.getId());
 
-        if (realEstateListFragment == null || id > 0) {
+        if (realEstateDetailFragment == null || id > 0) {
             realEstateDetailFragment = RealEstateDetailFragment.newInstance();
 
             realEstateViewModel.getRealEstateById(id).observe(this, realEstate -> {
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item.getItemId() == R.id.add_realestate) {
             Toast.makeText(this, "Click on Add", Toast.LENGTH_SHORT).show();
 
-            RealEstate newRealEstate = new RealEstate(null, "test", 150, TypeRealEstate.House, 50, 2, 4, "description", "address", false, getTodayDate());
+            RealEstate newRealEstate = new RealEstate(null, "test", 150, TypeRealEstate.House, 50, 2, 4, 3, "description", "address", false, getTodayDate());
             realEstateViewModel.insert(newRealEstate);
 
         } else if (item.getItemId() == R.id.edit_realestate) {
