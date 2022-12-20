@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextInputLayout editTxtPassword;
 
     private Uri selectedImageUri;
-    private long id = 0L;
+    private long id = 1L;
 
 
     @Override
@@ -120,15 +120,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupRealEstateDetailFragmentAndShow() {
 
-        realEstateDetailFragment = (RealEstateDetailFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesDetailFrameLayout.getId());
 
-        if (realEstateListFragment == null || id > 0) {
+        if (realEstateDetailFragment == null) {
             realEstateDetailFragment = RealEstateDetailFragment.newInstance();
 
+            getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_detail_frame_layout, realEstateDetailFragment).commit();
+        }
+        if (id > 0) {
             realEstateViewModel.getRealEstateById(id).observe(this, realEstate -> {
 
-                realEstateDetailFragment.setRealEstate(realEstate);
-                getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_detail_frame_layout, realEstateDetailFragment).commit();
+                realEstateViewModel.getRealEstatesImages(realEstate).observe(this, images -> {
+
+
+                    realEstateDetailFragment.setRealEstate(realEstate, images);
+                });
             });
 
         }
@@ -148,8 +153,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupRealEstateListFragmentAndShow(List<RealEstate> realEstates) {
 
         if (realEstateListFragment == null) {
-
-            realEstateListFragment = (RealEstateListFragment) getSupportFragmentManager().findFragmentById(binding.realEstatesListFrameLayout.getId());
 
             realEstateListFragment = RealEstateListFragment.newInstance(realEstates, this);
             getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateListFragment).commit();
@@ -184,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item.getItemId() == R.id.add_realestate) {
             Toast.makeText(this, "Click on Add", Toast.LENGTH_SHORT).show();
 
-            RealEstate newRealEstate = new RealEstate(null, "test", 150, TypeRealEstate.House, 50, 2, 4, "description", "address", false, getTodayDate());
+            RealEstate newRealEstate = new RealEstate(null, "test", 150, TypeRealEstate.House, 50, 2, 4, 3, "description", "address", false, getTodayDate());
             realEstateViewModel.insert(newRealEstate);
 
         } else if (item.getItemId() == R.id.edit_realestate) {

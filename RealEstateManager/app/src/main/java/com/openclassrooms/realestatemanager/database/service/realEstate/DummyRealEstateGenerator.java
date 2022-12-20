@@ -12,12 +12,12 @@ public class DummyRealEstateGenerator {
 
     public static List<RealEstate> DUMMY_REAL_ESTATES =
             Arrays.asList(
-                    new RealEstate(null, "Bien 1", 1_000, TypeRealEstate.Loft, 40, 10, 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "address", false, Utils.getTodayDate()),
+                    new RealEstate(null, "Bien 1", 1_000, TypeRealEstate.Loft, 40, 10, 2, 5, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "address", false, Utils.getTodayDate()),
 
-                    new RealEstate(1L, "Bien 2", 10_000, TypeRealEstate.Manoir, 40, 10, 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "address", false, Utils.getTodayDate())
+                    new RealEstate(1L, "Bien 2", 10_000, TypeRealEstate.Manoir, 40, 10, 2,4, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "address", false, Utils.getTodayDate())
                     ,
 
-                    new RealEstate(null, "Bien 3", 1_00_000, TypeRealEstate.House, 40, 10, 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "address", false, Utils.getTodayDate())
+                    new RealEstate(null, "Bien 3", 1_00_000, TypeRealEstate.House, 40, 10, 2,3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "address", false, Utils.getTodayDate())
             );
 
     static List<RealEstate> generateRealEstates() {

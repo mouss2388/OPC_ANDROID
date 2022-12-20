@@ -46,6 +46,10 @@ public class RealEstate {
     @NonNull
     public Integer nbBedRoom;
 
+
+    @NonNull
+    public Integer nbBathRoom;
+
     @NonNull
     public String description;
 
@@ -66,7 +70,7 @@ public class RealEstate {
     public RealEstate() {
     }
 
-    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Integer price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry) {
+    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Integer price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Integer nbBathRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry) {
         this.setAgentId(agentId);
         this.setName(name);
         this.setDescription(description);
@@ -76,6 +80,7 @@ public class RealEstate {
         this.setSurface(surface);
         this.setNbRoom(nbRoom);
         this.setNbBedRoom(nbBedRoom);
+        this.setNbBathRoom(nbBathRoom);
         this.setSold(sold);
         this.setDateOfEntry(dateOfEntry);
     }
@@ -141,6 +146,15 @@ public class RealEstate {
 
     public void setNbRoom(@NonNull Integer nbRoom) {
         this.nbRoom = nbRoom;
+    }
+
+    @NonNull
+    public Integer getNbBathRoom() {
+        return nbBathRoom;
+    }
+
+    public void setNbBathRoom(@NonNull Integer nbBathRoom) {
+        this.nbBathRoom = nbBathRoom;
     }
 
     @NonNull
