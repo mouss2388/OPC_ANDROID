@@ -11,6 +11,7 @@ import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField
 import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
 import static com.openclassrooms.realestatemanager.utils.Utils.getTodayDate;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
+import static com.openclassrooms.realestatemanager.utils.Utils.setProfilePicture;
 import static com.openclassrooms.realestatemanager.utils.Utils.showSnackBar;
 
 import android.app.Activity;
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item.getItemId() == R.id.add_realestate) {
             Toast.makeText(this, "Click on Add", Toast.LENGTH_SHORT).show();
 
-            RealEstate newRealEstate = new RealEstate(null, "test", 150, TypeRealEstate.House, 50, 2, 4, 3, "description", "address", false, getTodayDate());
+            RealEstate newRealEstate = new RealEstate(null, "test", 150.00, TypeRealEstate.House, 50, 2, 4, 3, "description", "address", false, getTodayDate());
             realEstateViewModel.insert(newRealEstate);
 
         } else if (item.getItemId() == R.id.edit_realestate) {
@@ -220,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userEmail.setText(user.getEmail());
             if (doesUserHaveAPicture(user)) {
                 ImageView picture = accessMenuHeaderInfo().findViewById(R.id.user_Picture);
-                setProfilePicture(user.getPicture(), picture);
+                setProfilePicture(this,user.getPicture(), picture);
             }
         });
     }
@@ -243,13 +244,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return user.getPicture() != null;
     }
 
-    private void setProfilePicture(String url, ImageView picture) {
-        Glide.with(this)
-                .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .apply(RequestOptions.circleCropTransform())
-                .into(picture);
-    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -388,7 +383,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         userViewModel.getUserById(id).observe(this, user -> {
                             selectedImageUri = data.getData();
                             user.setPicture(selectedImageUri.toString());
-                            setProfilePicture(user.getPicture(), picture);
+                            setProfilePicture(this,user.getPicture(), picture);
                         });
                     }
                 }
@@ -397,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void updateCustomDialogSettings(User user) {
 
         if (doesUserHaveAPicture(user)) {
-            setProfilePicture(user.getPicture(), picture);
+            setProfilePicture(this,user.getPicture(), picture);
         }
         Objects.requireNonNull(editTxtFirstname.getEditText()).setText(user.getFirstname());
         Objects.requireNonNull(editTxtLastname.getEditText()).setText(user.getLastname());

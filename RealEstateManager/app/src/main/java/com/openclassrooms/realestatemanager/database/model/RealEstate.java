@@ -10,6 +10,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.openclassrooms.realestatemanager.database.enumeration.Currency;
 import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
 
 @Entity(tableName = "realEstate_table",
@@ -32,7 +33,10 @@ public class RealEstate {
     public String name;
 
     @NonNull
-    public Integer price;
+    public Double price;
+
+    @Nullable
+    public Currency currency;
 
     @NonNull
     public TypeRealEstate typeRealEstate;
@@ -70,7 +74,7 @@ public class RealEstate {
     public RealEstate() {
     }
 
-    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Integer price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Integer nbBathRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry) {
+    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Double price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Integer nbBathRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry) {
         this.setAgentId(agentId);
         this.setName(name);
         this.setDescription(description);
@@ -83,6 +87,8 @@ public class RealEstate {
         this.setNbBathRoom(nbBathRoom);
         this.setSold(sold);
         this.setDateOfEntry(dateOfEntry);
+        this.setCurrency(Currency.dollar);
+
     }
 
 
@@ -113,11 +119,11 @@ public class RealEstate {
     }
 
     @NonNull
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(@NonNull Integer price) {
+    public void setPrice(@NonNull Double price) {
         this.price = price;
     }
 
@@ -213,6 +219,15 @@ public class RealEstate {
     }
 
 
+    @Nullable
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(@Nullable Currency currency) {
+        this.currency = currency;
+    }
+
     public static RealEstate fromContentValues(ContentValues values) {
 
         final RealEstate realEstate = new RealEstate();
@@ -223,7 +238,7 @@ public class RealEstate {
         if (values.containsKey("description"))
             realEstate.setDescription(values.getAsString("description"));
         if (values.containsKey("address")) realEstate.setAddress(values.getAsString("address"));
-        if (values.containsKey("price")) realEstate.setPrice(values.getAsInteger("price"));
+        if (values.containsKey("price")) realEstate.setPrice(values.getAsDouble("price"));
         if (values.containsKey("surface")) realEstate.setSurface(values.getAsInteger("surface"));
         if (values.containsKey("nbRoom")) realEstate.setNbRoom(values.getAsInteger("nbRoom"));
         if (values.containsKey("nbBedRoom"))

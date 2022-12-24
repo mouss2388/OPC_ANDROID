@@ -3,19 +3,22 @@ package com.openclassrooms.realestatemanager.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.controllers.SignActivity;
 import com.openclassrooms.realestatemanager.databinding.ActivitySignBinding;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,8 +49,8 @@ public class Utils {
      * @param dollars - dollars to euros
      * @return euros
      */
-    public static int convertDollarToEuro(int dollars) {
-        return (int) Math.round(dollars * 0.812);
+    public static double convertDollarToEuro(double dollars) {
+        return Math.round(dollars * 0.812);
     }
 
     /**
@@ -57,8 +60,8 @@ public class Utils {
      * @param euros - euros to dollars
      * @return dollars
      */
-    public static int convertEuroToDollar(int euros) {
-        return (int) Math.round(euros / 0.812);
+    public static double convertEuroToDollar(double euros) {
+        return Math.round(euros / 0.812);
     }
 
     /**
@@ -219,5 +222,29 @@ public class Utils {
 
     public static void showSnackBar(View view, String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public static int castDoubleToInt(double numberDouble) {
+        return (int) numberDouble;
+    }
+
+    public static String convertToString(int value) {
+        return String.valueOf(value);
+    }
+
+    public static void setProfilePicture(Context context,String url, ImageView picture) {
+        Glide.with(context)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .apply(RequestOptions.circleCropTransform())
+                .into(picture);
+    }
+
+    public static void setProfilePicture(Context context, int drawable, ImageView picture) {
+        Glide.with(context)
+                .load(drawable)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .apply(RequestOptions.circleCropTransform())
+                .into(picture);
     }
 }

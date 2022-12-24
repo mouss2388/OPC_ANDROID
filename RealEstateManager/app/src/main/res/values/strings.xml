@@ -72,15 +72,22 @@
     <!--DETAIL FRAGMENT-->
     <string name="txt_description">Description</string>
     <string name="txt_surface">Surface</string>
-    <string name="txt_number_of_rooms">Nombre de pièce</string>
-    <string name="txt_number_of_bedrooms">Nombre de chambre</string>
-    <string name="txt_number_of_bathrooms">Nombre de salle de bain</string>
+    <string name="txt_number_of_rooms">Pièces</string>
+    <string name="txt_number_of_bedrooms">Chambres</string>
+    <string name="txt_number_of_bathrooms">Salles de bain</string>
     <string name="txt_location">Emplacement</string>
+    <string name="sold">Vendu</string>
+    <string name="available">Disponible</string>
+    <string name="dollar_symbole">$</string>
+    <string name="euro_symbole">€</string>
+    <string name="real_estate_agent">Real Estate Agent</string>
+    <string name="not_attributed">Non attribué</string>
 
     <string name="image_surface_description">Image du logo surface</string>
     <string name="image_room_description">Image du logo pièce</string>
     <string name="image_bathroom_description">Image du logo salle de bain</string>
     <string name="image_bedroom_description">Image du logo chambre</string>
     <string name="image_location_description">Image du logo emplacement</string>
+
 
 </resources>

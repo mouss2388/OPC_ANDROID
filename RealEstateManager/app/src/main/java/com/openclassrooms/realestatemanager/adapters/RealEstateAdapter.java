@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
-import com.openclassrooms.realestatemanager.fragments.RealEstateListFragment;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 import java.util.List;
 
 public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.ViewHolder> {
 
     private static List<RealEstate> mRealEstates = null;
-//    private static RealEstateListFragment mRealEstateListFragment;
+    //    private static RealEstateListFragment mRealEstateListFragment;
     public OnRealEstateListener onRealEstateListener;
 
 
@@ -72,7 +72,7 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
 //
             type.setText(realEstate.getTypeRealEstate().toString());
             address.setText(realEstate.getAddress());
-            price.setText(String.valueOf(realEstate.getPrice()));
+            price.setText(String.valueOf(Utils.castDoubleToInt(realEstate.getPrice())));
 
 
         }
@@ -89,14 +89,6 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
         }
 
 
-//        private void setPictureOfRestaurant(Restaurant restaurant) {
-//            if (restaurant.getPhoto() != null) {
-//                getBitmapWithGlide(itemView.getContext(), restaurant.getPhoto(), photo);
-//            } else {
-//                Drawable photoByDefault = ResourcesCompat.getDrawable(this.itemView.getResources(), R.drawable.ic_no_image_available, null);
-//                photo.setImageDrawable(photoByDefault);
-//            }
-//        }
     }
 
     public interface OnRealEstateListener {
