@@ -23,7 +23,7 @@ public interface RealEstateDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAll(List<RealEstate> realEstates);
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     int update(RealEstate realEstate);
 
     @Query("SELECT * FROM realEstate_table WHERE id = :id")

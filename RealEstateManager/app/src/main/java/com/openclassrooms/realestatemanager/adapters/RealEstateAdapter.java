@@ -46,7 +46,11 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return mRealEstates.size();
+        if (mRealEstates != null) {
+            return mRealEstates.size();
+        } else {
+            return 0;
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

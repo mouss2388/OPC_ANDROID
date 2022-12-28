@@ -15,12 +15,10 @@ public class RealEstateViewModel extends AndroidViewModel {
 
     private final RealEstateRepository repository;
 
-    private final LiveData<List<RealEstate>> allRealEstates;
 
     public RealEstateViewModel(Application application) {
         super(application);
         repository = new RealEstateRepository(application);
-        allRealEstates = repository.getAllRealEstates();
     }
 
 
@@ -37,7 +35,7 @@ public class RealEstateViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<RealEstate>> getAllRealEstates() {
-        return allRealEstates;
+        return repository.getAllRealEstates();
     }
 
     public LiveData<List<RealEstate>> getRealEstateByUserId(long id) {

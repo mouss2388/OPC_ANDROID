@@ -7,8 +7,10 @@ import static com.openclassrooms.realestatemanager.utils.Utils.PASSWORD;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_CHOICE;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_IN;
 import static com.openclassrooms.realestatemanager.utils.Utils.USER_LOGGED_FORMAT_JSON;
+import static com.openclassrooms.realestatemanager.utils.Utils.castDoubleToInt;
 import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
+import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
 import static com.openclassrooms.realestatemanager.utils.Utils.getTodayDate;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.setProfilePicture;
@@ -37,12 +39,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputLayout;
@@ -55,6 +55,7 @@ import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.fragments.RealEstateDetailFragment;
 import com.openclassrooms.realestatemanager.fragments.RealEstateListFragment;
+import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private final Map<String, String> maskFieldsSettings = new HashMap<>();
 
-    private Dialog customDialogSettings, customDialogHomeLoan;
+    private Dialog customDialogSettings, customDialogHomeLoan, customDialogRealEstate;
 
     private ImageView picture;
     private TextInputLayout editTxtFirstname;
@@ -192,12 +193,107 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             realEstateViewModel.insert(newRealEstate);
 
         } else if (item.getItemId() == R.id.edit_realestate) {
-            Toast.makeText(this, "Click on Edit", Toast.LENGTH_SHORT).show();
+            customDialogRealEstate = getDialogSetting(R.layout.edit_real_estate_layout);
+            setupDialogRealEstate();
+            customDialogRealEstate.show();
+
         } else {
             Toast.makeText(this, "Click on Search", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void setupDialogRealEstate() {
+
+        ImageButton close = customDialogRealEstate.findViewById(R.id.close_Settings);
+        close.setOnClickListener(v -> customDialogRealEstate.dismiss());
+
+        realEstateViewModel.getRealEstateById(id).observe(this, realEstate -> {
+
+            realEstateViewModel.getRealEstatesImages(realEstate).observe(this, images -> {
+//                Toast.makeText(this, images.get(0).getUrl(), Toast.LENGTH_SHORT).show();
+            });
+
+            SwitchCompat soldSwitch = customDialogRealEstate.findViewById(R.id.switch_sold);
+            soldSwitch.setChecked(realEstate.getSold());
+
+            TextInputLayout price = customDialogRealEstate.findViewById(R.id.txtFieldPrice);
+            TextInputLayout description = customDialogRealEstate.findViewById(R.id.txtFieldDescription);
+            TextInputLayout date = customDialogRealEstate.findViewById(R.id.txtFieldDate);
+            TextInputLayout address = customDialogRealEstate.findViewById(R.id.txtFieldLocation);
+            TextInputLayout surface = customDialogRealEstate.findViewById(R.id.txtFieldSurface);
+            TextInputLayout rooms = customDialogRealEstate.findViewById(R.id.txtFieldRooms);
+            TextInputLayout bathrooms = customDialogRealEstate.findViewById(R.id.txtFieldBathrooms);
+            TextInputLayout bedrooms = customDialogRealEstate.findViewById(R.id.txtFieldBedrooms);
+
+            setValueForTextInputLayout(price, realEstate);
+            setValueForTextInputLayout(description, realEstate);
+            setValueForTextInputLayout(date, realEstate);
+            setValueForTextInputLayout(address, realEstate);
+            setValueForTextInputLayout(surface, realEstate);
+            setValueForTextInputLayout(rooms, realEstate);
+            setValueForTextInputLayout(bathrooms, realEstate);
+            setValueForTextInputLayout(bedrooms, realEstate);
+
+            customDialogRealEstate.findViewById(R.id.update_btn).setOnClickListener(v -> {
+
+                double priceChanged = Double.parseDouble(Objects.requireNonNull(price.getEditText()).getText().toString());
+                int surfaceChanged = Integer.parseInt(Objects.requireNonNull(surface.getEditText()).getText().toString());
+                int roomsChanged = Integer.parseInt(Objects.requireNonNull(rooms.getEditText()).getText().toString());
+                int bedroomsChanged = Integer.parseInt(Objects.requireNonNull(bedrooms.getEditText()).getText().toString());
+                int bathroomsChanged = Integer.parseInt(Objects.requireNonNull(bathrooms.getEditText()).getText().toString());
+                String descriptionChanged = Objects.requireNonNull(description.getEditText()).getText().toString();
+                String dateChanged = Objects.requireNonNull(date.getEditText()).getText().toString();
+                String addressChanged = Objects.requireNonNull(address.getEditText()).getText().toString();
+
+                RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(),dateChanged);
+
+                if (soldSwitch.isChecked()) {
+                    realEstateToUpdate.setDateOfSell(Utils.getTodayDate());
+                }
+                realEstateToUpdate.setId(realEstate.getId());
+
+                this.updateRealEstate(realEstateToUpdate);
+            });
+        });
+    }
+
+    private void setValueForTextInputLayout(TextInputLayout input, RealEstate realEstate) {
+
+        int id = input.getId();
+
+        if (id == R.id.txtFieldPrice) {
+            Objects.requireNonNull(input.getEditText()).setText(convertToString(castDoubleToInt(realEstate.getPrice())));
+
+        } else if (id == R.id.txtFieldDescription) {
+            Objects.requireNonNull(input.getEditText()).setText(realEstate.getDescription());
+
+        } else if (id == R.id.txtFieldDate) {
+            Objects.requireNonNull(input.getEditText()).setText(realEstate.getDateOfEntry());
+
+        } else if (id == R.id.txtFieldLocation) {
+            Objects.requireNonNull(input.getEditText()).setText(realEstate.getAddress());
+
+        } else if (id == R.id.txtFieldSurface) {
+            Objects.requireNonNull(input.getEditText()).setText(convertToString(realEstate.getSurface()));
+
+        } else if (id == R.id.txtFieldRooms) {
+            Objects.requireNonNull(input.getEditText()).setText(convertToString(realEstate.getNbRoom()));
+
+        } else if (id == R.id.txtFieldBathrooms) {
+            Objects.requireNonNull(input.getEditText()).setText(convertToString(realEstate.getNbBathRoom()));
+
+        } else if (id == R.id.txtFieldBedrooms) {
+            Objects.requireNonNull(input.getEditText()).setText(convertToString(realEstate.getNbBedRoom()));
+        }
+    }
+
+    private void updateRealEstate(@NonNull RealEstate realEstate) {
+        int updated = realEstateViewModel.update(realEstate);
+        customDialogRealEstate.dismiss();
+        Toast.makeText(this, "id:" + realEstate.getId() + "row updated " + updated, Toast.LENGTH_SHORT).show();
+    }
+
 
     private void configureDrawerLayout() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.mainLayout, binding.activityMainToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -221,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userEmail.setText(user.getEmail());
             if (doesUserHaveAPicture(user)) {
                 ImageView picture = accessMenuHeaderInfo().findViewById(R.id.user_Picture);
-                setProfilePicture(this,user.getPicture(), picture);
+                setProfilePicture(this, user.getPicture(), picture);
             }
         });
     }
@@ -243,7 +339,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean doesUserHaveAPicture(User user) {
         return user.getPicture() != null;
     }
-
 
 
     @Override
@@ -383,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         userViewModel.getUserById(id).observe(this, user -> {
                             selectedImageUri = data.getData();
                             user.setPicture(selectedImageUri.toString());
-                            setProfilePicture(this,user.getPicture(), picture);
+                            setProfilePicture(this, user.getPicture(), picture);
                         });
                     }
                 }
@@ -392,7 +487,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void updateCustomDialogSettings(User user) {
 
         if (doesUserHaveAPicture(user)) {
-            setProfilePicture(this,user.getPicture(), picture);
+            setProfilePicture(this, user.getPicture(), picture);
         }
         Objects.requireNonNull(editTxtFirstname.getEditText()).setText(user.getFirstname());
         Objects.requireNonNull(editTxtLastname.getEditText()).setText(user.getLastname());

@@ -17,14 +17,12 @@ public class RealEstateRepository {
     private final RealEstateDao realEstateDao;
     private final ImageDao imageDao;
 
-    private final LiveData<List<RealEstate>> allRealEstates;
 
     public RealEstateRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         realEstateDao = db.realEstateDao();
         imageDao = db.imageDao();
 
-        allRealEstates = realEstateDao.getAllRealEstates();
     }
 
     public long insert(RealEstate realEstate) {
@@ -41,7 +39,7 @@ public class RealEstateRepository {
     }
 
     public LiveData<List<RealEstate>> getAllRealEstates() {
-        return allRealEstates;
+        return realEstateDao.getAllRealEstates();
     }
 
     public LiveData<List<RealEstate>> getRealEstateByUserId(long id) {
