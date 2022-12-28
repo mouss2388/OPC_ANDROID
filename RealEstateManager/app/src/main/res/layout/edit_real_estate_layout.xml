@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        tools:context=".controllers.MainActivity">
+
+        <TextView
+            android:id="@+id/edition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edition"
+            android:textColor="@color/colorBlack"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/close_Settings"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:backgroundTint="#CD1405"
+            android:contentDescription="button close"
+            android:src="@drawable/ic_close_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorWhite" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edition">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_sold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sold"
+                android:checked="false" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtFieldPrice"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="Price"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ic_money_on_24"
+                app:startIconTint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:labelFor="@+id/txtFieldPrice"
+                    android:textSize="@dimen/text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtFieldDescription"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/description"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ic_description_24"
+                app:startIconTint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:labelFor="@+id/txtFieldDescription"
+                    android:textSize="@dimen/text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtFieldDate"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="Date"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/real_estate_available"
+                app:startIconTint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    android:labelFor="@+id/txtFieldDate"
+                    android:textSize="@dimen/text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtFieldLocation"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="Address"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/location_on_24"
+                app:startIconTint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:labelFor="@+id/txtFieldLocation"
+                    android:textSize="@dimen/text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtFieldSurface"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="Surface"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ratio_24"
+                app:startIconTint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:labelFor="@+id/txtFieldSurface"
+                    android:textSize="@dimen/text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtFieldRooms"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="Rooms"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ic_home_24"
+                app:startIconTint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:labelFor="@+id/txtFieldRooms"
+                    android:textSize="@dimen/text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtFieldBathrooms"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="Bathrooms"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/hot_tub_24"
+                app:startIconTint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:labelFor="@+id/txtFieldBathrooms"
+                    android:textSize="@dimen/text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtFieldBedrooms"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="bedRooms"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/bed_room_24"
+                app:startIconTint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:labelFor="@+id/txtFieldBedrooms"
+                    android:textSize="@dimen/text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/update_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
