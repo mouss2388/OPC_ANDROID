@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_anon_user_48dp"
-                android:contentDescription="TODO"
+                android:contentDescription="@string/description_img_agent_in_charge_property"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -30,11 +30,11 @@
                 android:id="@+id/real_estate_agent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/real_estate_agent"
                 android:textColor="@color/colorGrey"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@id/userImg"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/real_estate_agent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/real_estate_agent_name"
@@ -68,13 +68,13 @@
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/sold"
                 app:layout_constraintStart_toEndOf="@+id/type"
                 app:layout_constraintTop_toTopOf="parent"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/colorPrimaryDark"
                 tools:text="1000000$" />
 
             <TextView
@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/txt_description"
+            android:text="@string/description"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             tools:text="DESCRIPTION" />
@@ -132,7 +132,7 @@
                         android:background="@drawable/real_estate_available"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:contentDescription="@string/image_surface_description"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/txt_real_estate_available"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -140,12 +140,13 @@
                         android:id="@+id/txt_real_estate_available"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mis en vente"
+                        android:text="@string/entry_date"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@id/img_real_estate_available"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Surface" />
 
@@ -157,55 +158,61 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="12sp"
                         android:textStyle="italic"
-                        app:layout_constraintStart_toEndOf="@id/img_real_estate_available"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txt_real_estate_available"
                         tools:text="12/12/2022" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/item_date_sold"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
 
                     <ImageView
-                        android:id="@+id/img_Surface"
+                        android:id="@+id/img_date_real_estate_sold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ratio_24"
+                        android:background="@drawable/real_estate_sold"
                         android:backgroundTint="@color/colorPrimaryDark"
-                        android:contentDescription="@string/image_surface_description"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:contentDescription="@string/image_sold_description"
+                        app:layout_constraintEnd_toStartOf="@id/txt_real_estate_sold"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
                     <TextView
-                        android:id="@+id/txt_Surface"
+                        android:id="@+id/txt_real_estate_sold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_surface"
+                        android:text="@string/sold"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@id/img_Surface"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Surface" />
 
                     <TextView
-                        android:id="@+id/surface"
+                        android:id="@+id/date_real_estate_sold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/colorBlack"
                         android:textSize="12sp"
-                        android:textStyle="normal"
-                        app:layout_constraintStart_toEndOf="@id/img_Surface"
-                        app:layout_constraintTop_toBottomOf="@id/txt_Surface"
-                        tools:text="750 M²" />
+                        android:textStyle="italic"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_real_estate_sold"
+                        tools:text=" address" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp">
 
                     <ImageView
                         android:id="@+id/img_Number_Of_Rooms"
@@ -214,7 +221,7 @@
                         android:background="@drawable/ic_home_24"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:contentDescription="@string/image_room_description"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/txt_Number_Of_Rooms"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -222,12 +229,13 @@
                         android:id="@+id/txt_Number_Of_Rooms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_number_of_rooms"
+                        android:text="@string/number_of_rooms"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@id/img_Number_Of_Rooms"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Number of Rooms" />
 
@@ -239,14 +247,16 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="12sp"
                         android:textStyle="normal"
-                        app:layout_constraintStart_toEndOf="@id/img_Number_Of_Rooms"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txt_Number_Of_Rooms"
                         tools:text="4 " />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp">
 
                     <ImageView
                         android:id="@+id/img_Number_Of_Bathrooms"
@@ -255,7 +265,7 @@
                         android:background="@drawable/hot_tub_24"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:contentDescription="@string/image_bathroom_description"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/txt_Number_Of_Bathrooms"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -263,12 +273,13 @@
                         android:id="@+id/txt_Number_Of_Bathrooms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_number_of_bathrooms"
+                        android:text="@string/number_of_bathrooms"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@id/img_Number_Of_Bathrooms"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Number of Rooms" />
 
@@ -280,14 +291,16 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="12sp"
                         android:textStyle="normal"
-                        app:layout_constraintStart_toEndOf="@id/img_Number_Of_Bathrooms"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txt_Number_Of_Bathrooms"
                         tools:text="6 " />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dp">
 
                     <ImageView
                         android:id="@+id/img_Number_Of_Bedrooms"
@@ -296,7 +309,7 @@
                         android:background="@drawable/bed_room_24"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:contentDescription="@string/image_bedroom_description"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/txt_Number_Of_Bedrooms"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -304,12 +317,13 @@
                         android:id="@+id/txt_Number_Of_Bedrooms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_number_of_bedrooms"
+                        android:text="@string/number_of_bedrooms"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@id/img_Number_Of_Bedrooms"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Number of BedRooms" />
 
@@ -321,7 +335,8 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="12sp"
                         android:textStyle="normal"
-                        app:layout_constraintStart_toEndOf="@id/img_Number_Of_Bedrooms"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txt_Number_Of_Bedrooms"
                         tools:text="6 " />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -334,51 +349,52 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/item_date_sold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/img_date_real_estate_sold"
+                        android:id="@+id/img_Surface"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/real_estate_sold"
+                        android:background="@drawable/ratio_24"
                         android:backgroundTint="@color/colorPrimaryDark"
-                        android:contentDescription="Image du logo date de vente"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:contentDescription="@string/image_surface_description"
+                        app:layout_constraintEnd_toStartOf="@id/txt_Surface"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
                     <TextView
-                        android:id="@+id/txt_real_estate_sold"
+                        android:id="@+id/txt_Surface"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Vendu le"
+                        android:text="@string/surface"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@id/img_date_real_estate_sold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Surface" />
 
                     <TextView
-                        android:id="@+id/date_real_estate_sold"
+                        android:id="@+id/surface"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/colorBlack"
                         android:textSize="12sp"
-                        android:textStyle="italic"
-                        app:layout_constraintStart_toEndOf="@id/img_date_real_estate_sold"
-                        app:layout_constraintTop_toBottomOf="@id/txt_real_estate_sold"
+                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_Surface"
                         tools:text=" address" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
 
                     <ImageView
                         android:id="@+id/img_Location"
@@ -387,7 +403,7 @@
                         android:background="@drawable/location_on_24"
                         android:backgroundTint="@color/colorPrimaryDark"
                         android:contentDescription="@string/image_location_description"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/txt_Location"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -395,12 +411,13 @@
                         android:id="@+id/txt_Location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/txt_location"
+                        android:text="@string/location"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@id/img_Location"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Surface" />
 
@@ -412,10 +429,57 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="12sp"
                         android:textStyle="normal"
-                        app:layout_constraintStart_toEndOf="@id/img_Location"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txt_Location"
                         tools:text=" address" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:id="@+id/img_Interest_Points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_near_me_24"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:contentDescription="@string/image_location_description"
+                        app:layout_constraintEnd_toStartOf="@id/txt_Interest_Points"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/txt_Interest_Points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/interest_points"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Surface" />
+
+                    <TextView
+                        android:id="@+id/interest_Points"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="12sp"
+                        android:textStyle="normal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_Interest_Points"
+                        tools:text=" address" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

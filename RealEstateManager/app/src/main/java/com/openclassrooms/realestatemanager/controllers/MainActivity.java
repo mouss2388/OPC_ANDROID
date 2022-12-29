@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item.getItemId() == R.id.add_realestate) {
             Toast.makeText(this, "Click on Add", Toast.LENGTH_SHORT).show();
 
-            RealEstate newRealEstate = new RealEstate(null, "test", 150.00, TypeRealEstate.House, 50, 2, 4, 3, "description", "address", false, getTodayDate());
+            RealEstate newRealEstate = new RealEstate(null, "test", 150.00, TypeRealEstate.House, 50, 2, 4, 3, "description", "address", false, getTodayDate(), "Ecole, magasin");
             realEstateViewModel.insert(newRealEstate);
 
         } else if (item.getItemId() == R.id.edit_realestate) {
@@ -225,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             TextInputLayout rooms = customDialogRealEstate.findViewById(R.id.txtFieldRooms);
             TextInputLayout bathrooms = customDialogRealEstate.findViewById(R.id.txtFieldBathrooms);
             TextInputLayout bedrooms = customDialogRealEstate.findViewById(R.id.txtFieldBedrooms);
+            TextInputLayout interestPoints = customDialogRealEstate.findViewById(R.id.txtFieldInterestPoint);
 
             setValueForTextInputLayout(price, realEstate);
             setValueForTextInputLayout(description, realEstate);
@@ -234,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setValueForTextInputLayout(rooms, realEstate);
             setValueForTextInputLayout(bathrooms, realEstate);
             setValueForTextInputLayout(bedrooms, realEstate);
+            setValueForTextInputLayout(interestPoints, realEstate);
 
             customDialogRealEstate.findViewById(R.id.update_btn).setOnClickListener(v -> {
 
@@ -245,8 +247,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String descriptionChanged = Objects.requireNonNull(description.getEditText()).getText().toString();
                 String dateChanged = Objects.requireNonNull(date.getEditText()).getText().toString();
                 String addressChanged = Objects.requireNonNull(address.getEditText()).getText().toString();
+                String interestPointChanged = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
 
-                RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(),dateChanged);
+                RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged);
 
                 if (soldSwitch.isChecked()) {
                     realEstateToUpdate.setDateOfSell(Utils.getTodayDate());
@@ -285,6 +288,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.txtFieldBedrooms) {
             Objects.requireNonNull(input.getEditText()).setText(convertToString(realEstate.getNbBedRoom()));
+        } else {
+            Objects.requireNonNull(input.getEditText()).setText(realEstate.getInterestPoint());
+
         }
     }
 

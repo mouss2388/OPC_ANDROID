@@ -21,16 +21,20 @@
     <string name="media">Médias</string>
     <string name="description">Description</string>
     <string name="surface">Surface</string>
-    <string name="number_of_rooms">Nombre de pièces</string>
-    <string name="number_of_bathrooms">Nombre de salles de bain</string>
-    <string name="number_of_bedrooms">Nombre de chambres</string>
+    <string name="number_of_rooms">Pièces</string>
+    <string name="number_of_bathrooms">Salles de bain</string>
+    <string name="number_of_bedrooms">Chambres</string>
     <string name="location">Emplacement</string>
     <string name="status">Statut</string>
-    <string name="entry_date">Date d\'entée</string>
+    <string name="entry_date">Mis en vente</string>
     <string name="date_of_sale">Date de vente</string>
+    <string name="interest_points">Points d\'intérêt</string>
     <string name="logo_description">logo description</string>
     <string name="navigation_drawer_open">Ouvrir navigation drawer</string>
     <string name="navigation_drawer_close">Fermer navigation drawer</string>
+    <string name="update_btn">Mise à jour</string>
+    <string name="edition">Edition</string>
+    <string name="description_btn_close">bouton de fermeture du la popup</string>
 
     <!--Navigation Drawer-->
     <string name="your_real_estates">Vos biens immobilliers</string>
@@ -70,14 +74,8 @@
     <string name="error_fill_all_field">Merci de compléter tous les champs</string>
 
     <!--DETAIL FRAGMENT-->
-    <string name="txt_description">Description</string>
-    <string name="txt_surface">Surface</string>
-    <string name="txt_number_of_rooms">Pièces</string>
-    <string name="txt_number_of_bedrooms">Chambres</string>
-    <string name="txt_number_of_bathrooms">Salles de bain</string>
-    <string name="txt_location">Emplacement</string>
-    <string name="sold">Vendu</string>
     <string name="available">Disponible</string>
+    <string name="sold">Vendu</string>
     <string name="dollar_symbole">$</string>
     <string name="euro_symbole">€</string>
     <string name="real_estate_agent">Real Estate Agent</string>
@@ -88,6 +86,8 @@
     <string name="image_bathroom_description">Image du logo salle de bain</string>
     <string name="image_bedroom_description">Image du logo chambre</string>
     <string name="image_location_description">Image du logo emplacement</string>
+    <string name="image_sold_description">Image du logo de vente</string>
+    <string name="description_img_agent_in_charge_property">Image de l\'agent en charge du bien</string>
 
 
 </resources>

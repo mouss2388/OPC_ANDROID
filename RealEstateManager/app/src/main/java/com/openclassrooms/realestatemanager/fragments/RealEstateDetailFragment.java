@@ -104,6 +104,8 @@ public class RealEstateDetailFragment extends Fragment {
         binding.rooms.setText(convertToString(realEstate.getNbRoom()));
 
         binding.location.setText(realEstate.getAddress());
+
+        binding.interestPoints.setText(realEstate.getInterestPoint());
     }
 
     private void setupPriceListener() {

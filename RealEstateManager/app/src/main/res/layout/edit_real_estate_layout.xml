@@ -15,7 +15,7 @@
             android:id="@+id/edition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edition"
+            android:text="@string/edition"
             android:textColor="@color/colorBlack"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:backgroundTint="#CD1405"
-            android:contentDescription="button close"
+            android:contentDescription="@string/description_btn_close"
             android:src="@drawable/ic_close_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,8 +47,8 @@
                 android:id="@+id/switch_sold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sold"
-                android:checked="false" />
+                android:checked="false"
+                android:text="@string/sold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtFieldPrice"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:hint="Price"
+                android:hint="@string/price"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_money_on_24"
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:hint="Date"
+                android:hint="@string/entry_date"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/real_estate_available"
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:hint="Address"
+                android:hint="@string/location"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/location_on_24"
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:hint="Surface"
+                android:hint="@string/surface"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ratio_24"
@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:hint="Rooms"
+                android:hint="@string/number_of_rooms"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_home_24"
@@ -183,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:hint="Bathrooms"
+                android:hint="@string/number_of_bathrooms"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/hot_tub_24"
@@ -204,7 +204,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:hint="bedRooms"
+                android:hint="@string/number_of_bedrooms"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/bed_room_24"
@@ -217,11 +217,33 @@
                     android:labelFor="@+id/txtFieldBedrooms"
                     android:textSize="@dimen/text_size" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtFieldInterestPoint"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/interest_points"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ic_near_me_24"
+                app:startIconTint="@color/colorPrimary">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:labelFor="@+id/txtFieldInterestPoint"
+                    android:textSize="@dimen/text_size" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/update_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update"/>
+                android:text="@string/update_btn" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

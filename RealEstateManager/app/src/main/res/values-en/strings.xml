@@ -21,16 +21,21 @@
     <string name="media">Media</string>
     <string name="description">Description</string>
     <string name="surface">Surface</string>
-    <string name="number_of_rooms">Number of piece</string>
-    <string name="number_of_bathrooms">Number of bathrooms</string>
-    <string name="number_of_bedrooms">Number of bedrooms</string>
+    <string name="number_of_rooms">Rooms</string>
+    <string name="number_of_bathrooms">Bathrooms</string>
+    <string name="number_of_bedrooms">Bedrooms</string>
     <string name="location">Location</string>
     <string name="status">Status</string>
-    <string name="entry_date">Entry date</string>
+    <string name="entry_date">For sale</string>
     <string name="date_of_sale">Date of sale</string>
+    <string name="interest_points">Interest Points</string>
     <string name="logo_description">logo description</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="update_btn">Update</string>
+    <string name="edition">Edition</string>
+    <string name="description_btn_close">close button of the popup</string>
+
 
     <!--Navigation Drawer-->
     <string name="your_real_estates">Your real estates</string>
@@ -73,14 +78,8 @@
     <string name="error_fill_all_field">Please fill all fields</string>
 
     <!--DETAIL FRAGMENT-->
-    <string name="txt_description">Description</string>
-    <string name="txt_surface">Surface</string>
-    <string name="txt_number_of_rooms">Rooms</string>
-    <string name="txt_number_of_bedrooms">Bedrooms</string>
-    <string name="txt_number_of_bathrooms">Bathrooms</string>
-    <string name="txt_location">Location</string>
-    <string name="sold">Sold</string>
     <string name="available">Available</string>
+    <string name="sold">Sold</string>
     <string name="dollar_symbole">$</string>
     <string name="euro_symbole">€</string>
     <string name="real_estate_agent">Real Estate Agent</string>
@@ -91,5 +90,8 @@
     <string name="image_bathroom_description">Image of bathroom logo</string>
     <string name="image_bedroom_description">Image of bedroom logo</string>
     <string name="image_location_description">Image of location logo</string>
+    <string name="image_sold_description">Image of sold logo</string>
+
+    <string name="description_img_agent_in_charge_property">Image of agent in charge of the property</string>
 
 </resources>

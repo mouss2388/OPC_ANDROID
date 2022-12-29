@@ -13,6 +13,8 @@ import androidx.room.PrimaryKey;
 import com.openclassrooms.realestatemanager.database.enumeration.Currency;
 import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
 
+import java.util.List;
+
 @Entity(tableName = "realEstate_table",
         foreignKeys = @ForeignKey(entity = User.class,
                 parentColumns = "id",
@@ -23,58 +25,61 @@ public class RealEstate {
      * The unique identifier of the property
      */
     @PrimaryKey(autoGenerate = true)
-    public long id;
+    private long id;
 
     @Nullable
-    public Long agentId;
+    private Long agentId;
 
 
     @NonNull
-    public String name;
+    private String name;
 
     @NonNull
-    public Double price;
+    private Double price;
 
     @Nullable
-    public Currency currency;
+    private Currency currency;
 
     @NonNull
-    public TypeRealEstate typeRealEstate;
+    private TypeRealEstate typeRealEstate;
 
     @NonNull
-    public Integer surface;
+    private Integer surface;
 
     @NonNull
-    public Integer nbRoom;
+    private Integer nbRoom;
 
     @NonNull
-    public Integer nbBedRoom;
+    private Integer nbBedRoom;
 
 
     @NonNull
-    public Integer nbBathRoom;
+    private Integer nbBathRoom;
 
     @NonNull
-    public String description;
+    private String description;
 
     @NonNull
-    public String address;
+    private String address;
 
     @NonNull
-    public Boolean sold;
+    private Boolean sold;
 
     @NonNull
-    public String dateOfEntry;
+    private String dateOfEntry;
 
     @Nullable
-    public String dateOfSell;
+    private String dateOfSell;
 
+
+    @NonNull
+    private String interestPoint;
 
     @Ignore
     public RealEstate() {
     }
 
-    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Double price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Integer nbBathRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry) {
+    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Double price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Integer nbBathRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry, @NonNull String interestPoint) {
         this.setAgentId(agentId);
         this.setName(name);
         this.setDescription(description);
@@ -88,6 +93,7 @@ public class RealEstate {
         this.setSold(sold);
         this.setDateOfEntry(dateOfEntry);
         this.setCurrency(Currency.dollar);
+        this.setInterestPoint(interestPoint);
 
     }
 
@@ -228,6 +234,14 @@ public class RealEstate {
         this.currency = currency;
     }
 
+    @NonNull
+    public String getInterestPoint() {
+        return interestPoint;
+    }
+
+    public void setInterestPoint(@NonNull String interestPoint) {
+        this.interestPoint = interestPoint;
+    }
     public static RealEstate fromContentValues(ContentValues values) {
 
         final RealEstate realEstate = new RealEstate();
