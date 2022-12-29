@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -23,6 +22,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -166,6 +166,88 @@ public class Utils {
         }
     }
 
+    public static boolean atLeastOneFieldToUpdateIsEmpty(Dialog customDialogRealEstate, TextInputLayout[] fields, String msgRequired) {
+
+        for (TextInputLayout field : fields) {
+            String value = Objects.requireNonNull(field.getEditText()).getText().toString();
+            if (value.equals("")) {
+                setErrorOnField(customDialogRealEstate, field.getId(), msgRequired);
+                return true;
+            } else {
+                clearErrorOnField(customDialogRealEstate, field.getId());
+            }
+        }
+        return false;
+    }
+
+    public static void setErrorOnField(Dialog dialog, int id, String msgRequiered) {
+
+        TextInputLayout textInputLayout;
+
+        if (id == R.id.txtFieldPrice) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldPrice);
+
+        } else if (id == R.id.txtFieldDescription) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldDescription);
+
+        } else if (id == R.id.txtFieldDate) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldDate);
+
+        } else if (id == R.id.txtFieldLocation) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldLocation);
+
+        } else if (id == R.id.txtFieldSurface) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldSurface);
+
+        } else if (id == R.id.txtFieldRooms) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldRooms);
+
+        } else if (id == R.id.txtFieldBathrooms) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldBathrooms);
+
+        } else if (id == R.id.txtFieldBedrooms) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldBedrooms);
+
+        } else {
+            textInputLayout = dialog.findViewById(R.id.txtFieldInterestPoint);
+        }
+        textInputLayout.setError(msgRequiered);
+    }
+
+    public static void clearErrorOnField(Dialog dialog, int id) {
+
+        TextInputLayout textInputLayout;
+
+        if (id == R.id.txtFieldPrice) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldPrice);
+
+        } else if (id == R.id.txtFieldDescription) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldDescription);
+
+        } else if (id == R.id.txtFieldDate) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldDate);
+
+        } else if (id == R.id.txtFieldLocation) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldLocation);
+
+        } else if (id == R.id.txtFieldSurface) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldSurface);
+
+        } else if (id == R.id.txtFieldRooms) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldRooms);
+
+        } else if (id == R.id.txtFieldBathrooms) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldBathrooms);
+
+        } else if (id == R.id.txtFieldBedrooms) {
+            textInputLayout = dialog.findViewById(R.id.txtFieldBedrooms);
+
+        } else {
+            textInputLayout = dialog.findViewById(R.id.txtFieldInterestPoint);
+        }
+        textInputLayout.setError(null);
+    }
+
     public static void clearErrorOnField(ActivitySignBinding binding, String key) {
         switch (key) {
             case "FIRSTNAME":
@@ -232,7 +314,7 @@ public class Utils {
         return String.valueOf(value);
     }
 
-    public static void setProfilePicture(Context context,String url, ImageView picture) {
+    public static void setProfilePicture(Context context, String url, ImageView picture) {
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
