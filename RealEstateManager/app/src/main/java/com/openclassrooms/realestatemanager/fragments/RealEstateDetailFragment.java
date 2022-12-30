@@ -162,7 +162,7 @@ public class RealEstateDetailFragment extends Fragment {
     }
 
     private void setPrice() {
-        String priceStr = convertToString((int) realEstate.getPrice());
+        String priceStr = convertToString(realEstate.getPrice().intValue());
         assert realEstate.getCurrency() != null;
         String price;
         if (realEstate.getCurrency().equals(Currency.dollar)) {

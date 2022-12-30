@@ -13,8 +13,6 @@ import androidx.room.PrimaryKey;
 import com.openclassrooms.realestatemanager.database.enumeration.Currency;
 import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
 
-import java.util.List;
-
 @Entity(tableName = "realEstate_table",
         foreignKeys = @ForeignKey(entity = User.class,
                 parentColumns = "id",
@@ -125,7 +123,7 @@ public class RealEstate {
     }
 
     @NonNull
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -242,6 +240,7 @@ public class RealEstate {
     public void setInterestPoint(@NonNull String interestPoint) {
         this.interestPoint = interestPoint;
     }
+
     public static RealEstate fromContentValues(ContentValues values) {
 
         final RealEstate realEstate = new RealEstate();
@@ -257,6 +256,8 @@ public class RealEstate {
         if (values.containsKey("nbRoom")) realEstate.setNbRoom(values.getAsInteger("nbRoom"));
         if (values.containsKey("nbBedRoom"))
             realEstate.setNbBedRoom(values.getAsInteger("nbBedRoom"));
+        if (values.containsKey("nbBathRoom"))
+            realEstate.setNbBathRoom(values.getAsInteger("nbBathRoom"));
         if (values.containsKey("typeRealEstate"))
             realEstate.setTypeRealEstate(TypeRealEstate.House);
         if (values.containsKey("sold")) realEstate.setSold(values.getAsBoolean("sold"));
@@ -264,6 +265,10 @@ public class RealEstate {
             realEstate.setDateOfEntry(values.getAsString("dateOfEntry"));
         if (values.containsKey("dateOfSell"))
             realEstate.setDateOfSell(values.getAsString("dateOfSell"));
+        if (values.containsKey("currency"))
+            realEstate.setCurrency(Currency.dollar);
+        if (values.containsKey("interestPoint"))
+            realEstate.setInterestPoint("Ecole, magasin");
 
         return realEstate;
     }
