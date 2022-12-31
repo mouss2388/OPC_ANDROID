@@ -69,13 +69,17 @@
     <!--HOME LOAN CUSTOM DIALOG-->
     <string name="home_loan">Home loan</string>
     <string name="description_button_close">button close</string>
-    <string name="amount_of_the_loan">Amount of the loan($)</string>
+    <string name="amount_of_the_loan_dollars">Amount of the loan($)</string>
+    <string name="amount_of_the_loan_euros">Amount of the loan(€)</string>
     <string name="number_of_years">Number of years</string>
     <string name="taeg_fixe">TAEG Fixed (%)</string>
     <string name="refund">Refund:</string>
     <string name="calculate">Caculate</string>
-    <string name="by_month">%1$d $/ mois</string>
+    <string name="refund_euros_by_month">%1$d €/ month </string>
+    <string name="refund_dollars_by_month">%1$d $/ month </string>
     <string name="error_fill_all_field">Please fill all fields</string>
+    <string name="euros">euros</string>
+    <string name="dollars">dollars</string>
 
     <!--DETAIL FRAGMENT-->
     <string name="available">Available</string>
