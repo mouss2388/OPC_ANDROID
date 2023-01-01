@@ -59,7 +59,6 @@ public class RealEstateContentProviderTest {
     }
 
     @Test
-    @Ignore
     public void getItemsWhenOneRealEstateInserted() {
 
         final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(RealEstateContentProvider.URI_ITEM, REAL_ESTATE_ID), null, null, null, null);
@@ -87,9 +86,9 @@ public class RealEstateContentProviderTest {
 
         assertThat(cursor.getCount(), is(1));
 
-//        assertThat(cursor.moveToFirst(), is(true));
-//
-//        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("name")), is("Bien 4"));
+        assertThat(cursor.moveToFirst(), is(true));
+
+        assertThat(cursor.getString(cursor.getColumnIndexOrThrow("name")), is("Bien 4"));
     }
 
 
@@ -101,7 +100,7 @@ public class RealEstateContentProviderTest {
         values.put("name", "Bien 4");
         values.put("description", "Description test du bien 4");
         values.put("address", "address_test");
-        values.put("price", "150000");
+        values.put("price", "150_000");
         values.put("surface", "250");
         values.put("nbRoom", "12");
         values.put("nbBedRoom", "4");

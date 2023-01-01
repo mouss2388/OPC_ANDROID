@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -343,5 +344,10 @@ public class Utils {
             double euros = convertEuroToDollar(value);
             return convertToString(castDoubleToInt(euros));
         }
+    }
+
+    public static void setupListenerCloseBtn(Dialog dialog){
+        ImageButton close = dialog.findViewById(R.id.close_Settings);
+        close.setOnClickListener(v -> dialog.dismiss());
     }
 }

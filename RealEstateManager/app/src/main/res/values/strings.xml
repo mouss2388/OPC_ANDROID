@@ -33,7 +33,7 @@
     <string name="navigation_drawer_open">Ouvrir navigation drawer</string>
     <string name="navigation_drawer_close">Fermer navigation drawer</string>
     <string name="update_btn">Mise à jour</string>
-    <string name="edition">Edition</string>
+    <string name="add_btn">Ajouter</string>
     <string name="description_btn_close">bouton de fermeture du la popup</string>
 
     <!--Navigation Drawer-->
@@ -60,9 +60,9 @@
     <string name="error_displaying_fragment">Erreur, affichage non disponible,\n essayez plus tard</string>
 
     <!--TOOLBAR-->
-    <string name="add_real_estate">ajout bien immobilier</string>
-    <string name="edit_real_estate">modifie bien immobilier</string>
-    <string name="search_real_estate">recherhce bien immobilier</string>
+    <string name="add_real_estate">Ajout bien immobilier</string>
+    <string name="edit_real_estate">Modifie bien immobilier</string>
+    <string name="search_real_estate">Rechercher bien immobilier</string>
 
     <!--HOME LOAN CUSTOM DIALOG-->
     <string name="home_loan">Prêt immobilier</string>

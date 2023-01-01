@@ -17,6 +17,7 @@ import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
 import static com.openclassrooms.realestatemanager.utils.Utils.getTodayDate;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.setProfilePicture;
+import static com.openclassrooms.realestatemanager.utils.Utils.setupListenerCloseBtn;
 import static com.openclassrooms.realestatemanager.utils.Utils.showSnackBar;
 
 import android.app.Activity;
@@ -30,9 +31,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,10 +61,10 @@ import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.fragments.RealEstateDetailFragment;
 import com.openclassrooms.realestatemanager.fragments.RealEstateListFragment;
-import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -191,10 +193,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.add_realestate) {
-            Toast.makeText(this, "Click on Add", Toast.LENGTH_SHORT).show();
 
-            RealEstate newRealEstate = new RealEstate(null, "test", 150.00, TypeRealEstate.House, 50, 2, 4, 3, "description", "address", false, getTodayDate(), "Ecole, magasin");
-            realEstateViewModel.insert(newRealEstate);
+            customDialogRealEstate = getDialogSetting(R.layout.edit_real_estate_layout);
+            setupDialogAddRealEstate();
+            customDialogRealEstate.show();
 
         } else if (item.getItemId() == R.id.edit_realestate) {
             customDialogRealEstate = getDialogSetting(R.layout.edit_real_estate_layout);
@@ -207,10 +209,78 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupDialogAddRealEstate() {
+
+        setupListenerCloseBtn(customDialogRealEstate);
+        this.customUpdateLayoutToAddLayout();
+
+        Spinner spinner =customDialogRealEstate.findViewById(R.id.typeRealEstate);
+        spinner.setVisibility(View.VISIBLE);
+        // Spinner Drop down elements
+        List<String> types = new ArrayList<>();
+        types.add(TypeRealEstate.House.toString());
+        types.add(TypeRealEstate.Loft.toString());
+        types.add(TypeRealEstate.Manoir.toString());
+        types.add(TypeRealEstate.Penthouse.toString());
+        types.add(TypeRealEstate.Duplex.toString());
+        types.add(TypeRealEstate.Flat.toString());
+
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, types);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
+
+        TextInputLayout price = customDialogRealEstate.findViewById(R.id.txtFieldPrice);
+        TextInputLayout description = customDialogRealEstate.findViewById(R.id.txtFieldDescription);
+        TextInputLayout address = customDialogRealEstate.findViewById(R.id.txtFieldLocation);
+        TextInputLayout surface = customDialogRealEstate.findViewById(R.id.txtFieldSurface);
+        TextInputLayout rooms = customDialogRealEstate.findViewById(R.id.txtFieldRooms);
+        TextInputLayout bathrooms = customDialogRealEstate.findViewById(R.id.txtFieldBathrooms);
+        TextInputLayout bedrooms = customDialogRealEstate.findViewById(R.id.txtFieldBedrooms);
+        TextInputLayout interestPoints = customDialogRealEstate.findViewById(R.id.txtFieldInterestPoint);
+
+        TextInputLayout[] fields = {price, description, address, surface, rooms, bathrooms, bedrooms, interestPoints};
+        customDialogRealEstate.findViewById(R.id.update_btn).setOnClickListener(v -> {
+            String msgFieldsRequired = getResources().getString(R.string.field_is_requiered);
+
+
+            if (!atLeastOneFieldToUpdateIsEmpty(customDialogRealEstate, fields, msgFieldsRequired)) {
+                long agentId = getIdUserLogged();
+                double priceValue = Double.parseDouble(Objects.requireNonNull(price.getEditText()).getText().toString());
+                int surfaceValue = Integer.parseInt(Objects.requireNonNull(surface.getEditText()).getText().toString());
+                int roomsValue = Integer.parseInt(Objects.requireNonNull(rooms.getEditText()).getText().toString());
+                int bedroomsValue = Integer.parseInt(Objects.requireNonNull(bedrooms.getEditText()).getText().toString());
+                int bathroomsValue = Integer.parseInt(Objects.requireNonNull(bathrooms.getEditText()).getText().toString());
+                String descriptionValue = Objects.requireNonNull(description.getEditText()).getText().toString();
+                String addressValue = Objects.requireNonNull(address.getEditText()).getText().toString();
+                String interestPointValue = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
+
+                RealEstate newRealEstate = new RealEstate(agentId, "Name", priceValue, spinner.getSelectedItem().toString(), surfaceValue, roomsValue, bedroomsValue, bathroomsValue, descriptionValue, addressValue, false, getTodayDate(), interestPointValue);
+
+                this.addRealEstate(newRealEstate);
+            }
+        });
+    }
+
+    private void customUpdateLayoutToAddLayout(){
+        TextView title = customDialogRealEstate.findViewById(R.id.edition);
+        Button btn=customDialogRealEstate.findViewById(R.id.update_btn);
+
+        customDialogRealEstate.findViewById(R.id.switch_sold).setVisibility(View.GONE);
+        customDialogRealEstate.findViewById(R.id.txtFieldDate).setVisibility(View.GONE);
+
+        title.setText(getResources().getString(R.string.add_real_estate));
+        btn.setText(getResources().getString(R.string.add_btn));
+    }
+
     private void setupDialogRealEstate() {
 
-        ImageButton close = customDialogRealEstate.findViewById(R.id.close_Settings);
-        close.setOnClickListener(v -> customDialogRealEstate.dismiss());
+
+        setupListenerCloseBtn(customDialogRealEstate);
 
         String fieldRequiered = getResources().getString(R.string.field_is_requiered);
 
@@ -262,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged);
 
                     if (soldSwitch.isChecked()) {
-                        realEstateToUpdate.setDateOfSell(Utils.getTodayDate());
+                        realEstateToUpdate.setDateOfSell(getTodayDate());
                     }
                     realEstateToUpdate.setId(realEstate.getId());
 
@@ -310,6 +380,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int updated = realEstateViewModel.update(realEstate);
         customDialogRealEstate.dismiss();
         Toast.makeText(this, "id:" + realEstate.getId() + "row updated " + updated, Toast.LENGTH_SHORT).show();
+    }
+
+    private void addRealEstate(@NonNull RealEstate realEstate) {
+        long id = realEstateViewModel.insert(realEstate);
+        customDialogRealEstate.dismiss();
+        if (id == -1) {
+            Toast.makeText(this, "real estate not inserted", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "real estate with id:" + realEstate.getId() + "inserted ", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -419,9 +499,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupListenerDialogSettings() {
 
-        ImageButton close = customDialogSettings.findViewById(R.id.close_Settings);
-        close.setOnClickListener(v -> customDialogSettings.dismiss());
-
+        setupListenerCloseBtn(customDialogSettings);
 
         picture.setOnClickListener(v -> imageChooser());
 
@@ -444,8 +522,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupDialogHomeLoan() {
 
-        ImageButton close = customDialogHomeLoan.findViewById(R.id.close_Settings);
-        close.setOnClickListener(v -> customDialogHomeLoan.dismiss());
+        setupListenerCloseBtn(customDialogHomeLoan);
 
         SwitchCompat switchCurrency = customDialogHomeLoan.findViewById(R.id.switchCurrency);
         TextInputLayout txtInputCredit = customDialogHomeLoan.findViewById(R.id.credit);

@@ -33,7 +33,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="update_btn">Update</string>
-    <string name="edition">Edition</string>
+    <string name="add_btn">Add</string>
     <string name="description_btn_close">close button of the popup</string>
 
 
@@ -62,9 +62,9 @@
     <string name="error_displaying_fragment">Error,displaying not available,\ntry later</string>
 
     <!--TOOLBAR-->
-    <string name="add_real_estate">add real estate</string>
-    <string name="edit_real_estate">edit real estate</string>
-    <string name="search_real_estate">search_ eal estate</string>
+    <string name="add_real_estate">Add real estate</string>
+    <string name="edit_real_estate">Edit real estate</string>
+    <string name="search_real_estate">Search real estate</string>
 
     <!--HOME LOAN CUSTOM DIALOG-->
     <string name="home_loan">Home loan</string>

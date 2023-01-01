@@ -15,7 +15,7 @@
             android:id="@+id/edition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/edition"
+            android:text="@string/edit_real_estate"
             android:textColor="@color/colorBlack"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +43,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edition">
 
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/typeRealEstate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_sold"
                 android:layout_width="wrap_content"

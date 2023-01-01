@@ -39,7 +39,7 @@ public class RealEstate {
     private Currency currency;
 
     @NonNull
-    private TypeRealEstate typeRealEstate;
+    private String typeRealEstate;
 
     @NonNull
     private Integer surface;
@@ -77,7 +77,7 @@ public class RealEstate {
     public RealEstate() {
     }
 
-    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Double price, @NonNull TypeRealEstate typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Integer nbBathRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry, @NonNull String interestPoint) {
+    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Double price, @NonNull String typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Integer nbBathRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry, @NonNull String interestPoint) {
         this.setAgentId(agentId);
         this.setName(name);
         this.setDescription(description);
@@ -132,11 +132,11 @@ public class RealEstate {
     }
 
     @NonNull
-    public TypeRealEstate getTypeRealEstate() {
+    public String getTypeRealEstate() {
         return typeRealEstate;
     }
 
-    public void setTypeRealEstate(@NonNull TypeRealEstate typeRealEstate) {
+    public void setTypeRealEstate(@NonNull String typeRealEstate) {
         this.typeRealEstate = typeRealEstate;
     }
 
@@ -259,7 +259,7 @@ public class RealEstate {
         if (values.containsKey("nbBathRoom"))
             realEstate.setNbBathRoom(values.getAsInteger("nbBathRoom"));
         if (values.containsKey("typeRealEstate"))
-            realEstate.setTypeRealEstate(TypeRealEstate.House);
+            realEstate.setTypeRealEstate(TypeRealEstate.House.toString());
         if (values.containsKey("sold")) realEstate.setSold(values.getAsBoolean("sold"));
         if (values.containsKey("dateOfEntry"))
             realEstate.setDateOfEntry(values.getAsString("dateOfEntry"));
