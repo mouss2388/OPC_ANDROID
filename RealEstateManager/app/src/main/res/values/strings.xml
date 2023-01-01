@@ -63,15 +63,21 @@
     <string name="add_real_estate">ajout bien immobilier</string>
     <string name="edit_real_estate">modifie bien immobilier</string>
     <string name="search_real_estate">recherhce bien immobilier</string>
+
+    <!--HOME LOAN CUSTOM DIALOG-->
     <string name="home_loan">Prêt immobilier</string>
     <string name="description_button_close">bouton fermeture</string>
-    <string name="amount_of_the_loan">Montant du prêt ($)</string>
+    <string name="amount_of_the_loan_dollars">Montant du prêt ($)</string>
+    <string name="amount_of_the_loan_euros">Montant du prêt (€)</string>
     <string name="number_of_years">Nombre d\'années</string>
     <string name="taeg_fixe">TAEG Fixe (%)</string>
     <string name="refund">Remboursement:</string>
     <string name="calculate">Calculer</string>
-    <string name="by_month">%1$d €/ mois </string>
+    <string name="refund_euros_by_month">%1$d €/ mois </string>
+    <string name="refund_dollars_by_month">%1$d $/ mois </string>
     <string name="error_fill_all_field">Merci de compléter tous les champs</string>
+    <string name="euros">euros</string>
+    <string name="dollars">dollars</string>
 
     <!--DETAIL FRAGMENT-->
     <string name="available">Disponible</string>

@@ -11,6 +11,8 @@ import static com.openclassrooms.realestatemanager.utils.Utils.atLeastOneFieldTo
 import static com.openclassrooms.realestatemanager.utils.Utils.castDoubleToInt;
 import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
+import static com.openclassrooms.realestatemanager.utils.Utils.convertCurrency;
+import static com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
 import static com.openclassrooms.realestatemanager.utils.Utils.getTodayDate;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
@@ -50,6 +52,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.adapters.RealEstateAdapter;
+import com.openclassrooms.realestatemanager.database.enumeration.Currency;
 import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
@@ -444,14 +447,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageButton close = customDialogHomeLoan.findViewById(R.id.close_Settings);
         close.setOnClickListener(v -> customDialogHomeLoan.dismiss());
 
+        SwitchCompat switchCurrency = customDialogHomeLoan.findViewById(R.id.switchCurrency);
         TextInputLayout txtInputCredit = customDialogHomeLoan.findViewById(R.id.credit);
         Slider slideInputYear = customDialogHomeLoan.findViewById(R.id.slider_years);
         Slider slideInterestRate = customDialogHomeLoan.findViewById(R.id.slider_txtInterestRate);
 
-        Button btnCalculHomeLoan = customDialogHomeLoan.findViewById(R.id.btnCalcul);
+        Button btnCalculateHomeLoan = customDialogHomeLoan.findViewById(R.id.btnCalcul);
         TextView resultMonthly = customDialogHomeLoan.findViewById(R.id.monthly_refund);
 
-        btnCalculHomeLoan.setOnClickListener(v -> {
+        switchCurrency.setOnClickListener(v -> {
+
+            if (switchCurrency.isChecked()) {
+                switchCurrency.setText(getResources().getString(R.string.euros));
+                txtInputCredit.setHint(getResources().getString(R.string.amount_of_the_loan_euros));
+
+                String inputValue = Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString();
+                String dollars = convertCurrency(inputValue, Currency.dollar);
+                txtInputCredit.getEditText().setText(dollars);
+
+            } else {
+                switchCurrency.setText(getResources().getString(R.string.dollars));
+                txtInputCredit.setHint(getResources().getString(R.string.amount_of_the_loan_dollars));
+                String inputValue = Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString();
+                String euros = convertCurrency(inputValue, Currency.euro);
+                txtInputCredit.getEditText().setText(euros);
+            }
+        });
+        btnCalculateHomeLoan.setOnClickListener(v -> {
 
             boolean allFieldsFill = !Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString().isEmpty() && slideInputYear.getValue() > 0 && slideInterestRate.getValue() > 0;
 
@@ -462,8 +484,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 double nbYearsOfRefundInMonth = (slideInputYear.getValue()) * 12;
                 int monthlyRefund = (int) Math.round(((creditAmount * interestRate) / 12.0) / (1 - (Math.pow((1 + (interestRate / 12.0)), (-1 * nbYearsOfRefundInMonth)))));
 
+                if (switchCurrency.isChecked()) {
+                    monthlyRefund = (int) convertEuroToDollar(monthlyRefund);
+                }
                 resultMonthly.setVisibility(View.VISIBLE);
-                resultMonthly.setText(getResources().getString(R.string.by_month, monthlyRefund));
+                if (switchCurrency.isChecked()) {
+                    resultMonthly.setText(getResources().getString(R.string.refund_euros_by_month, monthlyRefund));
+                } else {
+                    resultMonthly.setText(getResources().getString(R.string.refund_dollars_by_month, monthlyRefund));
+                }
             } else {
                 Toast.makeText(this, getResources().getString(R.string.error_fill_all_field), Toast.LENGTH_SHORT).show();
             }

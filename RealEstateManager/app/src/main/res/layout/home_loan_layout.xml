@@ -45,6 +45,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/setting">
 
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dollars"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/credit"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
@@ -52,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:hint="@string/amount_of_the_loan"
+                android:hint="@string/amount_of_the_loan_dollars"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:endIconMode="clear_text"
                 app:startIconTint="@color/colorPrimary">
@@ -80,6 +88,7 @@
                 android:id="@+id/slider_years"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="Slider pour les années de prêt"
                 android:stepSize="5.0"
                 android:valueFrom="0.0"
                 android:valueTo="25.0" />
@@ -97,6 +106,7 @@
                 android:id="@+id/slider_txtInterestRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="Slider pour le taux du prêt"
                 android:stepSize="1.0"
                 android:valueFrom="0.0"
                 android:valueTo="8.0" />

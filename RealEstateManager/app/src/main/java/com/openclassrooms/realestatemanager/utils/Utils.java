@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.controllers.SignActivity;
+import com.openclassrooms.realestatemanager.database.enumeration.Currency;
 import com.openclassrooms.realestatemanager.databinding.ActivitySignBinding;
 
 import java.text.DateFormat;
@@ -313,6 +314,9 @@ public class Utils {
     public static String convertToString(int value) {
         return String.valueOf(value);
     }
+    public static String convertToString(double value) {
+        return String.valueOf(value);
+    }
 
     public static void setProfilePicture(Context context, String url, ImageView picture) {
         Glide.with(context)
@@ -328,5 +332,16 @@ public class Utils {
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .apply(RequestOptions.circleCropTransform())
                 .into(picture);
+    }
+
+    public static String convertCurrency(String currency, Currency currencyType) {
+        double value = Double.parseDouble(currency);
+        if (currencyType.equals(Currency.dollar)) {
+            double euros = convertDollarToEuro(value);
+            return convertToString(castDoubleToInt(euros));
+        } else {
+            double euros = convertEuroToDollar(value);
+            return convertToString(castDoubleToInt(euros));
+        }
     }
 }

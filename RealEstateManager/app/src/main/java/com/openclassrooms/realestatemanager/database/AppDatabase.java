@@ -17,6 +17,7 @@ import com.openclassrooms.realestatemanager.database.dao.UserDao;
 import com.openclassrooms.realestatemanager.database.model.Image;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
+import com.openclassrooms.realestatemanager.database.service.image.ImageApiService;
 import com.openclassrooms.realestatemanager.database.service.realEstate.RealEstateApiService;
 import com.openclassrooms.realestatemanager.database.service.user.UserApiService;
 
@@ -66,6 +67,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static Callback prepopulateDatabase() {
         RealEstateApiService realEstateApiService = DI.getRealEstatesApiService();
         UserApiService userApiService = DI.getUserApiService();
+        ImageApiService imageApiService = DI.getImageApiService();
 
         return new Callback() {
 
@@ -81,11 +83,14 @@ public abstract class AppDatabase extends RoomDatabase {
                         INSTANCE.userDao().insert(
                                 userApiService.getUsers().get(0)
                         );
-                    }
-                    INSTANCE.realEstateDao().insertAll(
+                        INSTANCE.realEstateDao().insertAll(
 
-                            realEstateApiService.getRealEstates()
-                    );
+                                realEstateApiService.getRealEstates()
+                        );
+
+                        INSTANCE.imageDao().insertAll(imageApiService.getImages());
+                    }
+
                 });
 
             }

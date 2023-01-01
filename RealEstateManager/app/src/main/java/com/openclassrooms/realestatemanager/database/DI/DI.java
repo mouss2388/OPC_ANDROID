@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.database.DI;
 
 
+import com.openclassrooms.realestatemanager.database.service.image.DummyImageApiService;
+import com.openclassrooms.realestatemanager.database.service.image.ImageApiService;
 import com.openclassrooms.realestatemanager.database.service.realEstate.DummyRealEstateApiService;
 import com.openclassrooms.realestatemanager.database.service.realEstate.RealEstateApiService;
 import com.openclassrooms.realestatemanager.database.service.user.DummyUserApiService;
@@ -14,6 +16,7 @@ public class DI {
 
     private static final RealEstateApiService serviceRealEstate = new DummyRealEstateApiService();
     private static final UserApiService serviceUser = new DummyUserApiService();
+    private static final ImageApiService serviceImage = new DummyImageApiService();
 
     /**
      * Get an instance on @{@link RealEstateApiService}
@@ -34,6 +37,15 @@ public class DI {
     }
 
     /**
+     * Get an instance on @{@link ImageApiService}
+     *
+     * @return serviceImage
+     */
+    public static ImageApiService getImageApiService() {
+        return serviceImage;
+    }
+
+    /**
      * Get always a new instance on @{@link RealEstateApiService}. Useful for tests, so we ensure the context is clean.
      *
      * @return DummyRealEstateApiService
@@ -49,5 +61,14 @@ public class DI {
      */
     public static UserApiService getNewInstanceUserApiService() {
         return new DummyUserApiService();
+    }
+
+    /**
+     * Get always a new instance on @{@link ImageApiService}. Useful for tests, so we ensure the context is clean.
+     *
+     * @return DummyUserApiService
+     */
+    public static ImageApiService getNewInstanceImageApiService() {
+        return new DummyImageApiService();
     }
 }
