@@ -1,31 +1,41 @@
 package com.openclassrooms.realestatemanager.adapters;
 
+import static com.openclassrooms.realestatemanager.utils.Utils.castDoubleToInt;
+import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.utils.Utils;
+import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 
 import java.util.List;
 
 public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.ViewHolder> {
 
     private static List<RealEstate> mRealEstates = null;
-    //    private static RealEstateListFragment mRealEstateListFragment;
     public OnRealEstateListener onRealEstateListener;
+    private final RealEstateViewModel realEstateViewModel;
+    private final LifecycleOwner lifecycleOwner;
 
 
-    public RealEstateAdapter(List<RealEstate> realEstates, OnRealEstateListener onRealEstateListener) {
+    public RealEstateAdapter(List<RealEstate> realEstates, OnRealEstateListener onRealEstateListener, LifecycleOwner lifecycleOwner, RealEstateViewModel realEstateViewModel) {
         this.onRealEstateListener = onRealEstateListener;
         mRealEstates = realEstates;
+        this.realEstateViewModel = realEstateViewModel;
+        this.lifecycleOwner = lifecycleOwner;
     }
 
 
@@ -41,7 +51,7 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull RealEstateAdapter.ViewHolder holder, int position) {
-        holder.displayRealEstate(mRealEstates.get(position));
+        holder.displayRealEstate(mRealEstates.get(position), this.lifecycleOwner, this.realEstateViewModel);
     }
 
     @Override
@@ -59,7 +69,7 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
         private final TextView type;
         private final TextView address;
         private final TextView price;
-        //        private final ImageView photo;
+        private final ImageView photo;
 
         public ViewHolder(View view, OnRealEstateListener onRealEstateListener) {
             super(view);
@@ -69,14 +79,21 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
             type = view.findViewById(R.id.type_realestate);
             address = view.findViewById(R.id.address_realestate);
             price = view.findViewById(R.id.price_realestate);
+            photo= view.findViewById(R.id.image);
             view.setOnClickListener(this);
         }
 
-        public void displayRealEstate(RealEstate realEstate) {
-//
-            type.setText(realEstate.getTypeRealEstate().toString());
+        public void displayRealEstate(RealEstate realEstate, LifecycleOwner lifecycleOwner, RealEstateViewModel realEstateViewModel) {
+
+            type.setText(realEstate.getTypeRealEstate());
             address.setText(realEstate.getAddress());
-            price.setText(String.valueOf(Utils.castDoubleToInt(realEstate.getPrice())));
+            price.setText(convertToString(castDoubleToInt(realEstate.getPrice())));
+
+            realEstateViewModel.getRealEstateImages(realEstate).observe(lifecycleOwner, images -> {
+                if(images.size()>0) {
+                    Utils.setRealEstatePicture(itemView.getContext(), images.get(0).getUrl(), photo);
+                }
+            });
 
 
         }
@@ -91,8 +108,6 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
 
 
         }
-
-
     }
 
     public interface OnRealEstateListener {
