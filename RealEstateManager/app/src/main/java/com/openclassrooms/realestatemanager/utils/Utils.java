@@ -7,6 +7,8 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -315,6 +317,7 @@ public class Utils {
     public static String convertToString(int value) {
         return String.valueOf(value);
     }
+
     public static String convertToString(double value) {
         return String.valueOf(value);
     }
@@ -335,6 +338,13 @@ public class Utils {
                 .into(picture);
     }
 
+    public static void setRealEstatePicture(Context context, String url, ImageView picture) {
+        Glide.with(context)
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
+                .into(picture);
+    }
+
     public static String convertCurrency(String currency, Currency currencyType) {
         double value = Double.parseDouble(currency);
         if (currencyType.equals(Currency.dollar)) {
@@ -346,8 +356,23 @@ public class Utils {
         }
     }
 
-    public static void setupListenerCloseBtn(Dialog dialog){
+    public static void setupListenerCloseBtn(Dialog dialog) {
         ImageButton close = dialog.findViewById(R.id.close_Settings);
         close.setOnClickListener(v -> dialog.dismiss());
+    }
+
+    public static Dialog getDialog(Context context, int layoutId) {
+
+        Dialog dialog = new Dialog(context);
+
+        int width = layoutId==  R.layout.image_zoomed_layout ? ViewGroup.LayoutParams.WRAP_CONTENT : ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(layoutId);
+        dialog.setCancelable(true);
+
+        dialog.getWindow().setLayout(width,height);
+        return dialog;
     }
 }

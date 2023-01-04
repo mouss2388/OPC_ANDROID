@@ -15,7 +15,7 @@ import java.util.List;
 public interface ImageDao {
 
     @Query("SELECT * FROM image_table WHERE realEstateId =:idRealEstate")
-    LiveData<List<Image>> getRealEstatesImages(long idRealEstate);
+    LiveData<List<Image>> getRealEstateImages(long idRealEstate);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAll(List<Image> images);

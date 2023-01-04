@@ -5,6 +5,7 @@
     android:id="@+id/main_Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:fitsSystemWindows="true"
     tools:context=".controllers.MainActivity"
     tools:openDrawer="start">
@@ -39,6 +40,7 @@
                 android:id="@+id/real_estates_detail_frame_layout"
                 android:layout_weight="0.4"
                 android:layout_width="match_parent"
+                
                 android:layout_height="match_parent" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

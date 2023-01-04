@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class DummyImageApiService implements ImageApiService {
 
-    private final List<Image> images = DummyImageGenerator.generateImagess();
+    private final List<Image> images = DummyImageGenerator.generateImages();
 
 
     /**

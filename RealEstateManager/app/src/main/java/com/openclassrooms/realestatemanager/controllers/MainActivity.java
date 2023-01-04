@@ -14,6 +14,7 @@ import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertCurrency;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
+import static com.openclassrooms.realestatemanager.utils.Utils.getDialog;
 import static com.openclassrooms.realestatemanager.utils.Utils.getTodayDate;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.setProfilePicture;
@@ -29,8 +30,6 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id > 0) {
             realEstateViewModel.getRealEstateById(id).observe(this, realEstate -> {
 
-                realEstateViewModel.getRealEstatesImages(realEstate).observe(this, images -> {
+                realEstateViewModel.getRealEstateImages(realEstate).observe(this, images -> {
 
 
                     realEstateDetailFragment.setRealEstate(realEstate, images);
@@ -194,12 +193,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (item.getItemId() == R.id.add_realestate) {
 
-            customDialogRealEstate = getDialogSetting(R.layout.edit_real_estate_layout);
+            customDialogRealEstate = getDialog(MainActivity.this, R.layout.edit_real_estate_layout);
             setupDialogAddRealEstate();
             customDialogRealEstate.show();
 
         } else if (item.getItemId() == R.id.edit_realestate) {
-            customDialogRealEstate = getDialogSetting(R.layout.edit_real_estate_layout);
+            customDialogRealEstate = getDialog(MainActivity.this, R.layout.edit_real_estate_layout);
             setupDialogRealEstate();
             customDialogRealEstate.show();
 
@@ -214,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupListenerCloseBtn(customDialogRealEstate);
         this.customUpdateLayoutToAddLayout();
 
-        Spinner spinner =customDialogRealEstate.findViewById(R.id.typeRealEstate);
+        Spinner spinner = customDialogRealEstate.findViewById(R.id.typeRealEstate);
         spinner.setVisibility(View.VISIBLE);
         // Spinner Drop down elements
         List<String> types = new ArrayList<>();
@@ -266,9 +265,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void customUpdateLayoutToAddLayout(){
+    private void customUpdateLayoutToAddLayout() {
         TextView title = customDialogRealEstate.findViewById(R.id.edition);
-        Button btn=customDialogRealEstate.findViewById(R.id.update_btn);
+        Button btn = customDialogRealEstate.findViewById(R.id.update_btn);
 
         customDialogRealEstate.findViewById(R.id.switch_sold).setVisibility(View.GONE);
         customDialogRealEstate.findViewById(R.id.txtFieldDate).setVisibility(View.GONE);
@@ -286,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         realEstateViewModel.getRealEstateById(id).observe(this, realEstate -> {
 
-            realEstateViewModel.getRealEstatesImages(realEstate).observe(this, images -> {
+            realEstateViewModel.getRealEstateImages(realEstate).observe(this, images -> {
 //                Toast.makeText(this, images.get(0).getUrl(), Toast.LENGTH_SHORT).show();
             });
 
@@ -452,14 +451,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.menu_Item_2) {
 
-            customDialogSettings = getDialogSetting(R.layout.settings_layout);
+            customDialogSettings = getDialog(MainActivity.this, R.layout.settings_layout);
             initViewDialogSetting();
             setupListenerDialogSettings();
             customDialogSettings.show();
 
         } else if (id == R.id.menu_Item_3) {
 
-            customDialogHomeLoan = getDialogSetting(R.layout.home_loan_layout);
+            customDialogHomeLoan = getDialog(MainActivity.this, R.layout.home_loan_layout);
             setupDialogHomeLoan();
             customDialogHomeLoan.show();
 
@@ -477,15 +476,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         long id = getIdUserLogged();
         realEstateViewModel.getRealEstateByUserId(id).observe(this, this::setupRealEstateListFragmentAndShow);
-    }
-
-    private Dialog getDialogSetting(int layoutId) {
-        Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(layoutId);
-        dialog.setCancelable(true);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        return dialog;
     }
 
 

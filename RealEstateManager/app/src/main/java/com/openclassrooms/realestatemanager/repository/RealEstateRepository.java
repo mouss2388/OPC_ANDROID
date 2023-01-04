@@ -46,8 +46,8 @@ public class RealEstateRepository {
         return realEstateDao.getRealEstateByUserId(id);
     }
 
-    public LiveData<List<Image>> getRealEstatesImages(RealEstate realEstate) {
-        return imageDao.getRealEstatesImages(realEstate.getId());
+    public LiveData<List<Image>> getRealEstateImages(RealEstate realEstate) {
+        return imageDao.getRealEstateImages(realEstate.getId());
     }
 
 }

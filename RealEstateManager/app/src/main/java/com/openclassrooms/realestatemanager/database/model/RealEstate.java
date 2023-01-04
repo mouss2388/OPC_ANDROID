@@ -266,9 +266,9 @@ public class RealEstate {
         if (values.containsKey("dateOfSell"))
             realEstate.setDateOfSell(values.getAsString("dateOfSell"));
         if (values.containsKey("currency"))
-            realEstate.setCurrency(Currency.dollar);
+            realEstate.setCurrency(Currency.valueOf(values.getAsString(String.valueOf(Currency.dollar))));
         if (values.containsKey("interestPoint"))
-            realEstate.setInterestPoint("Ecole, magasin");
+            realEstate.setInterestPoint(values.getAsString("interestPoint"));
 
         return realEstate;
     }

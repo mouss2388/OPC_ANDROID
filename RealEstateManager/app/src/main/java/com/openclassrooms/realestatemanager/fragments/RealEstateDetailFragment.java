@@ -5,16 +5,19 @@ import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
+import static com.openclassrooms.realestatemanager.utils.Utils.getDialog;
 import static com.openclassrooms.realestatemanager.utils.Utils.setProfilePicture;
+import static com.openclassrooms.realestatemanager.utils.Utils.setRealEstatePicture;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -26,7 +29,6 @@ import com.openclassrooms.realestatemanager.databinding.FragmentRealestatesDetai
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
 import java.util.List;
-import java.util.Objects;
 
 public class RealEstateDetailFragment extends Fragment {
 
@@ -34,6 +36,8 @@ public class RealEstateDetailFragment extends Fragment {
     public RealEstate realEstate;
     public List<Image> images;
     public UserViewModel userViewModel;
+    private LayoutInflater mInflater;
+    private Dialog imageZoomedIn;
 
     public static RealEstateDetailFragment newInstance() {
 
@@ -59,8 +63,10 @@ public class RealEstateDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         if (this.realEstate != null) {
 
+            this.mInflater = LayoutInflater.from(getContext());
             this.setRealEstate(realEstate, images);
 
         } else {
@@ -72,6 +78,9 @@ public class RealEstateDetailFragment extends Fragment {
     public void setRealEstate(RealEstate realEstate, List<Image> images) {
         this.realEstate = realEstate;
         this.images = images;
+
+        setHorizontalScrollViewer();
+
         this.setupPriceListener();
 
         binding.fragmentRealEstatesDetail.setVisibility(View.VISIBLE);
@@ -89,9 +98,8 @@ public class RealEstateDetailFragment extends Fragment {
             binding.itemDateSold.setVisibility(View.GONE);
         }
 
-
         binding.dateRealEstateAvailable.setText(realEstate.getDateOfEntry());
-        binding.type.setText(String.valueOf(realEstate.getTypeRealEstate()));
+        binding.type.setText(realEstate.getTypeRealEstate());
 
         binding.description.setText(realEstate.getDescription());
 
@@ -107,6 +115,32 @@ public class RealEstateDetailFragment extends Fragment {
 
         binding.interestPoints.setText(realEstate.getInterestPoint());
     }
+
+    private void setHorizontalScrollViewer() {
+
+        binding.idGallery.removeAllViews();
+        this.mInflater = getLayoutInflater();
+
+        for (Image image : images) {
+
+            View view = this.mInflater.inflate(R.layout.gallery_item, binding.idGallery, false);
+
+            ImageView img = view.findViewById(R.id.id_gallery_item_image);
+
+            setRealEstatePicture(getContext(), image.getUrl(), img);
+
+            binding.idGallery.addView(view);
+
+            img.setOnClickListener(v -> {
+
+                imageZoomedIn = getDialog(requireContext(), R.layout.image_zoomed_layout);
+                ImageView imageZoomed = imageZoomedIn.findViewById(R.id.image_zoomed);
+                setRealEstatePicture(getContext(), image.getUrl(), imageZoomed);
+                imageZoomedIn.show();
+            });
+        }
+    }
+
 
     private void setupPriceListener() {
         binding.price.setOnClickListener(v -> {
@@ -150,7 +184,7 @@ public class RealEstateDetailFragment extends Fragment {
                     setProfilePicture(getContext(), user.getPicture(), binding.userImg);
                 }
             });
-        }else{
+        } else {
             setProfilePicture(getContext(), getImage("ic_anon_user_48dp"), binding.userImg);
             binding.realEstateAgentName.setText(getResources().getString(R.string.not_attributed));
         }

@@ -80,13 +80,12 @@ public abstract class AppDatabase extends RoomDatabase {
                 Executors.newSingleThreadExecutor().execute(() -> {
 
                     if (DEVELOPMENT_MODE) {
-                        INSTANCE.userDao().insert(
-                                userApiService.getUsers().get(0)
-                        );
-                        INSTANCE.realEstateDao().insertAll(
 
-                                realEstateApiService.getRealEstates()
-                        );
+                        INSTANCE.userDao().insert(
+                                userApiService.getUsers().get(0));
+
+                        INSTANCE.realEstateDao().insertAll(
+                                realEstateApiService.getRealEstates());
 
                         INSTANCE.imageDao().insertAll(imageApiService.getImages());
                     }

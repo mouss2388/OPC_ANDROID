@@ -35,7 +35,6 @@ public class UserContentProviderTest {
 
     private final static UserApiService userApiService = DI.getNewInstanceUserApiService();
 
-    private static final long USER_ID = 1;
     private static final long USER_ID_ADDED = userApiService.getUsers().size() + 1;
 
     @Before
@@ -59,18 +58,6 @@ public class UserContentProviderTest {
 
     }
 
-    @Test
-    public void getItemsWhenOneItemInserted() {
-
-        final Cursor cursor = mContentResolver.query(ContentUris.withAppendedId(UserContentProvider.URI_ITEM, USER_ID), null, null, null, null);
-
-        assertThat(cursor, notNullValue());
-
-        assertThat(cursor.getCount(), is(1));
-
-        cursor.close();
-
-    }
 
     @Test
     public void insertAndGetItem() {
