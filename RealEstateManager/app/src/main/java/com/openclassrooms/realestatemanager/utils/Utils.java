@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -45,6 +47,9 @@ public class Utils {
     public static String EMAIL = "EMAIL";
     public static String PASSWORD = "PASSWORD";
     public static String PASSWORD_CONFIRM = "PASSWORD_CONFIRM";
+
+    public static String PICTURE_USER = "PICTURE_USER";
+    public static String PICTURE_GALLERY = "PICTURE_GALLERY";
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
@@ -374,5 +379,9 @@ public class Utils {
 
         dialog.getWindow().setLayout(width,height);
         return dialog;
+    }
+
+    public static void showToast(Context context, String string) {
+        Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
 }

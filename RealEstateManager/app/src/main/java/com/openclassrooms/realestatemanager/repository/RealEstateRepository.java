@@ -50,4 +50,17 @@ public class RealEstateRepository {
         return imageDao.getRealEstateImages(realEstate.getId());
     }
 
+    public int deleteRealEstateImages(Image image) {
+         return imageDao.delete(image);
+    }
+
+
+    public long addRealEstateImage(Image image){
+        return imageDao.insert(image);
+    }
+
+    public int getNumberOfImages(long id){
+        return imageDao.getNumberOfImages(id);
+    }
+
 }

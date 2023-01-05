@@ -15,4 +15,17 @@
         android:contentDescription="TODO"
         android:scaleType="centerCrop" />
 
+    <ImageButton
+        android:id="@+id/btn_close_thumb"
+        android:visibility="gone"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="#CD1405"
+        android:contentDescription="@string/description_btn_close"
+        android:src="@drawable/ic_close_24"
+        android:background="@drawable/rounded_corner"
+        />
+
 </RelativeLayout>

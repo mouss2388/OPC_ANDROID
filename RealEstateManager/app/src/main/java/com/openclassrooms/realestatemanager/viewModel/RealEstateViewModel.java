@@ -45,4 +45,16 @@ public class RealEstateViewModel extends AndroidViewModel {
     public LiveData<List<Image>> getRealEstateImages(RealEstate realEstate) {
         return repository.getRealEstateImages(realEstate);
     }
+
+    public int deleteRealEstateImages(Image image) {
+         return repository.deleteRealEstateImages(image);
+    }
+
+    public void addRealEstateImage(Image image) {
+        repository.addRealEstateImage(image);
+    }
+
+    public int getNumberOfImages(long id){
+        return repository.getNumberOfImages(id);
+    }
 }

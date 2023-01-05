@@ -64,7 +64,7 @@
     <string name="edit_real_estate">Modifie bien immobilier</string>
     <string name="search_real_estate">Rechercher bien immobilier</string>
 
-    <!--HOME LOAN CUSTOM DIALOG-->
+    <!--CUSTOM DIALOG-->
     <string name="home_loan">Prêt immobilier</string>
     <string name="description_button_close">bouton fermeture</string>
     <string name="amount_of_the_loan_dollars">Montant du prêt ($)</string>
@@ -78,6 +78,12 @@
     <string name="error_fill_all_field">Merci de compléter tous les champs</string>
     <string name="euros">euros</string>
     <string name="dollars">dollars</string>
+    <string name="keep_at_least_one_image">Vous devez conserver au moins une image</string>
+    <string name="image_added">Image ajoutée</string>
+    <string name="image_deleted">Image supprimée</string>
+    <string name="real_estate_updated">Bien immobilier mis à jour</string>
+    <string name="real_estate_added">Bien immobilier ajouté</string>
+    <string name="real_estate_not_added">Bien immobilier non ajouté</string>
 
     <!--DETAIL FRAGMENT-->
     <string name="available">Disponible</string>

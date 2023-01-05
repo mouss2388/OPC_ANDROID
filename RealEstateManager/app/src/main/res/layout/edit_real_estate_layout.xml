@@ -21,16 +21,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/close_Settings"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:backgroundTint="#CD1405"
-            android:contentDescription="@string/description_btn_close"
-            android:src="@drawable/ic_close_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/colorWhite" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -43,12 +33,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edition">
 
+            <HorizontalScrollView
+                android:id="@+id/id_horizontalScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="start"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorGreyWeakAlpha"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/id_gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/typeRealEstate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
+
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switch_sold"
                 android:layout_width="wrap_content"
