@@ -146,11 +146,11 @@ public class RealEstateDetailFragment extends Fragment {
         binding.price.setOnClickListener(v -> {
 
             assert realEstate.getCurrency() != null;
-            boolean isCurrencyDollar = realEstate.getCurrency().equals(Currency.dollar);
+            boolean isCurrencyDollar = realEstate.getCurrency().equals(Currency.dollar.toString());
 
             if (isCurrencyDollar) {
 
-                realEstate.setCurrency(Currency.euro);
+                realEstate.setCurrency(Currency.euro.toString());
                 double euro = convertDollarToEuro(realEstate.getPrice());
 
 
@@ -160,7 +160,7 @@ public class RealEstateDetailFragment extends Fragment {
 
             } else {
 
-                realEstate.setCurrency(Currency.dollar);
+                realEstate.setCurrency(Currency.dollar.toString());
                 String[] dollarStr = binding.price.getText().toString().split(" ");
 
                 double dollarDouble = Double.parseDouble(dollarStr[0]);
@@ -199,21 +199,12 @@ public class RealEstateDetailFragment extends Fragment {
         String priceStr = convertToString(realEstate.getPrice().intValue());
         assert realEstate.getCurrency() != null;
         String price;
-        if (realEstate.getCurrency().equals(Currency.dollar)) {
+        if (realEstate.getCurrency().equals(Currency.dollar.toString())) {
             price = concatStr(priceStr, getResources().getString(R.string.dollar_symbole));
         } else {
             price = concatStr(priceStr, getResources().getString(R.string.euro_symbole));
         }
         binding.price.setText(price);
     }
-
-//    private void setProfilePicture(String url, ImageView picture) {
-//        Glide.with(this)
-//                .load(url)
-//                .diskCacheStrategy(DiskCacheStrategy.DATA)
-//                .apply(RequestOptions.circleCropTransform())
-//                .into(picture);
-//    }
-
 
 }

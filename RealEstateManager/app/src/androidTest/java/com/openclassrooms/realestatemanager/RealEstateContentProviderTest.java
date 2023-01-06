@@ -92,7 +92,7 @@ public class RealEstateContentProviderTest {
         values.put("sold", "true");
         values.put("dateOfEntry", Utils.getTodayDate());
         values.put("dateOfSell", Utils.getTodayDate());
-//        values.put("currency", String.valueOf(Currency.dollar));
+        values.put("currency", String.valueOf(Currency.dollar));
         values.put("interestPoint", "Ecole, magasin test");
 
         return values;

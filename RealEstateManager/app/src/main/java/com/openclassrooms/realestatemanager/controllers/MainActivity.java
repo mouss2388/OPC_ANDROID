@@ -223,6 +223,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         this.changeUpdateLayoutToAddLayout();
 
+        LayoutInflater mInflater = LayoutInflater.from(this);
+        LinearLayout gallery = customDialog.findViewById(R.id.id_gallery);
+        setImageViewAddPicture(mInflater, gallery);
+
         Spinner spinner = customDialog.findViewById(R.id.typeRealEstate);
         spinner.setVisibility(View.VISIBLE);
         // Spinner Drop down elements
@@ -269,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     String addressValue = Objects.requireNonNull(address.getEditText()).getText().toString();
                     String interestPointValue = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
 
-                    RealEstate newRealEstate = new RealEstate(agentId, "Name", priceValue, spinner.getSelectedItem().toString(), surfaceValue, roomsValue, bedroomsValue, bathroomsValue, descriptionValue, addressValue, false, getTodayDate(), interestPointValue);
+                    RealEstate newRealEstate = new RealEstate(agentId, "Name", priceValue, spinner.getSelectedItem().toString(), surfaceValue, roomsValue, bedroomsValue, bathroomsValue, descriptionValue, addressValue, false, getTodayDate(), interestPointValue,Currency.dollar.toString());
 
                     this.addRealEstate(newRealEstate);
                 }
@@ -341,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             String addressChanged = Objects.requireNonNull(address.getEditText()).getText().toString();
                             String interestPointChanged = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
 
-                            RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged);
+                            RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged,Currency.dollar.toString());
 
                             if (soldSwitch.isChecked()) {
                                 realEstateToUpdate.setDateOfSell(getTodayDate());

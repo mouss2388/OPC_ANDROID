@@ -35,8 +35,8 @@ public class RealEstate {
     @NonNull
     private Double price;
 
-    @Nullable
-    private Currency currency;
+    @NonNull
+    private String currency;
 
     @NonNull
     private String typeRealEstate;
@@ -77,7 +77,7 @@ public class RealEstate {
     public RealEstate() {
     }
 
-    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Double price, @NonNull String typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Integer nbBathRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry, @NonNull String interestPoint) {
+    public RealEstate(@Nullable Long agentId, @NonNull String name, @NonNull Double price, @NonNull String typeRealEstate, @NonNull Integer surface, @NonNull Integer nbRoom, @NonNull Integer nbBedRoom, @NonNull Integer nbBathRoom, @NonNull String description, @NonNull String address, @NonNull Boolean sold, @NonNull String dateOfEntry, @NonNull String interestPoint, @NonNull String currency) {
         this.setAgentId(agentId);
         this.setName(name);
         this.setDescription(description);
@@ -90,7 +90,7 @@ public class RealEstate {
         this.setNbBathRoom(nbBathRoom);
         this.setSold(sold);
         this.setDateOfEntry(dateOfEntry);
-        this.setCurrency(Currency.dollar);
+        this.setCurrency(currency);
         this.setInterestPoint(interestPoint);
 
     }
@@ -224,11 +224,11 @@ public class RealEstate {
 
 
     @Nullable
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(@Nullable Currency currency) {
+    public void setCurrency(@Nullable String currency) {
         this.currency = currency;
     }
 
@@ -266,7 +266,7 @@ public class RealEstate {
         if (values.containsKey("dateOfSell"))
             realEstate.setDateOfSell(values.getAsString("dateOfSell"));
         if (values.containsKey("currency"))
-            realEstate.setCurrency(Currency.valueOf(values.getAsString(String.valueOf(Currency.dollar))));
+            realEstate.setCurrency(Currency.dollar.toString());
         if (values.containsKey("interestPoint"))
             realEstate.setInterestPoint(values.getAsString("interestPoint"));
 
