@@ -7,9 +7,11 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -191,7 +193,7 @@ public class Utils {
 
     public static void setErrorOnField(Dialog dialog, int id, String msgRequiered) {
 
-        TextInputLayout textInputLayout;
+        TextInputLayout textInputLayout = null;
 
         if (id == R.id.txtFieldPrice) {
             textInputLayout = dialog.findViewById(R.id.txtFieldPrice);
@@ -217,7 +219,7 @@ public class Utils {
         } else if (id == R.id.txtFieldBedrooms) {
             textInputLayout = dialog.findViewById(R.id.txtFieldBedrooms);
 
-        } else {
+        } else  if (id == R.id.txtFieldInterestPoint){
             textInputLayout = dialog.findViewById(R.id.txtFieldInterestPoint);
         }
         textInputLayout.setError(msgRequiered);
@@ -383,5 +385,21 @@ public class Utils {
 
     public static void showToast(Context context, String string) {
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
+    }
+
+    public static boolean DoesOneInputHasValueToZero(Dialog dialog, TextInputLayout[] fields, Context context) {
+        for (TextInputLayout field : fields) {
+            EditText editText = field.getEditText();
+            if (Objects.requireNonNull(editText).getInputType() == InputType.TYPE_CLASS_NUMBER) {
+                if (editText.getText().toString().equals("0")) {
+                    setErrorOnField(dialog, field.getId(), context.getString(R.string.zero_value));
+                    return true;
+                }else{
+                    clearErrorOnField(dialog, field.getId());
+
+                }
+            }
+        }
+        return false;
     }
 }
