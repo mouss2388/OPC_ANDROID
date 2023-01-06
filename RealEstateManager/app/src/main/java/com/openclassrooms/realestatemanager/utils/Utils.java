@@ -191,7 +191,7 @@ public class Utils {
 
     public static void setErrorOnField(Dialog dialog, int id, String msgRequiered) {
 
-        TextInputLayout textInputLayout;
+        TextInputLayout textInputLayout = null;
 
         if (id == R.id.txtFieldPrice) {
             textInputLayout = dialog.findViewById(R.id.txtFieldPrice);
@@ -217,7 +217,7 @@ public class Utils {
         } else if (id == R.id.txtFieldBedrooms) {
             textInputLayout = dialog.findViewById(R.id.txtFieldBedrooms);
 
-        } else {
+        } else  if (id == R.id.txtFieldInterestPoint){
             textInputLayout = dialog.findViewById(R.id.txtFieldInterestPoint);
         }
         textInputLayout.setError(msgRequiered);

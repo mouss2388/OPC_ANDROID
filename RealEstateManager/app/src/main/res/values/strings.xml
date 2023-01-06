@@ -84,6 +84,7 @@
     <string name="real_estate_updated">Bien immobilier mis à jour</string>
     <string name="real_estate_added">Bien immobilier ajouté</string>
     <string name="real_estate_not_added">Bien immobilier non ajouté</string>
+    <string name="zero_value">valeur 0 non acceptée</string>
 
     <!--DETAIL FRAGMENT-->
     <string name="available">Disponible</string>

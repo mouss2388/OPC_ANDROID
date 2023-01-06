@@ -86,6 +86,8 @@
     <string name="real_estate_updated">Real estate updated</string>
     <string name="real_estate_added">Real estate added</string>
     <string name="real_estate_not_added">Real estate not added</string>
+    <string name="zero_value">0 value not accepted</string>
+
 
 
 

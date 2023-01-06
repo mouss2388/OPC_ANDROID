@@ -30,6 +30,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,6 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -254,7 +256,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         customDialog.findViewById(R.id.update_btn).setOnClickListener(v -> {
             String msgFieldsRequired = getResources().getString(R.string.field_is_requiered);
 
-
             if (!atLeastOneFieldToUpdateIsEmpty(customDialog, fields, msgFieldsRequired)) {
                 long agentId = getIdUserLogged();
                 double priceValue = Double.parseDouble(Objects.requireNonNull(price.getEditText()).getText().toString());
@@ -321,33 +322,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 int numberOfImage = realEstateViewModel.getNumberOfImages(this.id);
                 if (numberOfImage > 0) {
                     TextInputLayout[] fieldsInputLayout = {price, description, date, address, surface, rooms, bathrooms, bedrooms, interestPoints};
-                    if (!atLeastOneFieldToUpdateIsEmpty(customDialog, fieldsInputLayout, fieldRequired)) {
 
-                        double priceChanged = Double.parseDouble(Objects.requireNonNull(price.getEditText()).getText().toString());
-                        int surfaceChanged = Integer.parseInt(Objects.requireNonNull(surface.getEditText()).getText().toString());
-                        int roomsChanged = Integer.parseInt(Objects.requireNonNull(rooms.getEditText()).getText().toString());
-                        int bedroomsChanged = Integer.parseInt(Objects.requireNonNull(bedrooms.getEditText()).getText().toString());
-                        int bathroomsChanged = Integer.parseInt(Objects.requireNonNull(bathrooms.getEditText()).getText().toString());
-                        String descriptionChanged = Objects.requireNonNull(description.getEditText()).getText().toString();
-                        String dateChanged = Objects.requireNonNull(date.getEditText()).getText().toString();
-                        String addressChanged = Objects.requireNonNull(address.getEditText()).getText().toString();
-                        String interestPointChanged = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
+                    boolean isInputHasZeroAsValue = DoesOneInputHasValueToZero(customDialog, fieldsInputLayout);
+                    if (!isInputHasZeroAsValue) {
 
-                        RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged);
+                        if (!atLeastOneFieldToUpdateIsEmpty(customDialog, fieldsInputLayout, fieldRequired)) {
 
-                        if (soldSwitch.isChecked()) {
-                            realEstateToUpdate.setDateOfSell(getTodayDate());
+                            double priceChanged = Double.parseDouble(Objects.requireNonNull(price.getEditText()).getText().toString());
+                            int surfaceChanged = Integer.parseInt(Objects.requireNonNull(surface.getEditText()).getText().toString());
+                            int roomsChanged = Integer.parseInt(Objects.requireNonNull(rooms.getEditText()).getText().toString());
+                            int bedroomsChanged = Integer.parseInt(Objects.requireNonNull(bedrooms.getEditText()).getText().toString());
+                            int bathroomsChanged = Integer.parseInt(Objects.requireNonNull(bathrooms.getEditText()).getText().toString());
+                            String descriptionChanged = Objects.requireNonNull(description.getEditText()).getText().toString();
+                            String dateChanged = Objects.requireNonNull(date.getEditText()).getText().toString();
+                            String addressChanged = Objects.requireNonNull(address.getEditText()).getText().toString();
+                            String interestPointChanged = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
+
+                            RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged);
+
+                            if (soldSwitch.isChecked()) {
+                                realEstateToUpdate.setDateOfSell(getTodayDate());
+                            }
+                            realEstateToUpdate.setId(realEstate.getId());
+
+                            this.updateRealEstate(realEstateToUpdate);
+
                         }
-                        realEstateToUpdate.setId(realEstate.getId());
-
-                        this.updateRealEstate(realEstateToUpdate);
-
                     }
                 } else {
                     showToast(this, getResources().getString(R.string.keep_at_least_one_image));
                 }
             });
         });
+    }
+
+    private boolean DoesOneInputHasValueToZero(Dialog dialog, TextInputLayout[] fields) {
+        for (TextInputLayout field : fields) {
+            EditText editText = field.getEditText();
+            if (Objects.requireNonNull(editText).getInputType() == InputType.TYPE_CLASS_NUMBER) {
+                if (editText.getText().toString().equals("0")) {
+                    setErrorOnField(dialog, field.getId(), getResources().getString(R.string.zero_value));
+                    return true;
+                }else{
+                    clearErrorOnField(dialog, field.getId());
+
+                }
+            }
+        }
+        return false;
     }
 
     private void setImagesRealEstate(RealEstate realEstate) {
