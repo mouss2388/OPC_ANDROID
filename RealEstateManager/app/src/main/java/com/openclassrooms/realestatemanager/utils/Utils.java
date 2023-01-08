@@ -52,6 +52,7 @@ public class Utils {
 
     public static String PICTURE_USER = "PICTURE_USER";
     public static String PICTURE_GALLERY = "PICTURE_GALLERY";
+    public static String PICTURE_BY_DEFAULT = "https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg";
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)

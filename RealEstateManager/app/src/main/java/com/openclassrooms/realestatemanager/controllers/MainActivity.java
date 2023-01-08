@@ -5,6 +5,7 @@ import static com.openclassrooms.realestatemanager.utils.Utils.EMAIL;
 import static com.openclassrooms.realestatemanager.utils.Utils.FIRSTNAME;
 import static com.openclassrooms.realestatemanager.utils.Utils.LASTNAME;
 import static com.openclassrooms.realestatemanager.utils.Utils.PASSWORD;
+import static com.openclassrooms.realestatemanager.utils.Utils.PICTURE_BY_DEFAULT;
 import static com.openclassrooms.realestatemanager.utils.Utils.PICTURE_GALLERY;
 import static com.openclassrooms.realestatemanager.utils.Utils.PICTURE_USER;
 import static com.openclassrooms.realestatemanager.utils.Utils.SIGN_CHOICE;
@@ -31,7 +32,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,7 +39,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -204,12 +203,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (item.getItemId() == R.id.add_realestate) {
 
-            customDialog = getDialog(MainActivity.this, R.layout.edit_real_estate_layout);
+            customDialog = getDialog(MainActivity.this, R.layout.add_edit_real_estate_layout);
             setupDialogAddRealEstate();
             customDialog.show();
 
         } else if (item.getItemId() == R.id.edit_realestate) {
-            customDialog = getDialog(MainActivity.this, R.layout.edit_real_estate_layout);
+            customDialog = getDialog(MainActivity.this, R.layout.add_edit_real_estate_layout);
             setupDialogUpdateRealEstate();
             customDialog.show();
 
@@ -222,10 +221,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupDialogAddRealEstate() {
 
         this.changeUpdateLayoutToAddLayout();
-
-        LayoutInflater mInflater = LayoutInflater.from(this);
-        LinearLayout gallery = customDialog.findViewById(R.id.id_gallery);
-        setImageViewAddPicture(mInflater, gallery);
 
         Spinner spinner = customDialog.findViewById(R.id.typeRealEstate);
         spinner.setVisibility(View.VISIBLE);
@@ -287,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         customDialog.findViewById(R.id.switch_sold).setVisibility(View.GONE);
         customDialog.findViewById(R.id.txtFieldDate).setVisibility(View.GONE);
+        customDialog.findViewById(R.id.id_horizontalScrollView).setVisibility(View.GONE);
 
         title.setText(getResources().getString(R.string.add_real_estate));
         btn.setText(getResources().getString(R.string.add_btn));
@@ -469,6 +465,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == -1) {
             showToast(this, getResources().getString(R.string.real_estate_not_added));
         } else {
+            realEstateViewModel.addRealEstateImage(new Image(id,PICTURE_BY_DEFAULT));
             showToast(this, getResources().getString(R.string.real_estate_added));
         }
     }

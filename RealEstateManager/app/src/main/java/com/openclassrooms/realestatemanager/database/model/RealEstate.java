@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.openclassrooms.realestatemanager.database.enumeration.Currency;
@@ -16,7 +17,9 @@ import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
 @Entity(tableName = "realEstate_table",
         foreignKeys = @ForeignKey(entity = User.class,
                 parentColumns = "id",
-                childColumns = "agentId"))
+                childColumns = "agentId"),
+        indices = {
+        @Index("agentId")})
 public class RealEstate {
 
     /**

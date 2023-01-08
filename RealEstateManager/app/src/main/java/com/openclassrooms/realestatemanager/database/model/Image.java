@@ -5,12 +5,15 @@ import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "image_table",
         foreignKeys = @ForeignKey(entity = RealEstate.class,
                 parentColumns = "id",
-                childColumns = "realEstateId"))
+                childColumns = "realEstateId"), indices = {
+        @Index("realEstateId")
+})
 public class Image {
     /**
      * The unique identifier of the property
