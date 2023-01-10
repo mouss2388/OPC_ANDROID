@@ -87,7 +87,8 @@
     <string name="real_estate_added">Real estate added</string>
     <string name="real_estate_not_added">Real estate not added</string>
     <string name="zero_value">0 value not accepted</string>
-
+    <string name="price_range">%1$d $ - %2$d $</string>
+    <string name="surface_range">%1$d m² - %2$d m²</string>
 
 
 
@@ -107,5 +108,7 @@
     <string name="image_sold_description">Image of sold logo</string>
 
     <string name="description_img_agent_in_charge_property">Image of agent in charge of the property</string>
+    <string name="filter">Filter</string>
+    <string name="search_by_filter">Search by filter</string>
 
 </resources>

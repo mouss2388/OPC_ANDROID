@@ -85,6 +85,9 @@
     <string name="real_estate_added">Bien immobilier ajouté</string>
     <string name="real_estate_not_added">Bien immobilier non ajouté</string>
     <string name="zero_value">valeur 0 non acceptée</string>
+    <string name="price_range">%1$d $ - %2$d $</string>
+    <string name="surface_range">%1$d m² - %2$d m²</string>
+
 
     <!--DETAIL FRAGMENT-->
     <string name="available">Disponible</string>
@@ -101,6 +104,8 @@
     <string name="image_location_description">Image du logo emplacement</string>
     <string name="image_sold_description">Image du logo de vente</string>
     <string name="description_img_agent_in_charge_property">Image de l\'agent en charge du bien</string>
+    <string name="filter">Filtrer</string>
+    <string name="search_by_filter">Recherche par filtre</string>
 
 
 </resources>

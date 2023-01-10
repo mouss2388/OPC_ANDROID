@@ -44,7 +44,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -57,6 +56,7 @@ import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.slider.RangeSlider;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
@@ -213,9 +213,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             customDialog.show();
 
         } else {
-            Toast.makeText(this, "Click on Search", Toast.LENGTH_SHORT).show();
+            customDialog = getDialog(MainActivity.this, R.layout.filters_layout);
+            setupDialogFilters();
+            customDialog.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupDialogFilters() {
+
+        setupListenerCloseBtn(customDialog);
+
+        SwitchCompat switchCompat = customDialog.findViewById(R.id.switchSold);
+
+        RangeSlider priceSlider = customDialog.findViewById(R.id.range_slider_price);
+        RangeSlider surfaceSlider = customDialog.findViewById(R.id.range_slider_surface);
+
+        TextInputLayout inputRooms = customDialog.findViewById(R.id.number_of_rooms);
+        TextInputLayout inputBedrooms = customDialog.findViewById(R.id.number_of_bedrooms);
+        TextInputLayout inputBathrooms = customDialog.findViewById(R.id.number_of_bathrooms);
+
+        Button btnFilter = customDialog.findViewById(R.id.btnFilter);
+
+        setupListenerSlider(priceSlider,R.id.price_range_values,R.string.price_range);
+        setupListenerSlider(surfaceSlider,R.id.surface_range_values,R.string.surface_range);
+
+        btnFilter.setOnClickListener(v -> {
+
+            boolean sold = switchCompat.isChecked();
+            List<Float> prices = priceSlider.getValues();
+            List<Float> surfaces = surfaceSlider.getValues();
+
+            Integer rooms = Objects.requireNonNull(inputRooms.getEditText()).getText().toString().equals("") ? null: Integer.parseInt(inputRooms.getEditText().getText().toString());
+
+            Integer bathRooms = Objects.requireNonNull(inputBathrooms.getEditText()).getText().toString().equals("") ? null: Integer.parseInt(Objects.requireNonNull(inputBathrooms.getEditText()).getText().toString());
+
+            Integer bedRooms = Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString().equals("") ? null: Integer.parseInt(Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString());
+
+            realEstateViewModel.getAllRealEstatesByFilters(sold, prices, surfaces,rooms,bathRooms,bedRooms).observe(this, this::setupRealEstateListFragmentAndShow);
+
+            customDialog.dismiss();
+        });
+
+    }
+
+    private void setupListenerSlider(RangeSlider slider, int viewId,int strResource) {
+        slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
+            @Override
+            public void onStartTrackingTouch(@NonNull RangeSlider slider) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(@NonNull RangeSlider slider) {
+
+                TextView textView = customDialog.findViewById(viewId);
+                int valueMin = Math.round(slider.getValues().get(0));
+                int valueMax = Math.round(slider.getValues().get(1));
+                textView.setText(getResources().getString(strResource, valueMin, valueMax));
+            }
+        });
     }
 
     private void setupDialogAddRealEstate() {
@@ -268,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     String addressValue = Objects.requireNonNull(address.getEditText()).getText().toString();
                     String interestPointValue = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
 
-                    RealEstate newRealEstate = new RealEstate(agentId, "Name", priceValue, spinner.getSelectedItem().toString(), surfaceValue, roomsValue, bedroomsValue, bathroomsValue, descriptionValue, addressValue, false, getTodayDate(), interestPointValue,Currency.dollar.toString());
+                    RealEstate newRealEstate = new RealEstate(agentId, "Name", priceValue, spinner.getSelectedItem().toString(), surfaceValue, roomsValue, bedroomsValue, bathroomsValue, descriptionValue, addressValue, false, getTodayDate(), interestPointValue, Currency.dollar.toString());
 
                     this.addRealEstate(newRealEstate);
                 }
@@ -341,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             String addressChanged = Objects.requireNonNull(address.getEditText()).getText().toString();
                             String interestPointChanged = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
 
-                            RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged,Currency.dollar.toString());
+                            RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged, Currency.dollar.toString());
 
                             if (soldSwitch.isChecked()) {
                                 realEstateToUpdate.setDateOfSell(getTodayDate());
@@ -465,7 +521,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == -1) {
             showToast(this, getResources().getString(R.string.real_estate_not_added));
         } else {
-            realEstateViewModel.addRealEstateImage(new Image(id,PICTURE_BY_DEFAULT));
+            realEstateViewModel.addRealEstateImage(new Image(id, PICTURE_BY_DEFAULT));
             showToast(this, getResources().getString(R.string.real_estate_added));
         }
     }

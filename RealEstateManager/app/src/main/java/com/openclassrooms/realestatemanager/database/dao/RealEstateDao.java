@@ -38,4 +38,12 @@ public interface RealEstateDao {
     @Query("SELECT * FROM realEstate_table WHERE id = :id")
     Cursor getRealEstateWithCursor(long id);
 
+    @Query("SELECT * FROM realEstate_table " +
+            "WHERE sold = :sold AND " +
+            "(:priceMin IS NULL OR :priceMax IS NULL OR price BETWEEN :priceMin AND :priceMax) AND " +
+            "(:surfaceMin IS NULL OR :surfaceMax IS NULL OR surface BETWEEN :surfaceMin AND :surfaceMax) AND" +
+            "(:rooms IS NULL OR nbRoom = :rooms ) AND " +
+            "(:bathRooms IS NULL OR nbBathRoom = :bathRooms ) AND" +
+            "(:bedRooms IS NULL OR nbBedRoom = :bedRooms )")
+    LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, Float priceMin, Float priceMax, Float surfaceMin,Float surfaceMax, Integer rooms, Integer bathRooms, Integer bedRooms);
 }
