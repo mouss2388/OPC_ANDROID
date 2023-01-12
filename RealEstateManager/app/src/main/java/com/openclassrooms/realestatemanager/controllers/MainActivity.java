@@ -21,7 +21,6 @@ import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
 import static com.openclassrooms.realestatemanager.utils.Utils.getDialog;
 import static com.openclassrooms.realestatemanager.utils.Utils.getTodayDate;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
-import static com.openclassrooms.realestatemanager.utils.Utils.setProfilePicture;
 import static com.openclassrooms.realestatemanager.utils.Utils.setRealEstatePicture;
 import static com.openclassrooms.realestatemanager.utils.Utils.setupListenerCloseBtn;
 import static com.openclassrooms.realestatemanager.utils.Utils.showSnackBar;
@@ -55,6 +54,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.RangeSlider;
 import com.google.android.material.slider.Slider;
@@ -70,6 +70,7 @@ import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.fragments.RealEstateDetailFragment;
 import com.openclassrooms.realestatemanager.fragments.RealEstateListFragment;
+import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
@@ -235,8 +236,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Button btnFilter = customDialog.findViewById(R.id.btnFilter);
 
-        setupListenerSlider(priceSlider,R.id.price_range_values,R.string.price_range);
-        setupListenerSlider(surfaceSlider,R.id.surface_range_values,R.string.surface_range);
+        setupListenerSlider(priceSlider, R.id.price_range_values, R.string.price_range);
+        setupListenerSlider(surfaceSlider, R.id.surface_range_values, R.string.surface_range);
 
         btnFilter.setOnClickListener(v -> {
 
@@ -244,20 +245,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             List<Float> prices = priceSlider.getValues();
             List<Float> surfaces = surfaceSlider.getValues();
 
-            Integer rooms = Objects.requireNonNull(inputRooms.getEditText()).getText().toString().equals("") ? null: Integer.parseInt(inputRooms.getEditText().getText().toString());
+            Integer rooms = Objects.requireNonNull(inputRooms.getEditText()).getText().toString().equals("") ? null : Integer.parseInt(inputRooms.getEditText().getText().toString());
 
-            Integer bathRooms = Objects.requireNonNull(inputBathrooms.getEditText()).getText().toString().equals("") ? null: Integer.parseInt(Objects.requireNonNull(inputBathrooms.getEditText()).getText().toString());
+            Integer bathRooms = Objects.requireNonNull(inputBathrooms.getEditText()).getText().toString().equals("") ? null : Integer.parseInt(Objects.requireNonNull(inputBathrooms.getEditText()).getText().toString());
 
-            Integer bedRooms = Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString().equals("") ? null: Integer.parseInt(Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString());
+            Integer bedRooms = Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString().equals("") ? null : Integer.parseInt(Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString());
 
-            realEstateViewModel.getAllRealEstatesByFilters(sold, prices, surfaces,rooms,bathRooms,bedRooms).observe(this, this::setupRealEstateListFragmentAndShow);
+            realEstateViewModel.getAllRealEstatesByFilters(sold, prices, surfaces, rooms, bathRooms, bedRooms).observe(this, this::setupRealEstateListFragmentAndShow);
 
             customDialog.dismiss();
         });
 
     }
 
-    private void setupListenerSlider(RangeSlider slider, int viewId,int strResource) {
+    private void setupListenerSlider(RangeSlider slider, int viewId, int strResource) {
         slider.addOnSliderTouchListener(new RangeSlider.OnSliderTouchListener() {
             @Override
             public void onStartTrackingTouch(@NonNull RangeSlider slider) {
@@ -549,7 +550,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userEmail.setText(user.getEmail());
             if (doesUserHaveAPicture(user)) {
                 ImageView picture = accessMenuHeaderInfo().findViewById(R.id.user_Picture);
-                setProfilePicture(this, user.getPicture(), picture);
+                Utils.setPicture(this, user.getPicture(), picture, RequestOptions.circleCropTransform());
             }
         });
     }
@@ -728,7 +729,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         userViewModel.getUserById(id).observe(this, user -> {
                             selectedImageUri = data.getData();
                             user.setPicture(selectedImageUri.toString());
-                            setProfilePicture(this, user.getPicture(), picture);
+                            Utils.setPicture(this, user.getPicture(), picture, RequestOptions.circleCropTransform());
                         });
                     }
                 }
@@ -757,7 +758,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void updateCustomDialogSettings(User user) {
 
         if (doesUserHaveAPicture(user)) {
-            setProfilePicture(this, user.getPicture(), picture);
+            Utils.setPicture(this, user.getPicture(), picture, RequestOptions.circleCropTransform());
         }
         Objects.requireNonNull(editTxtFirstname.getEditText()).setText(user.getFirstname());
         Objects.requireNonNull(editTxtLastname.getEditText()).setText(user.getLastname());

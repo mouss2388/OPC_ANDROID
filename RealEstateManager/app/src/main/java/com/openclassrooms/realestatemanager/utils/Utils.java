@@ -3,8 +3,9 @@ package com.openclassrooms.realestatemanager.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.InputType;
@@ -24,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.controllers.SignActivity;
 import com.openclassrooms.realestatemanager.database.enumeration.Currency;
+import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.databinding.ActivitySignBinding;
 
 import java.text.DateFormat;
@@ -220,7 +222,7 @@ public class Utils {
         } else if (id == R.id.txtFieldBedrooms) {
             textInputLayout = dialog.findViewById(R.id.txtFieldBedrooms);
 
-        } else  if (id == R.id.txtFieldInterestPoint){
+        } else if (id == R.id.txtFieldInterestPoint) {
             textInputLayout = dialog.findViewById(R.id.txtFieldInterestPoint);
         }
         textInputLayout.setError(msgRequiered);
@@ -330,11 +332,13 @@ public class Utils {
         return String.valueOf(value);
     }
 
-    public static void setProfilePicture(Context context, String url, ImageView picture) {
+    public static void setPicture(Context context, String url, ImageView picture, RequestOptions requestOptions) {
+
+
         Glide.with(context)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .apply(RequestOptions.circleCropTransform())
+                .apply(requestOptions)
                 .into(picture);
     }
 
@@ -373,14 +377,14 @@ public class Utils {
 
         Dialog dialog = new Dialog(context);
 
-        int width = layoutId==  R.layout.image_zoomed_layout ? ViewGroup.LayoutParams.WRAP_CONTENT : ViewGroup.LayoutParams.MATCH_PARENT;
+        int width = layoutId == R.layout.image_zoomed_layout ? ViewGroup.LayoutParams.WRAP_CONTENT : ViewGroup.LayoutParams.MATCH_PARENT;
         int height = ViewGroup.LayoutParams.WRAP_CONTENT;
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(layoutId);
         dialog.setCancelable(true);
 
-        dialog.getWindow().setLayout(width,height);
+        dialog.getWindow().setLayout(width, height);
         return dialog;
     }
 
@@ -395,12 +399,46 @@ public class Utils {
                 if (editText.getText().toString().equals("0")) {
                     setErrorOnField(dialog, field.getId(), context.getString(R.string.zero_value));
                     return true;
-                }else{
+                } else {
                     clearErrorOnField(dialog, field.getId());
 
                 }
             }
         }
         return false;
+    }
+
+    public static String getMapStatic(Context context, RealEstate realEstate) {
+        String addressParsed = parseAddress(realEstate.getAddress());
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority("maps.googleapis.com")
+                .appendPath("maps")
+                .appendPath("api")
+                .appendPath("staticmap")
+                .appendQueryParameter("size", "400x400")
+                .appendQueryParameter("zoom", "17")
+
+                .appendQueryParameter("markers", addressParsed)
+                .appendQueryParameter("key", context.getString(R.string.maps_api_key));
+        return builder.build().toString();
+    }
+
+    private static String parseAddress(String address) {
+        return address.replaceAll(" ", "+");
+    }
+
+    public static RequestOptions getRequestOptionsBorderForMap(Context context) {
+        int sCorner = 35;
+        int sMargin = 30;
+        int sBorder = 20;
+        Resources res = context.getResources();
+        int colorValue = res.getColor(R.color.colorPrimaryDark);
+
+        String sColor = "#" + Integer.toHexString(colorValue);
+
+        return RequestOptions.bitmapTransform(
+                new RoundedCornersTransformation(context, sCorner, sMargin, sColor, sBorder));
     }
 }

@@ -6,6 +6,9 @@ import static com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEu
 import static com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
 import static com.openclassrooms.realestatemanager.utils.Utils.getDialog;
+import static com.openclassrooms.realestatemanager.utils.Utils.getMapStatic;
+import static com.openclassrooms.realestatemanager.utils.Utils.getRequestOptionsBorderForMap;
+import static com.openclassrooms.realestatemanager.utils.Utils.setPicture;
 import static com.openclassrooms.realestatemanager.utils.Utils.setProfilePicture;
 import static com.openclassrooms.realestatemanager.utils.Utils.setRealEstatePicture;
 
@@ -21,11 +24,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.enumeration.Currency;
 import com.openclassrooms.realestatemanager.database.model.Image;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.databinding.FragmentRealestatesDetailBinding;
+import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
 
 import java.util.List;
@@ -114,6 +119,11 @@ public class RealEstateDetailFragment extends Fragment {
         binding.location.setText(realEstate.getAddress());
 
         binding.interestPoints.setText(realEstate.getInterestPoint());
+
+
+        String urlMapStatic = getMapStatic(requireActivity(), realEstate);
+        RequestOptions rqOptions = getRequestOptionsBorderForMap(requireActivity());
+        setPicture(requireActivity(), urlMapStatic, binding.mapImage, rqOptions);
     }
 
     private void setHorizontalScrollViewer() {
@@ -181,7 +191,7 @@ public class RealEstateDetailFragment extends Fragment {
                 String name = concatStr(user.getFirstname(), user.getLastname());
                 binding.realEstateAgentName.setText(name);
                 if (user.getPicture() != null) {
-                    setProfilePicture(getContext(), user.getPicture(), binding.userImg);
+                    Utils.setPicture(getContext(), user.getPicture(), binding.userImg, RequestOptions.circleCropTransform());
                 }
             });
         } else {
