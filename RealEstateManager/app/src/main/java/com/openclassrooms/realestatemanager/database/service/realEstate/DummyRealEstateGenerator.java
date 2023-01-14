@@ -13,12 +13,12 @@ public class DummyRealEstateGenerator {
 
     public static List<RealEstate> DUMMY_REAL_ESTATES =
             Arrays.asList(
-                    new RealEstate(null, "Bien 1", 1_000.00, TypeRealEstate.Loft.toString(), 40, 10, 2, 5, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "address", false, Utils.getTodayDate(),"Ecole,magasin", Currency.dollar.toString()),
+                    new RealEstate(null, "Bien 1", 1_000.00, TypeRealEstate.Loft.toString(), 40, 10, 2, 5, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "120 Rue Saint-Lazare, 75009 Paris", false, Utils.getTodayDate(),"Ecole,magasin", Currency.dollar.toString()),
 
-                    new RealEstate(1L, "Bien 2", 10_000.00, TypeRealEstate.Manoir.toString(), 40, 10, 2,4, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "address", false, Utils.getTodayDate(),"Ecole, magasin",Currency.dollar.toString())
+                    new RealEstate(1L, "Bien 2", 10_000.00, TypeRealEstate.Manoir.toString(), 40, 10, 2,4, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "16 Rue Saint-Lazare, 75009 Paris", false, Utils.getTodayDate(),"Ecole, magasin",Currency.dollar.toString())
                     ,
 
-                    new RealEstate(null, "Bien 3", 129_345.00, TypeRealEstate.House.toString(), 40, 10, 2,3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "address", false, Utils.getTodayDate(),"Ecole, magasin",Currency.dollar.toString())
+                    new RealEstate(null, "Bien 3", 129_345.00, TypeRealEstate.House.toString(), 40, 10, 2,3, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet egestas eros. Fusce feugiat suscipit purus sit amet ullamcorper. Nam sollicitudin mattis tincidunt. Vestibulum et pharetra justo", "36 Rue Saint-Lazare, 75009 Paris", false, Utils.getTodayDate(),"Ecole, magasin",Currency.dollar.toString())
             );
 
     static List<RealEstate> generateRealEstates() {

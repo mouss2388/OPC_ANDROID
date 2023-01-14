@@ -17,22 +17,32 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.controllers.SignActivity;
 import com.openclassrooms.realestatemanager.database.enumeration.Currency;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
+import com.openclassrooms.realestatemanager.database.model.geocoding_api.Response;
+import com.openclassrooms.realestatemanager.database.model.geocoding_api.ResultsItem;
+import com.openclassrooms.realestatemanager.database.service.geocoding.GeocodingApiClient;
 import com.openclassrooms.realestatemanager.databinding.ActivitySignBinding;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -440,5 +450,29 @@ public class Utils {
 
         return RequestOptions.bitmapTransform(
                 new RoundedCornersTransformation(context, sCorner, sMargin, sColor, sBorder));
+    }
+
+    public static void convertAddressToGpsCoordinates(OnGeocodingApiReceivedCallback callback, Context context, RealEstate realEstate) {
+        Call<Response> call = GeocodingApiClient.geocodingApiService().getResult(realEstate.getAddress());
+
+        call.enqueue(new Callback<Response>() {
+            @Override
+            public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
+                if (response.isSuccessful()) {
+
+                    assert response.body() != null;
+                    List<ResultsItem> rowsItem = response.body().getResults();
+                    LatLng latLng = new LatLng(rowsItem.get(0).getGeometry().getLocation().getLat(),rowsItem.get(0).getGeometry().getLocation().getLng());
+                    Toast.makeText(context, latLng.toString() , Toast.LENGTH_SHORT).show();
+                    callback.onGeocodingApiReceivedCallback(rowsItem, realEstate);
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
+                Toast.makeText(context, "Failure distance request", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
