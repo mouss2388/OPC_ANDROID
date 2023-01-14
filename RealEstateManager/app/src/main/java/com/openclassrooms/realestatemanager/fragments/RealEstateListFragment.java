@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.openclassrooms.realestatemanager.adapters.RealEstateAdapter;
+import com.openclassrooms.realestatemanager.controllers.MainActivity;
 import com.openclassrooms.realestatemanager.database.model.Image;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.databinding.FragmentRealestatesListBinding;
@@ -56,7 +57,7 @@ public class RealEstateListFragment extends Fragment implements RealEstateAdapte
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.initViewModel();
         this.initRecyclerView();
-
+        ((MainActivity) requireContext()).isMapEnabled = false;
     }
 
     private void initViewModel() {

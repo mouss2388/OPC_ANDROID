@@ -63,7 +63,7 @@ public class RealEstateRepository {
         return imageDao.getNumberOfImages(id);
     }
 
-    public LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, List<Float> prices, List<Float> surfaces, Integer rooms, Integer bathRooms, Integer bedRooms) {
+    public LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, List<Float> prices, List<Float> surfaces, Integer rooms, Integer bathRooms, Integer bedRooms, Long agentId) {
         Float priceMin = prices.get(0);
         Float priceMax = prices.get(1);
         Float surfaceMin = surfaces.get(0);
@@ -72,6 +72,6 @@ public class RealEstateRepository {
             surfaceMin = null;
             surfaceMax = null;
         }
-        return realEstateDao.getAllRealEstatesByFilters(sold, priceMin,priceMax,surfaceMin,surfaceMax, rooms, bathRooms,bedRooms);
+        return realEstateDao.getAllRealEstatesByFilters(sold, priceMin,priceMax,surfaceMin,surfaceMax, rooms, bathRooms,bedRooms, agentId);
     }
 }

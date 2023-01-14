@@ -58,7 +58,7 @@ public class RealEstateViewModel extends AndroidViewModel {
         return repository.getNumberOfImages(id);
     }
 
-    public LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, List<Float> prices, List<Float> surfaces, Integer rooms, Integer bathRooms, Integer bedRooms) {
-        return repository.getAllRealEstatesByFilters(sold, prices,surfaces, rooms, bathRooms, bedRooms);
+    public LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, List<Float> prices, List<Float> surfaces, Integer rooms, Integer bathRooms, Integer bedRooms, Long agentId) {
+        return repository.getAllRealEstatesByFilters(sold, prices,surfaces, rooms, bathRooms, bedRooms, agentId);
     }
 }

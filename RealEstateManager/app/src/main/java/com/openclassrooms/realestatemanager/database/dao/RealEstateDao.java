@@ -44,6 +44,7 @@ public interface RealEstateDao {
             "(:surfaceMin IS NULL OR :surfaceMax IS NULL OR surface BETWEEN :surfaceMin AND :surfaceMax) AND" +
             "(:rooms IS NULL OR nbRoom = :rooms ) AND " +
             "(:bathRooms IS NULL OR nbBathRoom = :bathRooms ) AND" +
-            "(:bedRooms IS NULL OR nbBedRoom = :bedRooms )")
-    LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, Float priceMin, Float priceMax, Float surfaceMin,Float surfaceMax, Integer rooms, Integer bathRooms, Integer bedRooms);
+            "(:bedRooms IS NULL OR nbBedRoom = :bedRooms ) AND" +
+            "(:agentId IS NULL OR agentId = :agentId )")
+    LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, Float priceMin, Float priceMax, Float surfaceMin,Float surfaceMax, Integer rooms, Integer bathRooms, Integer bedRooms, Long agentId);
 }

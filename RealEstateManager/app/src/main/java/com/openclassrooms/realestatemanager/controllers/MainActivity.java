@@ -26,11 +26,16 @@ import static com.openclassrooms.realestatemanager.utils.Utils.setupListenerClos
 import static com.openclassrooms.realestatemanager.utils.Utils.showSnackBar;
 import static com.openclassrooms.realestatemanager.utils.Utils.showToast;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,6 +48,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -51,10 +57,21 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.RangeSlider;
 import com.google.android.material.slider.Slider;
@@ -70,6 +87,7 @@ import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.fragments.RealEstateDetailFragment;
 import com.openclassrooms.realestatemanager.fragments.RealEstateListFragment;
+import com.openclassrooms.realestatemanager.fragments.RealEstateMapFragment;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
@@ -80,7 +98,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RealEstateAdapter.OnRealEstateListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RealEstateAdapter.OnRealEstateListener, RealEstateMapFragment.OnRealEstateOnMapListener, OnMapReadyCallback {
 
     String TAG = MainActivity.this.getClass().getSimpleName();
 
@@ -91,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean userViewer;
 
     private RealEstateListFragment realEstateListFragment;
+    private RealEstateMapFragment realEstateMapFragment;
     private RealEstateDetailFragment realEstateDetailFragment;
 
     private final Map<String, String> maskFieldsSettings = new HashMap<>();
@@ -105,7 +124,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Uri selectedImageUri;
     private long id = 1L;
-    private boolean isMapEnabled = false;
+    public boolean isMapEnabled = false;
+    private String requestRealEstates = "";
+
+    private String[] PERMISSIONS;
+    private ActivityResultLauncher<String[]> requestPermissionLauncher;
+
+    public FusedLocationProviderClient mFusedLocationClient;
+    public Location currentLocation;
+
+
+    private LocationRequest mLocationRequest = null;
+    private LocationCallback mLocationCallback = null;
 
 
     @Override
@@ -115,12 +145,159 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View view = binding.getRoot();
         setContentView(view);
 
+        this.initData();
+        this.handleResponsePermissionsRequest();
+        if (this.isAndroidVersionBelowMarshmallow()) {
+            this.initViewModel();
+            fetchLocation();
+        } else {
+            checkPermissions();
+        }
+
+
         this.messageLogin();
-        this.initViewModel();
-        this.showFragmentsFirstTime();
+//        this.initViewModel();
+//        this.showFragmentsFirstTime();
         this.configureMenu();
     }
 
+    //////////////////////////////////////////////////////////////////////
+    private void initData() {
+        PERMISSIONS = new String[]{
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+        };
+        requestRealEstates =getResources().getResourceEntryName(R.id.menu_Item_0);
+
+
+        requestPermissionLauncher = null;
+        currentLocation = null;
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getBaseContext());
+    }
+
+    private void handleResponsePermissionsRequest() {
+
+        requestPermissionLauncher =
+                registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
+
+                    boolean areAllGranted = true;
+
+                    for (Boolean b : permissions.values()) {
+                        areAllGranted = areAllGranted && b;
+                    }
+
+                    if (areAllGranted) {
+                        checkPermissions();
+                    } else {
+                        Toast.makeText(this, "You must accepted permissions for application works", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                });
+    }
+
+    private void checkPermissions() {
+
+        if (hasPermissions()) {
+            this.initViewModel();
+            fetchLocation();
+        } else {
+            askLocationPermissions();
+        }
+    }
+
+    private void fetchLocation() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Task<Location> task = mFusedLocationClient.getLastLocation();
+        task.addOnSuccessListener(location -> {
+            if (location != null) {
+                currentLocation = location;
+                showFragmentsFirstTime();
+
+//                realEstateViewModel.getAllRealEstates().observe(this, realEstates -> {
+//
+//                    setupRealEstateMapFragmentAndShow(realEstates);
+//                });
+            } else {
+                requestLocationUpdate();
+                fetchLocation();
+            }
+        });
+    }
+
+    public void requestLocationUpdate() {
+
+        initCallBackLocation();
+        createLocationRequest();
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mFusedLocationClient.requestLocationUpdates(
+                mLocationRequest,
+                mLocationCallback,
+                Looper.myLooper()
+        );
+    }
+
+    private void initCallBackLocation() {
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                currentLocation = locationResult.getLastLocation();
+            }
+        };
+    }
+
+    private void createLocationRequest() {
+
+        long LOCATION_REQUEST_INTERVAL = 1000L;
+
+        mLocationRequest = LocationRequest.create();
+        mLocationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                .setInterval(LOCATION_REQUEST_INTERVAL);
+    }
+
+
+    private boolean hasPermissions() {
+
+        if (getBaseContext() != null && PERMISSIONS != null) {
+            for (String permission : PERMISSIONS) {
+                if (ContextCompat.checkSelfPermission(getBaseContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void askLocationPermissions() {
+        requestPermissionLauncher.launch(PERMISSIONS);
+    }
+
+    private boolean isAndroidVersionBelowMarshmallow() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M;
+    }
+
+    ////////////////////////////////////////////////////////////////////
     private void messageLogin() {
         String msg = getIntent().getExtras().getString(SIGN_CHOICE).equals(SIGN_IN) ? getResources().getString(R.string.sign_in_successfull) : getResources().getString(R.string.sign_up_successfull);
         showSnackBar(binding.mainLayout, msg);
@@ -132,9 +309,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showFragmentsFirstTime() {
-        getAllRealEstates();
-        binding.activityMainNavView.getMenu().getItem(0).setChecked(true);
-        setupRealEstateDetailFragmentAndShow();
+        if (requestRealEstates.equals(getResources().getResourceEntryName(R.id.menu_Item_0))) {
+            getAllRealEstates();
+            binding.activityMainNavView.getMenu().getItem(0).setChecked(true);
+            setupRealEstateDetailFragmentAndShow();
+        }else{
+            getAllRealEstatesAssociatedWithAUser();
+        }
+    }
+
+    private void showFragmentsFilter(List<RealEstate> realEstates) {
+        if (isMapEnabled) {
+            setupRealEstateMapFragmentAndShow(realEstates);
+        } else {
+            setupRealEstateListFragmentAndShow(realEstates);
+
+        }
     }
 
     private void setupRealEstateDetailFragmentAndShow() {
@@ -164,22 +354,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         realEstateViewModel.getAllRealEstates().observe(this, realEstates -> {
 
             if (!userViewer) {
-                setupRealEstateListFragmentAndShow(realEstates);
+                if (isMapEnabled) {
+                    setupRealEstateMapFragmentAndShow(realEstates);
+                } else {
+                    setupRealEstateListFragmentAndShow(realEstates);
+
+                }
             }
         });
     }
 
     private void setupRealEstateListFragmentAndShow(List<RealEstate> realEstates) {
-
+        realEstateMapFragment = null;
         if (realEstateListFragment == null) {
+            Toast.makeText(this, realEstates.size() + "", Toast.LENGTH_SHORT).show();
 
             realEstateListFragment = RealEstateListFragment.newInstance(realEstates, this);
             getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateListFragment).commit();
         } else {
+            Toast.makeText(this, realEstates.size() + "", Toast.LENGTH_SHORT).show();
+
             realEstateListFragment.updateList(realEstates);
         }
     }
 
+    private void setupRealEstateMapFragmentAndShow(List<RealEstate> realEstates) {
+
+        realEstateListFragment = null;
+        Toast.makeText(this, realEstates.size() + "", Toast.LENGTH_SHORT).show();
+        if (realEstateMapFragment == null) {
+
+            realEstateMapFragment = realEstateMapFragment.newInstance(this, realEstates, this);
+            getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateMapFragment).commit();
+        } else {
+            realEstateMapFragment.updateMarkers(realEstates);
+
+        }
+    }
 
     private void configureMenu() {
         this.configureToolBar();
@@ -210,6 +421,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             customDialog.show();
 
         } else if (item.getItemId() == R.id.edit_realestate) {
+
             customDialog = getDialog(MainActivity.this, R.layout.add_edit_real_estate_layout);
             setupDialogUpdateRealEstate();
             customDialog.show();
@@ -252,8 +464,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Integer bedRooms = Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString().equals("") ? null : Integer.parseInt(Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString());
 
-            realEstateViewModel.getAllRealEstatesByFilters(sold, prices, surfaces, rooms, bathRooms, bedRooms).observe(this, this::setupRealEstateListFragmentAndShow);
-
+            if (requestRealEstates.equals(getResources().getResourceEntryName(R.id.menu_Item_0))) {
+                realEstateViewModel.getAllRealEstatesByFilters(sold, prices, surfaces, rooms, bathRooms, bedRooms, null).observe(this, this::showFragmentsFilter);
+            }else{
+                long agentId = getIdUserLogged();
+                realEstateViewModel.getAllRealEstatesByFilters(sold, prices, surfaces, rooms, bathRooms, bedRooms, agentId).observe(this, this::showFragmentsFilter);
+            }
             customDialog.dismiss();
         });
 
@@ -581,13 +797,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.menu_Item_0) {
+            requestRealEstates = getResources().getResourceEntryName(R.id.menu_Item_0);
             getAllRealEstates();
 
         } else if (id == R.id.menu_Item_1) {
+            requestRealEstates = getResources().getResourceEntryName(R.id.menu_Item_1);
+
             getAllRealEstatesAssociatedWithAUser();
 
         } else if (id == R.id.menu_Item_2) {
-
             customDialog = getDialog(MainActivity.this, R.layout.settings_layout);
             initViewDialogSetting();
             setupListenerDialogSettings();
@@ -612,7 +830,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void getAllRealEstatesAssociatedWithAUser() {
 
         long id = getIdUserLogged();
-        realEstateViewModel.getRealEstateByUserId(id).observe(this, this::setupRealEstateListFragmentAndShow);
+        realEstateViewModel.getRealEstateByUserId(id).observe(this, realEstates -> {
+            if (isMapEnabled) {
+                setupRealEstateMapFragmentAndShow(realEstates);
+            } else {
+                setupRealEstateListFragmentAndShow(realEstates);
+            }
+        });
+
     }
 
 
@@ -630,17 +855,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         picture.setOnClickListener(v -> imageChooser(PICTURE_USER));
 
-        long id = getIdUserLogged();
         SwitchCompat switchMapEnabled = customDialog.findViewById(R.id.isMapEnabled);
         switchMapEnabled.setChecked(isMapEnabled);
+        long id = getIdUserLogged();
 
         userViewModel.getUserById(id).observe(this, user -> {
 
             updateCustomDialogSettings(user);
 
+
             Button btnSave = customDialog.findViewById(R.id.btnSave);
             btnSave.setOnClickListener(v -> {
-
+                isMapEnabled = switchMapEnabled.isChecked();
+                showFragmentsFirstTime();
                 setMaskFieldsSettings();
 
                 if (!areTheFieldsEmpty() && !isUserEmailExistAlready(user) && emailValid()) {
@@ -850,6 +1077,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onRealEstateClick(long id) {
+        updateDetailFragment(id);
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+
+    }
+
+    @Override
+    public void onRealEstateOnMapClick(long id) {
+        updateDetailFragment(id);
+    }
+
+    public void updateDetailFragment(long id) {
         this.id = id;
         setupRealEstateDetailFragmentAndShow();
     }
