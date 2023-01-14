@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Uri selectedImageUri;
     private long id = 1L;
+    private boolean isMapEnabled = false;
 
 
     @Override
@@ -630,9 +631,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         picture.setOnClickListener(v -> imageChooser(PICTURE_USER));
 
         long id = getIdUserLogged();
+        SwitchCompat switchMapEnabled = customDialog.findViewById(R.id.isMapEnabled);
+        switchMapEnabled.setChecked(isMapEnabled);
+
         userViewModel.getUserById(id).observe(this, user -> {
 
             updateCustomDialogSettings(user);
+
             Button btnSave = customDialog.findViewById(R.id.btnSave);
             btnSave.setOnClickListener(v -> {
 

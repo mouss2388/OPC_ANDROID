@@ -15,8 +15,7 @@ public class DummyUserGenerator {
                             "Phil",
                             "Dunphy",
                             "philDunphy@family.com",
-                            "MODERN FAMILY"
-                    ));
+                            "MODERN FAMILY"));
 
     static List<User> generateUsers() {
         return new ArrayList<>(DUMMY_USERS);

@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.database.model;
 
 import android.content.ContentValues;
-import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,11 +41,11 @@ public class User {
 
     public User(String picture, @NonNull String firstname, @NonNull
             String lastname, @NonNull String email, @NonNull String password) {
-        this.picture = picture;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
+        this.setPicture(picture);
+        this.setFirstname(firstname);
+        this.setLastname(lastname);
+        this.setEmail(email);
+        this.setPassword(password);
     }
 
     public long getId() {
