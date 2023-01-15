@@ -443,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setupDialogUpdateRealEstate();
                 customDialog.show();
             } else {
-                showToast(this,getResources().getString(R.string.real_estate_not_belong_to_you) );
+                showToast(this, getResources().getString(R.string.real_estate_not_belong_to_you));
             }
 
         } else {
@@ -631,40 +631,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             customDialog.findViewById(R.id.update_btn).setOnClickListener(v -> {
 
+                TextInputLayout[] fieldsInputLayout = {price, description, date, address, surface, rooms, bathrooms, bedrooms, interestPoints};
 
-                int numberOfImage = realEstateViewModel.getNumberOfImages(this.id);
-                if (numberOfImage > 0) {
-                    TextInputLayout[] fieldsInputLayout = {price, description, date, address, surface, rooms, bathrooms, bedrooms, interestPoints};
+                boolean isInputHasZeroAsValue = DoesOneInputHasValueToZero(customDialog, fieldsInputLayout, this);
+                if (!isInputHasZeroAsValue) {
 
-                    boolean isInputHasZeroAsValue = DoesOneInputHasValueToZero(customDialog, fieldsInputLayout, this);
-                    if (!isInputHasZeroAsValue) {
+                    if (!atLeastOneFieldToUpdateIsEmpty(customDialog, fieldsInputLayout, fieldRequired)) {
 
-                        if (!atLeastOneFieldToUpdateIsEmpty(customDialog, fieldsInputLayout, fieldRequired)) {
+                        double priceChanged = Double.parseDouble(Objects.requireNonNull(price.getEditText()).getText().toString());
+                        int surfaceChanged = Integer.parseInt(Objects.requireNonNull(surface.getEditText()).getText().toString());
+                        int roomsChanged = Integer.parseInt(Objects.requireNonNull(rooms.getEditText()).getText().toString());
+                        int bedroomsChanged = Integer.parseInt(Objects.requireNonNull(bedrooms.getEditText()).getText().toString());
+                        int bathroomsChanged = Integer.parseInt(Objects.requireNonNull(bathrooms.getEditText()).getText().toString());
+                        String descriptionChanged = Objects.requireNonNull(description.getEditText()).getText().toString();
+                        String dateChanged = Objects.requireNonNull(date.getEditText()).getText().toString();
+                        String addressChanged = Objects.requireNonNull(address.getEditText()).getText().toString();
+                        String interestPointChanged = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
 
-                            double priceChanged = Double.parseDouble(Objects.requireNonNull(price.getEditText()).getText().toString());
-                            int surfaceChanged = Integer.parseInt(Objects.requireNonNull(surface.getEditText()).getText().toString());
-                            int roomsChanged = Integer.parseInt(Objects.requireNonNull(rooms.getEditText()).getText().toString());
-                            int bedroomsChanged = Integer.parseInt(Objects.requireNonNull(bedrooms.getEditText()).getText().toString());
-                            int bathroomsChanged = Integer.parseInt(Objects.requireNonNull(bathrooms.getEditText()).getText().toString());
-                            String descriptionChanged = Objects.requireNonNull(description.getEditText()).getText().toString();
-                            String dateChanged = Objects.requireNonNull(date.getEditText()).getText().toString();
-                            String addressChanged = Objects.requireNonNull(address.getEditText()).getText().toString();
-                            String interestPointChanged = Objects.requireNonNull(interestPoints.getEditText()).getText().toString();
+                        RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged, Currency.dollar.toString());
 
-                            RealEstate realEstateToUpdate = new RealEstate(realEstate.getAgentId(), realEstate.getName(), priceChanged, realEstate.getTypeRealEstate(), surfaceChanged, roomsChanged, bedroomsChanged, bathroomsChanged, descriptionChanged, addressChanged, soldSwitch.isChecked(), dateChanged, interestPointChanged, Currency.dollar.toString());
-
-                            if (soldSwitch.isChecked()) {
-                                realEstateToUpdate.setDateOfSell(getTodayDate());
-                            }
-                            realEstateToUpdate.setId(realEstate.getId());
-
-                            this.updateRealEstate(realEstateToUpdate);
-
+                        if (soldSwitch.isChecked()) {
+                            realEstateToUpdate.setDateOfSell(getTodayDate());
                         }
+                        realEstateToUpdate.setId(realEstate.getId());
+
+                        this.updateRealEstate(realEstateToUpdate);
+
                     }
-                } else {
-                    showToast(this, getResources().getString(R.string.keep_at_least_one_image));
                 }
+
             });
         });
     }
@@ -715,10 +710,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void removeImage(View view, LinearLayout gallery, ImageView imgView, Image image) {
-        gallery.removeView(view);
-        view.setVisibility(View.GONE);
-        imgView.setVisibility(View.GONE);
-        this.deleteImage(image);
+
+        int stayOneImage = realEstateViewModel.getNumberOfImages(this.id);
+        if (stayOneImage == 1) {
+            showToast(this, getResources().getString(R.string.keep_at_least_one_image));
+        } else {
+            gallery.removeView(view);
+            view.setVisibility(View.GONE);
+            imgView.setVisibility(View.GONE);
+            this.deleteImage(image);
+        }
     }
 
     private void deleteImage(Image image) {
