@@ -9,6 +9,7 @@ import com.openclassrooms.realestatemanager.database.dao.ImageDao;
 import com.openclassrooms.realestatemanager.database.dao.RealEstateDao;
 import com.openclassrooms.realestatemanager.database.model.Image;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
+import com.openclassrooms.realestatemanager.database.model.User;
 
 import java.util.List;
 
@@ -74,4 +75,9 @@ public class RealEstateRepository {
         }
         return realEstateDao.getAllRealEstatesByFilters(sold, priceMin,priceMax,surfaceMin,surfaceMax, rooms, bathRooms,bedRooms, agentId);
     }
+
+    public int isRealEstateBelongToUser(long userId, long realEstateId){
+        return realEstateDao.countRealEstateBelongToUser(userId, realEstateId);
+    }
+
 }

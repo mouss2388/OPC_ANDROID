@@ -35,6 +35,7 @@
     <string name="update_btn">Update</string>
     <string name="add_btn">Add</string>
     <string name="description_btn_close">close button of the popup</string>
+    <string name="real_estate_not_belong_to_you">You can\'t modify this real estate cause it not belong to you</string>
 
 
     <!--Navigation Drawer-->

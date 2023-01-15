@@ -29,6 +29,9 @@ public interface RealEstateDao {
     @Query("SELECT * FROM realEstate_table WHERE id = :id")
     LiveData<RealEstate> getRealEstateById(long id);
 
+    @Query("SELECT COUNT(*) FROM realEstate_table WHERE agentId = :agentId AND id = :id")
+    int countRealEstateBelongToUser(long agentId, long id);
+
     @Query("SELECT * FROM realEstate_table WHERE agentId = :userId")
     LiveData<List<RealEstate>> getRealEstateByUserId(long userId);
 
@@ -46,5 +49,5 @@ public interface RealEstateDao {
             "(:bathRooms IS NULL OR nbBathRoom = :bathRooms ) AND" +
             "(:bedRooms IS NULL OR nbBedRoom = :bedRooms ) AND" +
             "(:agentId IS NULL OR agentId = :agentId )")
-    LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, Float priceMin, Float priceMax, Float surfaceMin,Float surfaceMax, Integer rooms, Integer bathRooms, Integer bedRooms, Long agentId);
+    LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, Float priceMin, Float priceMax, Float surfaceMin, Float surfaceMax, Integer rooms, Integer bathRooms, Integer bedRooms, Long agentId);
 }

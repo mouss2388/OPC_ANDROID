@@ -36,6 +36,7 @@
     <string name="add_btn">Ajouter</string>
     <string name="description_btn_close">bouton de fermeture du la popup</string>
     <string name="maps_api_key" translatable="false">AIzaSyDXa6QgrrPHPVEciXG0LdkZCr1-_FLP9y0</string>
+    <string name="real_estate_not_belong_to_you">Vous ne pouvez pas modifier ce bien, car il vous appartient pas</string>
 
 
     <!--Navigation Drawer-->

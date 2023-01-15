@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Manifest.permission.ACCESS_COARSE_LOCATION,
         };
 
-        if (getAllOrYourRealEstates==null) {
+        if (getAllOrYourRealEstates == null) {
             getAllOrYourRealEstates =
                     getResources().getResourceEntryName(R.id.menu_Item_0);
         }
@@ -438,16 +438,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (item.getItemId() == R.id.edit_realestate) {
 
-            customDialog = getDialog(MainActivity.this, R.layout.add_edit_real_estate_layout);
-            setupDialogUpdateRealEstate();
-            customDialog.show();
+            if (isRealEstateBelongToUser() > 0) {
+                customDialog = getDialog(MainActivity.this, R.layout.add_edit_real_estate_layout);
+                setupDialogUpdateRealEstate();
+                customDialog.show();
+            } else {
+                showToast(this,getResources().getString(R.string.real_estate_not_belong_to_you) );
+            }
 
         } else {
             customDialog = getDialog(MainActivity.this, R.layout.filters_layout);
             setupDialogFilters();
             customDialog.show();
         }
-        return super.onOptionsItemSelected(item);
+        return super.
+
+                onOptionsItemSelected(item);
+
+    }
+
+    private int isRealEstateBelongToUser() {
+        return realEstateViewModel.isRealEstateBelongToUser(getIdUserLogged(), this.id);
     }
 
     private void setupDialogFilters() {
