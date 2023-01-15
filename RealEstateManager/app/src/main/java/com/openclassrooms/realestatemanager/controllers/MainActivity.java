@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextInputLayout editTxtPassword;
 
     private Uri selectedImageUri;
-    private long id = 1L;
+    private long idRealEstateSelected;
     public boolean isMapEnabled = false;
     private String getAllOrYourRealEstates;
 
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState != null) {
             getAllOrYourRealEstates = savedInstanceState.getString("getAllOrYourRealEstates");
+            idRealEstateSelected = savedInstanceState.getLong("idRealEstateSelected");
         }
         this.initData();
         this.handleResponsePermissionsRequest();
@@ -169,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onSaveInstanceState(outState);
         if (this.getAllOrYourRealEstates != null) {
             outState.putString("getAllOrYourRealEstates", getAllOrYourRealEstates);
+            outState.putLong("idRealEstateSelected", idRealEstateSelected);
         }
     }
 
@@ -183,6 +185,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (getAllOrYourRealEstates == null) {
             getAllOrYourRealEstates =
                     getResources().getResourceEntryName(R.id.menu_Item_0);
+        }
+        if (idRealEstateSelected == 0) {
+            idRealEstateSelected = 1L;
         }
 
 
@@ -351,8 +356,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_detail_frame_layout, realEstateDetailFragment).commit();
         }
-        if (id > 0) {
-            realEstateViewModel.getRealEstateById(id).observe(this, realEstate -> {
+        if (idRealEstateSelected > 0) {
+            realEstateViewModel.getRealEstateById(idRealEstateSelected).observe(this, realEstate -> {
 
                 realEstateViewModel.getRealEstateImages(realEstate).observe(this, images -> {
 
@@ -392,6 +397,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             realEstateListFragment.updateList(realEstates);
         }
+
     }
 
     private void setupRealEstateMapFragmentAndShow(List<RealEstate> realEstates) {
@@ -458,7 +464,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private int isRealEstateBelongToUser() {
-        return realEstateViewModel.isRealEstateBelongToUser(getIdUserLogged(), this.id);
+        return realEstateViewModel.isRealEstateBelongToUser(getIdUserLogged(), this.idRealEstateSelected);
     }
 
     private void setupDialogFilters() {
@@ -602,7 +608,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String fieldRequired = getResources().getString(R.string.field_is_requiered);
 
-        realEstateViewModel.getRealEstateById(id).observe(this, realEstate -> {
+        realEstateViewModel.getRealEstateById(idRealEstateSelected).observe(this, realEstate -> {
             setImagesRealEstate(realEstate);
 
             SwitchCompat soldSwitch = customDialog.findViewById(R.id.switch_sold);
@@ -711,7 +717,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void removeImage(View view, LinearLayout gallery, ImageView imgView, Image image) {
 
-        int stayOneImage = realEstateViewModel.getNumberOfImages(this.id);
+        int stayOneImage = realEstateViewModel.getNumberOfImages(this.idRealEstateSelected);
         if (stayOneImage == 1) {
             showToast(this, getResources().getString(R.string.keep_at_least_one_image));
         } else {
@@ -835,6 +841,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.menu_Item_0) {
             getAllOrYourRealEstates = getResources().getResourceEntryName(R.id.menu_Item_0);
+            updateDetailFragment(idRealEstateSelected);
             getAllRealEstates();
 
         } else if (id == R.id.menu_Item_1) {
@@ -868,6 +875,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         long id = getIdUserLogged();
         realEstateViewModel.getRealEstateByUserId(id).observe(this, realEstates -> {
+
+            if (!realEstateSelectedIsIn(realEstates)) {
+                this.idRealEstateSelected = realEstates.get(0).getId();
+            }
+
+            updateDetailFragment(this.idRealEstateSelected);
             if (isMapEnabled) {
                 setupRealEstateMapFragmentAndShow(realEstates);
             } else {
@@ -875,6 +888,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+    }
+
+    private boolean realEstateSelectedIsIn(List<RealEstate> realEstates) {
+        for (RealEstate realEstate : realEstates) {
+            if (realEstate.getId() == this.idRealEstateSelected) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -1016,7 +1038,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if (data != null
                             && data.getData() != null) {
                         selectedImageUri = data.getData();
-                        Image image = new Image(this.id, selectedImageUri.toString());
+                        Image image = new Image(this.idRealEstateSelected, selectedImageUri.toString());
                         realEstateViewModel.addRealEstateImage(image);
                         showToast(this, getResources().getString(R.string.image_added));
                     }
@@ -1113,8 +1135,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onRealEstateClick(long id) {
-        updateDetailFragment(id);
+    public void onRealEstateClick(long idRealEstateSelected) {
+        updateDetailFragment(idRealEstateSelected);
     }
 
     @Override
@@ -1123,12 +1145,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onRealEstateOnMapClick(long id) {
-        updateDetailFragment(id);
+    public void onRealEstateOnMapClick(long idRealEstateSelected) {
+        updateDetailFragment(idRealEstateSelected);
     }
 
-    public void updateDetailFragment(long id) {
-        this.id = id;
+    public void updateDetailFragment(long idRealEstateSelected) {
+        this.idRealEstateSelected = idRealEstateSelected;
         setupRealEstateDetailFragmentAndShow();
     }
 }
