@@ -89,6 +89,8 @@
     <string name="zero_value">valeur 0 non acceptée</string>
     <string name="price_range">%1$d $ - %2$d $</string>
     <string name="surface_range">%1$d m² - %2$d m²</string>
+    <string name="filter_all_real_estates">Sur tout les biens immobiliers</string>
+    <string name="filter_your_real_estates">Sur vos biens immobiliers</string>
 
 
     <!--DETAIL FRAGMENT-->

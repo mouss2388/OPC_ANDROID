@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Uri selectedImageUri;
     private long id = 1L;
     public boolean isMapEnabled = false;
-    private String requestRealEstates = "";
+    private String getAllOrYourRealEstates;
 
     private String[] PERMISSIONS;
     private ActivityResultLauncher<String[]> requestPermissionLauncher;
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
         };
-        requestRealEstates =getResources().getResourceEntryName(R.id.menu_Item_0);
+        getAllOrYourRealEstates = getResources().getResourceEntryName(R.id.menu_Item_0);
 
 
         requestPermissionLauncher = null;
@@ -309,11 +309,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showFragmentsFirstTime() {
-        if (requestRealEstates.equals(getResources().getResourceEntryName(R.id.menu_Item_0))) {
+        if (getAllOrYourRealEstates.equals(getResources().getResourceEntryName(R.id.menu_Item_0))) {
             getAllRealEstates();
             binding.activityMainNavView.getMenu().getItem(0).setChecked(true);
             setupRealEstateDetailFragmentAndShow();
-        }else{
+        } else {
             getAllRealEstatesAssociatedWithAUser();
         }
     }
@@ -440,6 +440,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         SwitchCompat switchCompat = customDialog.findViewById(R.id.switchSold);
 
+        TextView filterSearchOnRealEstates = customDialog.findViewById(R.id.filter_search_on_real_estates);
+
+
+        if (getAllOrYourRealEstates.equals( getResources().getResourceEntryName(R.id.menu_Item_0))) {
+            filterSearchOnRealEstates.setText(getResources().getString(R.string.filter_all_real_estates));
+        } else {
+            filterSearchOnRealEstates.setText(getResources().getString(R.string.filter_your_real_estates));
+        }
+
         RangeSlider priceSlider = customDialog.findViewById(R.id.range_slider_price);
         RangeSlider surfaceSlider = customDialog.findViewById(R.id.range_slider_surface);
 
@@ -464,9 +473,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Integer bedRooms = Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString().equals("") ? null : Integer.parseInt(Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString());
 
-            if (requestRealEstates.equals(getResources().getResourceEntryName(R.id.menu_Item_0))) {
+            if (getAllOrYourRealEstates.equals(getResources().getResourceEntryName(R.id.menu_Item_0))) {
                 realEstateViewModel.getAllRealEstatesByFilters(sold, prices, surfaces, rooms, bathRooms, bedRooms, null).observe(this, this::showFragmentsFilter);
-            }else{
+            } else {
                 long agentId = getIdUserLogged();
                 realEstateViewModel.getAllRealEstatesByFilters(sold, prices, surfaces, rooms, bathRooms, bedRooms, agentId).observe(this, this::showFragmentsFilter);
             }
@@ -797,11 +806,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.menu_Item_0) {
-            requestRealEstates = getResources().getResourceEntryName(R.id.menu_Item_0);
+            getAllOrYourRealEstates = getResources().getResourceEntryName(R.id.menu_Item_0);
             getAllRealEstates();
 
         } else if (id == R.id.menu_Item_1) {
-            requestRealEstates = getResources().getResourceEntryName(R.id.menu_Item_1);
+            getAllOrYourRealEstates = getResources().getResourceEntryName(R.id.menu_Item_1);
 
             getAllRealEstatesAssociatedWithAUser();
 
