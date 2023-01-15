@@ -58,9 +58,6 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
     }
 
 
-
-
-
     private void initData() {
 
         googleMap = null;
@@ -140,18 +137,23 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
         this.googleMap.setOnMyLocationClickListener(this);
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        if (ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            return;
+        if (this.context != null) {
+
+            if (ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this.context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
+            this.googleMap.setMyLocationEnabled(true);
         }
-        this.googleMap.setMyLocationEnabled(true);
 
-        if(currentLocation!=null) {
+
+        if (currentLocation != null) {
             LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
             this.googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
             this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-        }else{
+        } else {
             currentLocation = ((MainActivity) requireContext()).currentLocation;
 
         }
@@ -163,8 +165,10 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
     }
 
     private void putMarkerOnAddress() {
-        for (RealEstate realEstate : mRealEstates) {
-            convertAddressToGpsCoordinates(this, context, realEstate);
+        if (mRealEstates != null) {
+            for (RealEstate realEstate : mRealEstates) {
+                convertAddressToGpsCoordinates(this, context, realEstate);
+            }
         }
     }
 
@@ -185,6 +189,22 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
 
         }
 
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            currentLocation = savedInstanceState.getParcelable("currentLocation");
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (this.googleMap != null) {
+            outState.putParcelable("currentLocation", currentLocation);
+        }
     }
 
     public interface OnRealEstateOnMapListener {

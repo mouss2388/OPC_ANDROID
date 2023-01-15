@@ -27,7 +27,6 @@
 
         <activity
             android:name=".controllers.MainActivity"
-            android:configChanges="screenSize|orientation"
             android:exported="false" />
 
         <activity

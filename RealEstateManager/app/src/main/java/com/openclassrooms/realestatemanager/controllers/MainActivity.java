@@ -145,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View view = binding.getRoot();
         setContentView(view);
 
+        if (savedInstanceState != null) {
+            getAllOrYourRealEstates = savedInstanceState.getString("getAllOrYourRealEstates");
+        }
         this.initData();
         this.handleResponsePermissionsRequest();
         if (this.isAndroidVersionBelowMarshmallow()) {
@@ -161,6 +164,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureMenu();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (this.getAllOrYourRealEstates != null) {
+            outState.putString("getAllOrYourRealEstates", getAllOrYourRealEstates);
+        }
+    }
+
     //////////////////////////////////////////////////////////////////////
     private void initData() {
         PERMISSIONS = new String[]{
@@ -168,7 +179,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
         };
-        getAllOrYourRealEstates = getResources().getResourceEntryName(R.id.menu_Item_0);
+
+        if (getAllOrYourRealEstates==null) {
+            getAllOrYourRealEstates =
+                    getResources().getResourceEntryName(R.id.menu_Item_0);
+        }
 
 
         requestPermissionLauncher = null;
@@ -315,6 +330,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setupRealEstateDetailFragmentAndShow();
         } else {
             getAllRealEstatesAssociatedWithAUser();
+            setupRealEstateDetailFragmentAndShow();
         }
     }
 
@@ -443,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView filterSearchOnRealEstates = customDialog.findViewById(R.id.filter_search_on_real_estates);
 
 
-        if (getAllOrYourRealEstates.equals( getResources().getResourceEntryName(R.id.menu_Item_0))) {
+        if (getAllOrYourRealEstates.equals(getResources().getResourceEntryName(R.id.menu_Item_0))) {
             filterSearchOnRealEstates.setText(getResources().getString(R.string.filter_all_real_estates));
         } else {
             filterSearchOnRealEstates.setText(getResources().getString(R.string.filter_your_real_estates));
