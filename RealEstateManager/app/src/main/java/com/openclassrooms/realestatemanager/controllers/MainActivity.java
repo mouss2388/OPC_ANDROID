@@ -154,15 +154,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (this.isAndroidVersionBelowMarshmallow()) {
             this.initViewModel();
             fetchLocation();
+            this.messageLogin();
+//        this.initViewModel();
+//        this.showFragmentsFirstTime();
+            this.configureMenu();
         } else {
             checkPermissions();
         }
 
-
-        this.messageLogin();
-//        this.initViewModel();
-//        this.showFragmentsFirstTime();
-        this.configureMenu();
     }
 
     @Override
@@ -221,6 +220,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (hasPermissions()) {
             this.initViewModel();
             fetchLocation();
+            this.messageLogin();
+//        this.initViewModel();
+//        this.showFragmentsFirstTime();
+            this.configureMenu();
         } else {
             askLocationPermissions();
         }
