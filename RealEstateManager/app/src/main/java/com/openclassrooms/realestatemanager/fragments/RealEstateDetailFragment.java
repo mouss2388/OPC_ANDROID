@@ -21,6 +21,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -95,11 +96,12 @@ public class RealEstateDetailFragment extends Fragment {
         this.setPrice();
 
         if (realEstate.getSold()) {
-            binding.sold.setText(getResources().getString(R.string.sold));
+            binding.sold.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.sold, null));
+
             binding.itemDateSold.setVisibility(View.VISIBLE);
             binding.dateRealEstateSold.setText(realEstate.getDateOfSell());
         } else {
-            binding.sold.setText(getResources().getString(R.string.available));
+            binding.sold.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.for_sale, null));
             binding.itemDateSold.setVisibility(View.GONE);
         }
 

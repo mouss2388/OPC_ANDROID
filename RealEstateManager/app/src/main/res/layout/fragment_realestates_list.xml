@@ -18,6 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="10"
+        android:background="@color/colorAnalogous"
         tools:listitem="@layout/item_real_estate" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

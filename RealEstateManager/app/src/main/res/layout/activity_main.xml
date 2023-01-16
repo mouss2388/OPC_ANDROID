@@ -5,7 +5,7 @@
     android:id="@+id/main_Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorAnalogousSecondary"
     android:fitsSystemWindows="true"
     tools:context=".controllers.MainActivity"
     tools:openDrawer="start">
@@ -52,6 +52,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:background="@color/colorWhite"
         app:headerLayout="@layout/activity_main_nav_header"
         app:menu="@menu/activity_main_menu_drawer" />
 

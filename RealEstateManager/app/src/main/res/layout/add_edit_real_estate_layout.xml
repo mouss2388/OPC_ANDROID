@@ -72,6 +72,7 @@
                 android:focusable="true"
                 android:hint="@string/price"
                 app:boxBackgroundColor="@color/colorWhite"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_money_on_24"
                 app:startIconTint="@color/colorPrimary">
@@ -93,6 +94,7 @@
                 android:focusable="true"
                 android:hint="@string/description"
                 app:boxBackgroundColor="@color/colorWhite"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_description_24"
                 app:startIconTint="@color/colorPrimary">
@@ -114,6 +116,7 @@
                 android:focusable="true"
                 android:hint="@string/entry_date"
                 app:boxBackgroundColor="@color/colorWhite"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/real_estate_available"
                 app:startIconTint="@color/colorPrimary">
@@ -135,6 +138,7 @@
                 android:focusable="true"
                 android:hint="@string/location"
                 app:boxBackgroundColor="@color/colorWhite"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/location_on_24"
                 app:startIconTint="@color/colorPrimary">
@@ -142,7 +146,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:labelFor="@+id/txtFieldLocation"
                     android:textSize="@dimen/text_size" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -156,6 +160,7 @@
                 android:focusable="true"
                 android:hint="@string/surface"
                 app:boxBackgroundColor="@color/colorWhite"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ratio_24"
                 app:startIconTint="@color/colorPrimary">
@@ -177,6 +182,7 @@
                 android:focusable="true"
                 android:hint="@string/number_of_rooms"
                 app:boxBackgroundColor="@color/colorWhite"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_home_24"
                 app:startIconTint="@color/colorPrimary">
@@ -198,6 +204,7 @@
                 android:focusable="true"
                 android:hint="@string/number_of_bathrooms"
                 app:boxBackgroundColor="@color/colorWhite"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/hot_tub_24"
                 app:startIconTint="@color/colorPrimary">
@@ -219,6 +226,7 @@
                 android:focusable="true"
                 android:hint="@string/number_of_bedrooms"
                 app:boxBackgroundColor="@color/colorWhite"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/bed_room_24"
                 app:startIconTint="@color/colorPrimary">
@@ -240,6 +248,7 @@
                 android:focusable="true"
                 android:hint="@string/interest_points"
                 app:boxBackgroundColor="@color/colorWhite"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_near_me_24"
                 app:startIconTint="@color/colorPrimary">
@@ -254,6 +263,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/update_btn"
+                style="@style/CustomButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/update_btn" />

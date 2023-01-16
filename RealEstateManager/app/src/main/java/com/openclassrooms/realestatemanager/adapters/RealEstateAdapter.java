@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.adapters;
 
 import static com.openclassrooms.realestatemanager.utils.Utils.castDoubleToInt;
+import static com.openclassrooms.realestatemanager.utils.Utils.concatStrWithoutSpace;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
 
 import android.content.Context;
@@ -15,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.realestatemanager.R;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.utils.Utils;
@@ -79,7 +79,7 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
             type = view.findViewById(R.id.type_realestate);
             address = view.findViewById(R.id.address_realestate);
             price = view.findViewById(R.id.price_realestate);
-            photo= view.findViewById(R.id.image);
+            photo = view.findViewById(R.id.image);
             view.setOnClickListener(this);
         }
 
@@ -87,10 +87,12 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
 
             type.setText(realEstate.getTypeRealEstate());
             address.setText(realEstate.getAddress());
-            price.setText(convertToString(castDoubleToInt(realEstate.getPrice())));
+
+            String priceStr = convertToString(castDoubleToInt(realEstate.getPrice()));
+            price.setText(concatStrWithoutSpace(priceStr, "$"));
 
             realEstateViewModel.getRealEstateImages(realEstate).observe(lifecycleOwner, images -> {
-                if(images.size()>0) {
+                if (images.size() > 0) {
                     Utils.setRealEstatePicture(itemView.getContext(), images.get(0).getUrl(), photo);
                 }
             });

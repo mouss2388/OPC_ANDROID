@@ -135,6 +135,14 @@ public class Utils {
         return stringBuilder.toString();
     }
 
+    public static String concatStrWithoutSpace(String... texts) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String text : texts) {
+            stringBuilder.append(text);
+        }
+        return stringBuilder.toString();
+    }
+
     public static void setErrorOnField(ActivitySignBinding binding, String key, String message) {
         switch (key) {
             case "FIRSTNAME":
@@ -429,7 +437,6 @@ public class Utils {
                 .appendPath("staticmap")
                 .appendQueryParameter("size", "400x400")
                 .appendQueryParameter("zoom", "17")
-
                 .appendQueryParameter("markers", addressParsed)
                 .appendQueryParameter("key", context.getString(R.string.maps_api_key));
         return builder.build().toString();
@@ -444,7 +451,7 @@ public class Utils {
         int sMargin = 30;
         int sBorder = 20;
         Resources res = context.getResources();
-        int colorValue = res.getColor(R.color.colorPrimaryDark);
+        int colorValue = res.getColor(R.color.colorComplementary);
 
         String sColor = "#" + Integer.toHexString(colorValue);
 

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#0085CC</color>
+    <color name="colorAnalogous">#00CCAD</color>
+    <color name="colorAnalogousSecondary">#001FCC</color>
     <color name="colorPrimaryDark">#005596</color>
     <color name="colorAccent">#CC4902</color>
+    <color name="colorComplementary">#CC4700</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorGrey">#838383</color>
+    <color name="colorGreyDark">#656565</color>
     <color name="colorGreyWeakAlpha">#27838383</color>
 </resources>

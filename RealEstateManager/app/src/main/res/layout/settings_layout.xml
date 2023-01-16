@@ -68,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
+                app:endIconMode="clear_text"
                 android:hint="@string/lastname"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
@@ -92,6 +93,7 @@
                 android:hint="@string/firstname"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
+                app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/ic_person_outline_24"
                 app:startIconTint="@color/colorPrimary">
 
@@ -114,6 +116,7 @@
                 android:hint="@string/email"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:errorEnabled="true"
+                app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/ic_email_24"
                 app:startIconTint="@color/colorPrimary">
 
@@ -153,10 +156,8 @@
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:elevation="4dp"
+            style="@style/CustomButtonStyle"
             android:text="sauvegarder"
-            android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

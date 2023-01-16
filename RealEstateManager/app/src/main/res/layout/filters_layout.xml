@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@id/filter_title"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Sur tout les biens immobiliers"
-            android:textColor="@color/colorGrey"
+            android:textColor="@color/colorGreyDark"
             />
 
 
@@ -203,11 +203,9 @@
             android:id="@+id/btnFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
             android:layout_marginTop="16dp"
-            android:elevation="4dp"
             android:text="@string/filter"
-            android:textColor="@color/colorWhite"
+            style="@style/CustomButtonStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fields" />

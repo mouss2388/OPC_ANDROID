@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -88,13 +89,6 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
 
     }
 
-    private void addMarker(double lat, double lng) {
-// Initialisation de la carte
-        LatLng location = new LatLng(lat, lng);
-        MarkerOptions marker = new MarkerOptions().position(location).title("Adresse test");
-        this.googleMap.addMarker(marker);
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-    }
 
 
     @Override
@@ -185,8 +179,10 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
             // Ajouter le marqueur à la carte
             markerOptions.title(realEstate.getAddress());
 
-            Objects.requireNonNull(this.googleMap.addMarker(markerOptions)).setTag(realEstate.getId());
-
+            Marker marker =Objects.requireNonNull(this.googleMap.addMarker(markerOptions));
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            marker.setFlat(true);
+            marker.setTag(realEstate.getId());
         }
 
     }
