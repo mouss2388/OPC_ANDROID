@@ -84,11 +84,11 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
 
     public void updateMarkers(List<RealEstate> realEstates) {
         mRealEstates = realEstates;
-        this.googleMap.clear();
+        if (this.googleMap != null) {
+            this.googleMap.clear();
+        }
         initData();
-
     }
-
 
 
     @Override
@@ -179,7 +179,7 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
             // Ajouter le marqueur à la carte
             markerOptions.title(realEstate.getAddress());
 
-            Marker marker =Objects.requireNonNull(this.googleMap.addMarker(markerOptions));
+            Marker marker = Objects.requireNonNull(this.googleMap.addMarker(markerOptions));
             marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             marker.setFlat(true);
             marker.setTag(realEstate.getId());

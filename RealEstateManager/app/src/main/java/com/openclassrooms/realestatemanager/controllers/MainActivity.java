@@ -392,10 +392,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             realEstateListFragment = RealEstateListFragment.newInstance(realEstates, this);
             getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateListFragment).commit();
-        } else {
+        } else if (realEstates.size() > 0) {
             Toast.makeText(this, realEstates.size() + "", Toast.LENGTH_SHORT).show();
-
+            long idFirstRealEstateFound =realEstates.get(0).getId();
+            updateDetailFragment(idFirstRealEstateFound);
             realEstateListFragment.updateList(realEstates);
+        }else{
+            showToast(this,getResources().getString(R.string.warns_0_real_estates_with_criteria) );
         }
 
     }
@@ -472,9 +475,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupListenerCloseBtn(customDialog);
 
         SwitchCompat switchCompat = customDialog.findViewById(R.id.switchSold);
-
         TextView filterSearchOnRealEstates = customDialog.findViewById(R.id.filter_search_on_real_estates);
-
 
         if (getAllOrYourRealEstates.equals(getResources().getResourceEntryName(R.id.menu_Item_0))) {
             filterSearchOnRealEstates.setText(getResources().getString(R.string.filter_all_real_estates));
@@ -500,11 +501,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             List<Float> prices = priceSlider.getValues();
             List<Float> surfaces = surfaceSlider.getValues();
 
-            Integer rooms = Objects.requireNonNull(inputRooms.getEditText()).getText().toString().equals("") ? null : Integer.parseInt(inputRooms.getEditText().getText().toString());
-
-            Integer bathRooms = Objects.requireNonNull(inputBathrooms.getEditText()).getText().toString().equals("") ? null : Integer.parseInt(Objects.requireNonNull(inputBathrooms.getEditText()).getText().toString());
-
-            Integer bedRooms = Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString().equals("") ? null : Integer.parseInt(Objects.requireNonNull(inputBedrooms.getEditText()).getText().toString());
+            Integer rooms = getContentOfField(inputRooms);
+            Integer bathRooms = getContentOfField(inputBathrooms);
+            Integer bedRooms = getContentOfField(inputBedrooms);
 
             if (getAllOrYourRealEstates.equals(getResources().getResourceEntryName(R.id.menu_Item_0))) {
                 realEstateViewModel.getAllRealEstatesByFilters(sold, prices, surfaces, rooms, bathRooms, bedRooms, null).observe(this, this::showFragmentsFilter);
@@ -514,7 +513,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             customDialog.dismiss();
         });
+    }
 
+    private Integer getContentOfField(TextInputLayout field) {
+        return Objects.requireNonNull(field.getEditText()).getText().toString().equals("") ? null : Integer.parseInt(field.getEditText().getText().toString());
     }
 
     private void setupListenerSlider(RangeSlider slider, int viewId, int strResource) {
@@ -662,7 +664,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         realEstateToUpdate.setId(realEstate.getId());
 
                         this.updateRealEstate(realEstateToUpdate);
-
                     }
                 }
 

@@ -92,6 +92,7 @@
     <string name="surface_range">%1$d m² - %2$d m²</string>
     <string name="filter_all_real_estates">On all real estates</string>
     <string name="filter_your_real_estates">On your real estates</string>
+    <string name="warns_0_real_estates_with_criteria">No real estate matches your search criteria</string>
 
 
 
