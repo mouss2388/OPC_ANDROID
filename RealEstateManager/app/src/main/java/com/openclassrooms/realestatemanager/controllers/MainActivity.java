@@ -945,6 +945,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextInputLayout txtInputCredit = customDialog.findViewById(R.id.credit);
         Slider slideInputYear = customDialog.findViewById(R.id.slider_years);
         Slider slideInterestRate = customDialog.findViewById(R.id.slider_txtInterestRate);
+        TextView txtInterestRate = customDialog.findViewById(R.id.txtInterestRate);
 
         Button btnCalculateHomeLoan = customDialog.findViewById(R.id.btnCalcul);
         TextView resultMonthly = customDialog.findViewById(R.id.monthly_refund);
@@ -954,17 +955,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (switchCurrency.isChecked()) {
                 switchCurrency.setText(getResources().getString(R.string.euros));
                 txtInputCredit.setHint(getResources().getString(R.string.amount_of_the_loan_euros));
+                txtInterestRate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_euros_24, 0, 0, 0);
 
-                String inputValue = Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString();
-                String dollars = convertCurrency(inputValue, Currency.dollar);
-                txtInputCredit.getEditText().setText(dollars);
+
+                if (!Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString().isEmpty()) {
+                    String inputValue = Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString();
+                    String dollars = convertCurrency(inputValue, Currency.dollar);
+                    txtInputCredit.getEditText().setText(dollars);
+                }
+
 
             } else {
                 switchCurrency.setText(getResources().getString(R.string.dollars));
                 txtInputCredit.setHint(getResources().getString(R.string.amount_of_the_loan_dollars));
-                String inputValue = Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString();
-                String euros = convertCurrency(inputValue, Currency.euro);
-                txtInputCredit.getEditText().setText(euros);
+                txtInterestRate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dollars_24, 0, 0, 0);
+                if (!Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString().isEmpty()) {
+
+                    String inputValue = Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString();
+                    String euros = convertCurrency(inputValue, Currency.euro);
+                    txtInputCredit.getEditText().setText(euros);
+                }
             }
         });
         btnCalculateHomeLoan.setOnClickListener(v -> {

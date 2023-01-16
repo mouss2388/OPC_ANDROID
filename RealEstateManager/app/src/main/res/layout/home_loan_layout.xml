@@ -82,6 +82,7 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:text="@string/number_of_years"
                 android:drawablePadding="16dp"
+                android:paddingTop="16dp"
                 app:drawableStartCompat="@drawable/ic_time_24" />
 
             <com.google.android.material.slider.Slider
@@ -100,7 +101,8 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:text="@string/taeg_fixe"
                 android:drawablePadding="16dp"
-                app:drawableStartCompat="@drawable/ic_currency_exchange_24" />
+                android:paddingTop="16dp"
+                app:drawableStartCompat="@drawable/ic_dollars_24" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/slider_txtInterestRate"
