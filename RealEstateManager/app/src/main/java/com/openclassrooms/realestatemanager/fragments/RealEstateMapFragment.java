@@ -116,9 +116,8 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(getActivity(), "Vous êtes ici:\n latitude:" + location.getLatitude() + "\n longitude:" + location.getLongitude(), Toast.LENGTH_LONG)
+        Toast.makeText(getActivity(), "Vous êtes ici", Toast.LENGTH_LONG)
                 .show();
-
     }
 
     @Override
@@ -196,7 +195,7 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull  Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.googleMap != null) {
             outState.putParcelable("currentLocation", currentLocation);

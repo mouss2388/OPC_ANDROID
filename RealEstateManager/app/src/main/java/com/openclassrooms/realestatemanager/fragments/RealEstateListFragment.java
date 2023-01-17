@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +22,7 @@ import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import java.util.List;
 import java.util.Objects;
 
+@SuppressWarnings("ALL")
 public class RealEstateListFragment extends Fragment implements RealEstateAdapter.OnRealEstateListener {
 
     public FragmentRealestatesListBinding binding;
@@ -79,7 +78,6 @@ public class RealEstateListFragment extends Fragment implements RealEstateAdapte
 
     @Override
     public void onRealEstateClick(long id) {
-        Toast.makeText(getContext(), "ID FROM FRAGMENT " + id, Toast.LENGTH_SHORT).show();
         onRealEstateListener.onRealEstateClick(id);
     }
 }

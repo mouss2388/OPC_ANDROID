@@ -9,6 +9,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+@SuppressWarnings("ALL")
 @Entity(tableName = "user_table")
 public class User {
 

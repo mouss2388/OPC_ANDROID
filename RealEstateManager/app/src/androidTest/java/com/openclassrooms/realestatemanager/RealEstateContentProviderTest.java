@@ -81,8 +81,8 @@ public class RealEstateContentProviderTest {
 
         values.put("agentId", "1");
         values.put("name", "Bien test");
-        values.put("description", "Description test");
-        values.put("address", "address_test");
+        values.put("description", "Description");
+        values.put("address", "100 Rue Druot, 75009 Paris");
         values.put("price", "150000.00");
         values.put("surface", "250");
         values.put("nbRoom", "12");

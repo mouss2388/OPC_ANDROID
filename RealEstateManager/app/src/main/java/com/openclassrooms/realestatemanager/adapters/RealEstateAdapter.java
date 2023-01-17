@@ -103,12 +103,8 @@ public class RealEstateAdapter extends RecyclerView.Adapter<RealEstateAdapter.Vi
         @Override
         public void onClick(View v) {
             int index = getAdapterPosition();
-            Context context = v.getContext();
             long id = mRealEstates.get(index).getId();
             onRealEstateListener.onRealEstateClick(id);
-            Toast.makeText(context, "id: " + id, Toast.LENGTH_SHORT).show();
-
-
         }
     }
 

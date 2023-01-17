@@ -15,6 +15,7 @@ public class DummyUserApiService implements UserApiService {
 
     /**
      * {@inheritDoc}
+     *
      * @return
      */
     @Override

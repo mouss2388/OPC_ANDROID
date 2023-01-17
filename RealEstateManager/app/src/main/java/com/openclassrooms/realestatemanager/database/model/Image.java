@@ -8,6 +8,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+@SuppressWarnings("ALL")
 @Entity(tableName = "image_table",
         foreignKeys = @ForeignKey(entity = RealEstate.class,
                 parentColumns = "id",

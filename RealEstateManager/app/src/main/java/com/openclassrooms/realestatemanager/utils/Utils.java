@@ -469,8 +469,6 @@ public class Utils {
 
                     assert response.body() != null;
                     List<ResultsItem> rowsItem = response.body().getResults();
-                    LatLng latLng = new LatLng(rowsItem.get(0).getGeometry().getLocation().getLat(),rowsItem.get(0).getGeometry().getLocation().getLng());
-                    Toast.makeText(context, latLng.toString() , Toast.LENGTH_SHORT).show();
                     callback.onGeocodingApiReceivedCallback(rowsItem, realEstate);
 
                 }
@@ -481,5 +479,9 @@ public class Utils {
                 Toast.makeText(context, "Failure distance request", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public static int getRefund(double creditAmount, double interestRate, double nbYearsOfRefundInMonth ) {
+        return (int) Math.round(((creditAmount * interestRate) / 12.0) / (1 - (Math.pow((1 + (interestRate / 12.0)), (-1 * nbYearsOfRefundInMonth)))));
     }
 }
