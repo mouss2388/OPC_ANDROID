@@ -1,14 +1,15 @@
 package com.openclassrooms.realestatemanager.database.model.geocoding_api;
 
-public class Southwest{
-	private Object lng;
-	private Object lat;
+@SuppressWarnings("ALL")
+public class Southwest {
+    private Object lng;
+    private Object lat;
 
-	public Object getLng(){
-		return lng;
-	}
+    public Object getLng() {
+        return lng;
+    }
 
-	public Object getLat(){
-		return lat;
-	}
+    public Object getLat() {
+        return lat;
+    }
 }

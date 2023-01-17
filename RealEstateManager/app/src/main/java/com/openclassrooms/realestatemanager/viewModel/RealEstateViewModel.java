@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 
 import com.openclassrooms.realestatemanager.database.model.Image;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
-import com.openclassrooms.realestatemanager.database.model.User;
 import com.openclassrooms.realestatemanager.repository.RealEstateRepository;
 
 import java.util.List;
@@ -48,22 +47,22 @@ public class RealEstateViewModel extends AndroidViewModel {
     }
 
     public int deleteRealEstateImages(Image image) {
-         return repository.deleteRealEstateImages(image);
+        return repository.deleteRealEstateImages(image);
     }
 
-    public void addRealEstateImage(Image image) {
-        repository.addRealEstateImage(image);
+    public long addRealEstateImage(Image image) {
+        return repository.addRealEstateImage(image);
     }
 
-    public int getNumberOfImages(long id){
+    public int getNumberOfImages(long id) {
         return repository.getNumberOfImages(id);
     }
 
     public LiveData<List<RealEstate>> getAllRealEstatesByFilters(boolean sold, List<Float> prices, List<Float> surfaces, Integer rooms, Integer bathRooms, Integer bedRooms, Long agentId) {
-        return repository.getAllRealEstatesByFilters(sold, prices,surfaces, rooms, bathRooms, bedRooms, agentId);
+        return repository.getAllRealEstatesByFilters(sold, prices, surfaces, rooms, bathRooms, bedRooms, agentId);
     }
 
-    public int isRealEstateBelongToUser(long userId, long realEstateId){
+    public int isRealEstateBelongToUser(long userId, long realEstateId) {
         return repository.isRealEstateBelongToUser(userId, realEstateId);
     }
 }

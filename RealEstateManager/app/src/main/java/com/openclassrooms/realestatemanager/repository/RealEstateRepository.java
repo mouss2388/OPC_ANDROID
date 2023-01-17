@@ -9,7 +9,6 @@ import com.openclassrooms.realestatemanager.database.dao.ImageDao;
 import com.openclassrooms.realestatemanager.database.dao.RealEstateDao;
 import com.openclassrooms.realestatemanager.database.model.Image;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
-import com.openclassrooms.realestatemanager.database.model.User;
 
 import java.util.List;
 
@@ -52,15 +51,15 @@ public class RealEstateRepository {
     }
 
     public int deleteRealEstateImages(Image image) {
-         return imageDao.delete(image);
+        return imageDao.delete(image);
     }
 
 
-    public long addRealEstateImage(Image image){
+    public long addRealEstateImage(Image image) {
         return imageDao.insert(image);
     }
 
-    public int getNumberOfImages(long id){
+    public int getNumberOfImages(long id) {
         return imageDao.getNumberOfImages(id);
     }
 
@@ -69,14 +68,14 @@ public class RealEstateRepository {
         Float priceMax = prices.get(1);
         Float surfaceMin = surfaces.get(0);
         Float surfaceMax = surfaces.get(1);
-        if(surfaceMax ==0.0){
+        if (surfaceMax == 0.0) {
             surfaceMin = null;
             surfaceMax = null;
         }
-        return realEstateDao.getAllRealEstatesByFilters(sold, priceMin,priceMax,surfaceMin,surfaceMax, rooms, bathRooms,bedRooms, agentId);
+        return realEstateDao.getAllRealEstatesByFilters(sold, priceMin, priceMax, surfaceMin, surfaceMax, rooms, bathRooms, bedRooms, agentId);
     }
 
-    public int isRealEstateBelongToUser(long userId, long realEstateId){
+    public int isRealEstateBelongToUser(long userId, long realEstateId) {
         return realEstateDao.countRealEstateBelongToUser(userId, realEstateId);
     }
 

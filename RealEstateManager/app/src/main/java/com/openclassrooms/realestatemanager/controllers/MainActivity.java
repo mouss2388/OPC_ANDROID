@@ -16,9 +16,9 @@ import static com.openclassrooms.realestatemanager.utils.Utils.castDoubleToInt;
 import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertCurrency;
-import static com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
 import static com.openclassrooms.realestatemanager.utils.Utils.getDialog;
+import static com.openclassrooms.realestatemanager.utils.Utils.getRefund;
 import static com.openclassrooms.realestatemanager.utils.Utils.getTodayDate;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.setRealEstatePicture;
@@ -155,8 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             this.initViewModel();
             fetchLocation();
             this.messageLogin();
-//        this.initViewModel();
-//        this.showFragmentsFirstTime();
             this.configureMenu();
         } else {
             checkPermissions();
@@ -173,7 +171,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    //////////////////////////////////////////////////////////////////////
     private void initData() {
         PERMISSIONS = new String[]{
                 Manifest.permission.INTERNET,
@@ -221,8 +218,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             this.initViewModel();
             fetchLocation();
             this.messageLogin();
-//        this.initViewModel();
-//        this.showFragmentsFirstTime();
             this.configureMenu();
         } else {
             askLocationPermissions();
@@ -232,13 +227,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void fetchLocation() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         Task<Location> task = mFusedLocationClient.getLastLocation();
@@ -246,11 +234,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (location != null) {
                 currentLocation = location;
                 showFragmentsFirstTime();
-
-//                realEstateViewModel.getAllRealEstates().observe(this, realEstates -> {
-//
-//                    setupRealEstateMapFragmentAndShow(realEstates);
-//                });
             } else {
                 requestLocationUpdate();
                 fetchLocation();
@@ -264,13 +247,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         createLocationRequest();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         mFusedLocationClient.requestLocationUpdates(
@@ -320,7 +296,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M;
     }
 
-    ////////////////////////////////////////////////////////////////////
     private void messageLogin() {
         String msg = getIntent().getExtras().getString(SIGN_CHOICE).equals(SIGN_IN) ? getResources().getString(R.string.sign_in_successfull) : getResources().getString(R.string.sign_up_successfull);
         showSnackBar(binding.mainLayout, msg);
@@ -391,17 +366,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupRealEstateListFragmentAndShow(List<RealEstate> realEstates) {
         realEstateMapFragment = null;
         if (realEstateListFragment == null) {
-            Toast.makeText(this, realEstates.size() + "", Toast.LENGTH_SHORT).show();
 
             realEstateListFragment = RealEstateListFragment.newInstance(realEstates, this);
             getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateListFragment).commit();
         } else if (realEstates.size() > 0) {
-            Toast.makeText(this, realEstates.size() + "", Toast.LENGTH_SHORT).show();
-            long idFirstRealEstateFound =realEstates.get(0).getId();
+
+            long idFirstRealEstateFound = realEstates.get(0).getId();
             updateDetailFragment(idFirstRealEstateFound);
             realEstateListFragment.updateList(realEstates);
-        }else{
-            showToast(this,getResources().getString(R.string.warns_0_real_estates_with_criteria) );
+        } else {
+            showToast(this, getResources().getString(R.string.warns_0_real_estates_with_criteria));
         }
 
     }
@@ -409,7 +383,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setupRealEstateMapFragmentAndShow(List<RealEstate> realEstates) {
 
         realEstateListFragment = null;
-        Toast.makeText(this, realEstates.size() + "", Toast.LENGTH_SHORT).show();
+
         if (realEstateMapFragment == null) {
 
             realEstateMapFragment = realEstateMapFragment.newInstance(this, realEstates, this);
@@ -777,7 +751,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void updateRealEstate(@NonNull RealEstate realEstate) {
         int updated = realEstateViewModel.update(realEstate);
         customDialog.dismiss();
-        showToast(this, getResources().getString(R.string.real_estate_updated));
+        if (updated > 0) {
+            showToast(this, getResources().getString(R.string.real_estate_updated));
+        }
     }
 
     private void addRealEstate(@NonNull RealEstate realEstate) {
@@ -973,8 +949,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 switchCurrency.setText(getResources().getString(R.string.dollars));
                 txtInputCredit.setHint(getResources().getString(R.string.amount_of_the_loan_dollars));
                 txtInterestRate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_dollars_24, 0, 0, 0);
-                if (!Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString().isEmpty()) {
 
+                if (!Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString().isEmpty()) {
                     String inputValue = Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString();
                     String euros = convertCurrency(inputValue, Currency.euro);
                     txtInputCredit.getEditText().setText(euros);
@@ -990,12 +966,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 double creditAmount = Float.parseFloat(Objects.requireNonNull(txtInputCredit.getEditText()).getText().toString());
                 double interestRate = Float.parseFloat(String.valueOf(slideInterestRate.getValue())) / 100;
                 double nbYearsOfRefundInMonth = (slideInputYear.getValue()) * 12;
-                int monthlyRefund = (int) Math.round(((creditAmount * interestRate) / 12.0) / (1 - (Math.pow((1 + (interestRate / 12.0)), (-1 * nbYearsOfRefundInMonth)))));
+                int monthlyRefund = getRefund(creditAmount, interestRate, nbYearsOfRefundInMonth);
 
-                if (switchCurrency.isChecked()) {
-                    monthlyRefund = (int) convertEuroToDollar(monthlyRefund);
-                }
                 resultMonthly.setVisibility(View.VISIBLE);
+
                 if (switchCurrency.isChecked()) {
                     resultMonthly.setText(getResources().getString(R.string.refund_euros_by_month, monthlyRefund));
                 } else {
@@ -1053,8 +1027,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             && data.getData() != null) {
                         selectedImageUri = data.getData();
                         Image image = new Image(this.idRealEstateSelected, selectedImageUri.toString());
-                        realEstateViewModel.addRealEstateImage(image);
-                        showToast(this, getResources().getString(R.string.image_added));
+                        long id = realEstateViewModel.addRealEstateImage(image);
+                        if (id > 0) {
+                            showToast(this, getResources().getString(R.string.image_added));
+                        }
                     }
                 }
             });

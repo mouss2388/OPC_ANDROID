@@ -15,6 +15,7 @@ import static com.openclassrooms.realestatemanager.utils.Utils.USER_LOGGED_FORMA
 import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.setErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.showSnackBar;
+import static com.openclassrooms.realestatemanager.utils.Utils.showToast;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,7 +60,7 @@ public class SignActivity extends AppCompatActivity {
             this.updateLayout();
 
         } else {
-            Toast.makeText(this, ERROR_GET_BUNDLE, Toast.LENGTH_LONG).show();
+            showToast(this, ERROR_GET_BUNDLE);
         }
 
     }

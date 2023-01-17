@@ -14,12 +14,13 @@ import androidx.room.PrimaryKey;
 import com.openclassrooms.realestatemanager.database.enumeration.Currency;
 import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
 
+@SuppressWarnings("ALL")
 @Entity(tableName = "realEstate_table",
         foreignKeys = @ForeignKey(entity = User.class,
                 parentColumns = "id",
                 childColumns = "agentId"),
         indices = {
-        @Index("agentId")})
+                @Index("agentId")})
 public class RealEstate {
 
     /**
