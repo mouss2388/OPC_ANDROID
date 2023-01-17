@@ -1,0 +1,119 @@
+<resources>
+
+    <!--LaunchActivity-->
+    <string name="app_name">Real Estate Manager</string>
+    <string name="welcome">Welcome to Real Estate Manager</string>
+    <string name="instruction">Please connect or register you !</string>
+    <string name="instructionSignIn">Please Sign in!</string>
+    <string name="instructionSignUp">Please Sign up!</string>
+    <string name="signIn">Sign in</string>
+    <string name="signUp">Sign up</string>
+    <string name="signOut">Sign out</string>
+
+
+    <!--MainActivity-->
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Confirm password</string>
+    <string name="price">Price</string>
+    <string name="media">Media</string>
+    <string name="description">Description</string>
+    <string name="surface">Surface</string>
+    <string name="number_of_rooms">Rooms</string>
+    <string name="number_of_bathrooms">Bathrooms</string>
+    <string name="number_of_bedrooms">Bedrooms</string>
+    <string name="location">Location</string>
+    <string name="status">Status</string>
+    <string name="entry_date">For sale</string>
+    <string name="date_of_sale">Date of sale</string>
+    <string name="interest_points">Interest Points</string>
+    <string name="logo_description">logo description</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="update_btn">Update</string>
+    <string name="add_btn">Add</string>
+    <string name="description_btn_close">close button of the popup</string>
+    <string name="real_estate_not_belong_to_you">You can\'t modify this real estate cause it not belong to you</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="your_real_estates">Your real estates</string>
+    <string name="settings">Settings</string>
+    <string name="home_loan_simulator">Home loan simulator</string>
+    <string name="logout">Logout</string>
+    <string name="description_user_image">user image</string>
+    <string name="home">Home</string>
+
+
+    <!--SNACKBAR-->
+    <string name="email_invalid">Email invalid</string>
+    <string name="email_exists_already">A user with that e-mail already exists</string>
+    <string name="field_is_requiered">* This field is requiered</string>
+    <string name="pasword_must_be_identical">Passwords must be identical</string>
+    <string name="error_email_or_password">Incorrect email or password</string>
+    <string name="do_you_want_disconnected">Do you want really disconnected you ?</string>
+    <string name="please_disconnected_you">Please disconnected you !</string>
+    <string name="sign_in_successfull">Sign in successful</string>
+    <string name="sign_up_successfull">Sign up successful</string>
+    <string name="account_updated">Account updated</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="error_displaying_fragment">Error,displaying not available,\ntry later</string>
+
+    <!--TOOLBAR-->
+    <string name="add_real_estate">Add real estate</string>
+    <string name="edit_real_estate">Edit real estate</string>
+    <string name="search_real_estate">Search real estate</string>
+
+    <!--CUSTOM DIALOG-->
+    <string name="home_loan">Home loan</string>
+    <string name="description_button_close">button close</string>
+    <string name="amount_of_the_loan_dollars">Amount of the loan($)</string>
+    <string name="amount_of_the_loan_euros">Amount of the loan(€)</string>
+    <string name="number_of_years">Number of years</string>
+    <string name="taeg_fixe">TAEG Fixed (%)</string>
+    <string name="refund">Refund:</string>
+    <string name="calculate">Caculate</string>
+    <string name="refund_euros_by_month">%1$d €/ month </string>
+    <string name="refund_dollars_by_month">%1$d $/ month </string>
+    <string name="error_fill_all_field">Please fill all fields</string>
+    <string name="euros">euros</string>
+    <string name="dollars">dollars</string>
+    <string name="keep_at_least_one_image">You must keep at least one image</string>
+    <string name="image_added">Image added</string>
+    <string name="image_deleted">Image deleted</string>
+    <string name="real_estate_updated">Real estate updated</string>
+    <string name="real_estate_added">Real estate added</string>
+    <string name="real_estate_not_added">Real estate not added</string>
+    <string name="zero_value">0 value not accepted</string>
+    <string name="price_range">%1$d $ - %2$d $</string>
+    <string name="surface_range">%1$d m² - %2$d m²</string>
+    <string name="filter_all_real_estates">On all real estates</string>
+    <string name="filter_your_real_estates">On your real estates</string>
+    <string name="warns_0_real_estates_with_criteria">No real estate matches your search criteria</string>
+    <string name="wrong_address">Wrong address, please change it</string>
+
+
+
+    <!--DETAIL FRAGMENT-->
+    <string name="available">Available</string>
+    <string name="sold">Sold</string>
+    <string name="dollar_symbole">$</string>
+    <string name="euro_symbole">€</string>
+    <string name="real_estate_agent">Real Estate Agent</string>
+    <string name="not_attributed">Not attributed</string>
+
+    <string name="image_surface_description">Image of surface logo</string>
+    <string name="image_room_description">Image of room logo</string>
+    <string name="image_bathroom_description">Image of bathroom logo</string>
+    <string name="image_bedroom_description">Image of bedroom logo</string>
+    <string name="image_location_description">Image of location logo</string>
+    <string name="image_sold_description">Image of sold logo</string>
+
+    <string name="description_img_agent_in_charge_property">Image of agent in charge of the property</string>
+    <string name="filter">Filter</string>
+    <string name="search_by_filter">Search by filter</string>
+
+</resources>
