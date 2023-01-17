@@ -364,9 +364,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             realEstateListFragment = RealEstateListFragment.newInstance(realEstates, this);
             getSupportFragmentManager().beginTransaction().replace(R.id.real_estates_list_frame_layout, realEstateListFragment).commit();
         } else if (realEstates.size() > 0) {
-
-            long idFirstRealEstateFound = realEstates.get(0).getId();
-            updateDetailFragment(idFirstRealEstateFound);
             realEstateListFragment.updateList(realEstates);
         } else {
             showToast(this, getResources().getString(R.string.warns_0_real_estates_with_criteria));
@@ -832,7 +829,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         realEstateViewModel.getRealEstateByUserId(id).observe(this, realEstates -> {
 
             if (!realEstateSelectedIsIn(realEstates)) {
-                this.idRealEstateSelected = realEstates.get(0).getId();
+                if(realEstates.size()>0) {
+                    this.idRealEstateSelected = realEstates.get(0).getId();
+                }else{
+                    showSnackBar(binding.mainLayout, "Vous n'avez aucun Biens immobiliers");
+                }
             }
 
             updateDetailFragment(this.idRealEstateSelected);
