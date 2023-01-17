@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_Item_0"
+            android:icon="@drawable/ic_home_24"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/menu_Item_1"
+            android:icon="@drawable/ic_assignment_24"
+            android:title="@string/your_real_estates" />
+        <item
+            android:id="@+id/menu_Item_2"
+            android:icon="@drawable/ic_settings_24"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/menu_Item_3"
+            android:icon="@drawable/ic_money_on_24"
+            android:title="@string/home_loan_simulator" />
+        <item
+            android:id="@+id/menu_Item_4"
+            android:icon="@drawable/ic_logout_24"
+            android:title="@string/logout" />
+    </group>
+
+</menu>

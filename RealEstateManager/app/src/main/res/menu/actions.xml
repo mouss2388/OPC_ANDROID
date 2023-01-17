@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".controller.activity.MainActivity">
+
+    <item
+        android:id="@+id/add_realestate"
+        android:icon="@drawable/ic_add_24"
+        android:title="@string/add_real_estate"
+        app:iconTint="@color/colorWhite"
+        app:showAsAction="ifRoom">
+<!--        <menu>-->
+<!--            <item-->
+<!--                android:id="@+id/filter_alphabetical"-->
+<!--                android:title="@string/sort_alphabetical"-->
+<!--                app:showAsAction="never|withText" />-->
+<!--            <item-->
+<!--                android:id="@+id/filter_alphabetical_inverted"-->
+<!--                android:title="@string/sort_alphabetical_invert"-->
+<!--                app:showAsAction="never|withText" />-->
+<!--            <item-->
+<!--                android:id="@+id/filter_oldest_first"-->
+<!--                android:title="@string/sort_oldest_first"-->
+<!--                app:showAsAction="never|withText" />-->
+<!--            <item-->
+<!--                android:id="@+id/filter_recent_first"-->
+<!--                android:title="@string/sort_recent_first"-->
+<!--                app:showAsAction="never|withText" />-->
+<!--        </menu>-->
+    </item>
+
+    <item
+        android:id="@+id/edit_realestate"
+        android:icon="@drawable/ic_edit_24"
+        android:title="@string/edit_real_estate"
+        app:iconTint="@color/colorWhite"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/search_realestate"
+        android:icon="@drawable/ic_search_24"
+        android:title="@string/search_real_estate"
+        app:iconTint="@color/colorWhite"
+        app:showAsAction="ifRoom"/>
+
+</menu>
