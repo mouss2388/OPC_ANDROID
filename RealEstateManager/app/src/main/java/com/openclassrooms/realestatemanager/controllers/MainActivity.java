@@ -69,8 +69,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.slider.RangeSlider;
@@ -98,7 +96,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RealEstateAdapter.OnRealEstateListener, RealEstateMapFragment.OnRealEstateOnMapListener, OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RealEstateAdapter.OnRealEstateListener, RealEstateMapFragment.OnRealEstateOnMapListener {
 
 //    String TAG = MainActivity.this.getClass().getSimpleName();
 
@@ -1120,11 +1118,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onRealEstateClick(long idRealEstateSelected) {
         updateDetailFragment(idRealEstateSelected);
-    }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-
     }
 
     @Override
