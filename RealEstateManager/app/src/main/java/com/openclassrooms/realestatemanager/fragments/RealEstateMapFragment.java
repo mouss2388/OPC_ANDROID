@@ -160,14 +160,14 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
     private void putMarkerOnAddress() {
         if (mRealEstates != null) {
             for (RealEstate realEstate : mRealEstates) {
-                convertAddressToGpsCoordinates(this, context, realEstate);
+                convertAddressToGpsCoordinates(this, context, realEstate, "");
             }
         }
     }
 
 
     @Override
-    public void onGeocodingApiReceivedCallback(List<ResultsItem> addresses, RealEstate realEstate) {
+    public void onGeocodingApiReceivedCallback(List<ResultsItem> addresses, RealEstate realEstate, String action) {
         for (ResultsItem address : addresses) {
 
             double latitude = address.getGeometry().getLocation().getLat();
@@ -195,7 +195,7 @@ public class RealEstateMapFragment extends Fragment implements OnMapReadyCallbac
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull  Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (this.googleMap != null) {
             outState.putParcelable("currentLocation", currentLocation);

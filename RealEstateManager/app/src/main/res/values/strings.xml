@@ -93,6 +93,7 @@
     <string name="filter_all_real_estates">Sur tout les biens immobiliers</string>
     <string name="filter_your_real_estates">Sur vos biens immobiliers</string>
     <string name="warns_0_real_estates_with_criteria">Aucun bien immobilier ne correspond à vos critères de recherche</string>
+    <string name="wrong_address">Adresse incorrecte, veuillez changer d\'adresse</string>
 
 
     <!--DETAIL FRAGMENT-->

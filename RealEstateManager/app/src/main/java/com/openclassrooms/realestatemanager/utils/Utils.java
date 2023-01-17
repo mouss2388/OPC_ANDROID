@@ -459,7 +459,7 @@ public class Utils {
                 new RoundedCornersTransformation(context, sCorner, sMargin, sColor, sBorder));
     }
 
-    public static void convertAddressToGpsCoordinates(OnGeocodingApiReceivedCallback callback, Context context, RealEstate realEstate) {
+    public static void convertAddressToGpsCoordinates(OnGeocodingApiReceivedCallback callback, Context context, RealEstate realEstate, String action) {
         Call<Response> call = GeocodingApiClient.geocodingApiService().getResult(realEstate.getAddress());
 
         call.enqueue(new Callback<Response>() {
@@ -469,7 +469,7 @@ public class Utils {
 
                     assert response.body() != null;
                     List<ResultsItem> rowsItem = response.body().getResults();
-                    callback.onGeocodingApiReceivedCallback(rowsItem, realEstate);
+                    callback.onGeocodingApiReceivedCallback(rowsItem, realEstate, action);
 
                 }
             }

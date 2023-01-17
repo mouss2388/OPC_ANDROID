@@ -6,6 +6,6 @@ import com.openclassrooms.realestatemanager.database.model.geocoding_api.Results
 import java.util.List;
 
 public interface OnGeocodingApiReceivedCallback {
-    void onGeocodingApiReceivedCallback(List<ResultsItem> addresses, RealEstate realEstate);
+    void onGeocodingApiReceivedCallback(List<ResultsItem> addresses, RealEstate realEstate, String addOrUpdate);
 
 }

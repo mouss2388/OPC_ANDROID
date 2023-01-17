@@ -15,6 +15,7 @@ import static com.openclassrooms.realestatemanager.utils.Utils.atLeastOneFieldTo
 import static com.openclassrooms.realestatemanager.utils.Utils.castDoubleToInt;
 import static com.openclassrooms.realestatemanager.utils.Utils.clearErrorOnField;
 import static com.openclassrooms.realestatemanager.utils.Utils.concatStr;
+import static com.openclassrooms.realestatemanager.utils.Utils.convertAddressToGpsCoordinates;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertCurrency;
 import static com.openclassrooms.realestatemanager.utils.Utils.convertToString;
 import static com.openclassrooms.realestatemanager.utils.Utils.getDialog;
@@ -82,10 +83,12 @@ import com.openclassrooms.realestatemanager.database.enumeration.TypeRealEstate;
 import com.openclassrooms.realestatemanager.database.model.Image;
 import com.openclassrooms.realestatemanager.database.model.RealEstate;
 import com.openclassrooms.realestatemanager.database.model.User;
+import com.openclassrooms.realestatemanager.database.model.geocoding_api.ResultsItem;
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
 import com.openclassrooms.realestatemanager.fragments.RealEstateDetailFragment;
 import com.openclassrooms.realestatemanager.fragments.RealEstateListFragment;
 import com.openclassrooms.realestatemanager.fragments.RealEstateMapFragment;
+import com.openclassrooms.realestatemanager.utils.OnGeocodingApiReceivedCallback;
 import com.openclassrooms.realestatemanager.utils.Utils;
 import com.openclassrooms.realestatemanager.viewModel.RealEstateViewModel;
 import com.openclassrooms.realestatemanager.viewModel.UserViewModel;
@@ -96,7 +99,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RealEstateAdapter.OnRealEstateListener, RealEstateMapFragment.OnRealEstateOnMapListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RealEstateAdapter.OnRealEstateListener, RealEstateMapFragment.OnRealEstateOnMapListener, OnGeocodingApiReceivedCallback {
 
 //    String TAG = MainActivity.this.getClass().getSimpleName();
 
@@ -556,7 +559,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     RealEstate newRealEstate = new RealEstate(agentId, "Name", priceValue, spinner.getSelectedItem().toString(), surfaceValue, roomsValue, bedroomsValue, bathroomsValue, descriptionValue, addressValue, false, getTodayDate(), interestPointValue, Currency.dollar.toString());
 
-                    this.addRealEstate(newRealEstate);
+                    convertAddressToGpsCoordinates(this, MainActivity.this, newRealEstate, "addRealEstate");
+
                 }
             }
         });
@@ -630,8 +634,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             realEstateToUpdate.setDateOfSell(getTodayDate());
                         }
                         realEstateToUpdate.setId(realEstate.getId());
-
-                        this.updateRealEstate(realEstateToUpdate);
+                        convertAddressToGpsCoordinates(this, MainActivity.this, realEstateToUpdate, "updateRealEstate");
                     }
                 }
 
@@ -736,25 +739,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             Objects.requireNonNull(input.getEditText()).setText(realEstate.getInterestPoint());
 
-        }
-    }
-
-    private void updateRealEstate(@NonNull RealEstate realEstate) {
-        int updated = realEstateViewModel.update(realEstate);
-        customDialog.dismiss();
-        if (updated > 0) {
-            showToast(this, getResources().getString(R.string.real_estate_updated));
-        }
-    }
-
-    private void addRealEstate(@NonNull RealEstate realEstate) {
-        long id = realEstateViewModel.insert(realEstate);
-        customDialog.dismiss();
-        if (id == -1) {
-            showToast(this, getResources().getString(R.string.real_estate_not_added));
-        } else {
-            realEstateViewModel.addRealEstateImage(new Image(id, PICTURE_BY_DEFAULT));
-            showToast(this, getResources().getString(R.string.real_estate_added));
         }
     }
 
@@ -1128,5 +1112,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void updateDetailFragment(long idRealEstateSelected) {
         this.idRealEstateSelected = idRealEstateSelected;
         setupRealEstateDetailFragmentAndShow();
+    }
+
+    @Override
+    public void onGeocodingApiReceivedCallback(List<ResultsItem> addresses, RealEstate realEstate, String action) {
+        if (addresses.size() > 0) {
+            if (action.equals("addRealEstate")) {
+                this.addRealEstate(realEstate);
+            } else if (action.equals("updateRealEstate")) {
+                this.updateRealEstate(realEstate);
+            }
+        } else {
+            showToast(this, getResources().getString(R.string.wrong_address));
+        }
+    }
+
+    private void addRealEstate(@NonNull RealEstate realEstate) {
+        long id = realEstateViewModel.insert(realEstate);
+        customDialog.dismiss();
+        if (id == -1) {
+            showToast(this, getResources().getString(R.string.real_estate_not_added));
+        } else {
+            realEstateViewModel.addRealEstateImage(new Image(id, PICTURE_BY_DEFAULT));
+            showToast(this, getResources().getString(R.string.real_estate_added));
+        }
+    }
+
+
+    private void updateRealEstate(@NonNull RealEstate realEstate) {
+        int updated = realEstateViewModel.update(realEstate);
+        customDialog.dismiss();
+        if (updated > 0) {
+            showToast(this, getResources().getString(R.string.real_estate_updated));
+        }
     }
 }
