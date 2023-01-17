@@ -21,13 +21,98 @@
     <string name="media">Médias</string>
     <string name="description">Description</string>
     <string name="surface">Surface</string>
-    <string name="number_of_rooms">Nombre de pièces</string>
-    <string name="number_of_bathrooms">Nombre de salles de bain</string>
-    <string name="number_of_bedrooms">Nombre de chambres</string>
+    <string name="number_of_rooms">Pièces</string>
+    <string name="number_of_bathrooms">Salles de bain</string>
+    <string name="number_of_bedrooms">Chambres</string>
     <string name="location">Emplacement</string>
     <string name="status">Statut</string>
-    <string name="entry_date">Date d\'entée</string>
+    <string name="entry_date">Mis en vente</string>
     <string name="date_of_sale">Date de vente</string>
-    <string name="settings">Réglages</string>
+    <string name="interest_points">Points d\'intérêt</string>
     <string name="logo_description">logo description</string>
+    <string name="navigation_drawer_open">Ouvrir navigation drawer</string>
+    <string name="navigation_drawer_close">Fermer navigation drawer</string>
+    <string name="update_btn">Mise à jour</string>
+    <string name="add_btn">Ajouter</string>
+    <string name="description_btn_close">bouton de fermeture du la popup</string>
+    <string name="maps_api_key" translatable="false">AIzaSyDXa6QgrrPHPVEciXG0LdkZCr1-_FLP9y0</string>
+    <string name="real_estate_not_belong_to_you">Vous ne pouvez pas modifier ce bien, car il vous appartient pas</string>
+
+
+    <!--Navigation Drawer-->
+    <string name="your_real_estates">Vos biens immobilliers</string>
+    <string name="settings">Réglages</string>
+    <string name="home_loan_simulator">Simulateur de prêt immobilier</string>
+    <string name="logout">Se déconnecter</string>
+    <string name="description_user_image">image de l\'utilisateur</string>
+    <string name="home">Accueil</string>
+
+    <!--SNACKBAR-->
+    <string name="email_invalid">Email invalide</string>
+    <string name="email_exists_already">Un utilisateur avec cet email existe déja</string>
+    <string name="field_is_requiered">* Ce champs est nécessaire</string>
+    <string name="pasword_must_be_identical">Les mots de passe doivent être identique</string>
+    <string name="error_email_or_password">Email ou mot de passe incorrect</string>
+    <string name="do_you_want_disconnected">Voulez-vous vraiment vous déconnecter ?</string>
+    <string name="please_disconnected_you">Veuillez-vous déconnecter !</string>
+    <string name="sign_in_successfull">Connexion réussie</string>
+    <string name="sign_up_successfull">Inscription réussie</string>
+    <string name="account_updated">Compte mis à jour</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="error_displaying_fragment">Erreur, affichage non disponible,\n essayez plus tard</string>
+
+    <!--TOOLBAR-->
+    <string name="add_real_estate">Ajout bien immobilier</string>
+    <string name="edit_real_estate">Modifie bien immobilier</string>
+    <string name="search_real_estate">Rechercher bien immobilier</string>
+
+    <!--CUSTOM DIALOG-->
+    <string name="home_loan">Prêt immobilier</string>
+    <string name="description_button_close">bouton fermeture</string>
+    <string name="amount_of_the_loan_dollars">Montant du prêt ($)</string>
+    <string name="amount_of_the_loan_euros">Montant du prêt (€)</string>
+    <string name="number_of_years">Nombre d\'années</string>
+    <string name="taeg_fixe">TAEG Fixe (%)</string>
+    <string name="refund">Remboursement:</string>
+    <string name="calculate">Calculer</string>
+    <string name="refund_euros_by_month">%1$d €/ mois </string>
+    <string name="refund_dollars_by_month">%1$d $/ mois </string>
+    <string name="error_fill_all_field">Merci de compléter tous les champs</string>
+    <string name="euros">euros</string>
+    <string name="dollars">dollars</string>
+    <string name="keep_at_least_one_image">Vous devez conserver au moins une image</string>
+    <string name="image_added">Image ajoutée</string>
+    <string name="image_deleted">Image supprimée</string>
+    <string name="real_estate_updated">Bien immobilier mis à jour</string>
+    <string name="real_estate_added">Bien immobilier ajouté</string>
+    <string name="real_estate_not_added">Bien immobilier non ajouté</string>
+    <string name="zero_value">valeur 0 non acceptée</string>
+    <string name="price_range">%1$d $ - %2$d $</string>
+    <string name="surface_range">%1$d m² - %2$d m²</string>
+    <string name="filter_all_real_estates">Sur tout les biens immobiliers</string>
+    <string name="filter_your_real_estates">Sur vos biens immobiliers</string>
+    <string name="warns_0_real_estates_with_criteria">Aucun bien immobilier ne correspond à vos critères de recherche</string>
+    <string name="wrong_address">Adresse incorrecte, veuillez changer d\'adresse</string>
+
+
+    <!--DETAIL FRAGMENT-->
+    <string name="available">Disponible</string>
+    <string name="sold">Vendu</string>
+    <string name="dollar_symbole">$</string>
+    <string name="euro_symbole">€</string>
+    <string name="real_estate_agent">Real Estate Agent</string>
+    <string name="not_attributed">Non attribué</string>
+
+    <string name="image_surface_description">Image du logo surface</string>
+    <string name="image_room_description">Image du logo pièce</string>
+    <string name="image_bathroom_description">Image du logo salle de bain</string>
+    <string name="image_bedroom_description">Image du logo chambre</string>
+    <string name="image_location_description">Image du logo emplacement</string>
+    <string name="image_sold_description">Image du logo de vente</string>
+    <string name="description_img_agent_in_charge_property">Image de l\'agent en charge du bien</string>
+    <string name="filter">Filtrer</string>
+    <string name="search_by_filter">Recherche par filtre</string>
+
+
 </resources>

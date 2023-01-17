@@ -25,3 +25,11 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+ext {
+    //ROOM VERSION
+    roomVersion = '2.4.2'
+    roomVersionLastest = '2.4.3'
+    //LIFECYCLE COMPONENT
+    lifecycleVersion = '2.4.1'
+    lifecycleVersionLatest = '2.5.1'
+}

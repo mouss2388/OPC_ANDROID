@@ -1,17 +1,16 @@
-package com.openclassrooms.realestatemanager;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.openclassrooms.realestatemanager.controllers;
 
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.openclassrooms.realestatemanager.databinding.ActivityLaunchBinding;
-import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding;
+import com.openclassrooms.realestatemanager.utils.Utils;
 
 public class LaunchActivity extends AppCompatActivity {
 
     private ActivityLaunchBinding binding;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +24,7 @@ public class LaunchActivity extends AppCompatActivity {
 
     private void setupListeners() {
 
-        assert binding.btnSignUp != null;
         binding.btnSignUp.setOnClickListener(v -> Utils.startSignActivity(this, Utils.SIGN_UP));
-        assert binding.btnSignIn != null;
         binding.btnSignIn.setOnClickListener(v -> Utils.startSignActivity(this, Utils.SIGN_IN));
     }
 }
