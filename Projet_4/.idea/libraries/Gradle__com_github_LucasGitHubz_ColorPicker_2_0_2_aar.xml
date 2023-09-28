@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.LucasGitHubz:ColorPicker:2.0.2@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/41da67c3f277a0f926bcd2d2560691ba/transformed/jetified-ColorPicker-2.0.2/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/41da67c3f277a0f926bcd2d2560691ba/transformed/jetified-ColorPicker-2.0.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/41da67c3f277a0f926bcd2d2560691ba/transformed/jetified-ColorPicker-2.0.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/AppData/Local/Android/Sdk/caches/transforms-3/d0fff0df1cb0ffd4645cdcd0fc20b8ca/transformed/jetified-ColorPicker-2.0.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/AppData/Local/Android/Sdk/caches/transforms-3/d0fff0df1cb0ffd4645cdcd0fc20b8ca/transformed/jetified-ColorPicker-2.0.2/res" />
+      <root url="jar://$USER_HOME$/AppData/Local/Android/Sdk/caches/transforms-3/d0fff0df1cb0ffd4645cdcd0fc20b8ca/transformed/jetified-ColorPicker-2.0.2/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.LucasGitHubz/ColorPicker/2.0.2/990d49bd2c027ee47a5ac80b5213c05166705d61/ColorPicker-2.0.2-sources.jar!/" />
+      <root url="jar://$USER_HOME$/AppData/Local/Android/Sdk/caches/modules-2/files-2.1/com.github.LucasGitHubz/ColorPicker/2.0.2/990d49bd2c027ee47a5ac80b5213c05166705d61/ColorPicker-2.0.2-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
